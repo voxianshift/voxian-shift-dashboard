@@ -53,6 +53,7 @@ function Meter() {
   const [editing, setEditing] = useState(false)
   const [overrideFocus, setOverrideFocus] = useState<string | null>(null)
   const [overrideRole, setOverrideRole] = useState<string | null>(null)
+  const [iscoMissing, setIscoMissing] = useState(false)
   const example = useSearchParams().get("example") === "1"
   const roleId =
     overrideRole ||
@@ -110,6 +111,15 @@ function Meter() {
       </div>
     )
   }
+  const catalogueRole = /^\d{2}-\d{4}\.\d{2}$/.test(profile.primaryOccupation)
+  if (!role && catalogueRole && !iscoMissing)
+    return (
+      <IscoMeter
+        code={profile.primaryOccupation}
+        name={profile.occupationNames[profile.primaryOccupation] ?? profile.primaryOccupation}
+        onMissing={setIscoMissing}
+      />
+    )
   if (!role)
     return (
       <div className={editorialPage}>
@@ -140,9 +150,6 @@ function Meter() {
             "No occupation selected."}{" "}
           Personal scores remain empty until your baseline is confirmed.
         </p>
-        {/^\d{2}-\d{4}\.\d{2}$/.test(profile.primaryOccupation) && (
-          <OccupationTasks code={profile.primaryOccupation} />
-        )}
         <div className="flex flex-wrap gap-3">
           <Button onClick={() => setEditing(true)}>
             {profile.occupations.length > 1 ? "Choose my main role" : "Set up my Meter"}{" "}
@@ -442,32 +449,90 @@ function Meter() {
   )
 }
 
-// Typical tasks from O*NET for a recognised occupation without an exposure baseline
-function OccupationTasks({ code }: { code: string }) {
-  const [tasks, setTasks] = useState<{ id: string; description: string }[] | null>(null)
+type IscoMeterData = {
+  isco: string
+  iscoTitle: string
+  gradient: string
+  crosswalk: { escoTitle: string; match: string }
+  tasks: { task: string; exposure: number }[]
+}
+
+// Meter for any catalogue role: O*NET -> ISCO-08 (ESCO crosswalk) -> ILO task-level exposure.
+// ILO publishes no task weights, so tasks count equally (index = mean task exposure).
+function IscoMeter({
+  code,
+  name,
+  onMissing,
+}: {
+  code: string
+  name: string
+  onMissing: (missing: boolean) => void
+}) {
+  const [data, setData] = useState<IscoMeterData | null>(null)
   useEffect(() => {
     const controller = new AbortController()
-    fetch(`/api/occupations/${code}/tasks`, { signal: controller.signal })
-      .then((response) => (response.ok ? response.json() : { tasks: [] }))
-      .then((data) => setTasks(data.tasks))
-      .catch(() => !controller.signal.aborted && setTasks([]))
+    fetch(`/api/occupations/${code}/meter`, { signal: controller.signal })
+      .then((response) => (response.ok ? response.json() : Promise.reject()))
+      .then(setData)
+      .catch(() => !controller.signal.aborted && onMissing(true))
     return () => controller.abort()
-  }, [code])
-  if (!tasks?.length) return null
+  }, [code, onMissing])
+  if (!data)
+    return (
+      <p className="p-8 text-[16px]" role="status">
+        Loading your Meter…
+      </p>
+    )
+  const score = (100 * data.tasks.reduce((sum, t) => sum + t.exposure, 0)) / data.tasks.length
   return (
-    <section className="mb-6 border-y" aria-label="Typical tasks">
-      <div className="flex h-9 items-center justify-between text-[12px] tracking-[0.8px] text-muted-foreground">
-        <span>TASK BREAKDOWN · O*NET {code}</span>
-        <span>AI EXPOSURE · PENDING</span>
+    <div className={editorialPage}>
+      <PanelHeading kicker="THE METER / TASK EXPOSURE" title={`${name}.`}>
+        Mapped to ISCO-08 {data.isco} · {data.iscoTitle}. Scores come from the ILO’s task-level
+        GenAI exposure research for this occupation group.
+      </PanelHeading>
+      <div className="flex flex-wrap items-end justify-between gap-4 border-y py-6">
+        <div>
+          <p className={eyebrow}>TASK EXPOSURE INDEX · ILO</p>
+          <div
+            data-meter-score
+            className="text-[65px] font-normal leading-[1.2] tracking-[-4px] tabular-nums"
+          >
+            {score.toFixed(1)}
+            <span className="ml-2 text-[17px] tracking-[-0.5px] text-muted-foreground">/ 100</span>
+          </div>
+        </div>
+        <span className={smallTag}>{data.gradient.toUpperCase()}</span>
+        <div className="h-[7px] w-full bg-muted">
+          <div className="h-full bg-mauve" style={{ width: `${score}%` }} />
+        </div>
+        <p className="text-[13px] text-muted-foreground">
+          Task exposure ≠ probability of losing your job.
+        </p>
       </div>
-      {tasks.map((task, i) => (
-        <div className="flex gap-[11px] border-t py-3.5" key={task.id}>
-          <span className="pt-[3px] font-mono text-[12px] text-[#aaa]">
-            {String(i + 1).padStart(2, "0")}
-          </span>
-          <p className="text-[14px] leading-[1.5]">{task.description}</p>
+      <div className="flex h-9 items-center justify-between text-[12px] tracking-[0.8px] text-muted-foreground">
+        <span>TASK BREAKDOWN · ISCO {data.isco}</span>
+        <span>AI EXPOSURE</span>
+      </div>
+      {data.tasks.map((task, i) => (
+        <div className="flex items-center gap-[11px] border-t py-[17px]" key={task.task}>
+          <span className="self-start pt-[3px] font-mono text-[12px] text-[#aaa]">0{i + 1}</span>
+          <p className="min-w-0 flex-1 text-[14px] leading-[1.5]">{task.task}</p>
+          <div className="w-24 shrink-0 text-right font-mono text-[13px]">
+            {Math.round(task.exposure * 100)}%
+            <div className="mt-[7px] h-[3px] bg-muted">
+              <div className="h-full bg-[#c0b0ba]" style={{ width: `${task.exposure * 100}%` }} />
+            </div>
+          </div>
         </div>
       ))}
-    </section>
+      <p className={cn(fieldHelp, "mt-6 border-t pt-4")}>
+        Mapping: O*NET {code} → ESCO “{data.crosswalk.escoTitle}” ({data.crosswalk.match}) → ISCO-08{" "}
+        {data.isco}, via the ESCO–O*NET crosswalk. Exposure: ILO Working Paper 140 (2025), task
+        scores, CC BY 4.0. Tasks are weighted equally.{" "}
+        <Link className="underline" href="/resources">
+          See the methodology
+        </Link>
+      </p>
+    </div>
   )
 }

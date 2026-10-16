@@ -12,6 +12,7 @@ COPY packages/shared/src packages/shared/src
 COPY apps/api/src apps/api/src
 COPY apps/api/scripts apps/api/scripts
 COPY apps/api/migrations apps/api/migrations
+COPY apps/api/data apps/api/data
 
 ENV NODE_ENV=production
 # Node runs the TypeScript directly (type stripping); Cloud Run sets PORT

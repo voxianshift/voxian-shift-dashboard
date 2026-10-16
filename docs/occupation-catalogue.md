@@ -48,3 +48,12 @@ pnpm exec vp check
 ```
 
 Database tests require the migrated and imported catalogue. Synthetic selections are isolated and removed. Tests cover alias/task search, SQL-like input, known-code validation, rollback, ownership, durability, provider assignment rejection, legacy profiles and Meter coverage states.
+
+## ISCO-08 Meter (task-level exposure)
+
+`GET /occupations/:code/meter` serves two static files in `apps/api/data/`, built 2026-10-17:
+
+- `onet-isco.json`: O*NET-SOC code → ISCO-08 4-digit unit (865 codes). Built from the official [ESCO–O*NET crosswalk](https://esco.ec.europa.eu/en/use-esco/other-crosswalks) (Sep 2022, v1): for each O*NET code take the best ESCO match (exact > close > narrow > broad), then read its ISCO group from the ESCO API (`broaderIscoGroup`). ESCO concepts the API no longer serves fall back to the next match.
+- `isco-tasks.json`: ISCO-08 unit → ILO exposure gradient and task statements with task-level GenAI exposure scores (427 units, 3,264 tasks), from ILO Working Paper 140 (2025), published at https://pgmyrek.github.io/2025_GenAI_scores_ISCO08/ (CC BY 4.0).
+
+The Meter index for these roles is the mean of the ISCO unit's task scores × 100; ILO publishes no task weights, so tasks count equally. It closely tracks the paper's Table A1 occupation means (e.g. 2514 Applications Programmers: 57.1 vs 0.57). Roles without a crosswalk entry or ILO tasks keep the "Baseline being prepared" state. The two illustrative demo models (customer support, executive assistant) still use their own weighted task inputs.

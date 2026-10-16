@@ -22,7 +22,6 @@ function memoryCatalogue(): OccupationCatalogue {
   const saved = new Map<string, { occupations: (typeof developer)[]; primaryOccupation: string }>()
   return {
     search: vi.fn(async () => [developer]),
-    tasks: vi.fn(async () => []),
     selections: async (owner) => saved.get(owner) ?? { occupations: [], primaryOccupation: "" },
     select: async (owner, codes, primary) => {
       saved.set(owner, { occupations: codes.map(() => developer), primaryOccupation: primary })
@@ -30,6 +29,20 @@ function memoryCatalogue(): OccupationCatalogue {
     close: async () => {},
   }
 }
+test("Meter route maps O*NET to ISCO-08 and returns ILO task exposure", async () => {
+  const app = buildApp({ catalogue: undefined })
+  const meter = await app.inject({ url: "/occupations/43-4051.00/meter" })
+  expect(meter.statusCode).toBe(200)
+  expect(meter.json()).toMatchObject({
+    isco: "4225",
+    gradient: expect.stringContaining("Gradient"),
+  })
+  expect(
+    meter.json().tasks.every((t: { exposure: number }) => t.exposure >= 0 && t.exposure <= 1),
+  ).toBe(true)
+  expect((await app.inject({ url: "/occupations/not-a-code/meter" })).statusCode).toBe(400)
+})
+
 test("matching terms remove conversation filler and stay bounded", () => {
   expect(searchTerms("I work as a software developer and my daily tasks include software")).toBe(
     "software OR developer",
@@ -202,7 +215,6 @@ test.skipIf(!process.env.TEST_DATABASE_URL)(
       )
       expect(described.map((role) => role.code)).toContain("15-1252.00")
       expect(described.every((role) => role.match! > 0 && role.match! < 100)).toBe(true)
-      expect((await catalogue.tasks("15-1252.00")).length).toBeGreaterThan(0)
     } finally {
       await catalogue.close()
     }

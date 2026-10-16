@@ -10,7 +10,7 @@ vi.mock("@/components/career-profile-provider", () => ({
   useCareerProfile: () => ({ ...state, ready: true, confirm: () => true }),
 }))
 
-test("recognised catalogue roles without exposure evidence show pending baseline, never a numeric score", () => {
+test("recognised catalogue roles load the ISCO-based Meter instead of a demo score", () => {
   state.confirmed = false
   state.profile = {
     ...emptyProfile,
@@ -19,8 +19,8 @@ test("recognised catalogue roles without exposure evidence show pending baseline
     occupationNames: { "15-1252.00": "Software Developers" },
   }
   const html = renderToStaticMarkup(createElement(MeterPage))
-  expect(html).toContain("Baseline being prepared.")
-  expect(html).toContain("Software Developers")
+  // ILO scores arrive from /api/occupations/:code/meter after mount; no demo score meanwhile
+  expect(html).toContain("Loading your Meter")
   expect(html).not.toContain("data-meter-score")
 })
 test("confirmed canonical occupation IDs retain existing Meter calculation", () => {

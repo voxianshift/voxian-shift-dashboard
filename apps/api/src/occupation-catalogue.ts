@@ -3,12 +3,13 @@ import type { FastifyInstance } from "fastify"
 import { z } from "zod"
 import { occupationCodeSchema, occupationMatchSchema, type OccupationMatch } from "@voxian/shared"
 import { chatOwner, newChatOwner } from "./chat-store.ts"
+import iscoTasks from "../data/isco-tasks.json" with { type: "json" }
+import onetIsco from "../data/onet-isco.json" with { type: "json" }
 
 class UnknownOccupationError extends Error {}
 
 export interface OccupationCatalogue {
   search: (query: string, limit?: number) => Promise<OccupationMatch[]>
-  tasks: (code: string) => Promise<{ id: string; description: string }[]>
   selections: (
     owner: string,
   ) => Promise<{ occupations: OccupationMatch[]; primaryOccupation: string }>
@@ -90,13 +91,6 @@ export function createOccupationCatalogue(connectionString: string): OccupationC
       )
       return result.rows
     },
-    async tasks(code) {
-      const result = await pool.query<{ id: string; description: string }>(
-        "SELECT source_task_id AS id, description FROM occupation_tasks WHERE occupation_code=$1 ORDER BY source_task_id::int LIMIT 12",
-        [code],
-      )
-      return result.rows
-    },
     async selections(owner) {
       const result = await pool.query<OccupationMatch & { is_primary: boolean }>(
         `
@@ -149,15 +143,20 @@ export function registerOccupations(app: FastifyInstance, catalogue?: Occupation
       return reply.code(503).send({ error: "Occupation search could not load. Try again." })
     }
   })
-  // Typical tasks for one occupation (O*NET task statements), used by the Meter breakdown
-  app.get("/occupations/:code/tasks", async (request, reply) => {
+  // Meter data: O*NET code -> ISCO-08 unit (ESCO crosswalk) -> ILO task-level exposure scores
+  app.get("/occupations/:code/meter", async (request, reply) => {
     const parsed = z.object({ code: occupationCodeSchema }).safeParse(request.params)
     if (!parsed.success) return reply.code(400).send({ error: "Unknown occupation code." })
-    if (!catalogue) return reply.code(503).send({ error: "Occupation tasks are unavailable." })
-    try {
-      return { tasks: await catalogue.tasks(parsed.data.code) }
-    } catch {
-      return reply.code(503).send({ error: "Occupation tasks could not load. Try again." })
+    const link = onetIsco[parsed.data.code as keyof typeof onetIsco]
+    const unit = link && iscoTasks[link.isco as keyof typeof iscoTasks]
+    if (!link || !unit?.tasks.length)
+      return reply.code(404).send({ error: "No ISCO task data for this occupation yet." })
+    return {
+      isco: link.isco,
+      iscoTitle: unit.title,
+      gradient: unit.gradient,
+      crosswalk: { escoTitle: link.via, match: link.match },
+      tasks: unit.tasks,
     }
   })
   app.get("/onboarding/occupations", async (request, reply) => {
