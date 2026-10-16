@@ -3,6 +3,7 @@ import type { FastifyInstance } from "fastify"
 import { z } from "zod"
 import { occupationCodeSchema, occupationMatchSchema, type OccupationMatch } from "@voxian/shared"
 import { chatOwner, newChatOwner } from "./chat-store.ts"
+import { chatConfig, completeJson } from "./llm.ts"
 import iscoTasks from "../data/isco-tasks.json" with { type: "json" }
 import onetIsco from "../data/onet-isco.json" with { type: "json" }
 
@@ -143,19 +144,26 @@ export function registerOccupations(app: FastifyInstance, catalogue?: Occupation
       return reply.code(503).send({ error: "Occupation search could not load. Try again." })
     }
   })
-  // Meter data: O*NET code -> ISCO-08 unit (ESCO crosswalk) -> ILO task-level exposure scores
+  // Meter data: O*NET code -> ISCO-08 unit -> ILO task-level exposure scores.
+  // Exact/close ESCO crosswalk matches are used as-is; weak or missing ones ask the LLM.
   app.get("/occupations/:code/meter", async (request, reply) => {
     const parsed = z.object({ code: occupationCodeSchema }).safeParse(request.params)
     if (!parsed.success) return reply.code(400).send({ error: "Unknown occupation code." })
-    const link = onetIsco[parsed.data.code as keyof typeof onetIsco]
-    const unit = link && iscoTasks[link.isco as keyof typeof iscoTasks]
-    if (!link || !unit?.tasks.length)
+    const code = parsed.data.code
+    const link = onetIsco[code as keyof typeof onetIsco]
+    const strong = link && ["exactMatch", "closeMatch"].includes(link.match)
+    const ai = strong ? null : await aiIsco(code, catalogue).catch(() => null)
+    const isco = ai?.isco ?? link?.isco
+    const unit = isco ? iscoUnit(isco) : undefined
+    if (!isco || !unit?.tasks.length)
       return reply.code(404).send({ error: "No ISCO task data for this occupation yet." })
     return {
-      isco: link.isco,
+      isco,
       iscoTitle: unit.title,
       gradient: unit.gradient,
-      crosswalk: { escoTitle: link.via, match: link.match },
+      crosswalk: ai
+        ? { escoTitle: ai.reason, match: "ai" }
+        : { escoTitle: link!.via, match: link!.match },
       tasks: unit.tasks,
     }
   })
@@ -203,4 +211,49 @@ export function registerOccupations(app: FastifyInstance, catalogue?: Occupation
         .send({ error: "Occupations could not be saved. Check your selections and try again." })
     }
   })
+}
+
+const iscoUnit = (code: string) => iscoTasks[code as keyof typeof iscoTasks]
+const iscoList = Object.entries(iscoTasks)
+  .filter(([, unit]) => unit.tasks.length)
+  .map(([code, unit]) => `${code} ${unit.title}`)
+  .join("\n")
+// ponytail: in-memory cache, resets on restart; persist to Postgres if LLM cost or latency matters
+const aiCache = new Map<string, Promise<{ isco: string; reason: string } | null>>()
+
+// LLM picks the ISCO-08 unit for an O*NET occupation, constrained to units with ILO task scores
+function aiIsco(code: string, catalogue?: OccupationCatalogue) {
+  const config = chatConfig()
+  if (!config?.apiKey || !catalogue) return Promise.resolve(null)
+  let pick = aiCache.get(code)
+  if (!pick) {
+    pick = (async () => {
+      const [occupation] = await catalogue.search(code, 1)
+      if (!occupation || occupation.code !== code) return null
+      const result = z
+        .object({ isco: z.string().regex(/^\d{4}$/), reason: z.string().min(1).max(300) })
+        .parse(
+          JSON.parse(
+            await completeJson(
+              config,
+              `You map occupations to ISCO-08 unit groups. Choose the single best-fitting unit group from this list only (code and title):\n${iscoList}\nBase the choice on the main duties, not on shared words. Reply with the 4-digit code and a one-sentence reason.`,
+              { title: occupation.title, description: occupation.description },
+              {
+                type: "object",
+                properties: { isco: { type: "string" }, reason: { type: "string" } },
+                required: ["isco", "reason"],
+              },
+              300,
+            ),
+          ),
+        )
+      // Never trust a code outside the scored list
+      return iscoUnit(result.isco)?.tasks.length ? result : null
+    })().catch(() => {
+      aiCache.delete(code)
+      return null
+    })
+    aiCache.set(code, pick)
+  }
+  return pick
 }

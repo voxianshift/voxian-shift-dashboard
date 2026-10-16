@@ -47,7 +47,13 @@ function Meter() {
   const [overrideFocus, setOverrideFocus] = useState<string | null>(null)
   const [overrideRole, setOverrideRole] = useState<string | null>(null)
   const [isco, setIsco] = useState<
-    | (MeterModel & { gradient: string; crosswalkMatch: string; isco: string; iscoTitle: string })
+    | (MeterModel & {
+        gradient: string
+        crosswalkMatch: string
+        mappingNote: string
+        isco: string
+        iscoTitle: string
+      })
     | "missing"
     | null
   >(null)
@@ -78,6 +84,7 @@ function Meter() {
           code: `ISCO-08 ${data.isco} · O*NET ${catalogueCode}`,
           gradient: data.gradient,
           crosswalkMatch: data.crosswalk.match,
+          mappingNote: data.crosswalk.escoTitle,
           isco: data.isco,
           iscoTitle: data.iscoTitle,
           tasks: data.tasks.map((t) => ({
@@ -282,8 +289,10 @@ function Meter() {
           {iscoRole ? (
             <p className={cn(fieldHelp, "mt-3")}>
               ISCO-08 task statements weighted equally (ILO publishes no task weights), so the
-              task-mix switch does not apply. Source: ILO Working Paper 140 (2025), via the
-              ESCO–O*NET crosswalk.
+              task-mix switch does not apply. Source: ILO Working Paper 140 (2025).{" "}
+              {iscoRole.crosswalkMatch === "ai"
+                ? `ISCO unit matched by AI from the O*NET description: ${iscoRole.mappingNote}`
+                : `ISCO unit from the ESCO–O*NET crosswalk (${iscoRole.crosswalkMatch}: ${iscoRole.mappingNote}).`}
             </p>
           ) : (
             <fieldset className="mt-[22px]">

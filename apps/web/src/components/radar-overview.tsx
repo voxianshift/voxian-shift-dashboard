@@ -111,7 +111,7 @@ export function RadarEvidence({
           <strong className="font-normal text-foreground">A signal, not a sentence.</strong>{" "}
           Confidence is {overall.toLowerCase()}{" "}
           {isco
-            ? "because ILO’s scores are global and the occupation is mapped to ISCO through the ESCO crosswalk, not because the exposure signal is weak."
+            ? `because ILO’s scores are global and the occupation is mapped to ISCO ${crosswalkMatch === "ai" ? "by an AI match from its description" : "through the ESCO crosswalk"}, not because the exposure signal is weak.`
             : "because these are illustrative demo inputs."}{" "}
           It rises as local, dated evidence is added.
         </p>
