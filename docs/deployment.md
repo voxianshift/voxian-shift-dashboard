@@ -1,0 +1,53 @@
+# Production setup for the redesign (not yet applied)
+
+Merging to `main` deploys both Cloud Run services through `.github/workflows/deploy.yml`. Before merging this branch, production needs the database and Lumi settings below. `gcloud run deploy --image` keeps existing env vars, secrets and Cloud SQL connections, so this is a one-time setup.
+
+Project `voxian-shift-app`, region `asia-southeast1`, Cloud SQL instance `voxian-db` (Postgres 18, SQL Connect no-cost trial; don't change its size, IP type or replicas).
+
+## Already created (2026-10-17)
+
+- Secret Manager API enabled.
+- Cloud SQL user `voxian_api` on `voxian-db` (random password, not stored anywhere except the secret below).
+- Secret `voxian-database-url`: `postgresql://voxian_api:…@localhost/voxian?host=/cloudsql/voxian-shift-app:asia-southeast1:voxian-db` (Cloud Run Unix socket form).
+- Secret `voxian-rootsys-api-key`: copy of the local `ROOTSYS_API_KEY`.
+
+## Still to do
+
+1. Let the API service account use Cloud SQL and read the secrets:
+
+   ```sh
+   SA=voxian-api@voxian-shift-app.iam.gserviceaccount.com
+   gcloud projects add-iam-policy-binding voxian-shift-app --member=serviceAccount:$SA --role=roles/cloudsql.client --condition=None
+   gcloud secrets add-iam-policy-binding voxian-database-url --member=serviceAccount:$SA --role=roles/secretmanager.secretAccessor
+   gcloud secrets add-iam-policy-binding voxian-rootsys-api-key --member=serviceAccount:$SA --role=roles/secretmanager.secretAccessor
+   ```
+
+2. Migrate and import O*NET into Cloud SQL from your machine through the Cloud SQL Auth Proxy (`brew install cloud-sql-proxy`). `DATABASE_URL` uses the proxy port and the `voxian_api` password from the secret:
+
+   ```sh
+   cloud-sql-proxy voxian-shift-app:asia-southeast1:voxian-db --port 5434
+   DATABASE_URL=postgresql://voxian_api:<password>@127.0.0.1:5434/voxian pnpm --filter @voxian/api db:migrate
+   DATABASE_URL=postgresql://voxian_api:<password>@127.0.0.1:5434/voxian pnpm --filter @voxian/api db:import-occupations /tmp/voxian-onet-31.0
+   ```
+
+   O*NET download steps are in `docs/occupation-catalogue.md`. If migrations fail on schema permissions, grant `voxian_api` CREATE on schema `public` as the `postgres` user.
+
+3. Configure the API service:
+
+   ```sh
+   gcloud run services update voxian-api --region asia-southeast1 \
+     --add-cloudsql-instances voxian-shift-app:asia-southeast1:voxian-db \
+     --set-secrets DATABASE_URL=voxian-database-url:latest,ROOTSYS_API_KEY=voxian-rootsys-api-key:latest \
+     --set-env-vars WEB_ORIGIN=https://voxian-web-184581024855.asia-southeast1.run.app,CHAT_PROVIDER=rootsys,ROOTSYS_MODEL=glm-5.3-flashx
+   ```
+
+   `WEB_ORIGIN` must match the URL people open exactly; the API rejects chat and role saves from any other origin.
+
+4. Web proxy: nothing to set at runtime. Next bakes the `/api/*` target into the build, so `apps/web/Dockerfile` takes `API_BASE_URL` as a build arg (default: the API's Cloud Run URL), passed by the deploy workflow and `cloudbuild.yaml`.
+
+5. Merge the PR. Then check `/api/occupations?q=customer` through the web URL, send one Lumi message, save a role and clear the profile.
+
+## Notes
+
+- Hackathon rule is Google Cloud only. Rootsys is an external LLM; for the submission, switch to `CHAT_PROVIDER=gemini` with a Gemini key secret.
+- Cloud SQL stops when the RM 4 budget kill switch fires; restore with `gcloud sql instances patch voxian-db --activation-policy ALWAYS`.

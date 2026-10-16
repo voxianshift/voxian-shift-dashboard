@@ -10,6 +10,9 @@ RUN pnpm install --frozen-lockfile --filter @voxian/web...
 
 COPY packages/shared packages/shared
 COPY apps/web apps/web
+# Next bakes /api/* rewrites into the build, so the API URL is a build arg, not a runtime env
+ARG API_BASE_URL=https://voxian-api-184581024855.asia-southeast1.run.app
+ENV API_BASE_URL=$API_BASE_URL
 RUN pnpm --filter @voxian/web build
 
 FROM node:24-slim
