@@ -53,7 +53,9 @@ function Meter() {
   const [editing, setEditing] = useState(false)
   const [overrideFocus, setOverrideFocus] = useState<string | null>(null)
   const [overrideRole, setOverrideRole] = useState<string | null>(null)
-  const [isco, setIsco] = useState<(MeterModel & { gradient: string }) | "missing" | null>(null)
+  const [isco, setIsco] = useState<
+    (MeterModel & { gradient: string; crosswalkMatch: string }) | "missing" | null
+  >(null)
   const example = useSearchParams().get("example") === "1"
   const roleId =
     overrideRole ||
@@ -80,6 +82,7 @@ function Meter() {
           title: profile.occupationNames[catalogueCode] ?? data.iscoTitle,
           code: `ISCO-08 ${data.isco} · O*NET ${catalogueCode}`,
           gradient: data.gradient,
+          crosswalkMatch: data.crosswalk.match,
           tasks: data.tasks.map((t) => ({
             name: t.task,
             exposure: t.exposure,
@@ -352,6 +355,41 @@ function Meter() {
             <p className="mt-[15px] text-[13px] text-muted-foreground">
               Task exposure ≠ probability of losing your job.
             </p>
+            <dl className="mt-5 grid grid-cols-2 border-t border-l text-[13px] [&>div]:border-r [&>div]:border-b [&>div]:px-3 [&>div]:py-2.5 [&_dd]:mt-0.5 [&_dd]:text-[14px] [&_dd]:text-foreground [&_dt]:text-[12px] [&_dt]:tracking-[0.5px] [&_dt]:text-muted-foreground">
+              {[
+                [
+                  "TASK EXPOSURE",
+                  `${score.toFixed(1)} / 100`,
+                  "Weighted task-level exposure to current AI capabilities.",
+                ],
+                [
+                  "ADOPTION VELOCITY",
+                  "Insufficient data",
+                  "No dated adoption evidence for this occupation in this region yet, so no trend is shown.",
+                ],
+                [
+                  "WORKFORCE IMPACT",
+                  "Insufficient data",
+                  "No observed employment or wage evidence linked yet. Exposure is not a job-loss forecast.",
+                ],
+                [
+                  "EVIDENCE CONFIDENCE",
+                  iscoRole
+                    ? ["exactMatch", "closeMatch"].includes(iscoRole.crosswalkMatch)
+                      ? "Medium"
+                      : "Low"
+                    : "Low",
+                  iscoRole
+                    ? `ILO global task scores; occupation mapped via ESCO crosswalk (${iscoRole.crosswalkMatch}). Not specific to your country.`
+                    : "Illustrative demo task inputs, not measured scores.",
+                ],
+              ].map(([label, value, help]) => (
+                <div key={label} title={help} className="cursor-help">
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </div>
         <div className="flex h-9 items-center justify-between border-y px-[30px] text-[12px] tracking-[0.8px] text-muted-foreground">
