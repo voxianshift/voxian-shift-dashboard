@@ -1,24 +1,26 @@
 {
   "name": "@voxian/web",
+  "version": "0.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "typecheck": "tsc -p ."
-  },
-  "devDependencies": {
-    "@tailwindcss/vite": "^4.3.3",
-    "@types/react": "^19.3.0",
-    "@types/react-dom": "^19.3.0",
-    "@vitejs/plugin-react": "^6.1.2",
-    "tailwindcss": "^4.3.3",
-    "vite": "^8.3.4"
+    "dev": "vp dev",
+    "build": "vp build",
+    "preview": "vp preview"
   },
   "dependencies": {
     "@voxian/shared": "workspace:*",
-    "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^5",
+    "tailwindcss": "^4",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
   }
 }

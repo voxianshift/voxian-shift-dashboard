@@ -1,10 +1,15 @@
 {
   "name": "@voxian/shared",
+  "version": "0.0.0",
   "private": true,
   "type": "module",
   "exports": "./src/index.ts",
   "scripts": {
-    "typecheck": "tsc -p .",
-    "test": "node --test"
+    "test": "vp test"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vite-plus": "catalog:"
   }
 }

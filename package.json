@@ -1,16 +1,25 @@
 {
   "name": "voxian-shift",
+  "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@11.20.0",
+  "type": "module",
   "scripts": {
-    "dev:web": "pnpm --filter @voxian/web dev",
-    "dev:api": "pnpm --filter @voxian/api dev",
-    "typecheck": "pnpm -r typecheck",
-    "test": "pnpm -r test",
-    "build": "pnpm -r build"
+    "ready": "vp check && vp run -r test && vp run -r build",
+    "dev": "vp run -r --parallel dev",
+    "dev:web": "vp run @voxian/web#dev",
+    "dev:api": "vp run @voxian/api#dev"
   },
   "devDependencies": {
-    "@types/node": "^26.6.5",
-    "typescript": "^7.0.2"
+    "vite-plus": "catalog:"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.11.2",
+      "onFail": "download"
+    }
+  },
+  "engines": {
+    "node": ">=22.18.0"
   }
 }

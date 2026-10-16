@@ -1,4 +1,4 @@
-import { SCORING_VERSION } from '@voxian/shared';
+import { SCORING_VERSION } from "@voxian/shared";
 
 export function App() {
   return (

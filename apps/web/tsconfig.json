@@ -1,11 +1,17 @@
 {
-  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "jsx": "react-jsx",
+    "target": "es2023",
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "skipLibCheck": true
   },
   "include": ["src", "vite.config.ts"]
 }
