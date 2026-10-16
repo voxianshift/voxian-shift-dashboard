@@ -1,9 +1,9 @@
 import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // Static export: served as Cloudflare Workers static assets (free tier).
+  // No server actions, route handlers or SSR; data comes from apps/api.
+  output: "export",
   turbopack: {
     rules: {
       "*.css": {
