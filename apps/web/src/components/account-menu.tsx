@@ -1,6 +1,6 @@
 "use client"
 
-import { LogOut, Moon, Settings, Sun } from "lucide-react"
+import { Moon, Settings, Sun } from "lucide-react"
 import Link from "next/link"
 import { useTheme } from "next-themes"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-// Static demo user until Firebase Auth is wired
+// Static demo user (the MVP has no accounts)
 const USER = { name: "Aina Rahman", email: "aina@example.com" }
 
 export function AccountMenu() {
@@ -43,12 +43,6 @@ export function AccountMenu() {
         </DropdownMenuItem>
         <DropdownMenuItem onSelect={() => setTheme(dark ? "light" : "dark")}>
           {dark ? <Sun /> : <Moon />} {dark ? "Light mode" : "Dark mode"}
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href="/login">
-            <LogOut /> Log out
-          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

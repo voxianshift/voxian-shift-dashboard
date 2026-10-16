@@ -1,7 +1,7 @@
 "use client"
 
 import { toast } from "sonner"
-import { FormField } from "@/components/auth/form-field"
+import { FormField } from "@/components/form-field"
 import { PageHeader } from "@/components/page-header"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
