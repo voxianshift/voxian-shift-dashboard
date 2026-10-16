@@ -1,5 +1,6 @@
 "use client"
 
+import { useCareerProfile } from "@/components/career-profile-provider"
 import { Moon, Settings, Sun } from "lucide-react"
 import Link from "next/link"
 import { useTheme } from "next-themes"
@@ -13,10 +14,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-// Static demo user (the MVP has no accounts)
-const USER = { name: "Aina Rahman", email: "aina@example.com" }
-
 export function AccountMenu() {
+  const { profile } = useCareerProfile()
+  const name = profile.preferredName || "Guest"
+  const initials = name
+    .split(/\s+/)
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase()
   const { resolvedTheme, setTheme } = useTheme()
   const dark = resolvedTheme !== "light"
 
@@ -27,13 +33,13 @@ export function AccountMenu() {
         aria-label="Account menu"
       >
         <Avatar>
-          <AvatarFallback className="bg-primary text-primary-foreground">AR</AvatarFallback>
+          <AvatarFallback className="bg-primary text-primary-foreground">{initials}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel className="font-normal">
-          <p className="font-medium text-foreground">{USER.name}</p>
-          <p className="truncate text-xs text-muted-foreground">{USER.email}</p>
+          <p className="font-medium text-foreground">{name}</p>
+          <p className="truncate text-xs text-muted-foreground">Profile saved in this tab</p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>

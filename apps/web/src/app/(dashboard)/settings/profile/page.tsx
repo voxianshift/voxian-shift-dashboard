@@ -1,48 +1,47 @@
 "use client"
 
+import { useState } from "react"
+import Link from "next/link"
 import { toast } from "sonner"
-import { FormField } from "@/components/form-field"
-import { PageHeader } from "@/components/page-header"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { useCareerProfile } from "@/components/career-profile-provider"
+import { ProfileSheet } from "@/components/profile-sheet"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { PanelHeading } from "@/components/radar-panel"
+import { canConfirmProfile } from "@/lib/onboarding"
 
 export default function ProfilePage() {
+  const { confirm, confirmed, profile } = useCareerProfile()
+  const [editing, setEditing] = useState(false)
   return (
-    <div className="max-w-2xl space-y-6 p-6">
-      <PageHeader title="Profile" description="How you appear in Voxian Shift." />
-      <Card>
-        <CardHeader className="flex-row items-center gap-4">
-          <Avatar size="lg">
-            <AvatarFallback className="bg-primary text-primary-foreground">AR</AvatarFallback>
-          </Avatar>
-          <div>
-            <CardTitle>Aina Rahman</CardTitle>
-            <CardDescription>Customer Support Specialist</CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <FormField id="name" label="Full name" defaultValue="Aina Rahman" />
-          <FormField
-            id="email"
-            label="Email"
-            type="email"
-            defaultValue="aina@example.com"
-            disabled
-          />
-          <FormField id="role" label="Current role" defaultValue="Customer Support Specialist" />
-        </CardContent>
-        <CardFooter className="justify-end">
-          <Button onClick={() => toast.success("Profile saved (demo only)")}>Save changes</Button>
-        </CardFooter>
-      </Card>
+    <div className="editorial-page max-w-3xl">
+      <PanelHeading kicker="YOUR PROFILE" title="Your work. In your words.">
+        Update your profile in one place, then review your starting picture. Your details stay in
+        this browser tab.
+      </PanelHeading>
+      <p className="text-[16px] mb-6">
+        {profile.preferredName || "Guest"} · {profile.currentWork || "No work details yet"}
+      </p>
+      <div className="flex flex-wrap items-center gap-3">
+        <Button onClick={() => setEditing(true)}>Edit my profile</Button>
+        <Button
+          variant="outline"
+          disabled={!canConfirmProfile(profile)}
+          onClick={() => {
+            if (confirm()) toast.success("Profile confirmed")
+          }}
+        >
+          {confirmed ? "Profile confirmed" : "Confirm profile"}
+        </Button>
+        <Button asChild variant="ghost">
+          <Link href="/home">Review my starting picture</Link>
+        </Button>
+      </div>
+      {!canConfirmProfile(profile) && (
+        <p className="field-help mt-4">
+          Choose a supported occupation and main role before confirming an exposure baseline.
+        </p>
+      )}
+      <ProfileSheet open={editing} onOpenChange={setEditing} />
     </div>
   )
 }

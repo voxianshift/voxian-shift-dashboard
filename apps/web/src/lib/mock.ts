@@ -1,17 +1,12 @@
 // Static demo data (spec: Customer Support Specialist, routine-heavy workload)
-import { computeExposure } from "@voxian/shared"
+import { computeExposure, demoBaselines } from "@voxian/shared"
 
 export const ROLE = {
   title: "Customer Support Specialist",
   code: "ISCO-08 4222 · O*NET 43-4051.00",
 }
 
-export const TASKS = [
-  { name: "Standard FAQ & billing inquiries", exposure: 0.95, weight: 0.45, moat: false },
-  { name: "Ticket categorisation & CRM routing", exposure: 0.85, weight: 0.3, moat: false },
-  { name: "Dispute de-escalation & churn retention", exposure: 0.2, weight: 0.15, moat: true },
-  { name: "Cross-team engineering diplomacy", exposure: 0.35, weight: 0.1, moat: true },
-]
+export const TASKS = demoBaselines["customer-support"].tasks
 
 export const EXPOSURE = computeExposure(TASKS)
 
