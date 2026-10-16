@@ -1,0 +1,20 @@
+# One row per Firebase Auth user; id is the Firebase UID
+type User @table {
+  id: String! @default(expr: "auth.uid")
+  displayName: String
+  email: String
+  createdAt: Timestamp! @default(expr: "request.time")
+}
+
+# Diagnostic intake answers; exposureScore is written by the API (recomputed from the trusted catalog)
+type Assessment @table {
+  user: User!
+  roleId: String!
+  taskGravity: String!
+  superpower: String!
+  posture: String!
+  pacing: String!
+  northStar: String
+  exposureScore: Float
+  createdAt: Timestamp! @default(expr: "request.time")
+}

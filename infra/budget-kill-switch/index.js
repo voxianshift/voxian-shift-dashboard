@@ -1,6 +1,8 @@
 // Budget kill switch: when the project's budget is reached, set every Cloud Run
-// service in REGION to internal-only ingress. Public traffic stops, nothing is deleted.
-// Restore a service: gcloud run services update <name> --ingress all --region <region>
+// service in REGION to internal-only ingress and stop every Cloud SQL instance
+// (activation policy NEVER). Nothing is deleted.
+// Restore Cloud Run: gcloud run services update <name> --ingress all --region <region>
+// Restore Cloud SQL: gcloud sql instances patch <name> --activation-policy ALWAYS
 import { cloudEvent } from "@google-cloud/functions-framework"
 
 const { PROJECT_ID, REGION, K_SERVICE } = process.env
@@ -33,5 +35,18 @@ cloudEvent("killSwitch", async (event) => {
       body: JSON.stringify({ ingress: INTERNAL }),
     })
     console.log(`${name}: ingress -> internal (${res.status})`)
+  }
+
+  // Cloud SQL bills every running hour, even with no traffic
+  const sqlBase = `https://sqladmin.googleapis.com/v1/projects/${PROJECT_ID}/instances`
+  const { items = [] } = await (await fetch(sqlBase, { headers })).json()
+  for (const db of items) {
+    if (db.settings?.activationPolicy === "NEVER") continue
+    const res = await fetch(`${sqlBase}/${db.name}`, {
+      method: "PATCH",
+      headers,
+      body: JSON.stringify({ settings: { activationPolicy: "NEVER" } }),
+    })
+    console.log(`${db.name}: Cloud SQL stopped (${res.status})`)
   }
 })
