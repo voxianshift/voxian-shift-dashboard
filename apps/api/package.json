@@ -1,0 +1,13 @@
+{
+  "name": "@voxian/api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.ts",
+    "start": "node src/server.ts",
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@voxian/shared": "workspace:*"
+  }
+}
