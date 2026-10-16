@@ -8,6 +8,7 @@ class UnknownOccupationError extends Error {}
 
 export interface OccupationCatalogue {
   search: (query: string, limit?: number) => Promise<OccupationMatch[]>
+  tasks: (code: string) => Promise<{ id: string; description: string }[]>
   selections: (
     owner: string,
   ) => Promise<{ occupations: OccupationMatch[]; primaryOccupation: string }>
@@ -44,21 +45,55 @@ export function createOccupationCatalogue(connectionString: string): OccupationC
   })
   return {
     async search(query, limit = 3) {
+      // Match % per title: F0.5 of word overlap (plural-normalised, see voxian_words) (precision = share of the title's words
+      // found in your text, recall = share of your words the title covers). Best of official +
+      // alternate titles, blended 80/20 with full-text relevance over description and tasks.
+      // Exact title or alternate title = 100.
       const result = await pool.query<OccupationMatch>(
         `
-        WITH q AS (SELECT websearch_to_tsquery('english', $2) AS value)
+        WITH q AS (
+          SELECT websearch_to_tsquery('english', $2) AS ts, lower($1) AS raw,
+            voxian_words($1) AS words),
+        titles AS (
+          SELECT a.occupation_code AS code, a.title FROM occupation_aliases a, q
+          WHERE to_tsvector('english', a.title) @@ q.ts
+          UNION ALL
+          SELECT o.code, o.title FROM occupations o, q WHERE to_tsvector('english', o.title) @@ q.ts),
+        overlap AS (
+          SELECT t.code, lower(t.title) = q.raw AS exact,
+            cardinality(ARRAY(SELECT unnest(w) INTERSECT SELECT unnest(q.words)))::float AS hit,
+            greatest(cardinality(w), 1) AS title_words, greatest(cardinality(q.words), 1) AS query_words
+          FROM titles t CROSS JOIN q
+          CROSS JOIN LATERAL (SELECT voxian_words(t.title) AS w) x),
+        best AS (
+          SELECT code, bool_or(exact) AS exact,
+            -- ponytail: one-word titles ("Developer") count half unless exact; ambiguity needs context to rank better
+            max(CASE WHEN hit = 0 THEN 0 ELSE
+              1.25 * (hit / title_words) * (hit / query_words) / (0.25 * (hit / title_words) + hit / query_words)
+              * CASE WHEN title_words = 1 AND NOT exact THEN 0.5 ELSE 1 END END) AS title_score
+          FROM overlap GROUP BY code),
+        scored AS (
+          SELECT o.code, o.code = $1 OR coalesce(b.exact, false) AS exact,
+            coalesce(b.title_score, 0) AS title_score, ts_rank_cd(o.search_document, q.ts, 32) AS text_rank
+          FROM occupations o CROSS JOIN q LEFT JOIN best b ON b.code = o.code
+          WHERE b.code IS NOT NULL OR o.search_document @@ q.ts OR o.code = $1)
         SELECT ${columns},
-          CASE WHEN lower(o.title)=lower($1) OR EXISTS(SELECT 1 FROM occupation_aliases a WHERE a.occupation_code=o.code AND lower(a.title)=lower($1))
-            THEN 'Matches this occupation title or an alternate job title.'
+          CASE WHEN s.exact THEN 100
+            ELSE least(99, round(100 * (0.8 * s.title_score + 0.2 * s.text_rank)))::int END AS match,
+          CASE WHEN s.exact THEN 'Matches this occupation title or an alternate job title.'
+            WHEN s.title_score >= 0.5 THEN 'Shares key words with this occupation title or one of its alternate job titles.'
             ELSE 'Related wording in the occupation description or typical tasks; check that it fits your work.' END AS reason
-        ${joins} CROSS JOIN q
-        WHERE o.search_document @@ q.value OR o.code=$1 OR position(lower($1) IN lower(o.title))>0
-        ORDER BY CASE WHEN o.code=$1 OR lower(o.title)=lower($1) THEN 100
-          WHEN EXISTS(SELECT 1 FROM occupation_aliases a WHERE a.occupation_code=o.code AND lower(a.title)=lower($1)) THEN 90
-          WHEN position(lower($1) IN lower(o.title))>0 THEN 50
-          ELSE ts_rank_cd(o.search_document,q.value) END DESC, o.title
+        ${joins} JOIN scored s ON s.code = o.code
+        ORDER BY match DESC, o.title
         LIMIT $3`,
         [query, searchTerms(query), Math.min(10, Math.max(1, limit))],
+      )
+      return result.rows
+    },
+    async tasks(code) {
+      const result = await pool.query<{ id: string; description: string }>(
+        "SELECT source_task_id AS id, description FROM occupation_tasks WHERE occupation_code=$1 ORDER BY source_task_id::int LIMIT 12",
+        [code],
       )
       return result.rows
     },
@@ -112,6 +147,17 @@ export function registerOccupations(app: FastifyInstance, catalogue?: Occupation
       return { occupations: await catalogue.search(parsed.data.q, 3) }
     } catch {
       return reply.code(503).send({ error: "Occupation search could not load. Try again." })
+    }
+  })
+  // Typical tasks for one occupation (O*NET task statements), used by the Meter breakdown
+  app.get("/occupations/:code/tasks", async (request, reply) => {
+    const parsed = z.object({ code: occupationCodeSchema }).safeParse(request.params)
+    if (!parsed.success) return reply.code(400).send({ error: "Unknown occupation code." })
+    if (!catalogue) return reply.code(503).send({ error: "Occupation tasks are unavailable." })
+    try {
+      return { tasks: await catalogue.tasks(parsed.data.code) }
+    } catch {
+      return reply.code(503).send({ error: "Occupation tasks could not load. Try again." })
     }
   })
   app.get("/onboarding/occupations", async (request, reply) => {

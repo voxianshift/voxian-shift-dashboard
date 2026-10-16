@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import {
@@ -140,6 +140,9 @@ function Meter() {
             "No occupation selected."}{" "}
           Personal scores remain empty until your baseline is confirmed.
         </p>
+        {/^\d{2}-\d{4}\.\d{2}$/.test(profile.primaryOccupation) && (
+          <OccupationTasks code={profile.primaryOccupation} />
+        )}
         <div className="flex flex-wrap gap-3">
           <Button onClick={() => setEditing(true)}>
             {profile.occupations.length > 1 ? "Choose my main role" : "Set up my Meter"}{" "}
@@ -436,5 +439,35 @@ function Meter() {
         </div>
       </aside>
     </div>
+  )
+}
+
+// Typical tasks from O*NET for a recognised occupation without an exposure baseline
+function OccupationTasks({ code }: { code: string }) {
+  const [tasks, setTasks] = useState<{ id: string; description: string }[] | null>(null)
+  useEffect(() => {
+    const controller = new AbortController()
+    fetch(`/api/occupations/${code}/tasks`, { signal: controller.signal })
+      .then((response) => (response.ok ? response.json() : { tasks: [] }))
+      .then((data) => setTasks(data.tasks))
+      .catch(() => !controller.signal.aborted && setTasks([]))
+    return () => controller.abort()
+  }, [code])
+  if (!tasks?.length) return null
+  return (
+    <section className="mb-6 border-y" aria-label="Typical tasks">
+      <div className="flex h-9 items-center justify-between text-[12px] tracking-[0.8px] text-muted-foreground">
+        <span>TASK BREAKDOWN · O*NET {code}</span>
+        <span>AI EXPOSURE · PENDING</span>
+      </div>
+      {tasks.map((task, i) => (
+        <div className="flex gap-[11px] border-t py-3.5" key={task.id}>
+          <span className="pt-[3px] font-mono text-[12px] text-[#aaa]">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <p className="text-[14px] leading-[1.5]">{task.description}</p>
+        </div>
+      ))}
+    </section>
   )
 }

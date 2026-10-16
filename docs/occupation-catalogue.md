@@ -29,7 +29,7 @@ Migration `002_occupation_catalogue.sql` creates `occupation_categories`, `occup
 - `GET /onboarding/occupations`: restores this guest's confirmed role choices; initializes the private guest cookie when absent.
 - `PUT /onboarding/occupations`: `{ occupations: ["15-1252.00"], primaryOccupation: "15-1252.00" }`. Saves up to five known catalogue codes; main role must belong to the selection. Parameterized queries, origin validation, owner checks and transactional replacement protect writes.
 
-Exact titles, codes and alternate titles outrank weighted English full-text matches across titles, descriptions and tasks. Scores are relevance ranks, not calibrated confidence probabilities. No vector service or scraping of job boards is required.
+Each candidate gets a match % (migration `003_match_scoring.sql`): exact title, code or alternate title = 100; otherwise 80% best title score (F0.5 word overlap between the user's words and the official or alternate title, plural-normalised and unstemmed so "customer" ≠ "customs"; one-word titles count half) + 20% full-text relevance over description and tasks. It is a relevance score, not a calibrated probability, and the UI says so. `GET /occupations/:code/tasks` returns up to 12 O*NET task statements for the Meter breakdown. No vector service or scraping of job boards is required.
 
 Lumi extracts work descriptions and preferences, then server search supplies occupation candidates. Provider output cannot assign occupation IDs or mark a match confirmed. User chooses the roles and saves them explicitly. Profile Sheet changes stay local until Save; questionnaire choices save on Continue; chat suggestions have their own Save role choices action. `/explore` uses the same live catalogue.
 

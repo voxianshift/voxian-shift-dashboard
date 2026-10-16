@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState, useId } from "react"
+import { Info } from "lucide-react"
 import { occupationCode, occupationSearchSchema, type OccupationMatch } from "@voxian/shared"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/select"
 import type { CareerProfile } from "@/lib/onboarding"
 import { fieldHelp } from "@/lib/styles"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 export function OccupationPicker({
   profile,
@@ -31,8 +33,10 @@ export function OccupationPicker({
   const [results, setResults] = useState<OccupationMatch[]>([])
   const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">("idle")
   const [attempt, setAttempt] = useState(0)
+  // Empty search box: match against the work description the person already gave
+  const term = query.trim() || profile.currentWork.trim()
   useEffect(() => {
-    if (query.trim().length < 2) {
+    if (term.length < 2) {
       setStatus("idle")
       setResults([])
       return
@@ -40,7 +44,7 @@ export function OccupationPicker({
     const controller = new AbortController()
     setStatus("loading")
     const timer = setTimeout(() => {
-      fetch(`/api/occupations?q=${encodeURIComponent(query.trim())}`, {
+      fetch(`/api/occupations?q=${encodeURIComponent(term)}`, {
         signal: AbortSignal.any([controller.signal, AbortSignal.timeout(8000)]),
       })
         .then(async (response) => {
@@ -61,7 +65,7 @@ export function OccupationPicker({
       clearTimeout(timer)
       controller.abort()
     }
-  }, [query, attempt])
+  }, [term, attempt])
   function toggle(role: OccupationMatch) {
     const code = role.code
     const current = [...new Set(profile.occupations.map(occupationCode))]
@@ -79,7 +83,7 @@ export function OccupationPicker({
           : "",
     })
   }
-  const matches = query.trim().length >= 2 ? results : suggestions
+  const matches = term.length >= 2 ? results : suggestions
   return (
     <section className="space-y-3" aria-label="Find your occupation">
       <label className="block text-[14px] font-medium" htmlFor={searchId}>
@@ -115,7 +119,22 @@ export function OccupationPicker({
       )}
       {matches.map((role) => (
         <div key={role.code} className="rounded-lg border p-3 text-[14px] space-y-2">
-          <p className="font-medium">{role.title}</p>
+          <div className="flex items-start justify-between gap-2">
+            <p className="font-medium">{role.title}</p>
+            {role.match !== undefined && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className="shrink-0 cursor-help rounded-full bg-mauve-soft px-2 py-0.5 text-[12px] font-medium text-mauve-ink tabular-nums">
+                    {role.match}% match
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-64 text-[13px] leading-relaxed">
+                  How closely your words match this occupation’s titles and typical tasks. A
+                  relevance score, not a probability: check the description fits your work.
+                </TooltipContent>
+              </Tooltip>
+            )}
+          </div>
           <p className="text-muted-foreground">
             {role.category} · {role.code}
           </p>
@@ -205,28 +224,18 @@ export function OccupationPicker({
           )}
         </div>
       )}
-      <p className={fieldHelp}>
-        Occupation data:{" "}
-        <a
-          className="underline"
-          href="https://www.onetcenter.org/database.html"
-          target="_blank"
-          rel="noreferrer"
-        >
-          O*NET® 31.0 Database
-        </a>
-        , from the U.S. Department of Labor, Employment and Training Administration, adapted under{" "}
-        <a
-          className="underline"
-          href="https://creativecommons.org/licenses/by/4.0/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          CC BY 4.0
-        </a>
-        . Voxian adds matching and illustrative exposure models; these additions are not endorsed by
-        USDOL/ETA. US classification; titles may differ locally.
-      </p>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button type="button" className={`${fieldHelp} inline-flex items-center gap-1`}>
+            <Info className="size-3.5" /> Source: O*NET® 31.0 (US)
+          </button>
+        </TooltipTrigger>
+        <TooltipContent className="max-w-72 text-[13px] leading-relaxed">
+          Occupation data from the O*NET® 31.0 Database, U.S. Department of Labor, Employment and
+          Training Administration, adapted under CC BY 4.0. Voxian adds matching and illustrative
+          exposure models, not endorsed by USDOL/ETA. US classification; titles may differ locally.
+        </TooltipContent>
+      </Tooltip>
     </section>
   )
 }

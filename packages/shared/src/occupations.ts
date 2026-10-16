@@ -13,6 +13,8 @@ export const occupationMatchSchema = z.object({
   sourceVersion: z.string().max(20),
   baselineId: z.enum(["customer-support", "administrative-assistant"]).nullable(),
   reason: z.string().max(300),
+  /** 0–100: how closely the query matches titles and tasks (relevance, not a probability) */
+  match: z.number().int().min(0).max(100).optional(),
 })
 export type OccupationMatch = z.infer<typeof occupationMatchSchema>
 export const occupationSearchSchema = z.object({

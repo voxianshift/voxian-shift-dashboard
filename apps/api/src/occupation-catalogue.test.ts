@@ -22,6 +22,7 @@ function memoryCatalogue(): OccupationCatalogue {
   const saved = new Map<string, { occupations: (typeof developer)[]; primaryOccupation: string }>()
   return {
     search: vi.fn(async () => [developer]),
+    tasks: vi.fn(async () => []),
     selections: async (owner) => saved.get(owner) ?? { occupations: [], primaryOccupation: "" },
     select: async (owner, codes, primary) => {
       saved.set(owner, { occupations: codes.map(() => developer), primaryOccupation: primary })
@@ -184,6 +185,25 @@ test.skipIf(!process.env.TEST_DATABASE_URL)(
       expect((await catalogue.selections("f".repeat(64))).occupations).toEqual([])
     } finally {
       await catalogue.select(owner, [], "")
+      await catalogue.close()
+    }
+  },
+)
+
+test.skipIf(!process.env.TEST_DATABASE_URL)(
+  "match scores rank real titles from a work description",
+  async () => {
+    const catalogue = createOccupationCatalogue(process.env.TEST_DATABASE_URL!)
+    try {
+      const exact = await catalogue.search("software developer")
+      expect(exact[0]).toMatchObject({ code: "15-1252.00", match: 100 })
+      const described = await catalogue.search(
+        "Software engineer: hands-on coding of features, deployment and bugfixes",
+      )
+      expect(described.map((role) => role.code)).toContain("15-1252.00")
+      expect(described.every((role) => role.match! > 0 && role.match! < 100)).toBe(true)
+      expect((await catalogue.tasks("15-1252.00")).length).toBeGreaterThan(0)
+    } finally {
       await catalogue.close()
     }
   },
