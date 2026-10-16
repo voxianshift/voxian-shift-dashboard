@@ -14,26 +14,40 @@ import {
 } from "@/components/ui/select"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { questions, type CareerProfile, type ProfileField } from "@/lib/onboarding"
+import { answerChips } from "@/lib/styles"
+import { cn } from "@/lib/utils"
+
+// Compact chips inside a profile field
+const fieldChips = cn(answerChips, "mb-2.5 [&_button]:min-h-[34px] [&_button]:text-[13px]")
 
 export function ProfileEditor({
   profile,
   onChange: update,
   fields,
+  bordered = true,
 }: {
   profile: CareerProfile
   onChange: (patch: Partial<CareerProfile>) => void
   fields?: readonly ProfileField[]
+  /** Divider under each field (off in the one-question-at-a-time questionnaire) */
+  bordered?: boolean
 }) {
   return (
-    <div className="profile-editor">
+    <div>
       {questions
         .filter((question) => !fields || fields.includes(question.field))
         .map((question) => {
           const field = question.field
           const value = profile[field]
           return (
-            <section className="profile-field" key={field}>
-              <div className="profile-field-heading">
+            <section
+              className={cn(
+                "py-[18px] [&_[data-slot=select-trigger]]:h-auto [&_[data-slot=select-trigger]]:min-h-11 [&_[data-slot=select-trigger]]:text-[15px] [&_[data-slot=select-trigger]]:whitespace-normal [&_input]:min-h-[42px] [&_input]:text-[16px] [&_textarea]:min-h-[42px] [&_textarea]:text-[16px]",
+                bordered && "border-b",
+              )}
+              key={field}
+            >
+              <div className="mb-2.5 flex items-start justify-between gap-2 [&_label]:text-[15px] [&_label]:leading-[1.6] [&_label>span]:block [&_label>span]:text-[12px] [&_label>span]:text-muted-foreground">
                 <label htmlFor={`profile-${field}`}>
                   {question.title}{" "}
                   <span>
@@ -88,7 +102,7 @@ export function ProfileEditor({
                 </Select>
               ) : Array.isArray(value) ? (
                 <>
-                  <div className="answer-chips">
+                  <div className={fieldChips}>
                     {question.options.map((option) => (
                       <Button
                         type="button"
@@ -138,7 +152,7 @@ export function ProfileEditor({
                     onChange={(e) => update({ [field]: e.target.value })}
                   />
                   {question.options.length > 0 && (
-                    <div className="answer-chips mt-2">
+                    <div className={cn(fieldChips, "mt-2")}>
                       {question.options.map((option) => (
                         <Button
                           type="button"

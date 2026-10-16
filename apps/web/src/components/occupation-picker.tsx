@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import type { CareerProfile } from "@/lib/onboarding"
+import { fieldHelp } from "@/lib/styles"
 
 export function OccupationPicker({
   profile,
@@ -91,24 +92,24 @@ export function OccupationPicker({
         onChange={(event) => setQuery(event.target.value)}
         placeholder="e.g. software developer, teacher, customer support"
       />
-      <p className="field-help">
+      <p className={fieldHelp}>
         Choose up to five roles that fit. Matching a role does not guarantee an exposure baseline.
       </p>
       {status === "loading" && (
-        <p role="status" className="field-help">
+        <p role="status" className={fieldHelp}>
           Searching occupations…
         </p>
       )}
       {status === "error" && (
         <div role="alert">
-          <p className="field-help">Search is unavailable. Your current selections are kept.</p>
+          <p className={fieldHelp}>Search is unavailable. Your current selections are kept.</p>
           <Button variant="outline" onClick={() => setAttempt((value) => value + 1)}>
             Retry search
           </Button>
         </div>
       )}
       {status === "ready" && !results.length && (
-        <p className="field-help">
+        <p className={fieldHelp}>
           No close matches. Try another title or a few words describing your duties.
         </p>
       )}
@@ -120,7 +121,7 @@ export function OccupationPicker({
           </p>
           <p className="leading-relaxed line-clamp-3">{role.description}</p>
           <p className="text-muted-foreground">{role.reason}</p>
-          <p className="field-help">
+          <p className={fieldHelp}>
             {role.baselineId
               ? "Illustrative Meter baseline available"
               : "Baseline being prepared · role can still be saved"}
@@ -179,7 +180,7 @@ export function OccupationPicker({
           ))}
           {profile.occupations.length > 1 && (
             <>
-              <label htmlFor={primaryId} className="field-help">
+              <label htmlFor={primaryId} className={fieldHelp}>
                 Which role takes most of your time?
               </label>
               <Select
@@ -204,7 +205,7 @@ export function OccupationPicker({
           )}
         </div>
       )}
-      <p className="field-help">
+      <p className={fieldHelp}>
         Occupation data:{" "}
         <a
           className="underline"

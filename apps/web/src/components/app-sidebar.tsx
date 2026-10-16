@@ -17,6 +17,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { MAIN_NAV } from "@/lib/nav"
+import { eyebrow } from "@/lib/styles"
 
 export function AppSidebar() {
   const pathname = usePathname()
@@ -25,7 +26,7 @@ export function AppSidebar() {
   const collapsed = state === "collapsed" && !isMobile
 
   return (
-    <Sidebar collapsible="icon" className="radar-sidebar">
+    <Sidebar collapsible="icon" className="[--sidebar:#fafafa] dark:[--sidebar:#1b1b1b]">
       <SidebarHeader className="h-[68px] justify-center px-4">
         <div className="flex items-center justify-between gap-2">
           <Link
@@ -75,7 +76,7 @@ export function AppSidebar() {
         {!collapsed && (
           <>
             <div className="border bg-background p-3">
-              <span className="eyebrow">YOUR NEXT CHAPTER</span>
+              <span className={eyebrow}>YOUR NEXT CHAPTER</span>
               <p className="mt-2 text-[16px] leading-relaxed">
                 The future of work.
                 <br />

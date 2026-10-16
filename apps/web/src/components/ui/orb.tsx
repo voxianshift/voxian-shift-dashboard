@@ -45,18 +45,8 @@ function Orb({ variant = "pulse", size = 20, label, pill, color, style: sp }: Or
       return (
         <span
           key={`${x}${y}`}
-          style={{
-            position: "absolute",
-            left: x * 8 + 2,
-            top: y * 8 + 2,
-            width: 4,
-            height: 4,
-            borderRadius: 2,
-            background: "currentColor",
-            opacity: 0.25,
-            transform: "scale(0.4)",
-            animation: `halaska-orb-swell 1.6s ${motion.easeInOut} ${Math.round(delay)}ms infinite`,
-          }}
+          className="absolute size-1 [transform:scale(0.4)] rounded-[2px] bg-current opacity-25 animate-orb-swell motion-reduce:[animation-play-state:paused]"
+          style={{ left: x * 8 + 2, top: y * 8 + 2, animationDelay: `${Math.round(delay)}ms` }}
         />
       )
     })
@@ -67,17 +57,11 @@ function Orb({ variant = "pulse", size = 20, label, pill, color, style: sp }: Or
       return (
         <span
           key={i}
+          className="absolute size-[3.5px] [transform:scale(0.5)] rounded-[2px] bg-current opacity-20 animate-orb-swell [animation-duration:1.4s] motion-reduce:[animation-play-state:paused]"
           style={{
-            position: "absolute",
-            width: 3.5,
-            height: 3.5,
-            borderRadius: 2,
             left: 12 + Math.cos(a) * 9 - 1.75,
             top: 12 + Math.sin(a) * 9 - 1.75,
-            background: "currentColor",
-            opacity: 0.2,
-            transform: "scale(0.5)",
-            animation: `halaska-orb-swell 1.4s ${motion.easeInOut} ${-(i / 8) * 1.4}s infinite`,
+            animationDelay: `${-(i / 8) * 1.4}s`,
           }}
         />
       )
@@ -88,49 +72,18 @@ function Orb({ variant = "pulse", size = 20, label, pill, color, style: sp }: Or
     cells = ORB_RING.map((i) => (
       <span
         key={i}
-        style={{
-          position: "absolute",
-          left: 12 - 1.75,
-          top: 12 - 1.75,
-          width: 3.5,
-          height: 3.5,
-          borderRadius: 2,
-          background: "currentColor",
-          animation: `halaska-orb-globe 3.2s linear ${-(i / 8) * 3.2}s infinite`,
-        }}
+        className="absolute top-[10.25px] left-[10.25px] size-[3.5px] rounded-[2px] bg-current animate-orb-globe motion-reduce:[animation-play-state:paused]"
+        style={{ animationDelay: `${-(i / 8) * 3.2}s` }}
       />
     ))
   } else if (variant === "spark") {
     // The kit's ✦ glyph, breathing: with a soft echo bursting outward.
     cells = (
       <>
-        <span
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 15,
-            lineHeight: 1,
-            animation: `halaska-orb-spark 2.4s ${motion.easeInOut} infinite`,
-          }}
-        >
+        <span className="absolute inset-0 flex items-center justify-center text-[15px] leading-none animate-orb-spark motion-reduce:[animation-play-state:paused]">
           ✦
         </span>
-        <span
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 15,
-            lineHeight: 1,
-            opacity: 0,
-            animation: "halaska-star-burst 2.4s ease-out infinite",
-          }}
-        >
+        <span className="absolute inset-0 flex items-center justify-center text-[15px] leading-none opacity-0 animate-orb-burst motion-reduce:[animation-play-state:paused]">
           ✦
         </span>
       </>

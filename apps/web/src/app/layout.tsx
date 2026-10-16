@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       className={`${geist.variable} ${geistMono.variable} h-full font-sans antialiased`}
       suppressHydrationWarning
     >
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col motion-reduce:**:transition-none">
         <ThemeProvider>
           <TooltipProvider>{children}</TooltipProvider>
           <Toaster />

@@ -7,6 +7,8 @@ import { useCareerProfile } from "@/components/career-profile-provider"
 import { ProfileEditor } from "@/components/profile-editor"
 import { Button } from "@/components/ui/button"
 import { hasAnswer, nextQuestion, questions } from "@/lib/onboarding"
+import { eyebrow, fieldHelp } from "@/lib/styles"
+import { cn } from "@/lib/utils"
 
 export function OnboardingQuestionnaire({
   detailed,
@@ -49,14 +51,14 @@ export function OnboardingQuestionnaire({
   }
 
   return (
-    <section className="questionnaire-panel" aria-label="Questionnaire">
-      <div className="questionnaire-caption">
-        <p className="eyebrow">QUESTIONNAIRE</p>
-        <span>
+    <section className="mt-7 border-t pt-6" aria-label="Questionnaire">
+      <div className="mb-[18px] flex justify-between gap-[15px]">
+        <p className={eyebrow}>QUESTIONNAIRE</p>
+        <span className="text-[13px] text-muted-foreground">
           {question ? `Question ${index + 1} of ${total}` : "Your answers are ready to review"}
         </span>
       </div>
-      <p className="question-help">
+      <p className="text-[14px] leading-[1.8] text-muted-foreground">
         Share what you’re comfortable with. A supported occupation is needed for your exposure
         baseline; other answers are optional.
       </p>
@@ -67,10 +69,11 @@ export function OnboardingQuestionnaire({
             profile={profile}
             onChange={update}
             fields={[question.field]}
+            bordered={false}
           />
         </>
       )}
-      <div className="questionnaire-controls">
+      <div className="flex flex-wrap justify-between gap-2.5 [&_button]:min-h-10 [&_button]:text-[14px]">
         <Button
           variant="ghost"
           disabled={saving || index <= 0}
@@ -78,7 +81,7 @@ export function OnboardingQuestionnaire({
         >
           <ArrowLeft /> Back
         </Button>
-        <div>
+        <div className="flex flex-wrap justify-between gap-2.5">
           {question && (
             <Button variant="ghost" disabled={saving} onClick={() => advance(true)}>
               Skip for now
@@ -90,7 +93,7 @@ export function OnboardingQuestionnaire({
           </Button>
         </div>
       </div>
-      <p className="field-help mt-4">
+      <p className={cn(fieldHelp, "mt-4")}>
         Answers update your draft automatically. Switching modes keeps your answers.
       </p>
       {question && (

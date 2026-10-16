@@ -8,12 +8,14 @@ import { ProfileSheet } from "@/components/profile-sheet"
 import { Button } from "@/components/ui/button"
 import { PanelHeading } from "@/components/radar-panel"
 import { canConfirmProfile } from "@/lib/onboarding"
+import { editorialPage, fieldHelp } from "@/lib/styles"
+import { cn } from "@/lib/utils"
 
 export default function ProfilePage() {
   const { confirm, confirmed, profile } = useCareerProfile()
   const [editing, setEditing] = useState(false)
   return (
-    <div className="editorial-page max-w-3xl">
+    <div className={cn(editorialPage, "max-w-3xl")}>
       <PanelHeading kicker="YOUR PROFILE" title="Your work. In your words.">
         Update your profile in one place, then review your starting picture. Your details stay in
         this browser tab.
@@ -37,7 +39,7 @@ export default function ProfilePage() {
         </Button>
       </div>
       {!canConfirmProfile(profile) && (
-        <p className="field-help mt-4">
+        <p className={cn(fieldHelp, "mt-4")}>
           Choose a supported occupation and main role before confirming an exposure baseline.
         </p>
       )}

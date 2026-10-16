@@ -6,6 +6,14 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { PanelHeading } from "@/components/radar-panel"
 import { INSIGHTS } from "@/lib/mock"
+import {
+  editorialPage,
+  editorialSection,
+  eyebrow,
+  segmentButton,
+  segmentControl,
+  smallTag,
+} from "@/lib/styles"
 
 const scenarios = [
   {
@@ -31,22 +39,22 @@ const scenarios = [
 export default function InsightsPage() {
   const [selected, setSelected] = useState(0)
   return (
-    <div className="editorial-page">
+    <div className={editorialPage}>
       <PanelHeading kicker="02 / THE CURVE" title="Follow the change. Not the headlines.">
         A view of task automation over time. Observed signals on one side.
         <br />
         Possible futures on the other. No countdown to a disappearing job.
       </PanelHeading>
-      <div className="curve-key">
-        <span>
-          <i /> Observed signals
+      <div className="flex flex-wrap gap-6 border-t py-5 text-[13px] text-muted-foreground max-[700px]:gap-2.5">
+        <span className="flex items-center gap-2">
+          <i className="h-px w-[15px] bg-foreground" /> Observed signals
         </span>
-        <span>
-          <i /> Illustrative scenarios
+        <span className="flex items-center gap-2">
+          <i className="h-px w-[15px] bg-mauve" /> Illustrative scenarios
         </span>
         <span className="ml-auto">2024 — 2028</span>
       </div>
-      <div className="curve-chart">
+      <div className="border-y py-5 [&_svg]:w-full [&_text]:fill-muted-foreground [&_text]:font-mono [&_text]:text-[13px]">
         <svg
           viewBox="0 0 960 290"
           role="img"
@@ -94,14 +102,15 @@ export default function InsightsPage() {
         Conceptual trajectories only. Lines show possible directions, not measured values or
         probabilities.
       </p>
-      <div className="scenario-layout">
-        <section className="editorial-section">
-          <p className="eyebrow">EXPLORE A SCENARIO</p>
-          <div className="segment-control">
+      <div className="mt-7 grid grid-cols-2 gap-[45px] max-[700px]:grid-cols-1 max-[700px]:gap-[15px]">
+        <section className={editorialSection}>
+          <p className={eyebrow}>EXPLORE A SCENARIO</p>
+          <div className={segmentControl}>
             {scenarios.map((s, i) => (
               <Button
                 key={s.name}
                 variant="ghost"
+                className={segmentButton}
                 aria-pressed={selected === i}
                 onClick={() => setSelected(i)}
               >
@@ -115,8 +124,8 @@ export default function InsightsPage() {
             Plan for the possibilities <ArrowUpRight className="size-3.5" />
           </Link>
         </section>
-        <section className="editorial-section">
-          <p className="eyebrow">REGIONAL CONTEXT / JAPAC</p>
+        <section className={editorialSection}>
+          <p className={eyebrow}>REGIONAL CONTEXT / JAPAC</p>
           <h2>Relationships still matter.</h2>
           <p>
             Local business practices, adoption costs, and human oversight can change how quickly
@@ -125,12 +134,12 @@ export default function InsightsPage() {
           </p>
         </section>
       </div>
-      <div className="editorial-section">
-        <p className="eyebrow">SIGNAL TIMELINE · DEMO CONTEXT</p>
-        <div className="timeline-grid">
+      <div className={editorialSection}>
+        <p className={eyebrow}>SIGNAL TIMELINE · DEMO CONTEXT</p>
+        <div className="mt-6 grid grid-cols-4 gap-[25px] max-[700px]:grid-cols-1 max-[700px]:gap-[15px]">
           {INSIGHTS.map((i) => (
             <div key={i.date}>
-              <span className="small-tag">{i.label}</span>
+              <span className={smallTag}>{i.label}</span>
               <h2>{i.date}</h2>
               <p>{i.text}</p>
             </div>

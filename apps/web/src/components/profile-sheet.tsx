@@ -76,7 +76,7 @@ export function ProfileSheet({
     >
       <SheetContent
         side="right"
-        className="career-profile-sheet"
+        className="gap-0 data-[side=right]:w-[min(100%,560px)] data-[side=right]:max-w-[560px] data-[side=right]:sm:max-w-[560px]"
         onOpenAutoFocus={() => {
           returnFocus.current = document.activeElement as HTMLElement
         }}
@@ -87,14 +87,17 @@ export function ProfileSheet({
           }
         }}
       >
-        <SheetHeader className="profile-sheet-header">
+        <SheetHeader className="shrink-0 border-b px-7 pt-7 pb-5 max-[650px]:px-5 max-[650px]:pt-6 max-[650px]:pb-[18px] [&_[data-slot=sheet-title]]:pr-7">
           <SheetTitle className="text-[24px]">Edit your profile</SheetTitle>
           <SheetDescription className="text-[14px] leading-relaxed">
             Share what feels useful. Changes apply only when you save.
           </SheetDescription>
         </SheetHeader>
-        <Tabs defaultValue="work" key={open ? "open" : "closed"} className="profile-sheet-tabs">
-          <TabsList className="profile-sheet-tab-list" aria-label="Profile sections">
+        <Tabs defaultValue="work" key={open ? "open" : "closed"} className="min-h-0 flex-1 gap-0">
+          <TabsList
+            className="mx-6 mt-5 flex min-h-[42px] w-auto shrink-0 max-[650px]:mx-4 [&_button]:min-h-9 [&_button]:text-[14px] max-[650px]:[&_button]:text-[13px]"
+            aria-label="Profile sections"
+          >
             {groups.map((group) => (
               <TabsTrigger value={group.id} key={group.id}>
                 {group.title}
@@ -102,7 +105,11 @@ export function ProfileSheet({
             ))}
           </TabsList>
           {groups.map((group) => (
-            <TabsContent key={group.id} value={group.id} className="profile-sheet-body">
+            <TabsContent
+              key={group.id}
+              value={group.id}
+              className="min-h-0 overflow-y-auto px-7 pb-6 max-[650px]:px-5"
+            >
               <ProfileEditor
                 profile={draft}
                 onChange={(patch) => setDraft((current) => mergeProfile(current, patch))}
@@ -111,7 +118,7 @@ export function ProfileSheet({
             </TabsContent>
           ))}
         </Tabs>
-        <SheetFooter className="profile-sheet-footer">
+        <SheetFooter className="shrink-0 flex-row justify-end border-t bg-popover px-6 py-[18px] max-[650px]:px-5 [&_button]:min-h-[42px] [&_button]:text-[15px]">
           <Button variant="outline" disabled={saving} onClick={() => onOpenChange(false)}>
             Cancel
           </Button>

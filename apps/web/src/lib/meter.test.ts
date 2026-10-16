@@ -21,7 +21,7 @@ test("recognised catalogue roles without exposure evidence show pending baseline
   const html = renderToStaticMarkup(createElement(MeterPage))
   expect(html).toContain("Baseline being prepared.")
   expect(html).toContain("Software Developers")
-  expect(html).not.toContain("score-value")
+  expect(html).not.toContain("data-meter-score")
 })
 test("confirmed canonical occupation IDs retain existing Meter calculation", () => {
   state.profile = {
@@ -34,5 +34,5 @@ test("confirmed canonical occupation IDs retain existing Meter calculation", () 
   const html = renderToStaticMarkup(createElement(MeterPage))
   expect(html).toContain("74.8")
   expect(html).toContain("Customer Support Specialist")
-  expect(html).toContain("score-value")
+  expect(html).toContain("data-meter-score")
 })
