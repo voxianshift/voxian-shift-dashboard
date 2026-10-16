@@ -83,7 +83,7 @@ function SkillAnalyseContent() {
           return { ...s, level: nextVal }
         }
         return s
-      })
+      }),
     )
   }
 
@@ -109,9 +109,8 @@ function SkillAnalyseContent() {
             Skill & Task Analysis
           </h1>
           <p className="mt-1.5 text-sm text-muted-foreground">
-            Auditing baseline for{" "}
-            <span className="font-medium text-foreground">{role.title}</span> (
-            <span className="font-mono text-xs">{role.code}</span>)
+            Auditing baseline for <span className="font-medium text-foreground">{role.title}</span>{" "}
+            (<span className="font-mono text-xs">{role.code}</span>)
           </p>
         </div>
         <div className="flex items-center gap-2.5">
@@ -264,8 +263,8 @@ function SkillAnalyseContent() {
           <div>
             <CardTitle className="text-lg">Self-Assessed Skill Gaps</CardTitle>
             <CardDescription className="text-xs sm:text-sm">
-              Evaluate your current capabilities. Aim for 70+ in high-moat areas to prepare for target
-              roles.
+              Evaluate your current capabilities. Aim for 70+ in high-moat areas to prepare for
+              target roles.
             </CardDescription>
           </div>
           <Button variant="ghost" size="sm" onClick={handleResetSkills} className="text-xs">
@@ -291,7 +290,10 @@ function SkillAnalyseContent() {
                           </Badge>
                         )}
                         {isCriticalGap && (
-                          <Badge variant="outline" className="text-[11px] text-amber-600 dark:text-amber-400">
+                          <Badge
+                            variant="outline"
+                            className="text-[11px] text-amber-600 dark:text-amber-400"
+                          >
                             Critical Gap
                           </Badge>
                         )}

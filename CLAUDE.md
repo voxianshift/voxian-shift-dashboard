@@ -5,6 +5,7 @@ Panduan dan referensi untuk AI agent yang bekerja di repositori `voxian-shift-da
 ## Gambaran Proyek
 
 `voxian-shift-dashboard` adalah monorepo TypeScript yang dikelola menggunakan `pnpm`:
+
 - `apps/web`: Aplikasi frontend Next.js 16 (React 19, Tailwind CSS, shadcn/ui, Radix UI).
 - `apps/api`: Layanan backend API menggunakan Fastify.
 - `packages/shared`: Tipe data bersama, utilitas, dan skema validasi (Zod).
@@ -53,7 +54,7 @@ Saat menjalankan `/grill-me`, `/grill-with-docs`, atau ketika pengguna meminta u
 
 1. **Wawancara Mendalam (Relentless Interviewing)**: Wawancarai pengguna secara menyeluruh hingga mencapai pemahaman bersama yang jelas tanpa asumsi tersembunyi. Petakan masalah sebagai **pohon desain (design tree)** di mana keputusan tingkat tinggi bercabang ke sub-keputusan.
 2. **Jalankan Frontier dalam Tiap Putaran (Rounds)**:
-   - *Frontier* adalah semua keputusan yang prasyaratnya sudah disepakati bersama.
+   - _Frontier_ adalah semua keputusan yang prasyaratnya sudah disepakati bersama.
    - Untuk setiap pertanyaan di frontier, beri nomor dan sertakan rekomendasi jawaban sehingga pengguna cukup mengetik "yes" untuk menyetujuinya:
      ```markdown
      ❓ **Q1** - **<Judul Pertanyaan>**: <Konteks pertanyaan / opsi pilihan>

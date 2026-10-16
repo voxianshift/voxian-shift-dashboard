@@ -8,19 +8,52 @@ function chatConfig() {
   const provider = process.env.CHAT_PROVIDER || "rootsys"
   if (provider === "rootsys")
     return {
-      provider,
+      provider: "rootsys" as const,
       label: "Rootsys",
       apiKey: process.env.ROOTSYS_API_KEY,
       model: process.env.ROOTSYS_MODEL || "glm-5.3-flashx",
     }
-  if (provider === "gemini")
+  if (provider === "gemini") {
+    const backend =
+      (process.env.GEMINI_BACKEND || "studio").toLowerCase() === "vertex" ? "vertex" : "studio"
     return {
-      provider,
+      provider: "gemini" as const,
+      backend,
       label: "Gemini",
       apiKey: process.env.GEMINI_API_KEY,
       model: process.env.GEMINI_MODEL || "gemini-3.8-flash",
+      fallbackModel: process.env.GEMINI_FALLBACK_MODEL || "gemini-3.5-flash-lite",
+      project: process.env.GOOGLE_CLOUD_PROJECT || "voxian-shift-app",
+      region: process.env.VERTEX_REGION || process.env.GOOGLE_CLOUD_REGION || "us-central1",
     }
+  }
   return null
+}
+
+async function geminiRequestOptions(
+  config: Extract<ReturnType<typeof chatConfig>, { provider: "gemini" }>,
+  model: string,
+) {
+  if (config.backend === "vertex") {
+    const { applicationDefault } = await import("firebase-admin/app")
+    const cred = applicationDefault()
+    const tokenObj = await cred.getAccessToken()
+    const token = typeof tokenObj === "string" ? tokenObj : tokenObj?.access_token
+    return {
+      url: `https://${config.region}-aiplatform.googleapis.com/v1/projects/${encodeURIComponent(config.project)}/locations/${encodeURIComponent(config.region)}/publishers/google/models/${encodeURIComponent(model)}:generateContent`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  }
+  return {
+    url: `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
+    headers: {
+      "Content-Type": "application/json",
+      "x-goog-api-key": config.apiKey || "",
+    },
+  }
 }
 
 export function registerOnboarding(
@@ -33,9 +66,15 @@ export function registerOnboarding(
 
   app.get("/onboarding/status", async (_request, reply) => {
     const config = chatConfig()
+    const connected =
+      config?.provider === "gemini"
+        ? config.backend === "vertex"
+          ? true
+          : Boolean(config.apiKey)
+        : Boolean(config?.apiKey)
     return reply
       .header("Cache-Control", "no-store")
-      .send({ connected: Boolean(config?.apiKey), provider: config?.provider ?? null })
+      .send({ connected, provider: config?.provider ?? null })
   })
 
   app.get("/onboarding/conversation", async (request, reply) => {
@@ -78,7 +117,12 @@ export function registerOnboarding(
     if (!parsed.success) return reply.code(400).send({ error: "Check your message and try again." })
     const input = parsed.data
     const config = chatConfig()
-    if (!config?.apiKey)
+    const isOffline =
+      !config ||
+      (config.provider === "gemini"
+        ? config.backend === "studio" && !config.apiKey
+        : !config.apiKey)
+    if (isOffline)
       return reply
         .code(503)
         .send({ error: "AI chat is not configured. Questionnaire still works." })
@@ -114,43 +158,61 @@ export function registerOnboarding(
       })
       const schema = z.toJSONSchema(providerSchema)
       const gemini = config.provider === "gemini"
-      const response = await fetch(
-        gemini
-          ? `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(config.model)}:generateContent`
-          : "https://rootsys.cloud/v1/chat/completions",
-        {
+      let response: Response
+      if (gemini) {
+        const payload = JSON.stringify({
+          systemInstruction: { parts: [{ text: systemPrompt }] },
+          contents: [{ role: "user", parts: [{ text: JSON.stringify(input) }] }],
+          generationConfig: {
+            responseMimeType: "application/json",
+            responseJsonSchema: schema,
+            temperature: 0.2,
+            maxOutputTokens: 2000,
+          },
+        })
+        const primary = await geminiRequestOptions(config, config.model)
+        response = await fetch(primary.url, {
           method: "POST",
-          headers: gemini
-            ? { "Content-Type": "application/json", "x-goog-api-key": config.apiKey }
-            : { "Content-Type": "application/json", Authorization: `Bearer ${config.apiKey}` },
+          headers: primary.headers,
           signal: AbortSignal.timeout(20_000),
-          body: JSON.stringify(
-            gemini
-              ? {
-                  systemInstruction: { parts: [{ text: systemPrompt }] },
-                  contents: [{ role: "user", parts: [{ text: JSON.stringify(input) }] }],
-                  generationConfig: {
-                    responseMimeType: "application/json",
-                    responseJsonSchema: schema,
-                    maxOutputTokens: 2000,
-                  },
-                }
-              : {
-                  model: config.model,
-                  messages: [
-                    {
-                      role: "system",
-                      content: `${systemPrompt} Return only a JSON object, without Markdown, matching this JSON Schema: ${JSON.stringify(schema)}`,
-                    },
-                    { role: "user", content: JSON.stringify(input) },
-                  ],
-                  response_format: { type: "json_object" },
-                  max_tokens: 2000,
-                  stream: false,
-                },
-          ),
-        },
-      )
+          body: payload,
+        })
+        if (
+          (response.status === 429 || response.status === 503) &&
+          config.fallbackModel &&
+          config.fallbackModel !== config.model
+        ) {
+          const fallback = await geminiRequestOptions(config, config.fallbackModel)
+          const fallbackResponse = await fetch(fallback.url, {
+            method: "POST",
+            headers: fallback.headers,
+            signal: AbortSignal.timeout(20_000),
+            body: payload,
+          }).catch(() => null)
+          if (fallbackResponse) {
+            response = fallbackResponse
+          }
+        }
+      } else {
+        response = await fetch("https://rootsys.cloud/v1/chat/completions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${config.apiKey}` },
+          signal: AbortSignal.timeout(20_000),
+          body: JSON.stringify({
+            model: config.model,
+            messages: [
+              {
+                role: "system",
+                content: `${systemPrompt} Return only a JSON object, without Markdown, matching this JSON Schema: ${JSON.stringify(schema)}`,
+              },
+              { role: "user", content: JSON.stringify(input) },
+            ],
+            response_format: { type: "json_object" },
+            max_tokens: 2000,
+            stream: false,
+          }),
+        })
+      }
       if (!response.ok) {
         const failure = await response.json().catch(() => null)
         const providerError = z

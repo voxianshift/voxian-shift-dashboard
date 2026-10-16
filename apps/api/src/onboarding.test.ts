@@ -4,6 +4,12 @@ import { emptyProfile } from "@voxian/shared"
 import type { ChatMessage, ChatStore } from "./chat-store.ts"
 import { buildApp } from "./app.ts"
 
+vi.mock("firebase-admin/app", () => ({
+  applicationDefault: () => ({
+    getAccessToken: async () => ({ access_token: "mock-vertex-token" }),
+  }),
+}))
+
 let app: FastifyInstance
 let store: ChatStore
 let histories: Map<string, ChatMessage[]>
@@ -187,8 +193,60 @@ test("Gemini remains available only via explicit provider switch", async () => {
   expect(response.statusCode).toBe(200)
   expect(response.json()).toEqual(result)
   expect(fetch.mock.calls[0]![0]).toContain("generativelanguage.googleapis.com")
+  expect(fetch.mock.calls[0]![0]).toContain("gemini-3.8-flash")
   expect(fetch.mock.calls[0]![0]).not.toContain("test-only-key")
   expect(fetch.mock.calls[0]![1].headers["x-goog-api-key"]).toBe("test-only-key")
+  const parsedBody = JSON.parse(fetch.mock.calls[0]![1].body)
+  expect(parsedBody.generationConfig.temperature).toBe(0.2)
+})
+
+test("Gemini automatically falls back to gemini-3.5-flash-lite on 429 rate limit", async () => {
+  vi.stubEnv("GEMINI_API_KEY", "test-only-key")
+  const fetch = vi
+    .fn()
+    .mockResolvedValueOnce(Response.json({ error: "rate limit exceeded" }, { status: 429 }))
+    .mockResolvedValueOnce(geminiResponse())
+  vi.stubGlobal("fetch", fetch)
+  const response = await post()
+  expect(response.statusCode).toBe(200)
+  expect(response.json()).toEqual(result)
+  expect(fetch).toHaveBeenCalledTimes(2)
+  expect(fetch.mock.calls[0]![0]).toContain("gemini-3.8-flash")
+  expect(fetch.mock.calls[1]![0]).toContain("gemini-3.5-flash-lite")
+})
+
+test("Gemini automatically falls back to gemini-3.5-flash-lite on 503 service unavailable", async () => {
+  vi.stubEnv("GEMINI_API_KEY", "test-only-key")
+  const fetch = vi
+    .fn()
+    .mockResolvedValueOnce(Response.json({ error: "service overloaded" }, { status: 503 }))
+    .mockResolvedValueOnce(geminiResponse())
+  vi.stubGlobal("fetch", fetch)
+  const response = await post()
+  expect(response.statusCode).toBe(200)
+  expect(response.json()).toEqual(result)
+  expect(fetch).toHaveBeenCalledTimes(2)
+  expect(fetch.mock.calls[0]![0]).toContain("gemini-3.8-flash")
+  expect(fetch.mock.calls[1]![0]).toContain("gemini-3.5-flash-lite")
+})
+
+test("Gemini vertex backend uses Google Cloud endpoint and Bearer token", async () => {
+  vi.stubEnv("GEMINI_BACKEND", "vertex")
+  vi.stubEnv("GOOGLE_CLOUD_PROJECT", "test-project")
+  vi.stubEnv("VERTEX_REGION", "us-central1")
+  const fetch = vi.fn().mockResolvedValue(geminiResponse())
+  vi.stubGlobal("fetch", fetch)
+  const statusRes = await app.inject({ url: "/onboarding/status" })
+  expect(statusRes.json()).toEqual({ connected: true, provider: "gemini" })
+  const response = await post()
+  expect(response.statusCode).toBe(200)
+  expect(response.json()).toEqual(result)
+  expect(fetch.mock.calls[0]![0]).toBe(
+    "https://us-central1-aiplatform.googleapis.com/v1/projects/test-project/locations/us-central1/publishers/google/models/gemini-3.8-flash:generateContent",
+  )
+  expect(fetch.mock.calls[0]![1].headers.Authorization).toBe("Bearer mock-vertex-token")
+  const parsedBody = JSON.parse(fetch.mock.calls[0]![1].body)
+  expect(parsedBody.generationConfig.temperature).toBe(0.2)
 })
 
 test("invalid Gemini replies and network failures return recoverable errors", async () => {
