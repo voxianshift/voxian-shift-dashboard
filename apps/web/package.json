@@ -4,23 +4,33 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vp dev",
-    "build": "vp build",
-    "preview": "vp preview"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
+    "@hookform/resolvers": "catalog:",
     "@voxian/shared": "workspace:*",
-    "react": "^19",
-    "react-dom": "^19"
+    "class-variance-authority": "catalog:",
+    "cn": "catalog:",
+    "lucide-react": "catalog:",
+    "next": "catalog:",
+    "next-themes": "catalog:",
+    "radix-ui": "catalog:",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-hook-form": "catalog:",
+    "shadcn": "catalog:",
+    "sonner": "catalog:",
+    "tw-animate-css": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4",
+    "@tailwindcss/turbopack": "^4",
+    "@types/node": "catalog:",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@vitejs/plugin-react": "^5",
     "tailwindcss": "^4",
-    "typescript": "catalog:",
-    "vite": "catalog:",
-    "vite-plus": "catalog:"
+    "typescript": "catalog:"
   }
 }
