@@ -1,9 +1,13 @@
+import { fileURLToPath } from "node:url"
 import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
-  // Static export: served as Cloudflare Workers static assets (free tier).
-  // No server actions, route handlers or SSR; data comes from apps/api.
-  output: "export",
+  // Self-contained server for the Cloud Run container (apps/web/Dockerfile)
+  output: "standalone",
+  // Trace files from the monorepo root so packages/shared is included
+  outputFileTracingRoot: fileURLToPath(new URL("../..", import.meta.url)),
+  cacheComponents: true,
+  partialPrefetching: true,
   turbopack: {
     rules: {
       "*.css": {

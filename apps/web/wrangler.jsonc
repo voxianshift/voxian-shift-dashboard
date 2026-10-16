@@ -1,7 +1,0 @@
-{
-  "$schema": "../../node_modules/wrangler/config-schema.json",
-  "name": "voxian-shift-web",
-  "account_id": "af842e62df804570eb283404ce16bb44",
-  "compatibility_date": "2026-10-13",
-  "assets": { "directory": "out", "not_found_handling": "404-page" },
-}

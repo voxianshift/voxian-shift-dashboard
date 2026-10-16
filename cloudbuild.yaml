@@ -1,0 +1,11 @@
+# Builds one app image: gcloud builds submit --config cloudbuild.yaml --substitutions _APP=api|web
+substitutions:
+  _APP: api
+  _IMAGE: asia-southeast1-docker.pkg.dev/${PROJECT_ID}/voxian/${_APP}
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args: ["build", "-f", "apps/${_APP}/Dockerfile", "-t", "${_IMAGE}:latest", "."]
+images: ["${_IMAGE}:latest"]
+options:
+  dynamicSubstitutions: true
+  logging: CLOUD_LOGGING_ONLY
