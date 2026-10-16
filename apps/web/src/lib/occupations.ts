@@ -48,7 +48,16 @@ export const occupationModels = [
   },
 ] as const
 
-export function taskWeights(model: (typeof occupationModels)[number], focus: string) {
+// Shape the Meter renders: demo models above, or ISCO models built from ILO task scores
+export type MeterModel = {
+  id: string
+  title: string
+  code: string
+  tasks: readonly { name: string; exposure: number; weight: number; moat: boolean }[]
+  escalationWeights: readonly number[]
+}
+
+export function taskWeights(model: MeterModel, focus: string) {
   return model.tasks.map((task, i) =>
     focus === "escalations"
       ? model.escalationWeights[i]!

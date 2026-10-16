@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button"
 import { PanelHeading, RadarFooter } from "@/components/radar-panel"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { canConfirmProfile } from "@/lib/onboarding"
-import { occupationModels, taskWeights } from "@/lib/occupations"
+import { occupationModels, taskWeights, type MeterModel } from "@/lib/occupations"
 import { cn } from "@/lib/utils"
 import {
   answerChips,
@@ -53,7 +53,7 @@ function Meter() {
   const [editing, setEditing] = useState(false)
   const [overrideFocus, setOverrideFocus] = useState<string | null>(null)
   const [overrideRole, setOverrideRole] = useState<string | null>(null)
-  const [iscoMissing, setIscoMissing] = useState(false)
+  const [isco, setIsco] = useState<(MeterModel & { gradient: string }) | "missing" | null>(null)
   const example = useSearchParams().get("example") === "1"
   const roleId =
     overrideRole ||
@@ -62,7 +62,38 @@ function Meter() {
       : confirmed
         ? baselineIdForOccupation(profile.primaryOccupation)
         : "")
-  const role = occupationModels.find((model) => model.id === roleId)
+  const demoRole = occupationModels.find((model) => model.id === roleId)
+  const catalogueCode = /^\d{2}-\d{4}\.\d{2}$/.test(profile.primaryOccupation)
+    ? profile.primaryOccupation
+    : ""
+  const useIsco = !demoRole && !!catalogueCode && !example && !overrideRole
+  useEffect(() => {
+    if (!useIsco) return
+    const controller = new AbortController()
+    fetch(`/api/occupations/${catalogueCode}/meter`, { signal: controller.signal })
+      .then((response) => (response.ok ? response.json() : Promise.reject()))
+      .then((data: IscoMeterData) => {
+        // ILO gives task scores but no weights: equal weights, no routine/escalation split
+        const weight = 1 / data.tasks.length
+        setIsco({
+          id: "isco",
+          title: profile.occupationNames[catalogueCode] ?? data.iscoTitle,
+          code: `ISCO-08 ${data.isco} · O*NET ${catalogueCode}`,
+          gradient: data.gradient,
+          tasks: data.tasks.map((t) => ({
+            name: t.task,
+            exposure: t.exposure,
+            weight,
+            moat: t.exposure < 0.5,
+          })),
+          escalationWeights: data.tasks.map(() => weight),
+        })
+      })
+      .catch(() => !controller.signal.aborted && setIsco("missing"))
+    return () => controller.abort()
+  }, [useIsco, catalogueCode, profile.occupationNames])
+  const iscoRole = useIsco && isco && isco !== "missing" ? isco : undefined
+  const role: MeterModel | undefined = demoRole ?? iscoRole
   const focus = overrideFocus || (!example && confirmed ? profile.taskFocus : "") || "routine"
   const escalations = focus === "escalations"
   if (!ready)
@@ -111,14 +142,11 @@ function Meter() {
       </div>
     )
   }
-  const catalogueRole = /^\d{2}-\d{4}\.\d{2}$/.test(profile.primaryOccupation)
-  if (!role && catalogueRole && !iscoMissing)
+  if (useIsco && isco === null)
     return (
-      <IscoMeter
-        code={profile.primaryOccupation}
-        name={profile.occupationNames[profile.primaryOccupation] ?? profile.primaryOccupation}
-        onMissing={setIscoMissing}
-      />
+      <p className="p-8 text-[16px]" role="status">
+        Loading your Meter…
+      </p>
     )
   if (!role)
     return (
@@ -202,12 +230,14 @@ function Meter() {
           </p>
           <div className="mt-3 flex flex-wrap gap-2 py-[13px] text-[13px] leading-[1.7] text-muted-foreground">
             <p>
-              {example ||
-              !confirmed ||
-              (overrideRole &&
-                !profile.occupations.some((id) => baselineIdForOccupation(id) === role.id))
-                ? "Example radar · illustrative task inputs"
-                : `Your confirmed profile${profile.preferredName ? ` · ${profile.preferredName}` : ""} · demo task inputs`}
+              {iscoRole
+                ? `ILO task-level exposure · ${iscoRole.gradient}`
+                : example ||
+                    !confirmed ||
+                    (overrideRole &&
+                      !profile.occupations.some((id) => baselineIdForOccupation(id) === role.id))
+                  ? "Example radar · illustrative task inputs"
+                  : `Your confirmed profile${profile.preferredName ? ` · ${profile.preferredName}` : ""} · demo task inputs`}
             </p>
             <Link href="/home" className="flex items-center gap-[5px]">
               Edit profile <ArrowUpRight className="size-3" />
@@ -243,45 +273,53 @@ function Meter() {
               <p className={fieldHelp}>One role at a time; these scores are not blended.</p>
             </div>
           )}
-          {!example && confirmed && !profile.taskFocus && (
+          {!iscoRole && !example && confirmed && !profile.taskFocus && (
             <p className={cn(fieldHelp, "mt-3")}>
               Occupation baseline: task mix not shared. Showing default routine weights; change the
               mix below to refine.
             </p>
           )}
-          <fieldset className="mt-[22px]">
-            <legend className={eyebrow}>WHAT FILLS MOST OF YOUR DAY?</legend>
-            <div className={cn(segmentControl, "flex-wrap")}>
-              <Button
-                variant="ghost"
-                className={cn(segmentButton, "min-w-[110px]")}
-                aria-pressed={focus === "routine"}
-                onClick={() => setOverrideFocus("routine")}
-              >
-                Routine & transactions
-              </Button>
-              <Button
-                variant="ghost"
-                className={cn(segmentButton, "min-w-[110px]")}
-                aria-pressed={escalations}
-                onClick={() => setOverrideFocus("escalations")}
-              >
-                Escalations & exceptions
-              </Button>
-              <Button
-                variant="ghost"
-                className={cn(segmentButton, "min-w-[110px]")}
-                aria-pressed={focus === "mixed"}
-                onClick={() => setOverrideFocus("mixed")}
-              >
-                A bit of both
-              </Button>
-            </div>
+          {iscoRole ? (
             <p className={cn(fieldHelp, "mt-3")}>
-              Explore a different task mix here. Reset returns to{" "}
-              {example || !confirmed ? "the example" : "your saved profile"}.
+              ISCO-08 task statements weighted equally (ILO publishes no task weights), so the
+              task-mix switch does not apply. Source: ILO Working Paper 140 (2025), via the
+              ESCO–O*NET crosswalk.
             </p>
-          </fieldset>
+          ) : (
+            <fieldset className="mt-[22px]">
+              <legend className={eyebrow}>WHAT FILLS MOST OF YOUR DAY?</legend>
+              <div className={cn(segmentControl, "flex-wrap")}>
+                <Button
+                  variant="ghost"
+                  className={cn(segmentButton, "min-w-[110px]")}
+                  aria-pressed={focus === "routine"}
+                  onClick={() => setOverrideFocus("routine")}
+                >
+                  Routine & transactions
+                </Button>
+                <Button
+                  variant="ghost"
+                  className={cn(segmentButton, "min-w-[110px]")}
+                  aria-pressed={escalations}
+                  onClick={() => setOverrideFocus("escalations")}
+                >
+                  Escalations & exceptions
+                </Button>
+                <Button
+                  variant="ghost"
+                  className={cn(segmentButton, "min-w-[110px]")}
+                  aria-pressed={focus === "mixed"}
+                  onClick={() => setOverrideFocus("mixed")}
+                >
+                  A bit of both
+                </Button>
+              </div>
+              <p className={cn(fieldHelp, "mt-3")}>
+                Explore a different task mix here. Reset returns to{" "}
+                {example || !confirmed ? "the example" : "your saved profile"}.
+              </p>
+            </fieldset>
+          )}
           <div className="pt-[27px] pb-[22px]" aria-live="polite">
             <div className="flex items-end justify-between">
               <div>
@@ -455,84 +493,4 @@ type IscoMeterData = {
   gradient: string
   crosswalk: { escoTitle: string; match: string }
   tasks: { task: string; exposure: number }[]
-}
-
-// Meter for any catalogue role: O*NET -> ISCO-08 (ESCO crosswalk) -> ILO task-level exposure.
-// ILO publishes no task weights, so tasks count equally (index = mean task exposure).
-function IscoMeter({
-  code,
-  name,
-  onMissing,
-}: {
-  code: string
-  name: string
-  onMissing: (missing: boolean) => void
-}) {
-  const [data, setData] = useState<IscoMeterData | null>(null)
-  useEffect(() => {
-    const controller = new AbortController()
-    fetch(`/api/occupations/${code}/meter`, { signal: controller.signal })
-      .then((response) => (response.ok ? response.json() : Promise.reject()))
-      .then(setData)
-      .catch(() => !controller.signal.aborted && onMissing(true))
-    return () => controller.abort()
-  }, [code, onMissing])
-  if (!data)
-    return (
-      <p className="p-8 text-[16px]" role="status">
-        Loading your Meter…
-      </p>
-    )
-  const score = (100 * data.tasks.reduce((sum, t) => sum + t.exposure, 0)) / data.tasks.length
-  return (
-    <div className={editorialPage}>
-      <PanelHeading kicker="THE METER / TASK EXPOSURE" title={`${name}.`}>
-        Mapped to ISCO-08 {data.isco} · {data.iscoTitle}. Scores come from the ILO’s task-level
-        GenAI exposure research for this occupation group.
-      </PanelHeading>
-      <div className="flex flex-wrap items-end justify-between gap-4 border-y py-6">
-        <div>
-          <p className={eyebrow}>TASK EXPOSURE INDEX · ILO</p>
-          <div
-            data-meter-score
-            className="text-[65px] font-normal leading-[1.2] tracking-[-4px] tabular-nums"
-          >
-            {score.toFixed(1)}
-            <span className="ml-2 text-[17px] tracking-[-0.5px] text-muted-foreground">/ 100</span>
-          </div>
-        </div>
-        <span className={smallTag}>{data.gradient.toUpperCase()}</span>
-        <div className="h-[7px] w-full bg-muted">
-          <div className="h-full bg-mauve" style={{ width: `${score}%` }} />
-        </div>
-        <p className="text-[13px] text-muted-foreground">
-          Task exposure ≠ probability of losing your job.
-        </p>
-      </div>
-      <div className="flex h-9 items-center justify-between text-[12px] tracking-[0.8px] text-muted-foreground">
-        <span>TASK BREAKDOWN · ISCO {data.isco}</span>
-        <span>AI EXPOSURE</span>
-      </div>
-      {data.tasks.map((task, i) => (
-        <div className="flex items-center gap-[11px] border-t py-[17px]" key={task.task}>
-          <span className="self-start pt-[3px] font-mono text-[12px] text-[#aaa]">0{i + 1}</span>
-          <p className="min-w-0 flex-1 text-[14px] leading-[1.5]">{task.task}</p>
-          <div className="w-24 shrink-0 text-right font-mono text-[13px]">
-            {Math.round(task.exposure * 100)}%
-            <div className="mt-[7px] h-[3px] bg-muted">
-              <div className="h-full bg-[#c0b0ba]" style={{ width: `${task.exposure * 100}%` }} />
-            </div>
-          </div>
-        </div>
-      ))}
-      <p className={cn(fieldHelp, "mt-6 border-t pt-4")}>
-        Mapping: O*NET {code} → ESCO “{data.crosswalk.escoTitle}” ({data.crosswalk.match}) → ISCO-08{" "}
-        {data.isco}, via the ESCO–O*NET crosswalk. Exposure: ILO Working Paper 140 (2025), task
-        scores, CC BY 4.0. Tasks are weighted equally.{" "}
-        <Link className="underline" href="/resources">
-          See the methodology
-        </Link>
-      </p>
-    </div>
-  )
 }
