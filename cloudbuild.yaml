@@ -2,9 +2,21 @@
 substitutions:
   _APP: api
   _IMAGE: asia-southeast1-docker.pkg.dev/${PROJECT_ID}/voxian/${_APP}
+  # Used by apps/web only (Next bakes the /api/* proxy target at build time)
+  _API_BASE_URL: https://voxian-api-184581024855.asia-southeast1.run.app
 steps:
   - name: gcr.io/cloud-builders/docker
-    args: ["build", "-f", "apps/${_APP}/Dockerfile", "-t", "${_IMAGE}:latest", "."]
+    args:
+      [
+        "build",
+        "-f",
+        "apps/${_APP}/Dockerfile",
+        "--build-arg",
+        "API_BASE_URL=${_API_BASE_URL}",
+        "-t",
+        "${_IMAGE}:latest",
+        ".",
+      ]
 images: ["${_IMAGE}:latest"]
 options:
   dynamicSubstitutions: true

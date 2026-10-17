@@ -2,7 +2,10 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-/* `.light` opts a subtree out of an ancestor `.dark` (storefront owns its own mode). */
+/* Tailwind configuration only: theme tokens, color variables and base defaults.
+   Components style themselves with utility classes; no custom classes here. */
+
+/* `.light` opts a subtree out of an ancestor `.dark`. */
 @custom-variant dark (&:is(.dark *):not(.light *));
 
 @theme inline {
@@ -79,63 +82,108 @@
      AlertDialog overlays all use that one class. */
   --blur-overlay: var(--overlay-blur);
 
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
-}
+  /* Radar mauve accents (bg-mauve, text-mauve-ink, …) */
+  --color-mauve: #b69aa9;
+  --color-mauve-deep: #9f7f94;
+  --color-mauve-ink: #685660;
+  --color-mauve-soft: #f0e3e9;
+  --color-mauve-wash: #f1e7ec;
+  --color-mauve-tint: color-mix(in srgb, var(--background) 85%, #b69aa9);
+  --color-mauve-tint-soft: color-mix(in srgb, var(--background) 94%, #b69aa9);
+  --color-mauve-tint-faint: color-mix(in srgb, var(--background) 97%, #b69aa9);
+  --color-sage: #84958a;
 
-@keyframes accordion-down {
-  from {
-    height: 0;
-    opacity: 0;
+  /* Lumi thinking orb (components/ui/orb.tsx) */
+  --animate-orb-swell: orb-swell 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  --animate-orb-globe: orb-globe 3.2s linear infinite;
+  --animate-orb-spark: orb-spark 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  --animate-orb-burst: orb-burst 2.4s ease-out infinite;
+
+  @keyframes orb-swell {
+    0%,
+    60%,
+    100% {
+      transform: scale(0.4);
+      opacity: 0.25;
+    }
+    25% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
-  to {
-    height: var(--radix-accordion-content-height);
-    opacity: 1;
+  @keyframes orb-globe {
+    0% {
+      transform: translate(9px, 0) scale(1);
+      opacity: 0.9;
+    }
+    12.5% {
+      transform: translate(6.4px, 3.2px) scale(0.95);
+      opacity: 0.75;
+    }
+    25% {
+      transform: translate(0, 4.5px) scale(0.85);
+      opacity: 0.55;
+    }
+    37.5% {
+      transform: translate(-6.4px, 3.2px) scale(0.76);
+      opacity: 0.4;
+    }
+    50% {
+      transform: translate(-9px, 0) scale(0.7);
+      opacity: 0.3;
+    }
+    62.5% {
+      transform: translate(-6.4px, -3.2px) scale(0.76);
+      opacity: 0.4;
+    }
+    75% {
+      transform: translate(0, -4.5px) scale(0.85);
+      opacity: 0.55;
+    }
+    87.5% {
+      transform: translate(6.4px, -3.2px) scale(0.95);
+      opacity: 0.75;
+    }
+    100% {
+      transform: translate(9px, 0) scale(1);
+      opacity: 0.9;
+    }
+  }
+  @keyframes orb-spark {
+    0%,
+    100% {
+      transform: rotate(0deg) scale(1);
+      opacity: 0.9;
+    }
+    50% {
+      transform: rotate(90deg) scale(0.7);
+      opacity: 0.5;
+    }
+  }
+  @keyframes orb-burst {
+    0% {
+      transform: scale(1);
+      opacity: 0.9;
+    }
+    60% {
+      opacity: 0.4;
+    }
+    100% {
+      transform: scale(1.6);
+      opacity: 0;
+    }
   }
 }
-
-@keyframes accordion-up {
-  from {
-    height: var(--radix-accordion-content-height);
-    opacity: 1;
-  }
-  to {
-    height: 0;
-    opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .data-\[state\=open\]\:animate-accordion-down,
-  .data-\[state\=closed\]\:animate-accordion-up {
-    animation: none;
-  }
-}
-
-/* ---------------------------------------------------------------
-   Atlassian Design System palette
-   Blues  B50  #DEEBFF · B75  #B3D4FF · B100 #4C9AFF · B200 #2684FF
-          B300 #0065FF · B400 #0052CC · B500 #0747A6
-   Neutrals N0 #FFFFFF · N10 #FAFBFC · N20 #F4F5F7 · N30 #EBECF0
-            N40 #DFE1E6 · N200 #6B778C · N700 #253858 · N800 #172B4D · N900 #091E42
-   Greens (success)  G300 #36B37E · G400 #00875A · G500 #006644
-   Yellows (warning) Y300 #FFAB00 · Y400 #FF991F · Y500 #FF8B00
-   Reds   (error)    R300 #FF5630 · R400 #DE350B · R500 #BF2600
-   Purples (tertiary) P300 #6554C0 · P400 #5243AA · P500 #403294
-   Teals  (info-alt)  T300 #00B8D9 · T400 #00A3BF
-   Dark Neutrals  DN0 #1D2125 · DN50 #22272B · DN100 #2C333A
-                  DN300 #454F59 · DN700 #9FADBC · DN900 #B6C2CF
-   --------------------------------------------------------------- */
 
 :root,
 .light {
   /* Surfaces */
   --background: #ffffff;
-  --foreground: #172b4d;
+  --foreground: #242424;
   --card: #ffffff;
-  --card-foreground: #172b4d;
+  --card-foreground: #242424;
   --popover: #ffffff;
-  --popover-foreground: #172b4d;
+  --popover-foreground: #242424;
 
   /* Brand */
   --primary: oklch(0.205 0 0);
@@ -164,7 +212,7 @@
   /* Lines */
   --border: #e7e7e7;
   --input: #dfe1e6;
-  --ring: #4c9aff;
+  --ring: #a28a9a;
 
   /* Charts */
   --chart-1: #0052cc;
@@ -173,11 +221,11 @@
   --chart-4: #36b37e;
   --chart-5: #6554c0;
 
-  --radius: 0.75rem;
+  --radius: 0.4rem;
 
   /* Sidebar dimensions — real tokens (not inline styles), so changing them
      here actually takes effect. See components/ui/sidebar.tsx. */
-  --sidebar-width: 15.75rem;
+  --sidebar-width: 15rem;
   --sidebar-width-icon: 3rem;
 
   /* Overlay blur — one editable token behind every modal backdrop (Dialog,
@@ -189,12 +237,12 @@
 
   /* Sidebar */
   --sidebar: #fafafa;
-  --sidebar-foreground: #172b4d;
+  --sidebar-foreground: #555;
   --sidebar-primary: #0052cc;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #efefef;
   --sidebar-accent-foreground: #0f0f0f;
-  --sidebar-border: #dfe1e6;
+  --sidebar-border: #e7e7e7;
   --sidebar-ring: #4c9aff;
 }
 
@@ -208,8 +256,8 @@
   --popover-foreground: #ebebeb;
 
   /* Brand */
-  --primary: #4a6ee0;
-  --primary-foreground: #ffffff;
+  --primary: #e6d7df;
+  --primary-foreground: #242424;
   --secondary: #262626;
   --secondary-foreground: #ebebeb;
   --tertiary: #998dd9;
@@ -248,7 +296,7 @@
   --sidebar-foreground: #ebebeb;
   --sidebar-primary: #4a6ee0;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #262626;
+  --sidebar-accent: #303030;
   --sidebar-accent-foreground: #ebebeb;
   --sidebar-border: #262626;
   --sidebar-ring: #4a6ee0;
@@ -267,13 +315,4 @@
   button {
     @apply cursor-pointer;
   }
-}
-
-/* Scroll without a visible scrollbar (toolbars, sidebar content). */
-@utility no-scrollbar {
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }

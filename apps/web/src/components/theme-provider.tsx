@@ -3,12 +3,12 @@
 import { ThemeProvider as NextThemesProvider } from "next-themes"
 import type { ReactNode } from "react"
 
-// Dark by default, light supported (class strategy, same as seratus-webapp)
+// Match the reference workspace; keep the account theme control available.
 export function ThemeProvider({ children }: { children: ReactNode }) {
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme="dark"
+      defaultTheme="light"
       storageKey="voxian-theme"
       enableSystem={false}
       disableTransitionOnChange

@@ -1,32 +1,50 @@
+"use client"
+
+import { useState } from "react"
+import { toast } from "sonner"
 import { PageHeader } from "@/components/page-header"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { OCCUPATIONS } from "@/lib/mock"
+import { OccupationPicker } from "@/components/occupation-picker"
+import { useCareerProfile } from "@/components/career-profile-provider"
+import { Button } from "@/components/ui/button"
+import { mergeProfile, type CareerProfile } from "@/lib/onboarding"
 
 export default function ExplorePage() {
+  const { profile, ready, update, saveOccupations } = useCareerProfile()
+  const [draft, setDraft] = useState<CareerProfile | null>(null)
+  const [saving, setSaving] = useState(false)
+  if (!ready)
+    return (
+      <p className="p-6" role="status">
+        Loading your occupations…
+      </p>
+    )
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 p-6 max-w-3xl">
       <PageHeader
-        title="Explore occupations"
-        description="See how AI exposure differs across roles."
+        title="Find your occupation"
+        description="Search official job titles and typical duties, then confirm the roles that fit."
+      />
+      <OccupationPicker
+        profile={draft ?? profile}
+        onChange={(patch) => setDraft((current) => mergeProfile(current ?? profile, patch))}
+      />
+      <Button
+        disabled={saving}
+        onClick={async () => {
+          setSaving(true)
+          try {
+            update(await saveOccupations(draft ?? profile))
+            setDraft(null)
+            toast.success("Occupation choices saved")
+          } catch {
+            toast.error("Occupation choices could not be saved. Try again.")
+          } finally {
+            setSaving(false)
+          }
+        }}
       >
-        <Input placeholder="Search occupations" className="w-64" />
-      </PageHeader>
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {OCCUPATIONS.map((o) => (
-          <Card key={o.code}>
-            <CardHeader>
-              <CardDescription>ISCO-08 {o.code}</CardDescription>
-              <CardTitle>{o.title}</CardTitle>
-            </CardHeader>
-            <CardFooter className="justify-between">
-              <span className="text-2xl font-semibold">{o.exposure}</span>
-              <Badge variant={o.status === "Available" ? "default" : "secondary"}>{o.status}</Badge>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
+        {saving ? "Saving…" : "Save role choices"}
+      </Button>
     </div>
   )
 }

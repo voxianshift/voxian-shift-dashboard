@@ -1,0 +1,5192 @@
+{
+  "11-1011.00": {
+    "isco": "1120",
+    "iscoTitle": "Managing directors and chief executives",
+    "via": "chief executive officer",
+    "match": "exactMatch"
+  },
+  "11-1011.03": {
+    "isco": "1219",
+    "iscoTitle": "Business services and administration managers not elsewhere classified",
+    "via": "corporate social responsibility manager",
+    "match": "exactMatch"
+  },
+  "11-1021.00": {
+    "isco": "1120",
+    "iscoTitle": "Managing directors and chief executives",
+    "via": "chief operating officer",
+    "match": "exactMatch"
+  },
+  "11-1031.00": {
+    "isco": "1111",
+    "iscoTitle": "Legislators",
+    "via": "government minister",
+    "match": "closeMatch"
+  },
+  "11-2011.00": {
+    "isco": "2431",
+    "iscoTitle": "Advertising and marketing professionals",
+    "via": "advertising specialist",
+    "match": "closeMatch"
+  },
+  "11-2021.00": {
+    "isco": "1221",
+    "iscoTitle": "Sales and marketing managers",
+    "via": "chief marketing officer",
+    "match": "closeMatch"
+  },
+  "11-2022.00": {
+    "isco": "1420",
+    "iscoTitle": "Retail and wholesale trade managers",
+    "via": "sales account manager",
+    "match": "closeMatch"
+  },
+  "11-2032.00": {
+    "isco": "2432",
+    "iscoTitle": "Public relations professionals",
+    "via": "public affairs consultant",
+    "match": "closeMatch"
+  },
+  "11-2033.00": {
+    "isco": "2432",
+    "iscoTitle": "Public relations professionals",
+    "via": "fundraising manager",
+    "match": "exactMatch"
+  },
+  "11-3012.00": {
+    "isco": "1349",
+    "iscoTitle": "Professional services managers not elsewhere classified",
+    "via": "library manager",
+    "match": "closeMatch"
+  },
+  "11-3013.00": {
+    "isco": "3334",
+    "iscoTitle": "Real estate agents and property managers",
+    "via": "real estate manager",
+    "match": "closeMatch"
+  },
+  "11-3013.01": {
+    "isco": "1349",
+    "iscoTitle": "Professional services managers not elsewhere classified",
+    "via": "airside safety manager",
+    "match": "broadMatch"
+  },
+  "11-3021.00": {
+    "isco": "1330",
+    "iscoTitle": "Information and communications technology service managers",
+    "via": "chief technology officer",
+    "match": "closeMatch"
+  },
+  "11-3031.00": {
+    "isco": "1211",
+    "iscoTitle": "Finance managers",
+    "via": "financial manager",
+    "match": "closeMatch"
+  },
+  "11-3031.01": {
+    "isco": "1211",
+    "iscoTitle": "Finance managers",
+    "via": "financial manager",
+    "match": "narrowMatch"
+  },
+  "11-3031.03": {
+    "isco": "2412",
+    "iscoTitle": "Financial and investment advisers",
+    "via": "investment fund manager",
+    "match": "exactMatch"
+  },
+  "11-3051.00": {
+    "isco": "3122",
+    "iscoTitle": "Manufacturing supervisors",
+    "via": "production supervisor",
+    "match": "broadMatch"
+  },
+  "11-3051.01": {
+    "isco": "1219",
+    "iscoTitle": "Business services and administration managers not elsewhere classified",
+    "via": "quality services manager",
+    "match": "closeMatch"
+  },
+  "11-3071.00": {
+    "isco": "1324",
+    "iscoTitle": "Supply, distribution and related managers",
+    "via": "logistics and distribution manager",
+    "match": "exactMatch"
+  },
+  "11-3071.04": {
+    "isco": "1324",
+    "iscoTitle": "Supply, distribution and related managers",
+    "via": "logistics and distribution manager",
+    "match": "closeMatch"
+  },
+  "11-3111.00": {
+    "isco": "1212",
+    "iscoTitle": "Human resource managers",
+    "via": "human resources manager",
+    "match": "narrowMatch"
+  },
+  "11-3121.00": {
+    "isco": "1212",
+    "iscoTitle": "Human resource managers",
+    "via": "human resources manager",
+    "match": "exactMatch"
+  },
+  "11-3131.00": {
+    "isco": "2424",
+    "iscoTitle": "Training and staff development professionals",
+    "via": "corporate training manager",
+    "match": "exactMatch"
+  },
+  "11-9013.00": {
+    "isco": "6130",
+    "iscoTitle": "Mixed crop and animal producers",
+    "via": "mixed farmer",
+    "match": "closeMatch"
+  },
+  "11-9021.00": {
+    "isco": "1323",
+    "iscoTitle": "Construction managers",
+    "via": "construction manager",
+    "match": "exactMatch"
+  },
+  "11-9031.00": {
+    "isco": "1341",
+    "iscoTitle": "Child care services managers",
+    "via": "child day care centre manager",
+    "match": "exactMatch"
+  },
+  "11-9032.00": {
+    "isco": "1345",
+    "iscoTitle": "Education managers",
+    "via": "headteacher",
+    "match": "exactMatch"
+  },
+  "11-9033.00": {
+    "isco": "2351",
+    "iscoTitle": "Education methods specialists",
+    "via": "curriculum administrator",
+    "match": "closeMatch"
+  },
+  "11-9039.00": {
+    "isco": "2621",
+    "iscoTitle": "Archivists and curators",
+    "via": "arts education officer",
+    "match": "broadMatch"
+  },
+  "11-9041.00": {
+    "isco": "1323",
+    "iscoTitle": "Construction managers",
+    "via": "construction manager",
+    "match": "closeMatch"
+  },
+  "11-9051.00": {
+    "isco": "1412",
+    "iscoTitle": "Restaurant managers",
+    "via": "restaurant manager",
+    "match": "exactMatch"
+  },
+  "11-9071.00": {
+    "isco": "4212",
+    "iscoTitle": "Bookmakers, croupiers and related gaming workers",
+    "via": "casino gaming manager",
+    "match": "closeMatch"
+  },
+  "11-9072.00": {
+    "isco": "1431",
+    "iscoTitle": "Sports, recreation and cultural centre managers",
+    "via": "recreational facilities manager",
+    "match": "exactMatch"
+  },
+  "11-9081.00": {
+    "isco": "1411",
+    "iscoTitle": "Hotel managers",
+    "via": "accommodation manager",
+    "match": "exactMatch"
+  },
+  "11-9111.00": {
+    "isco": "1342",
+    "iscoTitle": "Health services managers",
+    "via": "healthcare institution manager",
+    "match": "exactMatch"
+  },
+  "11-9121.00": {
+    "isco": "1223",
+    "iscoTitle": "Research and development managers",
+    "via": "research and development manager",
+    "match": "exactMatch"
+  },
+  "11-9121.02": {
+    "isco": "2143",
+    "iscoTitle": "Environmental engineers",
+    "via": "environmental engineer",
+    "match": "closeMatch"
+  },
+  "11-9141.00": {
+    "isco": "3334",
+    "iscoTitle": "Real estate agents and property managers",
+    "via": "real estate manager",
+    "match": "exactMatch"
+  },
+  "11-9151.00": {
+    "isco": "1344",
+    "iscoTitle": "Social welfare managers",
+    "via": "social services manager",
+    "match": "exactMatch"
+  },
+  "11-9161.00": {
+    "isco": "2263",
+    "iscoTitle": "Environmental and occupational health and hygiene professionals",
+    "via": "emergency response coordinator",
+    "match": "exactMatch"
+  },
+  "11-9171.00": {
+    "isco": "5163",
+    "iscoTitle": "Undertakers and embalmers",
+    "via": "funeral services director",
+    "match": "closeMatch"
+  },
+  "11-9179.01": {
+    "isco": "1431",
+    "iscoTitle": "Sports, recreation and cultural centre managers",
+    "via": "sport facility manager",
+    "match": "exactMatch"
+  },
+  "11-9179.02": {
+    "isco": "1431",
+    "iscoTitle": "Sports, recreation and cultural centre managers",
+    "via": "sport facility manager",
+    "match": "closeMatch"
+  },
+  "11-9199.00": {
+    "isco": "1322",
+    "iscoTitle": "Mining managers",
+    "via": "mine manager",
+    "match": "broadMatch"
+  },
+  "11-9199.01": {
+    "isco": "2619",
+    "iscoTitle": "Legal professionals not elsewhere classified",
+    "via": "regulatory affairs manager",
+    "match": "exactMatch"
+  },
+  "11-9199.02": {
+    "isco": "2619",
+    "iscoTitle": "Legal professionals not elsewhere classified",
+    "via": "regulatory affairs manager",
+    "match": "closeMatch"
+  },
+  "13-1011.00": {
+    "isco": "3339",
+    "iscoTitle": "Business services agents not elsewhere classified",
+    "via": "talent agent",
+    "match": "exactMatch"
+  },
+  "13-1021.00": {
+    "isco": "3323",
+    "iscoTitle": "Buyers",
+    "via": "timber trader",
+    "match": "closeMatch"
+  },
+  "13-1023.00": {
+    "isco": "3323",
+    "iscoTitle": "Buyers",
+    "via": "purchaser",
+    "match": "exactMatch"
+  },
+  "13-1031.00": {
+    "isco": "3315",
+    "iscoTitle": "Valuers and loss assessors",
+    "via": "loss adjuster",
+    "match": "exactMatch"
+  },
+  "13-1032.00": {
+    "isco": "3315",
+    "iscoTitle": "Valuers and loss assessors",
+    "via": "loss adjuster",
+    "match": "narrowMatch"
+  },
+  "13-1041.00": {
+    "isco": "3354",
+    "iscoTitle": "Government licensing officials",
+    "via": "licensing officer",
+    "match": "exactMatch"
+  },
+  "13-1041.01": {
+    "isco": "3257",
+    "iscoTitle": "Environmental and occupational health inspectors and associates",
+    "via": "environmental health inspector",
+    "match": "exactMatch"
+  },
+  "13-1041.04": {
+    "isco": "3315",
+    "iscoTitle": "Valuers and loss assessors",
+    "via": "property appraiser",
+    "match": "closeMatch"
+  },
+  "13-1041.06": {
+    "isco": "2619",
+    "iscoTitle": "Legal professionals not elsewhere classified",
+    "via": "coroner",
+    "match": "exactMatch"
+  },
+  "13-1041.07": {
+    "isco": "2619",
+    "iscoTitle": "Legal professionals not elsewhere classified",
+    "via": "regulatory affairs manager",
+    "match": "closeMatch"
+  },
+  "13-1051.00": {
+    "isco": "2149",
+    "iscoTitle": "Engineering professionals not elsewhere classified",
+    "via": "quantity surveyor",
+    "match": "closeMatch"
+  },
+  "13-1071.00": {
+    "isco": "2423",
+    "iscoTitle": "Personnel and careers professionals",
+    "via": "human resources officer",
+    "match": "exactMatch"
+  },
+  "13-1075.00": {
+    "isco": "2423",
+    "iscoTitle": "Personnel and careers professionals",
+    "via": "labour relations officer",
+    "match": "exactMatch"
+  },
+  "13-1081.00": {
+    "isco": "2141",
+    "iscoTitle": "Industrial and production engineers",
+    "via": "logistics analyst",
+    "match": "exactMatch"
+  },
+  "13-1081.01": {
+    "isco": "2141",
+    "iscoTitle": "Industrial and production engineers",
+    "via": "logistics analyst",
+    "match": "broadMatch"
+  },
+  "13-1081.02": {
+    "isco": "2141",
+    "iscoTitle": "Industrial and production engineers",
+    "via": "logistics analyst",
+    "match": "narrowMatch"
+  },
+  "13-1082.00": {
+    "isco": "1219",
+    "iscoTitle": "Business services and administration managers not elsewhere classified",
+    "via": "project manager",
+    "match": "exactMatch"
+  },
+  "13-1111.00": {
+    "isco": "2421",
+    "iscoTitle": "Management and organisation analysts",
+    "via": "business analyst",
+    "match": "closeMatch"
+  },
+  "13-1121.00": {
+    "isco": "3332",
+    "iscoTitle": "Conference and event planners",
+    "via": "event manager",
+    "match": "exactMatch"
+  },
+  "13-1131.00": {
+    "isco": "2432",
+    "iscoTitle": "Public relations professionals",
+    "via": "fundraising manager",
+    "match": "closeMatch"
+  },
+  "13-1141.00": {
+    "isco": "2423",
+    "iscoTitle": "Personnel and careers professionals",
+    "via": "occupational analyst",
+    "match": "exactMatch"
+  },
+  "13-1151.00": {
+    "isco": "2424",
+    "iscoTitle": "Training and staff development professionals",
+    "via": "corporate trainer",
+    "match": "closeMatch"
+  },
+  "13-1161.00": {
+    "isco": "2431",
+    "iscoTitle": "Advertising and marketing professionals",
+    "via": "network marketer",
+    "match": "closeMatch"
+  },
+  "13-1161.01": {
+    "isco": "2513",
+    "iscoTitle": "Web and multimedia developers",
+    "via": "search engine optimisation expert",
+    "match": "exactMatch"
+  },
+  "13-1199.00": {
+    "isco": "3435",
+    "iscoTitle": "Other artistic and cultural associate professionals",
+    "via": "location manager",
+    "match": "broadMatch"
+  },
+  "13-1199.04": {
+    "isco": "2519",
+    "iscoTitle": "Software and applications developers and analysts not elsewhere classified",
+    "via": "ICT disaster recovery analyst",
+    "match": "exactMatch"
+  },
+  "13-1199.05": {
+    "isco": "2133",
+    "iscoTitle": "Environmental protection professionals",
+    "via": "environmental programme coordinator",
+    "match": "exactMatch"
+  },
+  "13-2011.00": {
+    "isco": "2411",
+    "iscoTitle": "Accountants",
+    "via": "accountant",
+    "match": "exactMatch"
+  },
+  "13-2022.00": {
+    "isco": "3315",
+    "iscoTitle": "Valuers and loss assessors",
+    "via": "personal property appraiser",
+    "match": "exactMatch"
+  },
+  "13-2023.00": {
+    "isco": "3315",
+    "iscoTitle": "Valuers and loss assessors",
+    "via": "property appraiser",
+    "match": "exactMatch"
+  },
+  "13-2041.00": {
+    "isco": "3312",
+    "iscoTitle": "Credit and loans officers",
+    "via": "credit adviser",
+    "match": "closeMatch"
+  },
+  "13-2051.00": {
+    "isco": "2412",
+    "iscoTitle": "Financial and investment advisers",
+    "via": "investment adviser",
+    "match": "closeMatch"
+  },
+  "13-2052.00": {
+    "isco": "2412",
+    "iscoTitle": "Financial and investment advisers",
+    "via": "financial planner",
+    "match": "exactMatch"
+  },
+  "13-2053.00": {
+    "isco": "3321",
+    "iscoTitle": "Insurance representatives",
+    "via": "insurance underwriter",
+    "match": "exactMatch"
+  },
+  "13-2054.00": {
+    "isco": "2120",
+    "iscoTitle": "Mathematicians, actuaries and statisticians",
+    "via": "actuarial consultant",
+    "match": "closeMatch"
+  },
+  "13-2071.00": {
+    "isco": "3312",
+    "iscoTitle": "Credit and loans officers",
+    "via": "credit adviser",
+    "match": "exactMatch"
+  },
+  "13-2072.00": {
+    "isco": "3312",
+    "iscoTitle": "Credit and loans officers",
+    "via": "loan officer",
+    "match": "exactMatch"
+  },
+  "13-2081.00": {
+    "isco": "3352",
+    "iscoTitle": "Government tax and excise officials",
+    "via": "tax compliance officer",
+    "match": "exactMatch"
+  },
+  "13-2082.00": {
+    "isco": "2411",
+    "iscoTitle": "Accountants",
+    "via": "accountant",
+    "match": "narrowMatch"
+  },
+  "13-2099.00": {
+    "isco": "2412",
+    "iscoTitle": "Financial and investment advisers",
+    "via": "venture capitalist",
+    "match": "broadMatch"
+  },
+  "13-2099.01": {
+    "isco": "2413",
+    "iscoTitle": "Financial analysts",
+    "via": "financial analyst",
+    "match": "narrowMatch"
+  },
+  "13-2099.04": {
+    "isco": "3353",
+    "iscoTitle": "Government social benefits officials",
+    "via": "social security inspector",
+    "match": "closeMatch"
+  },
+  "15-1211.00": {
+    "isco": "2511",
+    "iscoTitle": "Systems analysts",
+    "via": "ICT system analyst",
+    "match": "exactMatch"
+  },
+  "15-1211.01": {
+    "isco": "1342",
+    "iscoTitle": "Health services managers",
+    "via": "clinical informatics manager",
+    "match": "closeMatch"
+  },
+  "15-1212.00": {
+    "isco": "2529",
+    "iscoTitle": "Database and network professionals not elsewhere classified",
+    "via": "ICT security engineer",
+    "match": "exactMatch"
+  },
+  "15-1221.00": {
+    "isco": "2511",
+    "iscoTitle": "Systems analysts",
+    "via": "computer scientist",
+    "match": "exactMatch"
+  },
+  "15-1231.00": {
+    "isco": "2153",
+    "iscoTitle": "Telecommunications engineers",
+    "via": "telecommunications engineer",
+    "match": "closeMatch"
+  },
+  "15-1232.00": {
+    "isco": "3512",
+    "iscoTitle": "Information and communications technology user support technicians",
+    "via": "ICT help desk agent",
+    "match": "exactMatch"
+  },
+  "15-1241.00": {
+    "isco": "2511",
+    "iscoTitle": "Systems analysts",
+    "via": "ICT system architect",
+    "match": "closeMatch"
+  },
+  "15-1241.01": {
+    "isco": "2153",
+    "iscoTitle": "Telecommunications engineers",
+    "via": "telecommunications engineer",
+    "match": "exactMatch"
+  },
+  "15-1242.00": {
+    "isco": "2521",
+    "iscoTitle": "Database designers and administrators",
+    "via": "database administrator",
+    "match": "exactMatch"
+  },
+  "15-1243.00": {
+    "isco": "2521",
+    "iscoTitle": "Database designers and administrators",
+    "via": "database designer",
+    "match": "broadMatch"
+  },
+  "15-1243.01": {
+    "isco": "2521",
+    "iscoTitle": "Database designers and administrators",
+    "via": "data warehouse designer",
+    "match": "exactMatch"
+  },
+  "15-1244.00": {
+    "isco": "2523",
+    "iscoTitle": "Computer network professionals",
+    "via": "ICT network engineer",
+    "match": "closeMatch"
+  },
+  "15-1251.00": {
+    "isco": "2512",
+    "iscoTitle": "Software developers",
+    "via": "software developer",
+    "match": "closeMatch"
+  },
+  "15-1252.00": {
+    "isco": "2514",
+    "iscoTitle": "Applications programmers",
+    "via": "ICT application developer",
+    "match": "broadMatch"
+  },
+  "15-1253.00": {
+    "isco": "2519",
+    "iscoTitle": "Software and applications developers and analysts not elsewhere classified",
+    "via": "software tester",
+    "match": "exactMatch"
+  },
+  "15-1254.00": {
+    "isco": "2513",
+    "iscoTitle": "Web and multimedia developers",
+    "via": "web developer",
+    "match": "exactMatch"
+  },
+  "15-1255.00": {
+    "isco": "2513",
+    "iscoTitle": "Web and multimedia developers",
+    "via": "user interface designer",
+    "match": "exactMatch"
+  },
+  "15-1255.01": {
+    "isco": "2166",
+    "iscoTitle": "Graphic and multimedia designers",
+    "via": "digital games designer",
+    "match": "exactMatch"
+  },
+  "15-1299.01": {
+    "isco": "3514",
+    "iscoTitle": "Web technicians",
+    "via": "webmaster",
+    "match": "exactMatch"
+  },
+  "15-1299.02": {
+    "isco": "2165",
+    "iscoTitle": "Cartographers and surveyors",
+    "via": "geographic information systems specialist",
+    "match": "exactMatch"
+  },
+  "15-1299.03": {
+    "isco": "3433",
+    "iscoTitle": "Gallery, museum and library technicians",
+    "via": "big data archive librarian",
+    "match": "closeMatch"
+  },
+  "15-1299.04": {
+    "isco": "2529",
+    "iscoTitle": "Database and network professionals not elsewhere classified",
+    "via": "ethical hacker",
+    "match": "exactMatch"
+  },
+  "15-1299.05": {
+    "isco": "2529",
+    "iscoTitle": "Database and network professionals not elsewhere classified",
+    "via": "ICT security administrator",
+    "match": "closeMatch"
+  },
+  "15-1299.06": {
+    "isco": "2529",
+    "iscoTitle": "Database and network professionals not elsewhere classified",
+    "via": "digital forensics expert",
+    "match": "exactMatch"
+  },
+  "15-1299.08": {
+    "isco": "2511",
+    "iscoTitle": "Systems analysts",
+    "via": "ICT system architect",
+    "match": "exactMatch"
+  },
+  "15-1299.09": {
+    "isco": "1330",
+    "iscoTitle": "Information and communications technology service managers",
+    "via": "ICT project manager",
+    "match": "exactMatch"
+  },
+  "15-2011.00": {
+    "isco": "2120",
+    "iscoTitle": "Mathematicians, actuaries and statisticians",
+    "via": "actuarial consultant",
+    "match": "exactMatch"
+  },
+  "15-2021.00": {
+    "isco": "2120",
+    "iscoTitle": "Mathematicians, actuaries and statisticians",
+    "via": "mathematician",
+    "match": "exactMatch"
+  },
+  "15-2031.00": {
+    "isco": "2141",
+    "iscoTitle": "Industrial and production engineers",
+    "via": "logistics analyst",
+    "match": "closeMatch"
+  },
+  "15-2041.00": {
+    "isco": "2120",
+    "iscoTitle": "Mathematicians, actuaries and statisticians",
+    "via": "statistician",
+    "match": "exactMatch"
+  },
+  "15-2041.01": {
+    "isco": "2120",
+    "iscoTitle": "Mathematicians, actuaries and statisticians",
+    "via": "statistician",
+    "match": "narrowMatch"
+  },
+  "15-2051.00": {
+    "isco": "2511",
+    "iscoTitle": "Systems analysts",
+    "via": "data scientist",
+    "match": "exactMatch"
+  },
+  "15-2051.01": {
+    "isco": "2421",
+    "iscoTitle": "Management and organisation analysts",
+    "via": "business analyst",
+    "match": "exactMatch"
+  },
+  "15-2051.02": {
+    "isco": "1342",
+    "iscoTitle": "Health services managers",
+    "via": "clinical informatics manager",
+    "match": "closeMatch"
+  },
+  "15-2099.00": {
+    "isco": "2120",
+    "iscoTitle": "Mathematicians, actuaries and statisticians",
+    "via": "gambling games developer",
+    "match": "broadMatch"
+  },
+  "15-2099.01": {
+    "isco": "2131",
+    "iscoTitle": "Biologists, botanists, zoologists and related professionals",
+    "via": "bioinformatics scientist",
+    "match": "closeMatch"
+  },
+  "17-1011.00": {
+    "isco": "2161",
+    "iscoTitle": "Building architects",
+    "via": "architect",
+    "match": "exactMatch"
+  },
+  "17-1012.00": {
+    "isco": "2162",
+    "iscoTitle": "Landscape architects",
+    "via": "landscape architect",
+    "match": "exactMatch"
+  },
+  "17-1021.00": {
+    "isco": "2165",
+    "iscoTitle": "Cartographers and surveyors",
+    "via": "geographic information systems specialist",
+    "match": "closeMatch"
+  },
+  "17-1022.00": {
+    "isco": "2165",
+    "iscoTitle": "Cartographers and surveyors",
+    "via": "land surveyor",
+    "match": "closeMatch"
+  },
+  "17-2011.00": {
+    "isco": "7232",
+    "iscoTitle": "Aircraft engine mechanics and repairers",
+    "via": "aircraft engine specialist",
+    "match": "closeMatch"
+  },
+  "17-2031.00": {
+    "isco": "2149",
+    "iscoTitle": "Engineering professionals not elsewhere classified",
+    "via": "bioengineer",
+    "match": "exactMatch"
+  },
+  "17-2041.00": {
+    "isco": "2145",
+    "iscoTitle": "Chemical engineers",
+    "via": "chemical engineer",
+    "match": "exactMatch"
+  },
+  "17-2051.00": {
+    "isco": "3112",
+    "iscoTitle": "Civil engineering technicians",
+    "via": "civil engineering technician",
+    "match": "closeMatch"
+  },
+  "17-2061.00": {
+    "isco": "2152",
+    "iscoTitle": "Electronics engineers",
+    "via": "electronics engineer",
+    "match": "narrowMatch"
+  },
+  "17-2071.00": {
+    "isco": "2151",
+    "iscoTitle": "Electrical engineers",
+    "via": "electrical engineer",
+    "match": "exactMatch"
+  },
+  "17-2072.00": {
+    "isco": "2152",
+    "iscoTitle": "Electronics engineers",
+    "via": "electronics engineer",
+    "match": "exactMatch"
+  },
+  "17-2072.01": {
+    "isco": "2153",
+    "iscoTitle": "Telecommunications engineers",
+    "via": "telecommunications engineer",
+    "match": "closeMatch"
+  },
+  "17-2081.00": {
+    "isco": "2143",
+    "iscoTitle": "Environmental engineers",
+    "via": "environmental engineer",
+    "match": "exactMatch"
+  },
+  "17-2111.00": {
+    "isco": "2149",
+    "iscoTitle": "Engineering professionals not elsewhere classified",
+    "via": "health and safety engineer",
+    "match": "exactMatch"
+  },
+  "17-2112.00": {
+    "isco": "2141",
+    "iscoTitle": "Industrial and production engineers",
+    "via": "process engineer",
+    "match": "closeMatch"
+  },
+  "17-2112.01": {
+    "isco": "2149",
+    "iscoTitle": "Engineering professionals not elsewhere classified",
+    "via": "health and safety engineer",
+    "match": "closeMatch"
+  },
+  "17-2112.02": {
+    "isco": "2149",
+    "iscoTitle": "Engineering professionals not elsewhere classified",
+    "via": "test engineer",
+    "match": "closeMatch"
+  },
+  "17-2112.03": {
+    "isco": "3119",
+    "iscoTitle": "Physical and engineering science technicians not elsewhere classified",
+    "via": "process engineering technician",
+    "match": "closeMatch"
+  },
+  "17-2121.00": {
+    "isco": "3151",
+    "iscoTitle": "Ships\u2019 engineers",
+    "via": "ship assistant engineer",
+    "match": "closeMatch"
+  },
+  "17-2131.00": {
+    "isco": "2149",
+    "iscoTitle": "Engineering professionals not elsewhere classified",
+    "via": "materials engineer",
+    "match": "closeMatch"
+  },
+  "17-2141.00": {
+    "isco": "2144",
+    "iscoTitle": "Mechanical engineers",
+    "via": "mechanical engineer",
+    "match": "exactMatch"
+  },
+  "17-2151.00": {
+    "isco": "2146",
+    "iscoTitle": "Mining engineers, metallurgists and related professionals",
+    "via": "quarry engineer",
+    "match": "broadMatch"
+  },
+  "17-2171.00": {
+    "isco": "2146",
+    "iscoTitle": "Mining engineers, metallurgists and related professionals",
+    "via": "petroleum engineer",
+    "match": "exactMatch"
+  },
+  "17-2199.00": {
+    "isco": "2149",
+    "iscoTitle": "Engineering professionals not elsewhere classified",
+    "via": "application engineer",
+    "match": "broadMatch"
+  },
+  "17-2199.03": {
+    "isco": "3112",
+    "iscoTitle": "Civil engineering technicians",
+    "via": "energy analyst",
+    "match": "closeMatch"
+  },
+  "17-2199.05": {
+    "isco": "2149",
+    "iscoTitle": "Engineering professionals not elsewhere classified",
+    "via": "robotics engineer",
+    "match": "closeMatch"
+  },
+  "17-2199.07": {
+    "isco": "3119",
+    "iscoTitle": "Physical and engineering science technicians not elsewhere classified",
+    "via": "photonics engineering technician",
+    "match": "closeMatch"
+  },
+  "17-2199.08": {
+    "isco": "2149",
+    "iscoTitle": "Engineering professionals not elsewhere classified",
+    "via": "robotics engineer",
+    "match": "exactMatch"
+  },
+  "17-2199.10": {
+    "isco": "2149",
+    "iscoTitle": "Engineering professionals not elsewhere classified",
+    "via": "energy engineer",
+    "match": "closeMatch"
+  },
+  "17-2199.11": {
+    "isco": "2149",
+    "iscoTitle": "Engineering professionals not elsewhere classified",
+    "via": "energy engineer",
+    "match": "closeMatch"
+  },
+  "17-3011.00": {
+    "isco": "3118",
+    "iscoTitle": "Draughtspersons",
+    "via": "drafter",
+    "match": "narrowMatch"
+  },
+  "17-3012.00": {
+    "isco": "3118",
+    "iscoTitle": "Draughtspersons",
+    "via": "drafter",
+    "match": "narrowMatch"
+  },
+  "17-3013.00": {
+    "isco": "3118",
+    "iscoTitle": "Draughtspersons",
+    "via": "drafter",
+    "match": "narrowMatch"
+  },
+  "17-3022.00": {
+    "isco": "3112",
+    "iscoTitle": "Civil engineering technicians",
+    "via": "civil engineering technician",
+    "match": "exactMatch"
+  },
+  "17-3023.00": {
+    "isco": "3114",
+    "iscoTitle": "Electronics engineering technicians",
+    "via": "electronics engineering technician",
+    "match": "broadMatch"
+  },
+  "17-3024.00": {
+    "isco": "8211",
+    "iscoTitle": "Mechanical machinery assemblers",
+    "via": "mechatronics assembler",
+    "match": "closeMatch"
+  },
+  "17-3024.01": {
+    "isco": "3139",
+    "iscoTitle": "Process control technicians not elsewhere classified",
+    "via": "industrial robot controller",
+    "match": "closeMatch"
+  },
+  "17-3025.00": {
+    "isco": "3111",
+    "iscoTitle": "Chemical and physical science technicians",
+    "via": "environmental technician",
+    "match": "closeMatch"
+  },
+  "17-3026.00": {
+    "isco": "3119",
+    "iscoTitle": "Physical and engineering science technicians not elsewhere classified",
+    "via": "industrial engineering technician",
+    "match": "exactMatch"
+  },
+  "17-3027.00": {
+    "isco": "3115",
+    "iscoTitle": "Mechanical engineering technicians",
+    "via": "mechanical engineering technician",
+    "match": "exactMatch"
+  },
+  "17-3028.00": {
+    "isco": "3111",
+    "iscoTitle": "Chemical and physical science technicians",
+    "via": "metrology technician",
+    "match": "exactMatch"
+  },
+  "17-3029.00": {
+    "isco": "3119",
+    "iscoTitle": "Physical and engineering science technicians not elsewhere classified",
+    "via": "commissioning technician",
+    "match": "broadMatch"
+  },
+  "17-3029.01": {
+    "isco": "7543",
+    "iscoTitle": "Product graders and testers (excluding foods and beverages)",
+    "via": "non-destructive testing specialist",
+    "match": "exactMatch"
+  },
+  "17-3029.08": {
+    "isco": "3119",
+    "iscoTitle": "Physical and engineering science technicians not elsewhere classified",
+    "via": "photonics engineering technician",
+    "match": "exactMatch"
+  },
+  "17-3031.00": {
+    "isco": "3112",
+    "iscoTitle": "Civil engineering technicians",
+    "via": "surveying technician",
+    "match": "exactMatch"
+  },
+  "19-1011.00": {
+    "isco": "2250",
+    "iscoTitle": "Veterinarians",
+    "via": "specialised veterinarian",
+    "match": "closeMatch"
+  },
+  "19-1012.00": {
+    "isco": "2131",
+    "iscoTitle": "Biologists, botanists, zoologists and related professionals",
+    "via": "food biotechnologist",
+    "match": "closeMatch"
+  },
+  "19-1013.00": {
+    "isco": "2132",
+    "iscoTitle": "Farming, forestry and fisheries advisers",
+    "via": "agricultural scientist",
+    "match": "narrowMatch"
+  },
+  "19-1022.00": {
+    "isco": "2131",
+    "iscoTitle": "Biologists, botanists, zoologists and related professionals",
+    "via": "biologist",
+    "match": "narrowMatch"
+  },
+  "19-1023.00": {
+    "isco": "2131",
+    "iscoTitle": "Biologists, botanists, zoologists and related professionals",
+    "via": "biologist",
+    "match": "narrowMatch"
+  },
+  "19-1029.01": {
+    "isco": "2131",
+    "iscoTitle": "Biologists, botanists, zoologists and related professionals",
+    "via": "bioinformatics scientist",
+    "match": "exactMatch"
+  },
+  "19-1029.02": {
+    "isco": "2131",
+    "iscoTitle": "Biologists, botanists, zoologists and related professionals",
+    "via": "bioinformatics scientist",
+    "match": "closeMatch"
+  },
+  "19-1029.04": {
+    "isco": "2131",
+    "iscoTitle": "Biologists, botanists, zoologists and related professionals",
+    "via": "biologist",
+    "match": "exactMatch"
+  },
+  "19-1031.00": {
+    "isco": "2133",
+    "iscoTitle": "Environmental protection professionals",
+    "via": "natural resources consultant",
+    "match": "exactMatch"
+  },
+  "19-1031.02": {
+    "isco": "1311",
+    "iscoTitle": "Agricultural and forestry production managers",
+    "via": "forester",
+    "match": "closeMatch"
+  },
+  "19-1031.03": {
+    "isco": "2133",
+    "iscoTitle": "Environmental protection professionals",
+    "via": "conservation scientist",
+    "match": "closeMatch"
+  },
+  "19-1032.00": {
+    "isco": "3143",
+    "iscoTitle": "Forestry technicians",
+    "via": "forestry technician",
+    "match": "closeMatch"
+  },
+  "19-1042.00": {
+    "isco": "2131",
+    "iscoTitle": "Biologists, botanists, zoologists and related professionals",
+    "via": "immunologist",
+    "match": "closeMatch"
+  },
+  "19-2011.00": {
+    "isco": "2111",
+    "iscoTitle": "Physicists and astronomers",
+    "via": "astronomer",
+    "match": "exactMatch"
+  },
+  "19-2012.00": {
+    "isco": "2111",
+    "iscoTitle": "Physicists and astronomers",
+    "via": "physicist",
+    "match": "exactMatch"
+  },
+  "19-2021.00": {
+    "isco": "3111",
+    "iscoTitle": "Chemical and physical science technicians",
+    "via": "meteorology technician",
+    "match": "broadMatch"
+  },
+  "19-2031.00": {
+    "isco": "2113",
+    "iscoTitle": "Chemists",
+    "via": "chemist",
+    "match": "exactMatch"
+  },
+  "19-2032.00": {
+    "isco": "2149",
+    "iscoTitle": "Engineering professionals not elsewhere classified",
+    "via": "materials engineer",
+    "match": "exactMatch"
+  },
+  "19-2041.00": {
+    "isco": "2143",
+    "iscoTitle": "Environmental engineers",
+    "via": "environmental expert",
+    "match": "exactMatch"
+  },
+  "19-2041.01": {
+    "isco": "2422",
+    "iscoTitle": "Policy administration professionals",
+    "via": "policy officer",
+    "match": "narrowMatch"
+  },
+  "19-2041.02": {
+    "isco": "2133",
+    "iscoTitle": "Environmental protection professionals",
+    "via": "ecologist",
+    "match": "closeMatch"
+  },
+  "19-2041.03": {
+    "isco": "2133",
+    "iscoTitle": "Environmental protection professionals",
+    "via": "environmental scientist",
+    "match": "closeMatch"
+  },
+  "19-2042.00": {
+    "isco": "2114",
+    "iscoTitle": "Geologists and geophysicists",
+    "via": "geologist",
+    "match": "exactMatch"
+  },
+  "19-2043.00": {
+    "isco": "2133",
+    "iscoTitle": "Environmental protection professionals",
+    "via": "soil scientist",
+    "match": "closeMatch"
+  },
+  "19-2099.01": {
+    "isco": "3111",
+    "iscoTitle": "Chemical and physical science technicians",
+    "via": "remote sensing technician",
+    "match": "closeMatch"
+  },
+  "19-3011.00": {
+    "isco": "2631",
+    "iscoTitle": "Economists",
+    "via": "economist",
+    "match": "exactMatch"
+  },
+  "19-3011.01": {
+    "isco": "2631",
+    "iscoTitle": "Economists",
+    "via": "economist",
+    "match": "narrowMatch"
+  },
+  "19-3022.00": {
+    "isco": "2120",
+    "iscoTitle": "Mathematicians, actuaries and statisticians",
+    "via": "demographer",
+    "match": "broadMatch"
+  },
+  "19-3032.00": {
+    "isco": "2423",
+    "iscoTitle": "Personnel and careers professionals",
+    "via": "occupational analyst",
+    "match": "closeMatch"
+  },
+  "19-3033.00": {
+    "isco": "2634",
+    "iscoTitle": "Psychologists",
+    "via": "psychologist",
+    "match": "exactMatch"
+  },
+  "19-3034.00": {
+    "isco": "2359",
+    "iscoTitle": "Teaching professionals not elsewhere classified",
+    "via": "educational counsellor",
+    "match": "closeMatch"
+  },
+  "19-3039.02": {
+    "isco": "2634",
+    "iscoTitle": "Psychologists",
+    "via": "psychologist",
+    "match": "narrowMatch"
+  },
+  "19-3039.03": {
+    "isco": "2634",
+    "iscoTitle": "Psychologists",
+    "via": "psychologist",
+    "match": "narrowMatch"
+  },
+  "19-3041.00": {
+    "isco": "2632",
+    "iscoTitle": "Sociologists, anthropologists and related professionals",
+    "via": "sociologist",
+    "match": "exactMatch"
+  },
+  "19-3051.00": {
+    "isco": "2161",
+    "iscoTitle": "Building architects",
+    "via": "architect",
+    "match": "closeMatch"
+  },
+  "19-3091.00": {
+    "isco": "2632",
+    "iscoTitle": "Sociologists, anthropologists and related professionals",
+    "via": "anthropologist",
+    "match": "broadMatch"
+  },
+  "19-3092.00": {
+    "isco": "2632",
+    "iscoTitle": "Sociologists, anthropologists and related professionals",
+    "via": "geographer",
+    "match": "exactMatch"
+  },
+  "19-3093.00": {
+    "isco": "2633",
+    "iscoTitle": "Philosophers, historians and political scientists",
+    "via": "historian",
+    "match": "exactMatch"
+  },
+  "19-3094.00": {
+    "isco": "2633",
+    "iscoTitle": "Philosophers, historians and political scientists",
+    "via": "political scientist",
+    "match": "exactMatch"
+  },
+  "19-3099.00": {
+    "isco": "2643",
+    "iscoTitle": "Translators, interpreters and other linguists",
+    "via": "linguist",
+    "match": "broadMatch"
+  },
+  "19-3099.01": {
+    "isco": "2164",
+    "iscoTitle": "Town and traffic planners",
+    "via": "transport planner",
+    "match": "exactMatch"
+  },
+  "19-4012.00": {
+    "isco": "3142",
+    "iscoTitle": "Agricultural technicians",
+    "via": "agricultural technician",
+    "match": "exactMatch"
+  },
+  "19-4012.01": {
+    "isco": "2132",
+    "iscoTitle": "Farming, forestry and fisheries advisers",
+    "via": "agricultural scientist",
+    "match": "closeMatch"
+  },
+  "19-4013.00": {
+    "isco": "3111",
+    "iscoTitle": "Chemical and physical science technicians",
+    "via": "food analyst",
+    "match": "exactMatch"
+  },
+  "19-4021.00": {
+    "isco": "3141",
+    "iscoTitle": "Life science technicians (excluding medical)",
+    "via": "scientific laboratory technician",
+    "match": "narrowMatch"
+  },
+  "19-4031.00": {
+    "isco": "3111",
+    "iscoTitle": "Chemical and physical science technicians",
+    "via": "chemistry technician",
+    "match": "exactMatch"
+  },
+  "19-4042.00": {
+    "isco": "3111",
+    "iscoTitle": "Chemical and physical science technicians",
+    "via": "environmental technician",
+    "match": "exactMatch"
+  },
+  "19-4043.00": {
+    "isco": "3111",
+    "iscoTitle": "Chemical and physical science technicians",
+    "via": "geology technician",
+    "match": "exactMatch"
+  },
+  "19-4051.00": {
+    "isco": "3111",
+    "iscoTitle": "Chemical and physical science technicians",
+    "via": "nuclear technician",
+    "match": "exactMatch"
+  },
+  "19-4051.02": {
+    "isco": "3111",
+    "iscoTitle": "Chemical and physical science technicians",
+    "via": "radiation protection technician",
+    "match": "exactMatch"
+  },
+  "19-4071.00": {
+    "isco": "3143",
+    "iscoTitle": "Forestry technicians",
+    "via": "forestry technician",
+    "match": "exactMatch"
+  },
+  "19-4092.00": {
+    "isco": "3355",
+    "iscoTitle": "Police inspectors and detectives",
+    "via": "criminal investigator",
+    "match": "closeMatch"
+  },
+  "19-4099.01": {
+    "isco": "3341",
+    "iscoTitle": "Office supervisors",
+    "via": "call centre quality auditor",
+    "match": "broadMatch"
+  },
+  "19-4099.03": {
+    "isco": "3111",
+    "iscoTitle": "Chemical and physical science technicians",
+    "via": "remote sensing technician",
+    "match": "exactMatch"
+  },
+  "19-5011.00": {
+    "isco": "3257",
+    "iscoTitle": "Environmental and occupational health inspectors and associates",
+    "via": "occupational health and safety inspector",
+    "match": "exactMatch"
+  },
+  "19-5012.00": {
+    "isco": "2263",
+    "iscoTitle": "Environmental and occupational health and hygiene professionals",
+    "via": "health and safety officer",
+    "match": "broadMatch"
+  },
+  "21-1011.00": {
+    "isco": "2635",
+    "iscoTitle": "Social work and counselling professionals",
+    "via": "social counsellor",
+    "match": "narrowMatch"
+  },
+  "21-1012.00": {
+    "isco": "2423",
+    "iscoTitle": "Personnel and careers professionals",
+    "via": "career guidance advisor",
+    "match": "broadMatch"
+  },
+  "21-1013.00": {
+    "isco": "2635",
+    "iscoTitle": "Social work and counselling professionals",
+    "via": "social counsellor",
+    "match": "closeMatch"
+  },
+  "21-1014.00": {
+    "isco": "2635",
+    "iscoTitle": "Social work and counselling professionals",
+    "via": "social counsellor",
+    "match": "closeMatch"
+  },
+  "21-1015.00": {
+    "isco": "2269",
+    "iscoTitle": "Health professionals not elsewhere classified",
+    "via": "occupational therapist",
+    "match": "closeMatch"
+  },
+  "21-1019.00": {
+    "isco": "3354",
+    "iscoTitle": "Government licensing officials",
+    "via": "immigration adviser",
+    "match": "broadMatch"
+  },
+  "21-1023.00": {
+    "isco": "2635",
+    "iscoTitle": "Social work and counselling professionals",
+    "via": "social counsellor",
+    "match": "broadMatch"
+  },
+  "21-1029.00": {
+    "isco": "2635",
+    "iscoTitle": "Social work and counselling professionals",
+    "via": "social worker",
+    "match": "broadMatch"
+  },
+  "21-1091.00": {
+    "isco": "2422",
+    "iscoTitle": "Policy administration professionals",
+    "via": "policy officer",
+    "match": "narrowMatch"
+  },
+  "21-1092.00": {
+    "isco": "5413",
+    "iscoTitle": "Prison guards",
+    "via": "juvenile correctional officer",
+    "match": "broadMatch"
+  },
+  "21-1093.00": {
+    "isco": "3412",
+    "iscoTitle": "Social work associate professionals",
+    "via": "social work assistant",
+    "match": "exactMatch"
+  },
+  "21-1094.00": {
+    "isco": "3253",
+    "iscoTitle": "Community health workers",
+    "via": "community health worker",
+    "match": "exactMatch"
+  },
+  "21-1099.00": {
+    "isco": "3412",
+    "iscoTitle": "Social work associate professionals",
+    "via": "social care worker",
+    "match": "broadMatch"
+  },
+  "21-2011.00": {
+    "isco": "2636",
+    "iscoTitle": "Religious professionals",
+    "via": "minister of religion",
+    "match": "exactMatch"
+  },
+  "21-2021.00": {
+    "isco": "2636",
+    "iscoTitle": "Religious professionals",
+    "via": "missionary",
+    "match": "exactMatch"
+  },
+  "23-1011.00": {
+    "isco": "2611",
+    "iscoTitle": "Lawyers",
+    "via": "lawyer",
+    "match": "exactMatch"
+  },
+  "23-1012.00": {
+    "isco": "3411",
+    "iscoTitle": "Legal and related associate professionals",
+    "via": "court clerk",
+    "match": "exactMatch"
+  },
+  "23-1021.00": {
+    "isco": "2612",
+    "iscoTitle": "Judges",
+    "via": "justice of the peace",
+    "match": "closeMatch"
+  },
+  "23-1023.00": {
+    "isco": "2612",
+    "iscoTitle": "Judges",
+    "via": "judge",
+    "match": "exactMatch"
+  },
+  "23-2011.00": {
+    "isco": "3411",
+    "iscoTitle": "Legal and related associate professionals",
+    "via": "legal assistant",
+    "match": "exactMatch"
+  },
+  "23-2093.00": {
+    "isco": "3411",
+    "iscoTitle": "Legal and related associate professionals",
+    "via": "conveyance clerk",
+    "match": "closeMatch"
+  },
+  "23-2099.00": {
+    "isco": "3354",
+    "iscoTitle": "Government licensing officials",
+    "via": "immigration adviser",
+    "match": "broadMatch"
+  },
+  "25-1011.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1021.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1022.00": {
+    "isco": "2120",
+    "iscoTitle": "Mathematicians, actuaries and statisticians",
+    "via": "mathematician",
+    "match": "closeMatch"
+  },
+  "25-1031.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1041.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1042.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1043.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1051.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1052.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1053.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1054.00": {
+    "isco": "2111",
+    "iscoTitle": "Physicists and astronomers",
+    "via": "physicist",
+    "match": "closeMatch"
+  },
+  "25-1063.00": {
+    "isco": "2631",
+    "iscoTitle": "Economists",
+    "via": "economist",
+    "match": "closeMatch"
+  },
+  "25-1064.00": {
+    "isco": "2632",
+    "iscoTitle": "Sociologists, anthropologists and related professionals",
+    "via": "geographer",
+    "match": "closeMatch"
+  },
+  "25-1065.00": {
+    "isco": "2633",
+    "iscoTitle": "Philosophers, historians and political scientists",
+    "via": "political scientist",
+    "match": "closeMatch"
+  },
+  "25-1066.00": {
+    "isco": "2634",
+    "iscoTitle": "Psychologists",
+    "via": "psychologist",
+    "match": "closeMatch"
+  },
+  "25-1067.00": {
+    "isco": "2632",
+    "iscoTitle": "Sociologists, anthropologists and related professionals",
+    "via": "sociologist",
+    "match": "closeMatch"
+  },
+  "25-1071.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1072.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1081.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1082.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1111.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1112.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1113.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "social work practice educator",
+    "match": "broadMatch"
+  },
+  "25-1121.00": {
+    "isco": "2355",
+    "iscoTitle": "Other arts teachers",
+    "via": "visual arts teacher",
+    "match": "broadMatch"
+  },
+  "25-1123.00": {
+    "isco": "2353",
+    "iscoTitle": "Other language teachers",
+    "via": "language school teacher",
+    "match": "closeMatch"
+  },
+  "25-1124.00": {
+    "isco": "2353",
+    "iscoTitle": "Other language teachers",
+    "via": "language school teacher",
+    "match": "closeMatch"
+  },
+  "25-1125.00": {
+    "isco": "2633",
+    "iscoTitle": "Philosophers, historians and political scientists",
+    "via": "historian",
+    "match": "closeMatch"
+  },
+  "25-1126.00": {
+    "isco": "2633",
+    "iscoTitle": "Philosophers, historians and political scientists",
+    "via": "philosopher",
+    "match": "closeMatch"
+  },
+  "25-1192.00": {
+    "isco": "2310",
+    "iscoTitle": "University and higher education teachers",
+    "via": "higher education lecturer",
+    "match": "narrowMatch"
+  },
+  "25-1194.00": {
+    "isco": "2320",
+    "iscoTitle": "Vocational education teachers",
+    "via": "vocational teacher",
+    "match": "narrowMatch"
+  },
+  "25-2011.00": {
+    "isco": "2342",
+    "iscoTitle": "Early childhood educators",
+    "via": "early years teacher",
+    "match": "narrowMatch"
+  },
+  "25-2012.00": {
+    "isco": "2342",
+    "iscoTitle": "Early childhood educators",
+    "via": "early years teacher",
+    "match": "exactMatch"
+  },
+  "25-2021.00": {
+    "isco": "2341",
+    "iscoTitle": "Primary school teachers",
+    "via": "primary school teacher",
+    "match": "exactMatch"
+  },
+  "25-2022.00": {
+    "isco": "2353",
+    "iscoTitle": "Other language teachers",
+    "via": "language school teacher",
+    "match": "broadMatch"
+  },
+  "25-2023.00": {
+    "isco": "2330",
+    "iscoTitle": "Secondary education teachers",
+    "via": "secondary school teacher",
+    "match": "narrowMatch"
+  },
+  "25-2031.00": {
+    "isco": "2330",
+    "iscoTitle": "Secondary education teachers",
+    "via": "secondary school teacher",
+    "match": "exactMatch"
+  },
+  "25-2032.00": {
+    "isco": "2330",
+    "iscoTitle": "Secondary education teachers",
+    "via": "secondary school teacher",
+    "match": "narrowMatch"
+  },
+  "25-2051.00": {
+    "isco": "5312",
+    "iscoTitle": "Teachers\u2019 aides",
+    "via": "special educational needs assistant",
+    "match": "closeMatch"
+  },
+  "25-2055.00": {
+    "isco": "2351",
+    "iscoTitle": "Education methods specialists",
+    "via": "special educational needs coordinator",
+    "match": "closeMatch"
+  },
+  "25-2056.00": {
+    "isco": "2351",
+    "iscoTitle": "Education methods specialists",
+    "via": "special educational needs coordinator",
+    "match": "closeMatch"
+  },
+  "25-2057.00": {
+    "isco": "2352",
+    "iscoTitle": "Special needs teachers",
+    "via": "special educational needs teacher",
+    "match": "narrowMatch"
+  },
+  "25-2058.00": {
+    "isco": "5312",
+    "iscoTitle": "Teachers\u2019 aides",
+    "via": "special educational needs assistant",
+    "match": "closeMatch"
+  },
+  "25-2059.01": {
+    "isco": "3422",
+    "iscoTitle": "Sports coaches, instructors and officials",
+    "via": "sports instructor",
+    "match": "narrowMatch"
+  },
+  "25-3011.00": {
+    "isco": "2359",
+    "iscoTitle": "Teaching professionals not elsewhere classified",
+    "via": "further education teacher",
+    "match": "closeMatch"
+  },
+  "25-3021.00": {
+    "isco": "3412",
+    "iscoTitle": "Social work associate professionals",
+    "via": "life coach",
+    "match": "exactMatch"
+  },
+  "25-3031.00": {
+    "isco": "5312",
+    "iscoTitle": "Teachers\u2019 aides",
+    "via": "secondary school teaching assistant",
+    "match": "closeMatch"
+  },
+  "25-3041.00": {
+    "isco": "2359",
+    "iscoTitle": "Teaching professionals not elsewhere classified",
+    "via": "tutor",
+    "match": "exactMatch"
+  },
+  "25-3099.00": {
+    "isco": "3423",
+    "iscoTitle": "Fitness and recreation instructors and program leaders",
+    "via": "horse riding instructor",
+    "match": "broadMatch"
+  },
+  "25-4011.00": {
+    "isco": "2621",
+    "iscoTitle": "Archivists and curators",
+    "via": "archivist",
+    "match": "exactMatch"
+  },
+  "25-4012.00": {
+    "isco": "2621",
+    "iscoTitle": "Archivists and curators",
+    "via": "exhibition curator",
+    "match": "broadMatch"
+  },
+  "25-4013.00": {
+    "isco": "2621",
+    "iscoTitle": "Archivists and curators",
+    "via": "conservator",
+    "match": "narrowMatch"
+  },
+  "25-4022.00": {
+    "isco": "2622",
+    "iscoTitle": "Librarians and related information professionals",
+    "via": "librarian",
+    "match": "exactMatch"
+  },
+  "25-4031.00": {
+    "isco": "4411",
+    "iscoTitle": "Library clerks",
+    "via": "library assistant",
+    "match": "exactMatch"
+  },
+  "25-9031.00": {
+    "isco": "2359",
+    "iscoTitle": "Teaching professionals not elsewhere classified",
+    "via": "instructional designer",
+    "match": "closeMatch"
+  },
+  "25-9042.00": {
+    "isco": "5312",
+    "iscoTitle": "Teachers\u2019 aides",
+    "via": "special educational needs assistant",
+    "match": "closeMatch"
+  },
+  "25-9043.00": {
+    "isco": "5312",
+    "iscoTitle": "Teachers\u2019 aides",
+    "via": "special educational needs assistant",
+    "match": "exactMatch"
+  },
+  "27-1011.00": {
+    "isco": "2166",
+    "iscoTitle": "Graphic and multimedia designers",
+    "via": "art director",
+    "match": "exactMatch"
+  },
+  "27-1012.00": {
+    "isco": "7316",
+    "iscoTitle": "Sign writers, decorative painters, engravers and etchers",
+    "via": "decorative painter",
+    "match": "broadMatch"
+  },
+  "27-1013.00": {
+    "isco": "2651",
+    "iscoTitle": "Visual artists",
+    "via": "conceptual artist",
+    "match": "exactMatch"
+  },
+  "27-1014.00": {
+    "isco": "2166",
+    "iscoTitle": "Graphic and multimedia designers",
+    "via": "digital artist",
+    "match": "closeMatch"
+  },
+  "27-1019.00": {
+    "isco": "2659",
+    "iscoTitle": "Creative and performing artists not elsewhere classified",
+    "via": "community artist",
+    "match": "broadMatch"
+  },
+  "27-1021.00": {
+    "isco": "2163",
+    "iscoTitle": "Product and garment designers",
+    "via": "industrial designer",
+    "match": "exactMatch"
+  },
+  "27-1022.00": {
+    "isco": "7532",
+    "iscoTitle": "Garment and related pattern-makers and cutters",
+    "via": "clothing product grader",
+    "match": "closeMatch"
+  },
+  "27-1024.00": {
+    "isco": "2166",
+    "iscoTitle": "Graphic and multimedia designers",
+    "via": "graphic designer",
+    "match": "exactMatch"
+  },
+  "27-1025.00": {
+    "isco": "3432",
+    "iscoTitle": "Interior designers and decorators",
+    "via": "interior designer",
+    "match": "exactMatch"
+  },
+  "27-1026.00": {
+    "isco": "3432",
+    "iscoTitle": "Interior designers and decorators",
+    "via": "visual merchandiser",
+    "match": "exactMatch"
+  },
+  "27-1027.00": {
+    "isco": "3432",
+    "iscoTitle": "Interior designers and decorators",
+    "via": "set builder",
+    "match": "exactMatch"
+  },
+  "27-1029.00": {
+    "isco": "3435",
+    "iscoTitle": "Other artistic and cultural associate professionals",
+    "via": "pyrotechnic designer",
+    "match": "broadMatch"
+  },
+  "27-2011.00": {
+    "isco": "2655",
+    "iscoTitle": "Actors",
+    "via": "actor/actress",
+    "match": "exactMatch"
+  },
+  "27-2012.00": {
+    "isco": "3435",
+    "iscoTitle": "Other artistic and cultural associate professionals",
+    "via": "assistant stage director",
+    "match": "closeMatch"
+  },
+  "27-2012.03": {
+    "isco": "3435",
+    "iscoTitle": "Other artistic and cultural associate professionals",
+    "via": "broadcasting programme director",
+    "match": "broadMatch"
+  },
+  "27-2012.04": {
+    "isco": "3339",
+    "iscoTitle": "Business services agents not elsewhere classified",
+    "via": "talent agent",
+    "match": "narrowMatch"
+  },
+  "27-2012.05": {
+    "isco": "3435",
+    "iscoTitle": "Other artistic and cultural associate professionals",
+    "via": "assistant video and motion picture director",
+    "match": "closeMatch"
+  },
+  "27-2021.00": {
+    "isco": "3421",
+    "iscoTitle": "Athletes and sports players",
+    "via": "professional athlete",
+    "match": "exactMatch"
+  },
+  "27-2022.00": {
+    "isco": "3422",
+    "iscoTitle": "Sports coaches, instructors and officials",
+    "via": "sports instructor",
+    "match": "closeMatch"
+  },
+  "27-2023.00": {
+    "isco": "3422",
+    "iscoTitle": "Sports coaches, instructors and officials",
+    "via": "sports official",
+    "match": "exactMatch"
+  },
+  "27-2031.00": {
+    "isco": "2653",
+    "iscoTitle": "Dancers and choreographers",
+    "via": "dancer",
+    "match": "exactMatch"
+  },
+  "27-2032.00": {
+    "isco": "2653",
+    "iscoTitle": "Dancers and choreographers",
+    "via": "choreographer",
+    "match": "exactMatch"
+  },
+  "27-2041.00": {
+    "isco": "2652",
+    "iscoTitle": "Musicians, singers and composers",
+    "via": "composer",
+    "match": "broadMatch"
+  },
+  "27-2042.00": {
+    "isco": "2652",
+    "iscoTitle": "Musicians, singers and composers",
+    "via": "musician",
+    "match": "broadMatch"
+  },
+  "27-2099.00": {
+    "isco": "5161",
+    "iscoTitle": "Astrologers, fortune-tellers and related workers",
+    "via": "psychic",
+    "match": "broadMatch"
+  },
+  "27-3011.00": {
+    "isco": "2656",
+    "iscoTitle": "Announcers on radio, television and other media",
+    "via": "presenter",
+    "match": "exactMatch"
+  },
+  "27-3023.00": {
+    "isco": "2642",
+    "iscoTitle": "Journalists",
+    "via": "journalist",
+    "match": "broadMatch"
+  },
+  "27-3031.00": {
+    "isco": "2432",
+    "iscoTitle": "Public relations professionals",
+    "via": "public relations officer",
+    "match": "closeMatch"
+  },
+  "27-3041.00": {
+    "isco": "2641",
+    "iscoTitle": "Authors and related writers",
+    "via": "book editor",
+    "match": "broadMatch"
+  },
+  "27-3043.00": {
+    "isco": "2641",
+    "iscoTitle": "Authors and related writers",
+    "via": "writer",
+    "match": "broadMatch"
+  },
+  "27-3043.05": {
+    "isco": "2641",
+    "iscoTitle": "Authors and related writers",
+    "via": "writer",
+    "match": "broadMatch"
+  },
+  "27-3091.00": {
+    "isco": "2643",
+    "iscoTitle": "Translators, interpreters and other linguists",
+    "via": "translator",
+    "match": "broadMatch"
+  },
+  "27-3099.00": {
+    "isco": "2656",
+    "iscoTitle": "Announcers on radio, television and other media",
+    "via": "audio describer",
+    "match": "broadMatch"
+  },
+  "27-4011.00": {
+    "isco": "7312",
+    "iscoTitle": "Musical instrument makers and tuners",
+    "via": "instrument technician",
+    "match": "broadMatch"
+  },
+  "27-4012.00": {
+    "isco": "3521",
+    "iscoTitle": "Broadcasting and audiovisual technicians",
+    "via": "broadcast technician",
+    "match": "exactMatch"
+  },
+  "27-4014.00": {
+    "isco": "3435",
+    "iscoTitle": "Other artistic and cultural associate professionals",
+    "via": "theatre technician",
+    "match": "closeMatch"
+  },
+  "27-4015.00": {
+    "isco": "3435",
+    "iscoTitle": "Other artistic and cultural associate professionals",
+    "via": "performance lighting technician",
+    "match": "exactMatch"
+  },
+  "27-4021.00": {
+    "isco": "3431",
+    "iscoTitle": "Photographers",
+    "via": "photographer",
+    "match": "exactMatch"
+  },
+  "27-4031.00": {
+    "isco": "3521",
+    "iscoTitle": "Broadcasting and audiovisual technicians",
+    "via": "audio-visual technician",
+    "match": "narrowMatch"
+  },
+  "27-4032.00": {
+    "isco": "2654",
+    "iscoTitle": "Film, stage and related directors and producers",
+    "via": "video and motion picture editor",
+    "match": "broadMatch"
+  },
+  "29-1011.00": {
+    "isco": "2269",
+    "iscoTitle": "Health professionals not elsewhere classified",
+    "via": "chiropractor",
+    "match": "exactMatch"
+  },
+  "29-1021.00": {
+    "isco": "2261",
+    "iscoTitle": "Dentists",
+    "via": "dental practitioner",
+    "match": "exactMatch"
+  },
+  "29-1022.00": {
+    "isco": "2261",
+    "iscoTitle": "Dentists",
+    "via": "dental practitioner",
+    "match": "closeMatch"
+  },
+  "29-1023.00": {
+    "isco": "3214",
+    "iscoTitle": "Medical and dental prosthetic technicians",
+    "via": "dental technician",
+    "match": "closeMatch"
+  },
+  "29-1024.00": {
+    "isco": "3214",
+    "iscoTitle": "Medical and dental prosthetic technicians",
+    "via": "dental technician",
+    "match": "closeMatch"
+  },
+  "29-1031.00": {
+    "isco": "5142",
+    "iscoTitle": "Beauticians and related workers",
+    "via": "weight loss consultant",
+    "match": "closeMatch"
+  },
+  "29-1041.00": {
+    "isco": "2267",
+    "iscoTitle": "Optometrists and ophthalmic opticians",
+    "via": "optometrist",
+    "match": "exactMatch"
+  },
+  "29-1051.00": {
+    "isco": "3213",
+    "iscoTitle": "Pharmaceutical technicians and assistants",
+    "via": "pharmacy technician",
+    "match": "closeMatch"
+  },
+  "29-1071.00": {
+    "isco": "3256",
+    "iscoTitle": "Medical assistants",
+    "via": "doctors' surgery assistant",
+    "match": "closeMatch"
+  },
+  "29-1071.01": {
+    "isco": "3259",
+    "iscoTitle": "Health associate professionals not elsewhere classified",
+    "via": "anaesthetic technician",
+    "match": "exactMatch"
+  },
+  "29-1081.00": {
+    "isco": "2269",
+    "iscoTitle": "Health professionals not elsewhere classified",
+    "via": "podiatrist",
+    "match": "exactMatch"
+  },
+  "29-1122.00": {
+    "isco": "2269",
+    "iscoTitle": "Health professionals not elsewhere classified",
+    "via": "occupational therapist",
+    "match": "exactMatch"
+  },
+  "29-1122.01": {
+    "isco": "2269",
+    "iscoTitle": "Health professionals not elsewhere classified",
+    "via": "occupational therapy assistant",
+    "match": "broadMatch"
+  },
+  "29-1123.00": {
+    "isco": "2264",
+    "iscoTitle": "Physiotherapists",
+    "via": "physiotherapist",
+    "match": "exactMatch"
+  },
+  "29-1125.00": {
+    "isco": "2269",
+    "iscoTitle": "Health professionals not elsewhere classified",
+    "via": "recreational therapist",
+    "match": "exactMatch"
+  },
+  "29-1126.00": {
+    "isco": "3259",
+    "iscoTitle": "Health associate professionals not elsewhere classified",
+    "via": "respiratory therapy technician",
+    "match": "broadMatch"
+  },
+  "29-1127.00": {
+    "isco": "2266",
+    "iscoTitle": "Audiologists and speech therapists",
+    "via": "speech and language therapist",
+    "match": "exactMatch"
+  },
+  "29-1129.02": {
+    "isco": "2269",
+    "iscoTitle": "Health professionals not elsewhere classified",
+    "via": "recreational therapist",
+    "match": "narrowMatch"
+  },
+  "29-1131.00": {
+    "isco": "3240",
+    "iscoTitle": "Veterinary technicians and assistants",
+    "via": "alternative animal therapist",
+    "match": "closeMatch"
+  },
+  "29-1141.00": {
+    "isco": "2221",
+    "iscoTitle": "Nursing professionals",
+    "via": "nurse responsible for general care",
+    "match": "exactMatch"
+  },
+  "29-1141.01": {
+    "isco": "2221",
+    "iscoTitle": "Nursing professionals",
+    "via": "advanced nurse practitioner",
+    "match": "narrowMatch"
+  },
+  "29-1141.02": {
+    "isco": "2221",
+    "iscoTitle": "Nursing professionals",
+    "via": "specialist nurse",
+    "match": "narrowMatch"
+  },
+  "29-1141.03": {
+    "isco": "2221",
+    "iscoTitle": "Nursing professionals",
+    "via": "specialist nurse",
+    "match": "broadMatch"
+  },
+  "29-1141.04": {
+    "isco": "2221",
+    "iscoTitle": "Nursing professionals",
+    "via": "nurse responsible for general care",
+    "match": "broadMatch"
+  },
+  "29-1151.00": {
+    "isco": "3256",
+    "iscoTitle": "Medical assistants",
+    "via": "doctors' surgery assistant",
+    "match": "closeMatch"
+  },
+  "29-1161.00": {
+    "isco": "2222",
+    "iscoTitle": "Midwifery professionals",
+    "via": "midwife",
+    "match": "closeMatch"
+  },
+  "29-1171.00": {
+    "isco": "2211",
+    "iscoTitle": "Generalist medical practitioners",
+    "via": "general practitioner",
+    "match": "closeMatch"
+  },
+  "29-1181.00": {
+    "isco": "2266",
+    "iscoTitle": "Audiologists and speech therapists",
+    "via": "audiologist",
+    "match": "exactMatch"
+  },
+  "29-1211.00": {
+    "isco": "2212",
+    "iscoTitle": "Specialist medical practitioners",
+    "via": "specialised doctor",
+    "match": "narrowMatch"
+  },
+  "29-1212.00": {
+    "isco": "2212",
+    "iscoTitle": "Specialist medical practitioners",
+    "via": "specialised doctor",
+    "match": "narrowMatch"
+  },
+  "29-1213.00": {
+    "isco": "2212",
+    "iscoTitle": "Specialist medical practitioners",
+    "via": "specialised doctor",
+    "match": "narrowMatch"
+  },
+  "29-1214.00": {
+    "isco": "2212",
+    "iscoTitle": "Specialist medical practitioners",
+    "via": "specialised doctor",
+    "match": "narrowMatch"
+  },
+  "29-1215.00": {
+    "isco": "2211",
+    "iscoTitle": "Generalist medical practitioners",
+    "via": "general practitioner",
+    "match": "exactMatch"
+  },
+  "29-1216.00": {
+    "isco": "2212",
+    "iscoTitle": "Specialist medical practitioners",
+    "via": "specialised doctor",
+    "match": "closeMatch"
+  },
+  "29-1217.00": {
+    "isco": "2212",
+    "iscoTitle": "Specialist medical practitioners",
+    "via": "specialised doctor",
+    "match": "narrowMatch"
+  },
+  "29-1218.00": {
+    "isco": "2212",
+    "iscoTitle": "Specialist medical practitioners",
+    "via": "specialised doctor",
+    "match": "narrowMatch"
+  },
+  "29-1221.00": {
+    "isco": "2212",
+    "iscoTitle": "Specialist medical practitioners",
+    "via": "specialised doctor",
+    "match": "narrowMatch"
+  },
+  "29-1222.00": {
+    "isco": "3212",
+    "iscoTitle": "Medical and pathology laboratory technicians",
+    "via": "biomedical scientist",
+    "match": "closeMatch"
+  },
+  "29-1223.00": {
+    "isco": "2212",
+    "iscoTitle": "Specialist medical practitioners",
+    "via": "specialised doctor",
+    "match": "narrowMatch"
+  },
+  "29-1224.00": {
+    "isco": "2269",
+    "iscoTitle": "Health professionals not elsewhere classified",
+    "via": "radiographer",
+    "match": "exactMatch"
+  },
+  "29-1229.01": {
+    "isco": "2212",
+    "iscoTitle": "Specialist medical practitioners",
+    "via": "specialised doctor",
+    "match": "narrowMatch"
+  },
+  "29-1229.02": {
+    "isco": "2211",
+    "iscoTitle": "Generalist medical practitioners",
+    "via": "general practitioner",
+    "match": "closeMatch"
+  },
+  "29-1229.03": {
+    "isco": "2212",
+    "iscoTitle": "Specialist medical practitioners",
+    "via": "specialised doctor",
+    "match": "narrowMatch"
+  },
+  "29-1229.04": {
+    "isco": "2264",
+    "iscoTitle": "Physiotherapists",
+    "via": "advanced physiotherapist",
+    "match": "closeMatch"
+  },
+  "29-1229.05": {
+    "isco": "2211",
+    "iscoTitle": "Generalist medical practitioners",
+    "via": "general practitioner",
+    "match": "closeMatch"
+  },
+  "29-1229.06": {
+    "isco": "2212",
+    "iscoTitle": "Specialist medical practitioners",
+    "via": "specialised doctor",
+    "match": "narrowMatch"
+  },
+  "29-1241.00": {
+    "isco": "2267",
+    "iscoTitle": "Optometrists and ophthalmic opticians",
+    "via": "optometrist",
+    "match": "closeMatch"
+  },
+  "29-1242.00": {
+    "isco": "2212",
+    "iscoTitle": "Specialist medical practitioners",
+    "via": "specialised doctor",
+    "match": "narrowMatch"
+  },
+  "29-1243.00": {
+    "isco": "2212",
+    "iscoTitle": "Specialist medical practitioners",
+    "via": "specialised doctor",
+    "match": "narrowMatch"
+  },
+  "29-1291.00": {
+    "isco": "2230",
+    "iscoTitle": "Traditional and complementary medicine professionals",
+    "via": "complementary therapist",
+    "match": "narrowMatch"
+  },
+  "29-1292.00": {
+    "isco": "3251",
+    "iscoTitle": "Dental assistants and therapists",
+    "via": "dental hygienist",
+    "match": "exactMatch"
+  },
+  "29-1299.01": {
+    "isco": "3255",
+    "iscoTitle": "Physiotherapy technicians and assistants",
+    "via": "aromatherapist",
+    "match": "broadMatch"
+  },
+  "29-1299.02": {
+    "isco": "2267",
+    "iscoTitle": "Optometrists and ophthalmic opticians",
+    "via": "orthoptist",
+    "match": "exactMatch"
+  },
+  "29-2011.00": {
+    "isco": "3212",
+    "iscoTitle": "Medical and pathology laboratory technicians",
+    "via": "biomedical scientist",
+    "match": "exactMatch"
+  },
+  "29-2011.02": {
+    "isco": "3212",
+    "iscoTitle": "Medical and pathology laboratory technicians",
+    "via": "biomedical scientist",
+    "match": "narrowMatch"
+  },
+  "29-2011.04": {
+    "isco": "3212",
+    "iscoTitle": "Medical and pathology laboratory technicians",
+    "via": "biomedical scientist",
+    "match": "narrowMatch"
+  },
+  "29-2012.00": {
+    "isco": "3212",
+    "iscoTitle": "Medical and pathology laboratory technicians",
+    "via": "medical laboratory assistant",
+    "match": "closeMatch"
+  },
+  "29-2012.01": {
+    "isco": "3212",
+    "iscoTitle": "Medical and pathology laboratory technicians",
+    "via": "medical laboratory assistant",
+    "match": "closeMatch"
+  },
+  "29-2031.00": {
+    "isco": "3211",
+    "iscoTitle": "Medical imaging and therapeutic equipment technicians",
+    "via": "clinical perfusion scientist",
+    "match": "closeMatch"
+  },
+  "29-2032.00": {
+    "isco": "2269",
+    "iscoTitle": "Health professionals not elsewhere classified",
+    "via": "radiographer",
+    "match": "closeMatch"
+  },
+  "29-2034.00": {
+    "isco": "2269",
+    "iscoTitle": "Health professionals not elsewhere classified",
+    "via": "radiographer",
+    "match": "broadMatch"
+  },
+  "29-2035.00": {
+    "isco": "2269",
+    "iscoTitle": "Health professionals not elsewhere classified",
+    "via": "radiographer",
+    "match": "closeMatch"
+  },
+  "29-2042.00": {
+    "isco": "3258",
+    "iscoTitle": "Ambulance workers",
+    "via": "emergency ambulance driver",
+    "match": "closeMatch"
+  },
+  "29-2043.00": {
+    "isco": "3258",
+    "iscoTitle": "Ambulance workers",
+    "via": "paramedic in emergency responses",
+    "match": "exactMatch"
+  },
+  "29-2051.00": {
+    "isco": "3259",
+    "iscoTitle": "Health associate professionals not elsewhere classified",
+    "via": "dietetic technician",
+    "match": "exactMatch"
+  },
+  "29-2052.00": {
+    "isco": "3213",
+    "iscoTitle": "Pharmaceutical technicians and assistants",
+    "via": "pharmacy technician",
+    "match": "exactMatch"
+  },
+  "29-2053.00": {
+    "isco": "2269",
+    "iscoTitle": "Health professionals not elsewhere classified",
+    "via": "occupational therapy assistant",
+    "match": "closeMatch"
+  },
+  "29-2055.00": {
+    "isco": "3256",
+    "iscoTitle": "Medical assistants",
+    "via": "doctors' surgery assistant",
+    "match": "exactMatch"
+  },
+  "29-2056.00": {
+    "isco": "3240",
+    "iscoTitle": "Veterinary technicians and assistants",
+    "via": "veterinary technician",
+    "match": "exactMatch"
+  },
+  "29-2057.00": {
+    "isco": "2267",
+    "iscoTitle": "Optometrists and ophthalmic opticians",
+    "via": "optometrist",
+    "match": "closeMatch"
+  },
+  "29-2061.00": {
+    "isco": "5322",
+    "iscoTitle": "Home-based personal care workers",
+    "via": "home care aide",
+    "match": "broadMatch"
+  },
+  "29-2072.00": {
+    "isco": "3252",
+    "iscoTitle": "Medical records and health information technicians",
+    "via": "picture archiving and communication systems administrator",
+    "match": "closeMatch"
+  },
+  "29-2081.00": {
+    "isco": "3254",
+    "iscoTitle": "Dispensing opticians",
+    "via": "optician",
+    "match": "exactMatch"
+  },
+  "29-2091.00": {
+    "isco": "3214",
+    "iscoTitle": "Medical and dental prosthetic technicians",
+    "via": "prosthetist-orthotist",
+    "match": "exactMatch"
+  },
+  "29-2092.00": {
+    "isco": "3214",
+    "iscoTitle": "Medical and dental prosthetic technicians",
+    "via": "audiology technician",
+    "match": "exactMatch"
+  },
+  "29-2099.05": {
+    "isco": "2267",
+    "iscoTitle": "Optometrists and ophthalmic opticians",
+    "via": "optometrist",
+    "match": "closeMatch"
+  },
+  "29-9021.00": {
+    "isco": "2622",
+    "iscoTitle": "Librarians and related information professionals",
+    "via": "information manager",
+    "match": "closeMatch"
+  },
+  "29-9091.00": {
+    "isco": "2264",
+    "iscoTitle": "Physiotherapists",
+    "via": "physiotherapist",
+    "match": "closeMatch"
+  },
+  "29-9093.00": {
+    "isco": "3256",
+    "iscoTitle": "Medical assistants",
+    "via": "doctors' surgery assistant",
+    "match": "closeMatch"
+  },
+  "29-9099.01": {
+    "isco": "2222",
+    "iscoTitle": "Midwifery professionals",
+    "via": "midwife",
+    "match": "exactMatch"
+  },
+  "31-1121.00": {
+    "isco": "5322",
+    "iscoTitle": "Home-based personal care workers",
+    "via": "home care aide",
+    "match": "exactMatch"
+  },
+  "31-1122.00": {
+    "isco": "5162",
+    "iscoTitle": "Companions and valets",
+    "via": "companion",
+    "match": "broadMatch"
+  },
+  "31-1131.00": {
+    "isco": "5321",
+    "iscoTitle": "Health care assistants",
+    "via": "healthcare assistant",
+    "match": "closeMatch"
+  },
+  "31-1132.00": {
+    "isco": "5329",
+    "iscoTitle": "Personal care workers in health services not elsewhere classified",
+    "via": "hospital porter",
+    "match": "exactMatch"
+  },
+  "31-1133.00": {
+    "isco": "5321",
+    "iscoTitle": "Health care assistants",
+    "via": "healthcare assistant",
+    "match": "narrowMatch"
+  },
+  "31-2011.00": {
+    "isco": "2269",
+    "iscoTitle": "Health professionals not elsewhere classified",
+    "via": "occupational therapy assistant",
+    "match": "exactMatch"
+  },
+  "31-2012.00": {
+    "isco": "2269",
+    "iscoTitle": "Health professionals not elsewhere classified",
+    "via": "occupational therapy assistant",
+    "match": "narrowMatch"
+  },
+  "31-2021.00": {
+    "isco": "2230",
+    "iscoTitle": "Traditional and complementary medicine professionals",
+    "via": "complementary therapist",
+    "match": "closeMatch"
+  },
+  "31-2022.00": {
+    "isco": "3255",
+    "iscoTitle": "Physiotherapy technicians and assistants",
+    "via": "physiotherapy assistant",
+    "match": "closeMatch"
+  },
+  "31-9011.00": {
+    "isco": "2230",
+    "iscoTitle": "Traditional and complementary medicine professionals",
+    "via": "complementary therapist",
+    "match": "narrowMatch"
+  },
+  "31-9091.00": {
+    "isco": "3251",
+    "iscoTitle": "Dental assistants and therapists",
+    "via": "dental chairside assistant",
+    "match": "exactMatch"
+  },
+  "31-9092.00": {
+    "isco": "3256",
+    "iscoTitle": "Medical assistants",
+    "via": "doctors' surgery assistant",
+    "match": "closeMatch"
+  },
+  "31-9093.00": {
+    "isco": "5329",
+    "iscoTitle": "Personal care workers in health services not elsewhere classified",
+    "via": "sterile services technician",
+    "match": "exactMatch"
+  },
+  "31-9094.00": {
+    "isco": "3344",
+    "iscoTitle": "Medical secretaries",
+    "via": "medical transcriptionist",
+    "match": "exactMatch"
+  },
+  "31-9095.00": {
+    "isco": "3213",
+    "iscoTitle": "Pharmaceutical technicians and assistants",
+    "via": "pharmacy assistant",
+    "match": "exactMatch"
+  },
+  "31-9096.00": {
+    "isco": "5164",
+    "iscoTitle": "Pet groomers and animal care workers",
+    "via": "animal care attendant",
+    "match": "closeMatch"
+  },
+  "31-9097.00": {
+    "isco": "5329",
+    "iscoTitle": "Personal care workers in health services not elsewhere classified",
+    "via": "phlebotomist",
+    "match": "exactMatch"
+  },
+  "31-9099.01": {
+    "isco": "2266",
+    "iscoTitle": "Audiologists and speech therapists",
+    "via": "speech and language therapist",
+    "match": "closeMatch"
+  },
+  "33-1011.00": {
+    "isco": "1349",
+    "iscoTitle": "Professional services managers not elsewhere classified",
+    "via": "correctional services manager",
+    "match": "exactMatch"
+  },
+  "33-1012.00": {
+    "isco": "1112",
+    "iscoTitle": "Senior government officials",
+    "via": "police commissioner",
+    "match": "exactMatch"
+  },
+  "33-1021.00": {
+    "isco": "1349",
+    "iscoTitle": "Professional services managers not elsewhere classified",
+    "via": "chief fire officer",
+    "match": "closeMatch"
+  },
+  "33-2011.00": {
+    "isco": "5411",
+    "iscoTitle": "Fire-fighters",
+    "via": "firefighter",
+    "match": "exactMatch"
+  },
+  "33-2022.00": {
+    "isco": "3359",
+    "iscoTitle": "Regulatory government associate professionals not elsewhere classified",
+    "via": "forestry inspector",
+    "match": "exactMatch"
+  },
+  "33-3011.00": {
+    "isco": "3411",
+    "iscoTitle": "Legal and related associate professionals",
+    "via": "court bailiff",
+    "match": "exactMatch"
+  },
+  "33-3012.00": {
+    "isco": "5413",
+    "iscoTitle": "Prison guards",
+    "via": "prison officer",
+    "match": "exactMatch"
+  },
+  "33-3021.00": {
+    "isco": "3411",
+    "iscoTitle": "Legal and related associate professionals",
+    "via": "private detective",
+    "match": "closeMatch"
+  },
+  "33-3021.02": {
+    "isco": "3355",
+    "iscoTitle": "Police inspectors and detectives",
+    "via": "criminal investigator",
+    "match": "closeMatch"
+  },
+  "33-3021.06": {
+    "isco": "2422",
+    "iscoTitle": "Policy administration professionals",
+    "via": "intelligence officer",
+    "match": "exactMatch"
+  },
+  "33-3031.00": {
+    "isco": "5164",
+    "iscoTitle": "Pet groomers and animal care workers",
+    "via": "game keeper",
+    "match": "narrowMatch"
+  },
+  "33-3041.00": {
+    "isco": "5419",
+    "iscoTitle": "Protective services workers not elsewhere classified",
+    "via": "street warden",
+    "match": "closeMatch"
+  },
+  "33-3051.00": {
+    "isco": "5412",
+    "iscoTitle": "Police officers",
+    "via": "police officer",
+    "match": "broadMatch"
+  },
+  "33-3051.04": {
+    "isco": "3351",
+    "iscoTitle": "Customs and border inspectors",
+    "via": "immigration officer",
+    "match": "exactMatch"
+  },
+  "33-3052.00": {
+    "isco": "5412",
+    "iscoTitle": "Police officers",
+    "via": "police officer",
+    "match": "narrowMatch"
+  },
+  "33-9011.00": {
+    "isco": "5164",
+    "iscoTitle": "Pet groomers and animal care workers",
+    "via": "animal welfare inspector",
+    "match": "exactMatch"
+  },
+  "33-9021.00": {
+    "isco": "3411",
+    "iscoTitle": "Legal and related associate professionals",
+    "via": "private detective",
+    "match": "exactMatch"
+  },
+  "33-9031.00": {
+    "isco": "3359",
+    "iscoTitle": "Regulatory government associate professionals not elsewhere classified",
+    "via": "gaming inspector",
+    "match": "exactMatch"
+  },
+  "33-9032.00": {
+    "isco": "5414",
+    "iscoTitle": "Security guards",
+    "via": "security guard",
+    "match": "exactMatch"
+  },
+  "33-9091.00": {
+    "isco": "8312",
+    "iscoTitle": "Railway brake, signal and switch operators",
+    "via": "level crossing signalperson",
+    "match": "closeMatch"
+  },
+  "33-9092.00": {
+    "isco": "5419",
+    "iscoTitle": "Protective services workers not elsewhere classified",
+    "via": "life guard",
+    "match": "broadMatch"
+  },
+  "33-9093.00": {
+    "isco": "3351",
+    "iscoTitle": "Customs and border inspectors",
+    "via": "hand luggage inspector",
+    "match": "broadMatch"
+  },
+  "33-9094.00": {
+    "isco": "5311",
+    "iscoTitle": "Child care workers",
+    "via": "school bus attendant",
+    "match": "exactMatch"
+  },
+  "35-1011.00": {
+    "isco": "3434",
+    "iscoTitle": "Chefs",
+    "via": "chef",
+    "match": "broadMatch"
+  },
+  "35-1012.00": {
+    "isco": "1412",
+    "iscoTitle": "Restaurant managers",
+    "via": "restaurant manager",
+    "match": "closeMatch"
+  },
+  "35-2011.00": {
+    "isco": "9411",
+    "iscoTitle": "Fast food preparers",
+    "via": "quick service restaurant crew member",
+    "match": "closeMatch"
+  },
+  "35-2012.00": {
+    "isco": "3434",
+    "iscoTitle": "Chefs",
+    "via": "chef",
+    "match": "closeMatch"
+  },
+  "35-2013.00": {
+    "isco": "3434",
+    "iscoTitle": "Chefs",
+    "via": "chef",
+    "match": "closeMatch"
+  },
+  "35-2014.00": {
+    "isco": "3434",
+    "iscoTitle": "Chefs",
+    "via": "chef",
+    "match": "closeMatch"
+  },
+  "35-2015.00": {
+    "isco": "9411",
+    "iscoTitle": "Fast food preparers",
+    "via": "quick service restaurant crew member",
+    "match": "closeMatch"
+  },
+  "35-2021.00": {
+    "isco": "9412",
+    "iscoTitle": "Kitchen helpers",
+    "via": "kitchen assistant",
+    "match": "exactMatch"
+  },
+  "35-3011.00": {
+    "isco": "5132",
+    "iscoTitle": "Bartenders",
+    "via": "bartender",
+    "match": "exactMatch"
+  },
+  "35-3023.00": {
+    "isco": "9411",
+    "iscoTitle": "Fast food preparers",
+    "via": "quick service restaurant crew member",
+    "match": "exactMatch"
+  },
+  "35-3031.00": {
+    "isco": "5131",
+    "iscoTitle": "Waiters",
+    "via": "waiter/waitress",
+    "match": "exactMatch"
+  },
+  "35-3041.00": {
+    "isco": "5131",
+    "iscoTitle": "Waiters",
+    "via": "waiter/waitress",
+    "match": "narrowMatch"
+  },
+  "35-9021.00": {
+    "isco": "9412",
+    "iscoTitle": "Kitchen helpers",
+    "via": "kitchen porter",
+    "match": "exactMatch"
+  },
+  "35-9031.00": {
+    "isco": "9621",
+    "iscoTitle": "Messengers, package deliverers and luggage porters",
+    "via": "doorman/doorwoman",
+    "match": "closeMatch"
+  },
+  "37-1011.00": {
+    "isco": "5151",
+    "iscoTitle": "Cleaning and housekeeping supervisors in offices, hotels and other establishments",
+    "via": "housekeeping supervisor",
+    "match": "exactMatch"
+  },
+  "37-1012.00": {
+    "isco": "6113",
+    "iscoTitle": "Gardeners, horticultural and nursery growers",
+    "via": "landscape gardener",
+    "match": "closeMatch"
+  },
+  "37-2011.00": {
+    "isco": "9112",
+    "iscoTitle": "Cleaners and helpers in offices, hotels and other establishments",
+    "via": "building cleaner",
+    "match": "exactMatch"
+  },
+  "37-2012.00": {
+    "isco": "9111",
+    "iscoTitle": "Domestic cleaners and helpers",
+    "via": "domestic cleaner",
+    "match": "exactMatch"
+  },
+  "37-2021.00": {
+    "isco": "7544",
+    "iscoTitle": "Fumigators and other pest and weed controllers",
+    "via": "pest management worker",
+    "match": "exactMatch"
+  },
+  "37-3011.00": {
+    "isco": "6113",
+    "iscoTitle": "Gardeners, horticultural and nursery growers",
+    "via": "groundsman/groundswoman",
+    "match": "exactMatch"
+  },
+  "37-3012.00": {
+    "isco": "7544",
+    "iscoTitle": "Fumigators and other pest and weed controllers",
+    "via": "pest management worker",
+    "match": "closeMatch"
+  },
+  "37-3013.00": {
+    "isco": "6113",
+    "iscoTitle": "Gardeners, horticultural and nursery growers",
+    "via": "tree surgeon",
+    "match": "exactMatch"
+  },
+  "39-1013.00": {
+    "isco": "4212",
+    "iscoTitle": "Bookmakers, croupiers and related gaming workers",
+    "via": "casino gaming manager",
+    "match": "exactMatch"
+  },
+  "39-1014.00": {
+    "isco": "3339",
+    "iscoTitle": "Business services agents not elsewhere classified",
+    "via": "hospitality entertainment manager",
+    "match": "broadMatch"
+  },
+  "39-2011.00": {
+    "isco": "5164",
+    "iscoTitle": "Pet groomers and animal care workers",
+    "via": "animal handler",
+    "match": "broadMatch"
+  },
+  "39-2021.00": {
+    "isco": "5164",
+    "iscoTitle": "Pet groomers and animal care workers",
+    "via": "pet sitter",
+    "match": "closeMatch"
+  },
+  "39-3011.00": {
+    "isco": "4212",
+    "iscoTitle": "Bookmakers, croupiers and related gaming workers",
+    "via": "gaming dealer",
+    "match": "exactMatch"
+  },
+  "39-3012.00": {
+    "isco": "4212",
+    "iscoTitle": "Bookmakers, croupiers and related gaming workers",
+    "via": "bookmaker",
+    "match": "exactMatch"
+  },
+  "39-3031.00": {
+    "isco": "9629",
+    "iscoTitle": "Elementary workers not elsewhere classified",
+    "via": "usher",
+    "match": "broadMatch"
+  },
+  "39-3091.00": {
+    "isco": "9629",
+    "iscoTitle": "Elementary workers not elsewhere classified",
+    "via": "amusement and recreation attendant",
+    "match": "exactMatch"
+  },
+  "39-3092.00": {
+    "isco": "3435",
+    "iscoTitle": "Other artistic and cultural associate professionals",
+    "via": "dresser",
+    "match": "broadMatch"
+  },
+  "39-3093.00": {
+    "isco": "9629",
+    "iscoTitle": "Elementary workers not elsewhere classified",
+    "via": "locker room attendant",
+    "match": "broadMatch"
+  },
+  "39-4011.00": {
+    "isco": "5163",
+    "iscoTitle": "Undertakers and embalmers",
+    "via": "embalmer",
+    "match": "exactMatch"
+  },
+  "39-4012.00": {
+    "isco": "5163",
+    "iscoTitle": "Undertakers and embalmers",
+    "via": "embalmer",
+    "match": "broadMatch"
+  },
+  "39-4021.00": {
+    "isco": "5163",
+    "iscoTitle": "Undertakers and embalmers",
+    "via": "funeral attendant",
+    "match": "exactMatch"
+  },
+  "39-4031.00": {
+    "isco": "5163",
+    "iscoTitle": "Undertakers and embalmers",
+    "via": "funeral services director",
+    "match": "exactMatch"
+  },
+  "39-5011.00": {
+    "isco": "5141",
+    "iscoTitle": "Hairdressers",
+    "via": "hairdresser",
+    "match": "closeMatch"
+  },
+  "39-5012.00": {
+    "isco": "7531",
+    "iscoTitle": "Tailors, dressmakers, furriers and hatters",
+    "via": "wig and hairpiece maker",
+    "match": "closeMatch"
+  },
+  "39-5091.00": {
+    "isco": "5142",
+    "iscoTitle": "Beauticians and related workers",
+    "via": "make-up artist",
+    "match": "exactMatch"
+  },
+  "39-5092.00": {
+    "isco": "5142",
+    "iscoTitle": "Beauticians and related workers",
+    "via": "aesthetician",
+    "match": "narrowMatch"
+  },
+  "39-5093.00": {
+    "isco": "5141",
+    "iscoTitle": "Hairdressers",
+    "via": "hairdresser",
+    "match": "narrowMatch"
+  },
+  "39-5094.00": {
+    "isco": "5142",
+    "iscoTitle": "Beauticians and related workers",
+    "via": "aesthetician",
+    "match": "exactMatch"
+  },
+  "39-6011.00": {
+    "isco": "9621",
+    "iscoTitle": "Messengers, package deliverers and luggage porters",
+    "via": "hotel porter",
+    "match": "broadMatch"
+  },
+  "39-6012.00": {
+    "isco": "4229",
+    "iscoTitle": "Client information workers not elsewhere classified",
+    "via": "hotel concierge",
+    "match": "broadMatch"
+  },
+  "39-7011.00": {
+    "isco": "5113",
+    "iscoTitle": "Travel guides",
+    "via": "tourist guide",
+    "match": "exactMatch"
+  },
+  "39-7012.00": {
+    "isco": "4221",
+    "iscoTitle": "Travel consultants and clerks",
+    "via": "travel agent",
+    "match": "closeMatch"
+  },
+  "39-9011.00": {
+    "isco": "5311",
+    "iscoTitle": "Child care workers",
+    "via": "child care worker",
+    "match": "exactMatch"
+  },
+  "39-9031.00": {
+    "isco": "3422",
+    "iscoTitle": "Sports coaches, instructors and officials",
+    "via": "sports instructor",
+    "match": "exactMatch"
+  },
+  "39-9032.00": {
+    "isco": "2422",
+    "iscoTitle": "Policy administration professionals",
+    "via": "sports programme coordinator",
+    "match": "closeMatch"
+  },
+  "39-9041.00": {
+    "isco": "3334",
+    "iscoTitle": "Real estate agents and property managers",
+    "via": "housing manager",
+    "match": "narrowMatch"
+  },
+  "41-1011.00": {
+    "isco": "1420",
+    "iscoTitle": "Retail and wholesale trade managers",
+    "via": "shop manager",
+    "match": "narrowMatch"
+  },
+  "41-1012.00": {
+    "isco": "1420",
+    "iscoTitle": "Retail and wholesale trade managers",
+    "via": "shop manager",
+    "match": "closeMatch"
+  },
+  "41-2011.00": {
+    "isco": "5230",
+    "iscoTitle": "Cashiers and ticket clerks",
+    "via": "cashier",
+    "match": "exactMatch"
+  },
+  "41-2012.00": {
+    "isco": "4212",
+    "iscoTitle": "Bookmakers, croupiers and related gaming workers",
+    "via": "casino cashier",
+    "match": "broadMatch"
+  },
+  "41-2021.00": {
+    "isco": "5249",
+    "iscoTitle": "Sales workers not elsewhere classified",
+    "via": "rental service representative",
+    "match": "exactMatch"
+  },
+  "41-2022.00": {
+    "isco": "5223",
+    "iscoTitle": "Shop sales assistants",
+    "via": "sales assistant",
+    "match": "narrowMatch"
+  },
+  "41-2031.00": {
+    "isco": "5223",
+    "iscoTitle": "Shop sales assistants",
+    "via": "specialised seller",
+    "match": "exactMatch"
+  },
+  "41-3011.00": {
+    "isco": "3339",
+    "iscoTitle": "Business services agents not elsewhere classified",
+    "via": "advertising sales agent",
+    "match": "exactMatch"
+  },
+  "41-3021.00": {
+    "isco": "3321",
+    "iscoTitle": "Insurance representatives",
+    "via": "insurance broker",
+    "match": "exactMatch"
+  },
+  "41-3031.00": {
+    "isco": "3324",
+    "iscoTitle": "Trade brokers",
+    "via": "commodity broker",
+    "match": "closeMatch"
+  },
+  "41-3041.00": {
+    "isco": "4221",
+    "iscoTitle": "Travel consultants and clerks",
+    "via": "travel agent",
+    "match": "exactMatch"
+  },
+  "41-3091.00": {
+    "isco": "5243",
+    "iscoTitle": "Door to door salespersons",
+    "via": "door to door seller",
+    "match": "closeMatch"
+  },
+  "41-4011.00": {
+    "isco": "2433",
+    "iscoTitle": "Technical and medical sales professionals (excluding ICT)",
+    "via": "technical sales representative",
+    "match": "exactMatch"
+  },
+  "41-4011.07": {
+    "isco": "2433",
+    "iscoTitle": "Technical and medical sales professionals (excluding ICT)",
+    "via": "solar energy sales consultant",
+    "match": "exactMatch"
+  },
+  "41-4012.00": {
+    "isco": "3322",
+    "iscoTitle": "Commercial sales representatives",
+    "via": "commercial sales representative",
+    "match": "narrowMatch"
+  },
+  "41-9011.00": {
+    "isco": "5242",
+    "iscoTitle": "Sales demonstrators",
+    "via": "promotions demonstrator",
+    "match": "exactMatch"
+  },
+  "41-9012.00": {
+    "isco": "5241",
+    "iscoTitle": "Fashion and other models",
+    "via": "fashion model",
+    "match": "broadMatch"
+  },
+  "41-9021.00": {
+    "isco": "3334",
+    "iscoTitle": "Real estate agents and property managers",
+    "via": "property acquisitions manager",
+    "match": "exactMatch"
+  },
+  "41-9022.00": {
+    "isco": "3334",
+    "iscoTitle": "Real estate agents and property managers",
+    "via": "real estate agent",
+    "match": "exactMatch"
+  },
+  "41-9031.00": {
+    "isco": "2433",
+    "iscoTitle": "Technical and medical sales professionals (excluding ICT)",
+    "via": "sales engineer",
+    "match": "exactMatch"
+  },
+  "41-9041.00": {
+    "isco": "5244",
+    "iscoTitle": "Contact centre salespersons",
+    "via": "call centre agent",
+    "match": "exactMatch"
+  },
+  "41-9091.00": {
+    "isco": "5243",
+    "iscoTitle": "Door to door salespersons",
+    "via": "door to door seller",
+    "match": "broadMatch"
+  },
+  "41-9099.00": {
+    "isco": "5223",
+    "iscoTitle": "Shop sales assistants",
+    "via": "car leasing agent",
+    "match": "broadMatch"
+  },
+  "43-1011.00": {
+    "isco": "3341",
+    "iscoTitle": "Office supervisors",
+    "via": "office manager",
+    "match": "exactMatch"
+  },
+  "43-2011.00": {
+    "isco": "4223",
+    "iscoTitle": "Telephone switchboard operators",
+    "via": "telephone switchboard operator",
+    "match": "exactMatch"
+  },
+  "43-2021.00": {
+    "isco": "4223",
+    "iscoTitle": "Telephone switchboard operators",
+    "via": "telephone switchboard operator",
+    "match": "broadMatch"
+  },
+  "43-3011.00": {
+    "isco": "4214",
+    "iscoTitle": "Debt-collectors and related workers",
+    "via": "debt collector",
+    "match": "exactMatch"
+  },
+  "43-3021.00": {
+    "isco": "4311",
+    "iscoTitle": "Accounting and bookkeeping clerks",
+    "via": "billing clerk",
+    "match": "exactMatch"
+  },
+  "43-3031.00": {
+    "isco": "4312",
+    "iscoTitle": "Statistical, finance and insurance clerks",
+    "via": "tax clerk",
+    "match": "closeMatch"
+  },
+  "43-3041.00": {
+    "isco": "4212",
+    "iscoTitle": "Bookmakers, croupiers and related gaming workers",
+    "via": "casino cashier",
+    "match": "exactMatch"
+  },
+  "43-3051.00": {
+    "isco": "4313",
+    "iscoTitle": "Payroll clerks",
+    "via": "payroll clerk",
+    "match": "exactMatch"
+  },
+  "43-3061.00": {
+    "isco": "3323",
+    "iscoTitle": "Buyers",
+    "via": "purchaser",
+    "match": "closeMatch"
+  },
+  "43-3071.00": {
+    "isco": "4211",
+    "iscoTitle": "Bank tellers and related clerks",
+    "via": "bank teller",
+    "match": "exactMatch"
+  },
+  "43-4011.00": {
+    "isco": "4312",
+    "iscoTitle": "Statistical, finance and insurance clerks",
+    "via": "investment clerk",
+    "match": "closeMatch"
+  },
+  "43-4021.00": {
+    "isco": "4110",
+    "iscoTitle": "General office clerks",
+    "via": "office clerk",
+    "match": "closeMatch"
+  },
+  "43-4031.00": {
+    "isco": "3411",
+    "iscoTitle": "Legal and related associate professionals",
+    "via": "court administrative officer",
+    "match": "closeMatch"
+  },
+  "43-4041.00": {
+    "isco": "3312",
+    "iscoTitle": "Credit and loans officers",
+    "via": "loan officer",
+    "match": "closeMatch"
+  },
+  "43-4051.00": {
+    "isco": "4225",
+    "iscoTitle": "Enquiry clerks",
+    "via": "customer service representative",
+    "match": "exactMatch"
+  },
+  "43-4061.00": {
+    "isco": "3353",
+    "iscoTitle": "Government social benefits officials",
+    "via": "social security officer",
+    "match": "closeMatch"
+  },
+  "43-4071.00": {
+    "isco": "4415",
+    "iscoTitle": "Filing and copying clerks",
+    "via": "file clerk",
+    "match": "exactMatch"
+  },
+  "43-4081.00": {
+    "isco": "4229",
+    "iscoTitle": "Client information workers not elsewhere classified",
+    "via": "hotel concierge",
+    "match": "exactMatch"
+  },
+  "43-4111.00": {
+    "isco": "4227",
+    "iscoTitle": "Survey and market research interviewers",
+    "via": "market research interviewer",
+    "match": "broadMatch"
+  },
+  "43-4121.00": {
+    "isco": "2621",
+    "iscoTitle": "Archivists and curators",
+    "via": "archivist",
+    "match": "closeMatch"
+  },
+  "43-4131.00": {
+    "isco": "3312",
+    "iscoTitle": "Credit and loans officers",
+    "via": "loan officer",
+    "match": "closeMatch"
+  },
+  "43-4141.00": {
+    "isco": "3312",
+    "iscoTitle": "Credit and loans officers",
+    "via": "bank account manager",
+    "match": "exactMatch"
+  },
+  "43-4151.00": {
+    "isco": "4311",
+    "iscoTitle": "Accounting and bookkeeping clerks",
+    "via": "sales support assistant",
+    "match": "closeMatch"
+  },
+  "43-4161.00": {
+    "isco": "4416",
+    "iscoTitle": "Personnel clerks",
+    "via": "human resources assistant",
+    "match": "exactMatch"
+  },
+  "43-4171.00": {
+    "isco": "4224",
+    "iscoTitle": "Hotel receptionists",
+    "via": "hospitality establishment receptionist",
+    "match": "broadMatch"
+  },
+  "43-4181.00": {
+    "isco": "4221",
+    "iscoTitle": "Travel consultants and clerks",
+    "via": "ticket sales agent",
+    "match": "exactMatch"
+  },
+  "43-5011.00": {
+    "isco": "3331",
+    "iscoTitle": "Clearing and forwarding agents",
+    "via": "forwarding manager",
+    "match": "closeMatch"
+  },
+  "43-5011.01": {
+    "isco": "4323",
+    "iscoTitle": "Transport clerks",
+    "via": "freight transport dispatcher",
+    "match": "exactMatch"
+  },
+  "43-5021.00": {
+    "isco": "8322",
+    "iscoTitle": "Car, taxi and van drivers",
+    "via": "car and van delivery driver",
+    "match": "broadMatch"
+  },
+  "43-5031.00": {
+    "isco": "4223",
+    "iscoTitle": "Telephone switchboard operators",
+    "via": "telephone switchboard operator",
+    "match": "closeMatch"
+  },
+  "43-5032.00": {
+    "isco": "9333",
+    "iscoTitle": "Freight handlers",
+    "via": "distribution centre dispatcher",
+    "match": "broadMatch"
+  },
+  "43-5041.00": {
+    "isco": "9623",
+    "iscoTitle": "Meter readers and vending-machine collectors",
+    "via": "meter reader",
+    "match": "exactMatch"
+  },
+  "43-5051.00": {
+    "isco": "4211",
+    "iscoTitle": "Bank tellers and related clerks",
+    "via": "post office counter clerk",
+    "match": "exactMatch"
+  },
+  "43-5052.00": {
+    "isco": "4412",
+    "iscoTitle": "Mail carriers and sorting clerks",
+    "via": "postman/postwoman",
+    "match": "exactMatch"
+  },
+  "43-5053.00": {
+    "isco": "4412",
+    "iscoTitle": "Mail carriers and sorting clerks",
+    "via": "mail clerk",
+    "match": "narrowMatch"
+  },
+  "43-5061.00": {
+    "isco": "4322",
+    "iscoTitle": "Production clerks",
+    "via": "machinery assembly coordinator",
+    "match": "broadMatch"
+  },
+  "43-5071.00": {
+    "isco": "4321",
+    "iscoTitle": "Stock clerks",
+    "via": "inventory coordinator",
+    "match": "exactMatch"
+  },
+  "43-5111.00": {
+    "isco": "3359",
+    "iscoTitle": "Regulatory government associate professionals not elsewhere classified",
+    "via": "weights and measures inspector",
+    "match": "closeMatch"
+  },
+  "43-6011.00": {
+    "isco": "3343",
+    "iscoTitle": "Administrative and executive secretaries",
+    "via": "executive assistant",
+    "match": "exactMatch"
+  },
+  "43-6012.00": {
+    "isco": "3342",
+    "iscoTitle": "Legal secretaries",
+    "via": "legal administrative assistant",
+    "match": "exactMatch"
+  },
+  "43-6013.00": {
+    "isco": "3344",
+    "iscoTitle": "Medical secretaries",
+    "via": "medical administrative assistant",
+    "match": "exactMatch"
+  },
+  "43-6014.00": {
+    "isco": "3343",
+    "iscoTitle": "Administrative and executive secretaries",
+    "via": "executive assistant",
+    "match": "closeMatch"
+  },
+  "43-9021.00": {
+    "isco": "4132",
+    "iscoTitle": "Data entry clerks",
+    "via": "data entry clerk",
+    "match": "exactMatch"
+  },
+  "43-9022.00": {
+    "isco": "4131",
+    "iscoTitle": "Typists and word processing operators",
+    "via": "typist",
+    "match": "exactMatch"
+  },
+  "43-9031.00": {
+    "isco": "2166",
+    "iscoTitle": "Graphic and multimedia designers",
+    "via": "desktop publisher",
+    "match": "exactMatch"
+  },
+  "43-9041.00": {
+    "isco": "4312",
+    "iscoTitle": "Statistical, finance and insurance clerks",
+    "via": "insurance clerk",
+    "match": "exactMatch"
+  },
+  "43-9051.00": {
+    "isco": "4412",
+    "iscoTitle": "Mail carriers and sorting clerks",
+    "via": "mail clerk",
+    "match": "exactMatch"
+  },
+  "43-9061.00": {
+    "isco": "4110",
+    "iscoTitle": "General office clerks",
+    "via": "office clerk",
+    "match": "exactMatch"
+  },
+  "43-9071.00": {
+    "isco": "4110",
+    "iscoTitle": "General office clerks",
+    "via": "office clerk",
+    "match": "closeMatch"
+  },
+  "43-9081.00": {
+    "isco": "4413",
+    "iscoTitle": "Coding, proof-reading and related clerks",
+    "via": "proofreader",
+    "match": "broadMatch"
+  },
+  "43-9111.00": {
+    "isco": "3314",
+    "iscoTitle": "Statistical, mathematical and related associate professionals",
+    "via": "statistical assistant",
+    "match": "exactMatch"
+  },
+  "43-9199.00": {
+    "isco": "2619",
+    "iscoTitle": "Legal professionals not elsewhere classified",
+    "via": "election observer",
+    "match": "broadMatch"
+  },
+  "45-1011.00": {
+    "isco": "1312",
+    "iscoTitle": "Aquaculture and fisheries production managers",
+    "via": "aquaculture harvesting manager",
+    "match": "closeMatch"
+  },
+  "45-2011.00": {
+    "isco": "3359",
+    "iscoTitle": "Regulatory government associate professionals not elsewhere classified",
+    "via": "agricultural inspector",
+    "match": "exactMatch"
+  },
+  "45-2021.00": {
+    "isco": "9212",
+    "iscoTitle": "Livestock farm labourers",
+    "via": "livestock worker",
+    "match": "closeMatch"
+  },
+  "45-2041.00": {
+    "isco": "7515",
+    "iscoTitle": "Food and beverage tasters and graders",
+    "via": "farm milk controller",
+    "match": "closeMatch"
+  },
+  "45-2091.00": {
+    "isco": "8341",
+    "iscoTitle": "Mobile farm and forestry plant operators",
+    "via": "land-based machinery operator",
+    "match": "exactMatch"
+  },
+  "45-2092.00": {
+    "isco": "6112",
+    "iscoTitle": "Tree and shrub crop growers",
+    "via": "hop farmer",
+    "match": "closeMatch"
+  },
+  "45-2093.00": {
+    "isco": "6121",
+    "iscoTitle": "Livestock and dairy producers",
+    "via": "pig breeder",
+    "match": "broadMatch"
+  },
+  "45-2099.00": {
+    "isco": "9216",
+    "iscoTitle": "Fishery and aquaculture labourers",
+    "via": "aquaculture harvesting worker",
+    "match": "broadMatch"
+  },
+  "45-3031.00": {
+    "isco": "5164",
+    "iscoTitle": "Pet groomers and animal care workers",
+    "via": "game keeper",
+    "match": "closeMatch"
+  },
+  "45-4011.00": {
+    "isco": "9215",
+    "iscoTitle": "Forestry labourers",
+    "via": "forest worker",
+    "match": "exactMatch"
+  },
+  "45-4021.00": {
+    "isco": "8341",
+    "iscoTitle": "Mobile farm and forestry plant operators",
+    "via": "forestry equipment operator",
+    "match": "closeMatch"
+  },
+  "45-4022.00": {
+    "isco": "8341",
+    "iscoTitle": "Mobile farm and forestry plant operators",
+    "via": "forestry equipment operator",
+    "match": "exactMatch"
+  },
+  "45-4023.00": {
+    "isco": "3323",
+    "iscoTitle": "Buyers",
+    "via": "timber trader",
+    "match": "closeMatch"
+  },
+  "47-1011.00": {
+    "isco": "3123",
+    "iscoTitle": "Construction supervisors",
+    "via": "construction general supervisor",
+    "match": "broadMatch"
+  },
+  "47-2011.00": {
+    "isco": "7213",
+    "iscoTitle": "Sheet-metal workers",
+    "via": "boilermaker",
+    "match": "exactMatch"
+  },
+  "47-2021.00": {
+    "isco": "7112",
+    "iscoTitle": "Bricklayers and related workers",
+    "via": "bricklayer",
+    "match": "exactMatch"
+  },
+  "47-2022.00": {
+    "isco": "7113",
+    "iscoTitle": "Stonemasons, stone cutters, splitters and carvers",
+    "via": "stonemason",
+    "match": "exactMatch"
+  },
+  "47-2031.00": {
+    "isco": "7115",
+    "iscoTitle": "Carpenters and joiners",
+    "via": "carpenter",
+    "match": "exactMatch"
+  },
+  "47-2041.00": {
+    "isco": "7122",
+    "iscoTitle": "Floor layers and tile setters",
+    "via": "carpet fitter",
+    "match": "exactMatch"
+  },
+  "47-2042.00": {
+    "isco": "7122",
+    "iscoTitle": "Floor layers and tile setters",
+    "via": "hardwood floor layer",
+    "match": "closeMatch"
+  },
+  "47-2043.00": {
+    "isco": "7122",
+    "iscoTitle": "Floor layers and tile setters",
+    "via": "hardwood floor layer",
+    "match": "closeMatch"
+  },
+  "47-2044.00": {
+    "isco": "7112",
+    "iscoTitle": "Bricklayers and related workers",
+    "via": "bricklayer",
+    "match": "closeMatch"
+  },
+  "47-2051.00": {
+    "isco": "7114",
+    "iscoTitle": "Concrete placers, concrete finishers and related workers",
+    "via": "concrete finisher",
+    "match": "exactMatch"
+  },
+  "47-2053.00": {
+    "isco": "7114",
+    "iscoTitle": "Concrete placers, concrete finishers and related workers",
+    "via": "terrazzo setter",
+    "match": "broadMatch"
+  },
+  "47-2061.00": {
+    "isco": "9313",
+    "iscoTitle": "Building construction labourers",
+    "via": "building construction worker",
+    "match": "broadMatch"
+  },
+  "47-2071.00": {
+    "isco": "8342",
+    "iscoTitle": "Earthmoving and related plant operators",
+    "via": "road construction worker",
+    "match": "exactMatch"
+  },
+  "47-2072.00": {
+    "isco": "8342",
+    "iscoTitle": "Earthmoving and related plant operators",
+    "via": "pile driving hammer operator",
+    "match": "exactMatch"
+  },
+  "47-2073.00": {
+    "isco": "8342",
+    "iscoTitle": "Earthmoving and related plant operators",
+    "via": "bulldozer operator",
+    "match": "broadMatch"
+  },
+  "47-2081.00": {
+    "isco": "7123",
+    "iscoTitle": "Plasterers",
+    "via": "ceiling installer",
+    "match": "broadMatch"
+  },
+  "47-2111.00": {
+    "isco": "7411",
+    "iscoTitle": "Building and related electricians",
+    "via": "electrician",
+    "match": "exactMatch"
+  },
+  "47-2121.00": {
+    "isco": "7125",
+    "iscoTitle": "Glaziers",
+    "via": "plate glass installer",
+    "match": "exactMatch"
+  },
+  "47-2131.00": {
+    "isco": "7124",
+    "iscoTitle": "Insulation workers",
+    "via": "insulation worker",
+    "match": "narrowMatch"
+  },
+  "47-2132.00": {
+    "isco": "7124",
+    "iscoTitle": "Insulation workers",
+    "via": "insulation worker",
+    "match": "narrowMatch"
+  },
+  "47-2141.00": {
+    "isco": "7131",
+    "iscoTitle": "Painters and related workers",
+    "via": "construction painter",
+    "match": "exactMatch"
+  },
+  "47-2142.00": {
+    "isco": "7131",
+    "iscoTitle": "Painters and related workers",
+    "via": "paperhanger",
+    "match": "exactMatch"
+  },
+  "47-2151.00": {
+    "isco": "9312",
+    "iscoTitle": "Civil engineering labourers",
+    "via": "civil engineering worker",
+    "match": "narrowMatch"
+  },
+  "47-2152.00": {
+    "isco": "7126",
+    "iscoTitle": "Plumbers and pipe fitters",
+    "via": "sprinkler fitter",
+    "match": "broadMatch"
+  },
+  "47-2161.00": {
+    "isco": "7123",
+    "iscoTitle": "Plasterers",
+    "via": "plasterer",
+    "match": "broadMatch"
+  },
+  "47-2171.00": {
+    "isco": "7214",
+    "iscoTitle": "Structural-metal preparers and erectors",
+    "via": "structural ironworker",
+    "match": "closeMatch"
+  },
+  "47-2181.00": {
+    "isco": "7121",
+    "iscoTitle": "Roofers",
+    "via": "roofer",
+    "match": "exactMatch"
+  },
+  "47-2211.00": {
+    "isco": "7213",
+    "iscoTitle": "Sheet-metal workers",
+    "via": "sheet metal worker",
+    "match": "exactMatch"
+  },
+  "47-2221.00": {
+    "isco": "7214",
+    "iscoTitle": "Structural-metal preparers and erectors",
+    "via": "structural ironworker",
+    "match": "exactMatch"
+  },
+  "47-3011.00": {
+    "isco": "7112",
+    "iscoTitle": "Bricklayers and related workers",
+    "via": "bricklayer",
+    "match": "closeMatch"
+  },
+  "47-3012.00": {
+    "isco": "7115",
+    "iscoTitle": "Carpenters and joiners",
+    "via": "carpenter",
+    "match": "closeMatch"
+  },
+  "47-3013.00": {
+    "isco": "7411",
+    "iscoTitle": "Building and related electricians",
+    "via": "electrician",
+    "match": "closeMatch"
+  },
+  "47-3014.00": {
+    "isco": "7131",
+    "iscoTitle": "Painters and related workers",
+    "via": "construction painter",
+    "match": "closeMatch"
+  },
+  "47-3015.00": {
+    "isco": "7126",
+    "iscoTitle": "Plumbers and pipe fitters",
+    "via": "pipeline maintenance worker",
+    "match": "closeMatch"
+  },
+  "47-3016.00": {
+    "isco": "7121",
+    "iscoTitle": "Roofers",
+    "via": "roofer",
+    "match": "closeMatch"
+  },
+  "47-3019.00": {
+    "isco": "7215",
+    "iscoTitle": "Riggers and cable splicers",
+    "via": "tent installer",
+    "match": "broadMatch"
+  },
+  "47-4011.00": {
+    "isco": "3119",
+    "iscoTitle": "Physical and engineering science technicians not elsewhere classified",
+    "via": "utilities inspector",
+    "match": "broadMatch"
+  },
+  "47-4011.01": {
+    "isco": "2433",
+    "iscoTitle": "Technical and medical sales professionals (excluding ICT)",
+    "via": "renewable energy consultant",
+    "match": "broadMatch"
+  },
+  "47-4021.00": {
+    "isco": "7412",
+    "iscoTitle": "Electrical mechanics and fitters",
+    "via": "lift technician",
+    "match": "exactMatch"
+  },
+  "47-4031.00": {
+    "isco": "7115",
+    "iscoTitle": "Carpenters and joiners",
+    "via": "door installer",
+    "match": "closeMatch"
+  },
+  "47-4041.00": {
+    "isco": "3132",
+    "iscoTitle": "Incinerator and water treatment plant operators",
+    "via": "liquid waste treatment plant operator",
+    "match": "broadMatch"
+  },
+  "47-4051.00": {
+    "isco": "8342",
+    "iscoTitle": "Earthmoving and related plant operators",
+    "via": "road roller operator",
+    "match": "closeMatch"
+  },
+  "47-4071.00": {
+    "isco": "7126",
+    "iscoTitle": "Plumbers and pipe fitters",
+    "via": "water network operative",
+    "match": "closeMatch"
+  },
+  "47-4091.00": {
+    "isco": "8342",
+    "iscoTitle": "Earthmoving and related plant operators",
+    "via": "road construction worker",
+    "match": "narrowMatch"
+  },
+  "47-4099.03": {
+    "isco": "7124",
+    "iscoTitle": "Insulation workers",
+    "via": "insulation worker",
+    "match": "closeMatch"
+  },
+  "47-5011.00": {
+    "isco": "8113",
+    "iscoTitle": "Well drillers and borers and related workers",
+    "via": "derrickhand",
+    "match": "exactMatch"
+  },
+  "47-5012.00": {
+    "isco": "8113",
+    "iscoTitle": "Well drillers and borers and related workers",
+    "via": "drill operator",
+    "match": "exactMatch"
+  },
+  "47-5013.00": {
+    "isco": "8131",
+    "iscoTitle": "Chemical products plant and machine operators",
+    "via": "gauger",
+    "match": "closeMatch"
+  },
+  "47-5022.00": {
+    "isco": "8342",
+    "iscoTitle": "Earthmoving and related plant operators",
+    "via": "excavator operator",
+    "match": "closeMatch"
+  },
+  "47-5023.00": {
+    "isco": "8113",
+    "iscoTitle": "Well drillers and borers and related workers",
+    "via": "derrickhand",
+    "match": "closeMatch"
+  },
+  "47-5032.00": {
+    "isco": "8131",
+    "iscoTitle": "Chemical products plant and machine operators",
+    "via": "nitrator operator",
+    "match": "closeMatch"
+  },
+  "47-5041.00": {
+    "isco": "8111",
+    "iscoTitle": "Miners and quarriers",
+    "via": "underground heavy equipment operator",
+    "match": "exactMatch"
+  },
+  "47-5043.00": {
+    "isco": "8111",
+    "iscoTitle": "Miners and quarriers",
+    "via": "underground heavy equipment operator",
+    "match": "narrowMatch"
+  },
+  "47-5044.00": {
+    "isco": "8342",
+    "iscoTitle": "Earthmoving and related plant operators",
+    "via": "excavator operator",
+    "match": "closeMatch"
+  },
+  "47-5051.00": {
+    "isco": "8114",
+    "iscoTitle": "Cement, stone and other mineral products machine operators",
+    "via": "stone splitter",
+    "match": "exactMatch"
+  },
+  "47-5071.00": {
+    "isco": "8113",
+    "iscoTitle": "Well drillers and borers and related workers",
+    "via": "roustabout",
+    "match": "exactMatch"
+  },
+  "47-5081.00": {
+    "isco": "9311",
+    "iscoTitle": "Mining and quarrying labourers",
+    "via": "mining assistant",
+    "match": "exactMatch"
+  },
+  "49-1011.00": {
+    "isco": "7231",
+    "iscoTitle": "Motor vehicle mechanics and repairers",
+    "via": "vehicle maintenance supervisor",
+    "match": "broadMatch"
+  },
+  "49-2011.00": {
+    "isco": "7422",
+    "iscoTitle": "Information and communications technology installers and servicers",
+    "via": "computer hardware repair technician",
+    "match": "exactMatch"
+  },
+  "49-2021.00": {
+    "isco": "7422",
+    "iscoTitle": "Information and communications technology installers and servicers",
+    "via": "telecommunications technician",
+    "match": "narrowMatch"
+  },
+  "49-2022.00": {
+    "isco": "7422",
+    "iscoTitle": "Information and communications technology installers and servicers",
+    "via": "telecommunications technician",
+    "match": "exactMatch"
+  },
+  "49-2091.00": {
+    "isco": "7421",
+    "iscoTitle": "Electronics mechanics and servicers",
+    "via": "avionics technician",
+    "match": "exactMatch"
+  },
+  "49-2092.00": {
+    "isco": "7412",
+    "iscoTitle": "Electrical mechanics and fitters",
+    "via": "electrical mechanic",
+    "match": "exactMatch"
+  },
+  "49-2093.00": {
+    "isco": "7422",
+    "iscoTitle": "Information and communications technology installers and servicers",
+    "via": "telecommunications technician",
+    "match": "narrowMatch"
+  },
+  "49-2094.00": {
+    "isco": "7421",
+    "iscoTitle": "Electronics mechanics and servicers",
+    "via": "consumer electronics repair technician",
+    "match": "exactMatch"
+  },
+  "49-2095.00": {
+    "isco": "7413",
+    "iscoTitle": "Electrical line installers and repairers",
+    "via": "electricity distribution technician",
+    "match": "closeMatch"
+  },
+  "49-2096.00": {
+    "isco": "7421",
+    "iscoTitle": "Electronics mechanics and servicers",
+    "via": "vehicle electronics installer",
+    "match": "exactMatch"
+  },
+  "49-2098.00": {
+    "isco": "7422",
+    "iscoTitle": "Information and communications technology installers and servicers",
+    "via": "security alarm technician",
+    "match": "exactMatch"
+  },
+  "49-3011.00": {
+    "isco": "7232",
+    "iscoTitle": "Aircraft engine mechanics and repairers",
+    "via": "aircraft maintenance technician",
+    "match": "exactMatch"
+  },
+  "49-3021.00": {
+    "isco": "7231",
+    "iscoTitle": "Motor vehicle mechanics and repairers",
+    "via": "restoration technician",
+    "match": "exactMatch"
+  },
+  "49-3022.00": {
+    "isco": "7125",
+    "iscoTitle": "Glaziers",
+    "via": "vehicle glazier",
+    "match": "exactMatch"
+  },
+  "49-3023.00": {
+    "isco": "7231",
+    "iscoTitle": "Motor vehicle mechanics and repairers",
+    "via": "vehicle technician",
+    "match": "exactMatch"
+  },
+  "49-3031.00": {
+    "isco": "7231",
+    "iscoTitle": "Motor vehicle mechanics and repairers",
+    "via": "diesel engine mechanic",
+    "match": "broadMatch"
+  },
+  "49-3041.00": {
+    "isco": "7233",
+    "iscoTitle": "Agricultural and industrial machinery mechanics and repairers",
+    "via": "land-based machinery technician",
+    "match": "narrowMatch"
+  },
+  "49-3042.00": {
+    "isco": "7233",
+    "iscoTitle": "Agricultural and industrial machinery mechanics and repairers",
+    "via": "mining equipment mechanic",
+    "match": "exactMatch"
+  },
+  "49-3043.00": {
+    "isco": "8211",
+    "iscoTitle": "Mechanical machinery assemblers",
+    "via": "rolling stock assembler",
+    "match": "closeMatch"
+  },
+  "49-3051.00": {
+    "isco": "7233",
+    "iscoTitle": "Agricultural and industrial machinery mechanics and repairers",
+    "via": "marine mechanic",
+    "match": "exactMatch"
+  },
+  "49-3052.00": {
+    "isco": "7231",
+    "iscoTitle": "Motor vehicle mechanics and repairers",
+    "via": "vehicle technician",
+    "match": "narrowMatch"
+  },
+  "49-3053.00": {
+    "isco": "7412",
+    "iscoTitle": "Electrical mechanics and fitters",
+    "via": "power tool repair technician",
+    "match": "exactMatch"
+  },
+  "49-3091.00": {
+    "isco": "7234",
+    "iscoTitle": "Bicycle and related repairers",
+    "via": "bicycle mechanic",
+    "match": "exactMatch"
+  },
+  "49-3092.00": {
+    "isco": "7231",
+    "iscoTitle": "Motor vehicle mechanics and repairers",
+    "via": "roadside vehicle technician",
+    "match": "closeMatch"
+  },
+  "49-3093.00": {
+    "isco": "7231",
+    "iscoTitle": "Motor vehicle mechanics and repairers",
+    "via": "tyre fitter",
+    "match": "exactMatch"
+  },
+  "49-9011.00": {
+    "isco": "7222",
+    "iscoTitle": "Toolmakers and related workers",
+    "via": "locksmith",
+    "match": "closeMatch"
+  },
+  "49-9012.00": {
+    "isco": "7233",
+    "iscoTitle": "Agricultural and industrial machinery mechanics and repairers",
+    "via": "fluid power technician",
+    "match": "closeMatch"
+  },
+  "49-9021.00": {
+    "isco": "7127",
+    "iscoTitle": "Air conditioning and refrigeration mechanics",
+    "via": "heating and ventilation service engineer",
+    "match": "exactMatch"
+  },
+  "49-9031.00": {
+    "isco": "7412",
+    "iscoTitle": "Electrical mechanics and fitters",
+    "via": "household appliances repair technician",
+    "match": "exactMatch"
+  },
+  "49-9041.00": {
+    "isco": "7233",
+    "iscoTitle": "Agricultural and industrial machinery mechanics and repairers",
+    "via": "industrial machinery mechanic",
+    "match": "exactMatch"
+  },
+  "49-9043.00": {
+    "isco": "7233",
+    "iscoTitle": "Agricultural and industrial machinery mechanics and repairers",
+    "via": "greaser",
+    "match": "exactMatch"
+  },
+  "49-9044.00": {
+    "isco": "7215",
+    "iscoTitle": "Riggers and cable splicers",
+    "via": "rigger",
+    "match": "closeMatch"
+  },
+  "49-9045.00": {
+    "isco": "7113",
+    "iscoTitle": "Stonemasons, stone cutters, splitters and carvers",
+    "via": "stonemason",
+    "match": "closeMatch"
+  },
+  "49-9051.00": {
+    "isco": "7413",
+    "iscoTitle": "Electrical line installers and repairers",
+    "via": "electricity distribution technician",
+    "match": "exactMatch"
+  },
+  "49-9052.00": {
+    "isco": "7422",
+    "iscoTitle": "Information and communications technology installers and servicers",
+    "via": "communication infrastructure maintainer",
+    "match": "exactMatch"
+  },
+  "49-9061.00": {
+    "isco": "7421",
+    "iscoTitle": "Electronics mechanics and servicers",
+    "via": "consumer electronics repair technician",
+    "match": "narrowMatch"
+  },
+  "49-9062.00": {
+    "isco": "7311",
+    "iscoTitle": "Precision-instrument makers and repairers",
+    "via": "optical instrument repairer",
+    "match": "broadMatch"
+  },
+  "49-9063.00": {
+    "isco": "7312",
+    "iscoTitle": "Musical instrument makers and tuners",
+    "via": "musical instrument technician",
+    "match": "exactMatch"
+  },
+  "49-9064.00": {
+    "isco": "7311",
+    "iscoTitle": "Precision-instrument makers and repairers",
+    "via": "watch and clock repairer",
+    "match": "exactMatch"
+  },
+  "49-9071.00": {
+    "isco": "9622",
+    "iscoTitle": "Odd job persons",
+    "via": "handyman",
+    "match": "exactMatch"
+  },
+  "49-9081.00": {
+    "isco": "7412",
+    "iscoTitle": "Electrical mechanics and fitters",
+    "via": "Electrical mechanics and fitters",
+    "match": "exactISCO"
+  },
+  "49-9091.00": {
+    "isco": "7421",
+    "iscoTitle": "Electronics mechanics and servicers",
+    "via": "ATM repair technician",
+    "match": "closeMatch"
+  },
+  "49-9092.00": {
+    "isco": "3123",
+    "iscoTitle": "Construction supervisors",
+    "via": "underwater construction supervisor",
+    "match": "closeMatch"
+  },
+  "49-9094.00": {
+    "isco": "7222",
+    "iscoTitle": "Toolmakers and related workers",
+    "via": "locksmith",
+    "match": "exactMatch"
+  },
+  "49-9095.00": {
+    "isco": "7115",
+    "iscoTitle": "Carpenters and joiners",
+    "via": "kitchen unit installer",
+    "match": "closeMatch"
+  },
+  "49-9096.00": {
+    "isco": "7215",
+    "iscoTitle": "Riggers and cable splicers",
+    "via": "rigger",
+    "match": "exactMatch"
+  },
+  "49-9097.00": {
+    "isco": "8312",
+    "iscoTitle": "Railway brake, signal and switch operators",
+    "via": "train preparer",
+    "match": "closeMatch"
+  },
+  "49-9099.00": {
+    "isco": "2433",
+    "iscoTitle": "Technical and medical sales professionals (excluding ICT)",
+    "via": "after-sales service technician",
+    "match": "closeMatch"
+  },
+  "51-1011.00": {
+    "isco": "3122",
+    "iscoTitle": "Manufacturing supervisors",
+    "via": "production supervisor",
+    "match": "exactMatch"
+  },
+  "51-2011.00": {
+    "isco": "8211",
+    "iscoTitle": "Mechanical machinery assemblers",
+    "via": "aircraft assembler",
+    "match": "exactMatch"
+  },
+  "51-2021.00": {
+    "isco": "8142",
+    "iscoTitle": "Plastic products machine operators",
+    "via": "filament winding operator",
+    "match": "closeMatch"
+  },
+  "51-2022.00": {
+    "isco": "8212",
+    "iscoTitle": "Electrical and electronic equipment assemblers",
+    "via": "electrical equipment assembler",
+    "match": "broadMatch"
+  },
+  "51-2023.00": {
+    "isco": "8211",
+    "iscoTitle": "Mechanical machinery assemblers",
+    "via": "mechatronics assembler",
+    "match": "closeMatch"
+  },
+  "51-2031.00": {
+    "isco": "7232",
+    "iscoTitle": "Aircraft engine mechanics and repairers",
+    "via": "aircraft gas turbine engine overhaul technician",
+    "match": "closeMatch"
+  },
+  "51-2041.00": {
+    "isco": "7214",
+    "iscoTitle": "Structural-metal preparers and erectors",
+    "via": "structural ironworker",
+    "match": "closeMatch"
+  },
+  "51-2051.00": {
+    "isco": "8142",
+    "iscoTitle": "Plastic products machine operators",
+    "via": "fiberglass laminator",
+    "match": "exactMatch"
+  },
+  "51-2061.00": {
+    "isco": "7311",
+    "iscoTitle": "Precision-instrument makers and repairers",
+    "via": "precision instrument assembler",
+    "match": "closeMatch"
+  },
+  "51-2092.00": {
+    "isco": "3139",
+    "iscoTitle": "Process control technicians not elsewhere classified",
+    "via": "automated assembly line operator",
+    "match": "closeMatch"
+  },
+  "51-2099.00": {
+    "isco": "8219",
+    "iscoTitle": "Assemblers not elsewhere classified",
+    "via": "furniture assembler",
+    "match": "broadMatch"
+  },
+  "51-3011.00": {
+    "isco": "7512",
+    "iscoTitle": "Bakers, pastry-cooks and confectionery makers",
+    "via": "baker",
+    "match": "exactMatch"
+  },
+  "51-3021.00": {
+    "isco": "7511",
+    "iscoTitle": "Butchers, fishmongers and related food preparers",
+    "via": "butcher",
+    "match": "exactMatch"
+  },
+  "51-3022.00": {
+    "isco": "7511",
+    "iscoTitle": "Butchers, fishmongers and related food preparers",
+    "via": "butcher",
+    "match": "closeMatch"
+  },
+  "51-3023.00": {
+    "isco": "7511",
+    "iscoTitle": "Butchers, fishmongers and related food preparers",
+    "via": "slaughterer",
+    "match": "exactMatch"
+  },
+  "51-3091.00": {
+    "isco": "8181",
+    "iscoTitle": "Glass and ceramics plant operators",
+    "via": "kiln firer",
+    "match": "closeMatch"
+  },
+  "51-3092.00": {
+    "isco": "8160",
+    "iscoTitle": "Food and related products machine operators",
+    "via": "extract mixer tester",
+    "match": "closeMatch"
+  },
+  "51-3093.00": {
+    "isco": "8160",
+    "iscoTitle": "Food and related products machine operators",
+    "via": "food production operator",
+    "match": "closeMatch"
+  },
+  "51-3099.00": {
+    "isco": "8160",
+    "iscoTitle": "Food and related products machine operators",
+    "via": "blanching operator",
+    "match": "broadMatch"
+  },
+  "51-4021.00": {
+    "isco": "8121",
+    "iscoTitle": "Metal processing plant operators",
+    "via": "metal drawing machine operator",
+    "match": "closeMatch"
+  },
+  "51-4022.00": {
+    "isco": "7223",
+    "iscoTitle": "Metal working machine tool setters and operators",
+    "via": "swaging machine operator",
+    "match": "broadMatch"
+  },
+  "51-4023.00": {
+    "isco": "7223",
+    "iscoTitle": "Metal working machine tool setters and operators",
+    "via": "thread rolling machine operator",
+    "match": "closeMatch"
+  },
+  "51-4031.00": {
+    "isco": "7223",
+    "iscoTitle": "Metal working machine tool setters and operators",
+    "via": "stamping press operator",
+    "match": "closeMatch"
+  },
+  "51-4032.00": {
+    "isco": "7223",
+    "iscoTitle": "Metal working machine tool setters and operators",
+    "via": "metal nibbling operator",
+    "match": "closeMatch"
+  },
+  "51-4033.00": {
+    "isco": "7523",
+    "iscoTitle": "Woodworking-machine tool setters and operators",
+    "via": "wood sander",
+    "match": "closeMatch"
+  },
+  "51-4034.00": {
+    "isco": "7223",
+    "iscoTitle": "Metal working machine tool setters and operators",
+    "via": "fitter and turner",
+    "match": "closeMatch"
+  },
+  "51-4035.00": {
+    "isco": "7223",
+    "iscoTitle": "Metal working machine tool setters and operators",
+    "via": "router operator",
+    "match": "closeMatch"
+  },
+  "51-4041.00": {
+    "isco": "7223",
+    "iscoTitle": "Metal working machine tool setters and operators",
+    "via": "gear machinist",
+    "match": "broadMatch"
+  },
+  "51-4051.00": {
+    "isco": "3135",
+    "iscoTitle": "Metal production process controllers",
+    "via": "metal furnace operator",
+    "match": "exactMatch"
+  },
+  "51-4052.00": {
+    "isco": "7211",
+    "iscoTitle": "Metal moulders and coremakers",
+    "via": "foundry operative",
+    "match": "exactMatch"
+  },
+  "51-4061.00": {
+    "isco": "7222",
+    "iscoTitle": "Toolmakers and related workers",
+    "via": "casting mould maker",
+    "match": "exactMatch"
+  },
+  "51-4062.00": {
+    "isco": "7222",
+    "iscoTitle": "Toolmakers and related workers",
+    "via": "casting mould maker",
+    "match": "closeMatch"
+  },
+  "51-4071.00": {
+    "isco": "7222",
+    "iscoTitle": "Toolmakers and related workers",
+    "via": "casting mould maker",
+    "match": "closeMatch"
+  },
+  "51-4072.00": {
+    "isco": "7223",
+    "iscoTitle": "Metal working machine tool setters and operators",
+    "via": "moulding machine operator",
+    "match": "broadMatch"
+  },
+  "51-4081.00": {
+    "isco": "7222",
+    "iscoTitle": "Toolmakers and related workers",
+    "via": "tool and die maker",
+    "match": "closeMatch"
+  },
+  "51-4111.00": {
+    "isco": "7222",
+    "iscoTitle": "Toolmakers and related workers",
+    "via": "tool and die maker",
+    "match": "exactMatch"
+  },
+  "51-4121.00": {
+    "isco": "7212",
+    "iscoTitle": "Welders and flamecutters",
+    "via": "solderer",
+    "match": "broadMatch"
+  },
+  "51-4122.00": {
+    "isco": "8212",
+    "iscoTitle": "Electrical and electronic equipment assemblers",
+    "via": "wave soldering machine operator",
+    "match": "exactMatch"
+  },
+  "51-4191.00": {
+    "isco": "8121",
+    "iscoTitle": "Metal processing plant operators",
+    "via": "metal annealer",
+    "match": "closeMatch"
+  },
+  "51-4193.00": {
+    "isco": "7132",
+    "iscoTitle": "Spray painters and varnishers",
+    "via": "surface treatment operator",
+    "match": "closeMatch"
+  },
+  "51-4194.00": {
+    "isco": "7224",
+    "iscoTitle": "Metal polishers, wheel grinders and tool sharpeners",
+    "via": "tool grinder",
+    "match": "exactMatch"
+  },
+  "51-4199.00": {
+    "isco": "7223",
+    "iscoTitle": "Metal working machine tool setters and operators",
+    "via": "chain making machine operator",
+    "match": "broadMatch"
+  },
+  "51-5111.00": {
+    "isco": "7321",
+    "iscoTitle": "Pre-press technicians",
+    "via": "prepress technician",
+    "match": "broadMatch"
+  },
+  "51-5112.00": {
+    "isco": "7322",
+    "iscoTitle": "Printers",
+    "via": "gravure press operator",
+    "match": "broadMatch"
+  },
+  "51-5113.00": {
+    "isco": "8171",
+    "iscoTitle": "Pulp and papermaking plant operators",
+    "via": "paper stationery machine operator",
+    "match": "closeMatch"
+  },
+  "51-6011.00": {
+    "isco": "8157",
+    "iscoTitle": "Laundry machine operators",
+    "via": "laundry worker",
+    "match": "exactMatch"
+  },
+  "51-6021.00": {
+    "isco": "9121",
+    "iscoTitle": "Hand launderers and pressers",
+    "via": "wearing apparel presser",
+    "match": "exactMatch"
+  },
+  "51-6031.00": {
+    "isco": "8153",
+    "iscoTitle": "Sewing machine operators",
+    "via": "sewing machine operator",
+    "match": "exactMatch"
+  },
+  "51-6041.00": {
+    "isco": "7536",
+    "iscoTitle": "Shoemakers and related workers",
+    "via": "leather goods manual operator",
+    "match": "broadMatch"
+  },
+  "51-6042.00": {
+    "isco": "8156",
+    "iscoTitle": "Shoemaking and related machine operators",
+    "via": "footwear production machine operator",
+    "match": "broadMatch"
+  },
+  "51-6051.00": {
+    "isco": "7533",
+    "iscoTitle": "Sewing, embroidery and related workers",
+    "via": "embroiderer",
+    "match": "closeMatch"
+  },
+  "51-6052.00": {
+    "isco": "7531",
+    "iscoTitle": "Tailors, dressmakers, furriers and hatters",
+    "via": "dressmaker",
+    "match": "broadMatch"
+  },
+  "51-6061.00": {
+    "isco": "8154",
+    "iscoTitle": "Bleaching, dyeing and fabric cleaning machine operators",
+    "via": "textile dyer",
+    "match": "broadMatch"
+  },
+  "51-6062.00": {
+    "isco": "8156",
+    "iscoTitle": "Shoemaking and related machine operators",
+    "via": "automated cutting machine operator",
+    "match": "closeMatch"
+  },
+  "51-6063.00": {
+    "isco": "7318",
+    "iscoTitle": "Handicraft workers in textile, leather and related materials",
+    "via": "weaver",
+    "match": "closeMatch"
+  },
+  "51-6064.00": {
+    "isco": "8159",
+    "iscoTitle": "Textile, fur and leather products machine operators not elsewhere classified",
+    "via": "braiding machine operator",
+    "match": "broadMatch"
+  },
+  "51-6091.00": {
+    "isco": "8181",
+    "iscoTitle": "Glass and ceramics plant operators",
+    "via": "fibre machine tender",
+    "match": "exactMatch"
+  },
+  "51-6092.00": {
+    "isco": "7532",
+    "iscoTitle": "Garment and related pattern-makers and cutters",
+    "via": "wearing apparel patternmaker",
+    "match": "exactMatch"
+  },
+  "51-6093.00": {
+    "isco": "7534",
+    "iscoTitle": "Upholsterers and related workers",
+    "via": "upholsterer",
+    "match": "exactMatch"
+  },
+  "51-6099.00": {
+    "isco": "8159",
+    "iscoTitle": "Textile, fur and leather products machine operators not elsewhere classified",
+    "via": "canvas goods assembler",
+    "match": "broadMatch"
+  },
+  "51-7011.00": {
+    "isco": "7522",
+    "iscoTitle": "Cabinet-makers and related workers",
+    "via": "cabinet maker",
+    "match": "exactMatch"
+  },
+  "51-7021.00": {
+    "isco": "7522",
+    "iscoTitle": "Cabinet-makers and related workers",
+    "via": "furniture finisher",
+    "match": "closeMatch"
+  },
+  "51-7031.00": {
+    "isco": "7522",
+    "iscoTitle": "Cabinet-makers and related workers",
+    "via": "recreation model maker",
+    "match": "closeMatch"
+  },
+  "51-7032.00": {
+    "isco": "7317",
+    "iscoTitle": "Handicraft workers in wood, basketry and related materials",
+    "via": "woodcarver",
+    "match": "closeMatch"
+  },
+  "51-7041.00": {
+    "isco": "8172",
+    "iscoTitle": "Wood processing plant operators",
+    "via": "sawmill operator",
+    "match": "closeMatch"
+  },
+  "51-7042.00": {
+    "isco": "8172",
+    "iscoTitle": "Wood processing plant operators",
+    "via": "chipper operator",
+    "match": "broadMatch"
+  },
+  "51-7099.00": {
+    "isco": "7522",
+    "iscoTitle": "Cabinet-makers and related workers",
+    "via": "cooper",
+    "match": "broadMatch"
+  },
+  "51-8011.00": {
+    "isco": "3131",
+    "iscoTitle": "Power production plant operators",
+    "via": "power production plant operator",
+    "match": "narrowMatch"
+  },
+  "51-8013.00": {
+    "isco": "3131",
+    "iscoTitle": "Power production plant operators",
+    "via": "power production plant operator",
+    "match": "broadMatch"
+  },
+  "51-8013.04": {
+    "isco": "3113",
+    "iscoTitle": "Electrical engineering technicians",
+    "via": "hydropower technician",
+    "match": "exactMatch"
+  },
+  "51-8021.00": {
+    "isco": "8182",
+    "iscoTitle": "Steam engine and boiler operators",
+    "via": "boiler operator",
+    "match": "broadMatch"
+  },
+  "51-8031.00": {
+    "isco": "3132",
+    "iscoTitle": "Incinerator and water treatment plant operators",
+    "via": "liquid waste treatment plant operator",
+    "match": "closeMatch"
+  },
+  "51-8091.00": {
+    "isco": "8131",
+    "iscoTitle": "Chemical products plant and machine operators",
+    "via": "soap tower operator",
+    "match": "broadMatch"
+  },
+  "51-8092.00": {
+    "isco": "3134",
+    "iscoTitle": "Petroleum and natural gas refining plant operators",
+    "via": "gas processing plant operator",
+    "match": "closeMatch"
+  },
+  "51-8093.00": {
+    "isco": "3134",
+    "iscoTitle": "Petroleum and natural gas refining plant operators",
+    "via": "oil refinery control room operator",
+    "match": "broadMatch"
+  },
+  "51-8099.00": {
+    "isco": "3132",
+    "iscoTitle": "Incinerator and water treatment plant operators",
+    "via": "incinerator operator",
+    "match": "broadMatch"
+  },
+  "51-9011.00": {
+    "isco": "3133",
+    "iscoTitle": "Chemical processing plant controllers",
+    "via": "chemical processing plant controller",
+    "match": "closeMatch"
+  },
+  "51-9012.00": {
+    "isco": "8160",
+    "iscoTitle": "Food and related products machine operators",
+    "via": "distillery worker",
+    "match": "closeMatch"
+  },
+  "51-9021.00": {
+    "isco": "8114",
+    "iscoTitle": "Cement, stone and other mineral products machine operators",
+    "via": "stone polisher",
+    "match": "closeMatch"
+  },
+  "51-9022.00": {
+    "isco": "8114",
+    "iscoTitle": "Cement, stone and other mineral products machine operators",
+    "via": "stone polisher",
+    "match": "broadMatch"
+  },
+  "51-9023.00": {
+    "isco": "8114",
+    "iscoTitle": "Cement, stone and other mineral products machine operators",
+    "via": "slate mixer",
+    "match": "broadMatch"
+  },
+  "51-9031.00": {
+    "isco": "7532",
+    "iscoTitle": "Garment and related pattern-makers and cutters",
+    "via": "clothing cutter",
+    "match": "broadMatch"
+  },
+  "51-9032.00": {
+    "isco": "8189",
+    "iscoTitle": "Stationary plant and machine operators not elsewhere classified",
+    "via": "slitter operator",
+    "match": "closeMatch"
+  },
+  "51-9041.00": {
+    "isco": "8181",
+    "iscoTitle": "Glass and ceramics plant operators",
+    "via": "fibre machine tender",
+    "match": "broadMatch"
+  },
+  "51-9051.00": {
+    "isco": "8131",
+    "iscoTitle": "Chemical products plant and machine operators",
+    "via": "coking furnace operator",
+    "match": "broadMatch"
+  },
+  "51-9061.00": {
+    "isco": "7543",
+    "iscoTitle": "Product graders and testers (excluding foods and beverages)",
+    "via": "product grader",
+    "match": "closeMatch"
+  },
+  "51-9071.00": {
+    "isco": "7313",
+    "iscoTitle": "Jewellery and precious-metal workers",
+    "via": "jeweller",
+    "match": "exactMatch"
+  },
+  "51-9071.06": {
+    "isco": "8219",
+    "iscoTitle": "Assemblers not elsewhere classified",
+    "via": "jewellery assembler",
+    "match": "closeMatch"
+  },
+  "51-9081.00": {
+    "isco": "3214",
+    "iscoTitle": "Medical and dental prosthetic technicians",
+    "via": "dental technician",
+    "match": "exactMatch"
+  },
+  "51-9082.00": {
+    "isco": "3214",
+    "iscoTitle": "Medical and dental prosthetic technicians",
+    "via": "audiology technician",
+    "match": "broadMatch"
+  },
+  "51-9083.00": {
+    "isco": "7311",
+    "iscoTitle": "Precision-instrument makers and repairers",
+    "via": "optical instrument assembler",
+    "match": "closeMatch"
+  },
+  "51-9111.00": {
+    "isco": "8131",
+    "iscoTitle": "Chemical products plant and machine operators",
+    "via": "capsule filling machine operator",
+    "match": "closeMatch"
+  },
+  "51-9123.00": {
+    "isco": "7316",
+    "iscoTitle": "Sign writers, decorative painters, engravers and etchers",
+    "via": "decorative painter",
+    "match": "broadMatch"
+  },
+  "51-9124.00": {
+    "isco": "7132",
+    "iscoTitle": "Spray painters and varnishers",
+    "via": "surface treatment operator",
+    "match": "closeMatch"
+  },
+  "51-9141.00": {
+    "isco": "8212",
+    "iscoTitle": "Electrical and electronic equipment assemblers",
+    "via": "electronic equipment assembler",
+    "match": "narrowMatch"
+  },
+  "51-9151.00": {
+    "isco": "3431",
+    "iscoTitle": "Photographers",
+    "via": "photographer",
+    "match": "closeMatch"
+  },
+  "51-9161.00": {
+    "isco": "7223",
+    "iscoTitle": "Metal working machine tool setters and operators",
+    "via": "computer numerical control machine operator",
+    "match": "exactMatch"
+  },
+  "51-9162.00": {
+    "isco": "2514",
+    "iscoTitle": "Applications programmers",
+    "via": "numerical tool and process control programmer",
+    "match": "exactMatch"
+  },
+  "51-9191.00": {
+    "isco": "8143",
+    "iscoTitle": "Paper products machine operators",
+    "via": "paperboard products assembler",
+    "match": "closeMatch"
+  },
+  "51-9192.00": {
+    "isco": "8171",
+    "iscoTitle": "Pulp and papermaking plant operators",
+    "via": "wash deinking operator",
+    "match": "broadMatch"
+  },
+  "51-9193.00": {
+    "isco": "8160",
+    "iscoTitle": "Food and related products machine operators",
+    "via": "chilling operator",
+    "match": "closeMatch"
+  },
+  "51-9194.00": {
+    "isco": "7322",
+    "iscoTitle": "Printers",
+    "via": "paper embossing press operator",
+    "match": "closeMatch"
+  },
+  "51-9195.00": {
+    "isco": "7314",
+    "iscoTitle": "Potters and related workers",
+    "via": "hand brick moulder",
+    "match": "closeMatch"
+  },
+  "51-9195.03": {
+    "isco": "7313",
+    "iscoTitle": "Jewellery and precious-metal workers",
+    "via": "precious stone cutter",
+    "match": "closeMatch"
+  },
+  "51-9195.04": {
+    "isco": "7315",
+    "iscoTitle": "Glass makers, cutters, grinders and finishers",
+    "via": "glass beveller",
+    "match": "closeMatch"
+  },
+  "51-9195.05": {
+    "isco": "7314",
+    "iscoTitle": "Potters and related workers",
+    "via": "production potter",
+    "match": "closeMatch"
+  },
+  "51-9196.00": {
+    "isco": "8171",
+    "iscoTitle": "Pulp and papermaking plant operators",
+    "via": "paper machine operator",
+    "match": "closeMatch"
+  },
+  "51-9197.00": {
+    "isco": "7231",
+    "iscoTitle": "Motor vehicle mechanics and repairers",
+    "via": "tyre fitter",
+    "match": "closeMatch"
+  },
+  "51-9198.00": {
+    "isco": "9329",
+    "iscoTitle": "Manufacturing labourers not elsewhere classified",
+    "via": "factory hand",
+    "match": "exactMatch"
+  },
+  "51-9199.00": {
+    "isco": "7317",
+    "iscoTitle": "Handicraft workers in wood, basketry and related materials",
+    "via": "brush maker",
+    "match": "broadMatch"
+  },
+  "53-1041.00": {
+    "isco": "4323",
+    "iscoTitle": "Transport clerks",
+    "via": "aircraft cargo operations coordinator",
+    "match": "exactMatch"
+  },
+  "53-1042.00": {
+    "isco": "7215",
+    "iscoTitle": "Riggers and cable splicers",
+    "via": "rigging supervisor",
+    "match": "closeMatch"
+  },
+  "53-1042.01": {
+    "isco": "3122",
+    "iscoTitle": "Manufacturing supervisors",
+    "via": "waste management supervisor",
+    "match": "narrowMatch"
+  },
+  "53-1044.00": {
+    "isco": "5112",
+    "iscoTitle": "Transport conductors",
+    "via": "chief conductor",
+    "match": "exactMatch"
+  },
+  "53-2011.00": {
+    "isco": "3153",
+    "iscoTitle": "Aircraft pilots and related associate professionals",
+    "via": "aircraft pilot",
+    "match": "exactMatch"
+  },
+  "53-2012.00": {
+    "isco": "0310",
+    "iscoTitle": "Armed forces occupations, other ranks",
+    "via": "air force pilot",
+    "match": "closeMatch"
+  },
+  "53-2021.00": {
+    "isco": "3154",
+    "iscoTitle": "Air traffic controllers",
+    "via": "air traffic controller",
+    "match": "exactMatch"
+  },
+  "53-2031.00": {
+    "isco": "5111",
+    "iscoTitle": "Travel attendants and travel stewards",
+    "via": "steward/stewardess",
+    "match": "broadMatch"
+  },
+  "53-3011.00": {
+    "isco": "3258",
+    "iscoTitle": "Ambulance workers",
+    "via": "emergency ambulance driver",
+    "match": "exactMatch"
+  },
+  "53-3031.00": {
+    "isco": "8322",
+    "iscoTitle": "Car, taxi and van drivers",
+    "via": "car and van delivery driver",
+    "match": "exactMatch"
+  },
+  "53-3032.00": {
+    "isco": "8332",
+    "iscoTitle": "Heavy truck and lorry drivers",
+    "via": "dangerous goods driver",
+    "match": "broadMatch"
+  },
+  "53-3033.00": {
+    "isco": "8322",
+    "iscoTitle": "Car, taxi and van drivers",
+    "via": "car and van delivery driver",
+    "match": "closeMatch"
+  },
+  "53-3051.00": {
+    "isco": "8331",
+    "iscoTitle": "Bus and tram drivers",
+    "via": "bus driver",
+    "match": "narrowMatch"
+  },
+  "53-3052.00": {
+    "isco": "8331",
+    "iscoTitle": "Bus and tram drivers",
+    "via": "bus driver",
+    "match": "exactMatch"
+  },
+  "53-3053.00": {
+    "isco": "8331",
+    "iscoTitle": "Bus and tram drivers",
+    "via": "bus driver",
+    "match": "closeMatch"
+  },
+  "53-3054.00": {
+    "isco": "8322",
+    "iscoTitle": "Car, taxi and van drivers",
+    "via": "taxi driver",
+    "match": "exactMatch"
+  },
+  "53-4011.00": {
+    "isco": "8311",
+    "iscoTitle": "Locomotive engine drivers",
+    "via": "train driver",
+    "match": "exactMatch"
+  },
+  "53-4013.00": {
+    "isco": "8312",
+    "iscoTitle": "Railway brake, signal and switch operators",
+    "via": "shunter",
+    "match": "exactMatch"
+  },
+  "53-4022.00": {
+    "isco": "8312",
+    "iscoTitle": "Railway brake, signal and switch operators",
+    "via": "shunter",
+    "match": "closeMatch"
+  },
+  "53-4031.00": {
+    "isco": "5112",
+    "iscoTitle": "Transport conductors",
+    "via": "train conductor",
+    "match": "closeMatch"
+  },
+  "53-4041.00": {
+    "isco": "8331",
+    "iscoTitle": "Bus and tram drivers",
+    "via": "bus driver",
+    "match": "closeMatch"
+  },
+  "53-5011.00": {
+    "isco": "3152",
+    "iscoTitle": "Ships' deck officers and pilots",
+    "via": "helmsman",
+    "match": "closeMatch"
+  },
+  "53-5021.00": {
+    "isco": "6223",
+    "iscoTitle": "Deep-sea fishery workers",
+    "via": "fisheries master",
+    "match": "closeMatch"
+  },
+  "53-5022.00": {
+    "isco": "3152",
+    "iscoTitle": "Ships' deck officers and pilots",
+    "via": "maritime pilot",
+    "match": "closeMatch"
+  },
+  "53-5031.00": {
+    "isco": "3151",
+    "iscoTitle": "Ships\u2019 engineers",
+    "via": "ship duty engineer",
+    "match": "exactMatch"
+  },
+  "53-6011.00": {
+    "isco": "3123",
+    "iscoTitle": "Construction supervisors",
+    "via": "underwater construction supervisor",
+    "match": "broadMatch"
+  },
+  "53-6021.00": {
+    "isco": "8322",
+    "iscoTitle": "Car, taxi and van drivers",
+    "via": "parking valet",
+    "match": "exactMatch"
+  },
+  "53-6031.00": {
+    "isco": "7231",
+    "iscoTitle": "Motor vehicle mechanics and repairers",
+    "via": "roadside vehicle technician",
+    "match": "broadMatch"
+  },
+  "53-6032.00": {
+    "isco": "8332",
+    "iscoTitle": "Heavy truck and lorry drivers",
+    "via": "aircraft fuel system operator",
+    "match": "broadMatch"
+  },
+  "53-6051.00": {
+    "isco": "3359",
+    "iscoTitle": "Regulatory government associate professionals not elsewhere classified",
+    "via": "freight inspector",
+    "match": "broadMatch"
+  },
+  "53-6051.01": {
+    "isco": "3154",
+    "iscoTitle": "Air traffic controllers",
+    "via": "aviation inspector",
+    "match": "exactMatch"
+  },
+  "53-6061.00": {
+    "isco": "5112",
+    "iscoTitle": "Transport conductors",
+    "via": "railway passenger service agent",
+    "match": "broadMatch"
+  },
+  "53-6099.00": {
+    "isco": "8343",
+    "iscoTitle": "Crane, hoist and related plant operators",
+    "via": "automated cable vehicle controller",
+    "match": "broadMatch"
+  },
+  "53-7021.00": {
+    "isco": "8343",
+    "iscoTitle": "Crane, hoist and related plant operators",
+    "via": "container crane operator",
+    "match": "broadMatch"
+  },
+  "53-7031.00": {
+    "isco": "8342",
+    "iscoTitle": "Earthmoving and related plant operators",
+    "via": "dredge operator",
+    "match": "exactMatch"
+  },
+  "53-7041.00": {
+    "isco": "8343",
+    "iscoTitle": "Crane, hoist and related plant operators",
+    "via": "container crane operator",
+    "match": "closeMatch"
+  },
+  "53-7051.00": {
+    "isco": "8332",
+    "iscoTitle": "Heavy truck and lorry drivers",
+    "via": "moving truck driver",
+    "match": "closeMatch"
+  },
+  "53-7061.00": {
+    "isco": "9122",
+    "iscoTitle": "Vehicle cleaners",
+    "via": "vehicle cleaner",
+    "match": "exactMatch"
+  },
+  "53-7062.00": {
+    "isco": "9333",
+    "iscoTitle": "Freight handlers",
+    "via": "stevedore",
+    "match": "broadMatch"
+  },
+  "53-7062.04": {
+    "isco": "9611",
+    "iscoTitle": "Garbage and recycling collectors",
+    "via": "refuse collector",
+    "match": "closeMatch"
+  },
+  "53-7063.00": {
+    "isco": "8160",
+    "iscoTitle": "Food and related products machine operators",
+    "via": "animal feed operator",
+    "match": "broadMatch"
+  },
+  "53-7064.00": {
+    "isco": "9321",
+    "iscoTitle": "Hand packers",
+    "via": "hand packer",
+    "match": "exactMatch"
+  },
+  "53-7065.00": {
+    "isco": "9333",
+    "iscoTitle": "Freight handlers",
+    "via": "warehouse worker",
+    "match": "exactMatch"
+  },
+  "53-7071.00": {
+    "isco": "3134",
+    "iscoTitle": "Petroleum and natural gas refining plant operators",
+    "via": "gas processing plant control room operator",
+    "match": "closeMatch"
+  },
+  "53-7072.00": {
+    "isco": "8113",
+    "iscoTitle": "Well drillers and borers and related workers",
+    "via": "pipeline pump operator",
+    "match": "exactMatch"
+  },
+  "53-7073.00": {
+    "isco": "3134",
+    "iscoTitle": "Petroleum and natural gas refining plant operators",
+    "via": "petroleum pump system operator",
+    "match": "exactMatch"
+  },
+  "53-7081.00": {
+    "isco": "9611",
+    "iscoTitle": "Garbage and recycling collectors",
+    "via": "refuse collector",
+    "match": "exactMatch"
+  },
+  "53-7121.00": {
+    "isco": "3134",
+    "iscoTitle": "Petroleum and natural gas refining plant operators",
+    "via": "petroleum pump system operator",
+    "match": "broadMatch"
+  }
+}

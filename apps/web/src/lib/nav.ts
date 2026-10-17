@@ -1,33 +1,19 @@
-import {
-  BookOpen,
-  ChartLine,
-  Compass,
-  House,
-  Map as MapIcon,
-  Radar,
-  Settings,
-  type LucideIcon,
-} from "lucide-react"
+import { BookOpen, ChartLine, Compass, Gauge, MessageCircle, type LucideIcon } from "lucide-react"
 
 export type NavItem = { title: string; href: string; icon: LucideIcon }
 
-// Sidebar "Main" group
 export const MAIN_NAV: NavItem[] = [
-  { title: "Home", href: "/home", icon: House },
-  { title: "Explore", href: "/explore", icon: Compass },
-  { title: "Roadmap", href: "/roadmap", icon: MapIcon },
-  { title: "Skill Analyse", href: "/skill-analyse", icon: Radar },
-  { title: "Resources", href: "/resources", icon: BookOpen },
-  { title: "Insights", href: "/insights", icon: ChartLine },
+  { title: "Home", href: "/home", icon: MessageCircle },
+  { title: "The Meter", href: "/meter", icon: Gauge },
+  { title: "The Curve", href: "/insights", icon: ChartLine },
+  { title: "Navigator", href: "/roadmap", icon: Compass },
+  { title: "Methodology & Proof", href: "/resources", icon: BookOpen },
 ]
 
-const SETTINGS_NAV: NavItem[] = [{ title: "Profile", href: "/settings/profile", icon: Settings }]
-
-// Header "Section / Title" for the current path
 export function navTitle(pathname: string): { section?: string; title: string } {
-  const main = MAIN_NAV.find((i) => pathname.startsWith(i.href))
+  const main = MAIN_NAV.find((item) => pathname.startsWith(item.href))
   if (main) return { title: main.title }
-  const settings = SETTINGS_NAV.find((i) => pathname.startsWith(i.href))
-  if (settings) return { section: "Settings", title: settings.title }
+  if (pathname.startsWith("/explore")) return { title: "Occupation catalogue" }
+  if (pathname.startsWith("/settings")) return { section: "Settings", title: "Profile" }
   return { title: "Voxian Shift" }
 }
