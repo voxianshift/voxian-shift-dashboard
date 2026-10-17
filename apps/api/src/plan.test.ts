@@ -1,67 +1,350 @@
-import { expect, test, vi } from "vite-plus/test"
+import { afterEach, beforeEach, expect, test, vi } from "vite-plus/test"
+import {
+  emptyProfile,
+  navigatorContext,
+  flightPlanSchema,
+  validatePlanSchedule,
+} from "@voxian/shared"
 import { buildApp } from "./app.ts"
+import type { OccupationCatalogue } from "./occupation-catalogue.ts"
 
-test("plan route rejects bad input and foreign origins before calling the LLM", async () => {
-  const app = buildApp()
-  const bad = await app.inject({ method: "POST", url: "/plan", payload: { role: "" } })
-  expect(bad.statusCode).toBe(400)
-  const foreign = await app.inject({
-    method: "POST",
-    url: "/plan",
-    headers: { origin: "https://evil.example" },
-    payload: { role: "Dev", direction: "X", targetRoles: [], pace: "lean" },
-  })
-  expect(foreign.statusCode).toBe(403)
+const occupation = {
+  code: "15-1252.00",
+  title: "Software Developers",
+  description: "Design and maintain software.",
+  category: "Computing",
+  sourceVersion: "31.0",
+  baselineId: null,
+  reason: "Exact code",
+}
+const catalogue: OccupationCatalogue = {
+  search: async (code) => (code === occupation.code ? [occupation] : []),
+  selections: async () => ({ occupations: [], primaryOccupation: "" }),
+  select: async () => {},
+  close: async () => {},
+}
+const request = () => ({
+  occupationCode: occupation.code,
+  strategyId: "pivot",
+  destinationId: "software_dev-pivot-1",
+  pace: "lean",
+  profile: navigatorContext({
+    ...emptyProfile,
+    occupations: [occupation.code],
+    primaryOccupation: occupation.code,
+    strengths: ["Coding"],
+    goals: ["Stability"],
+    hours: "1–3 hours",
+    risk: "Small changes",
+  }),
+  schedule: {
+    startDate: "2026-10-19",
+    timeZone: "Asia/Kuala_Lumpur",
+    weeklyMinutes: 60,
+    studyDays: [1, 3, 5],
+    sessionLimitMinutes: 45,
+  },
 })
-
-test("flight plan keeps only modules copied from the supplied courses", async () => {
+function narrative(input: any) {
+  return {
+    summary: "A small reviewed project within available time.",
+    firstStep: "Review one small sample in your first scheduled session.",
+    phases: input.phases.map((phase: any) => ({
+      id: phase.id,
+      actions: ["Review a small sample.", "Record feedback."],
+      deliverable: "One reviewed sample.",
+    })),
+    tasks: input.activeDays.map((day: any) => ({
+      id: day.id,
+      task: "Practice one skill and record feedback.",
+      resourceId: "learn",
+    })),
+    milestones: input.milestones.map((entry: any) => ({
+      id: entry.id,
+      action: "Improve one part of the sample.",
+    })),
+    goals: [30, 60, 90].map((day) => ({
+      id: `day-${day}`,
+      outcome: "Produce a reviewed practice sample.",
+    })),
+  }
+}
+function mockProvider(change?: (draft: any, input: any) => void) {
+  const fetch = vi.fn().mockImplementation((_url, options) => {
+    const input = JSON.parse(JSON.parse(options.body).messages[1].content)
+    const draft = narrative(input)
+    change?.(draft, input)
+    return Response.json({ choices: [{ message: { content: JSON.stringify(draft) } }] })
+  })
+  vi.stubGlobal("fetch", fetch)
+  return fetch
+}
+beforeEach(() => {
   vi.stubEnv("CHAT_PROVIDER", "rootsys")
   vi.stubEnv("ROOTSYS_API_KEY", "test-only")
   vi.stubEnv("DATABASE_URL", "")
-  const phase = (module: string) => ({
-    title: "Phase",
-    days: "Days 1–30",
-    focus: "Focus",
-    actions: ["One", "Two"],
-    deliverable: "Thing",
-    flightPlan: [
-      { days: "D1–D15", focus: "Learn", module },
-      { days: "D16–D30", focus: "Apply" },
-    ],
+})
+afterEach(() => {
+  vi.unstubAllEnvs()
+  vi.unstubAllGlobals()
+})
+
+test("all four strategies use grounded destinations and code-owned schedule/content boundaries", async () => {
+  const fetch = mockProvider((draft) => {
+    draft.phases.reverse()
+    draft.tasks.reverse()
+    draft.milestones.reverse()
+    draft.goals.reverse()
+    draft.horizonDays = 999
+    draft.firstMonth = [{ minutes: 9999 }]
   })
-  const plan = {
-    summary: "S",
-    phases: [phase("Kaggle Learn"), phase("Invented Course"), phase("Kaggle Learn")],
-    firstStep: "Start",
+  const app = buildApp({ catalogue })
+  try {
+    for (const strategyId of ["automate", "hybrid", "pivot", "create"]) {
+      const response = await app.inject({
+        method: "POST",
+        url: "/plan",
+        payload: { ...request(), strategyId, destinationId: `software_dev-${strategyId}-1` },
+        remoteAddress: `127.0.0.${fetch.mock.calls.length + 1}`,
+      })
+      expect(response.statusCode).toBe(200)
+      const plan = flightPlanSchema.parse(response.json().plan)
+      expect(() => validatePlanSchedule(plan)).not.toThrow()
+      expect(plan.strategyId).toBe(strategyId)
+      expect(plan.horizonDays).toBe(120)
+      expect(plan.phases).toHaveLength(4)
+      expect(plan.firstMonth).toHaveLength(30)
+      expect(plan.selectedRole).not.toBeNull()
+      expect(plan.firstMonth.filter((d) => d.kind === "task").every((d) => d.minutes === 20)).toBe(
+        true,
+      )
+      const input = JSON.parse(JSON.parse(fetch.mock.calls.at(-1)![1]!.body).messages[1].content)
+      expect(input.evidence.tasks.length).toBeGreaterThan(0)
+      expect(input.skillContext.userStatedStrengths).toEqual(["Coding"])
+      expect(input.profile.goals).toEqual(["Stability"])
+      expect(input.occupation.title).toBe(occupation.title)
+      if (strategyId === "pivot") expect(input.phases[0].focus).toContain("Validate adjacent")
+      if (strategyId === "create") expect(input.phases[0].focus).toContain("domain problem")
+    }
+  } finally {
+    await app.close()
   }
-  const fetch = vi
-    .fn()
-    .mockResolvedValue(Response.json({ choices: [{ message: { content: JSON.stringify(plan) } }] }))
-  vi.stubGlobal("fetch", fetch)
-  const app = buildApp()
+})
+
+test("90-day plan handles one minute per week and has no work on rest days", async () => {
+  mockProvider()
+  const app = buildApp({ catalogue })
   try {
     const response = await app.inject({
       method: "POST",
       url: "/plan",
       payload: {
-        role: "Dev",
-        direction: "Quality",
-        targetRoles: [],
-        pace: "lean",
-        courses: ["Kaggle Learn"],
+        ...request(),
+        pace: "intensive",
+        schedule: { ...request().schedule, weeklyMinutes: 1, studyDays: [0, 1, 2, 3, 4, 5, 6] },
       },
     })
     expect(response.statusCode).toBe(200)
-    const phases = response.json().plan.phases
-    expect(phases[0].flightPlan[0].module).toBe("Kaggle Learn")
-    expect(phases[1].flightPlan[0].module).toBeUndefined()
-    const input = JSON.parse(
-      JSON.parse(fetch.mock.calls[0]![1]!.body as string).messages[1].content,
-    )
-    expect(input.courses).toEqual(["Kaggle Learn"])
+    const plan = flightPlanSchema.parse(response.json().plan)
+    expect(plan.phases.map((p) => [p.startDay, p.endDay])).toEqual([
+      [1, 22],
+      [23, 45],
+      [46, 67],
+      [68, 90],
+    ])
+    expect(
+      plan.firstMonth
+        .filter((d) => d.kind === "rest")
+        .every((d) => d.task === null && d.minutes === 0),
+    ).toBe(true)
+    expect(plan.goals.map((g) => g.day)).toEqual([30, 60, 90])
+    expect(() =>
+      validatePlanSchedule({
+        ...plan,
+        firstMonth: plan.firstMonth.map((d, i) => (i ? d : { ...d, minutes: 999 })),
+      }),
+    ).toThrow()
   } finally {
     await app.close()
-    vi.unstubAllGlobals()
-    vi.unstubAllEnvs()
+  }
+})
+
+for (const failure of [
+  "missing-task",
+  "duplicate-task",
+  "rest-task",
+  "milestone-gap",
+  "phase-id",
+  "goal-id",
+  "resource",
+  "provider",
+]) {
+  test(`invalid ${failure} output is rejected without returning an unvalidated plan`, async () => {
+    const fetch = mockProvider((draft, input) => {
+      if (failure === "missing-task") draft.tasks.pop()
+      if (failure === "duplicate-task") draft.tasks[1].id = draft.tasks[0].id
+      if (failure === "rest-task")
+        draft.tasks.push({ id: input.restDayIds[0], task: "Do work on rest day" })
+      if (failure === "milestone-gap") draft.milestones.pop()
+      if (failure === "phase-id") draft.phases[1].id = draft.phases[0].id
+      if (failure === "goal-id") draft.goals[1].id = "day-30"
+      if (failure === "resource") draft.tasks[0].resourceId = "https://invented.example"
+    })
+    if (failure === "provider") fetch.mockResolvedValue(new Response(null, { status: 500 }))
+    const app = buildApp({ catalogue })
+    try {
+      const r = await app.inject({ method: "POST", url: "/plan", payload: request() })
+      expect(r.statusCode).toBe(502)
+      expect(r.json()).not.toHaveProperty("plan")
+      expect(fetch).toHaveBeenCalledTimes(failure === "provider" ? 1 : 2)
+    } finally {
+      await app.close()
+    }
+  })
+}
+
+test("invalid destination, occupation, schedule and legacy free-text requests fail before provider", async () => {
+  const fetch = mockProvider()
+  const app = buildApp({ catalogue })
+  try {
+    const cases = [
+      {},
+      { ...request(), destinationId: "invented" },
+      { ...request(), strategyId: "create", destinationId: "software_dev-pivot-1" },
+      { ...request(), occupationCode: "11-1011.00" },
+      { ...request(), schedule: { ...request().schedule, startDate: "2026-02-30" } },
+      { ...request(), schedule: { ...request().schedule, timeZone: "invalid" } },
+      { ...request(), schedule: { ...request().schedule, weeklyMinutes: 0 } },
+      {
+        ...request(),
+        profile: { ...request().profile, flexibility: "Short sessions only" },
+        schedule: { ...request().schedule, sessionLimitMinutes: 90 },
+      },
+      { role: "Dev", direction: "X", targetRoles: [], pace: "lean" },
+    ]
+    for (const [i, payload] of cases.entries())
+      expect(
+        (
+          await app.inject({
+            method: "POST",
+            url: "/plan",
+            payload,
+            remoteAddress: `127.0.0.${i + 1}`,
+          })
+        ).statusCode,
+      ).toBe(400)
+    expect(
+      (
+        await app.inject({
+          method: "POST",
+          url: "/plan",
+          headers: { origin: "https://evil.example" },
+          payload: request(),
+        })
+      ).statusCode,
+    ).toBe(403)
+    expect(fetch).not.toHaveBeenCalled()
+  } finally {
+    await app.close()
+  }
+})
+
+test("strategy-level selection is grounded without inventing a target and preserves profile revision", async () => {
+  const fetch = mockProvider()
+  const app = buildApp({ catalogue })
+  try {
+    const response = await app.inject({
+      method: "POST",
+      url: "/plan",
+      payload: { ...request(), destinationId: null },
+    })
+    expect(response.statusCode).toBe(200)
+    expect(response.json().plan).toMatchObject({ destinationId: null, selectedRole: null })
+    expect(response.json().plan.profileRevision).toMatch(/^[a-f0-9]{64}$/)
+    const input = JSON.parse(JSON.parse(fetch.mock.calls[0]![1]!.body).messages[1].content)
+    expect(input.pathway.destinations.length).toBeGreaterThan(1)
+  } finally {
+    await app.close()
+  }
+})
+
+test("known but unoffered courses cannot be silently added to a plan", async () => {
+  mockProvider((draft) => {
+    draft.tasks[0].resourceId = "web"
+  })
+  const app = buildApp({ catalogue })
+  try {
+    expect(
+      (await app.inject({ method: "POST", url: "/plan", payload: request() })).statusCode,
+    ).toBe(502)
+  } finally {
+    await app.close()
+  }
+})
+
+test("missing occupational task evidence stays unknown instead of blocking a reviewed pathway", async () => {
+  mockProvider((_draft, input) => {
+    expect(input.evidence).toMatchObject({
+      status: "unavailable",
+      mapping: null,
+      gradient: null,
+      tasks: [],
+    })
+    expect(input.skillContext.curatedRequirements.length).toBeGreaterThan(0)
+  })
+  const app = buildApp({
+    catalogue: { ...catalogue, search: async (code) => [{ ...occupation, code }] },
+  })
+  try {
+    const profile = {
+      ...request().profile,
+      occupations: ["13-1199.06"],
+      primaryOccupation: "13-1199.06",
+    }
+    const response = await app.inject({
+      method: "POST",
+      url: "/plan",
+      payload: { ...request(), occupationCode: "13-1199.06", profile, destinationId: null },
+    })
+    expect(response.statusCode).toBe(200)
+    expect(response.json().isco).toBeNull()
+  } finally {
+    await app.close()
+  }
+})
+
+test("missing configuration and catalogue have explicit service errors", async () => {
+  vi.stubEnv("ROOTSYS_API_KEY", "")
+  const app = buildApp({ catalogue })
+  const missing = buildApp()
+  try {
+    expect(
+      (await app.inject({ method: "POST", url: "/plan", payload: request() })).statusCode,
+    ).toBe(503)
+    expect(
+      (await missing.inject({ method: "POST", url: "/plan", payload: request() })).statusCode,
+    ).toBe(503)
+  } finally {
+    await app.close()
+    await missing.close()
+  }
+})
+
+test("one bounded schema repair can recover an extra phase without weakening coverage checks", async () => {
+  let attempts = 0
+  const fetch = mockProvider((draft) => {
+    if (++attempts === 1) draft.phases.push({ ...draft.phases[0] })
+  })
+  const app = buildApp({ catalogue })
+  try {
+    const response = await app.inject({ method: "POST", url: "/plan", payload: request() })
+    expect(response.statusCode).toBe(200)
+    expect(fetch).toHaveBeenCalledTimes(2)
+    const second = JSON.parse(fetch.mock.calls[1]![1]!.body)
+    expect(second.messages[0].content).toContain("Repair the previous schema/coverage failure")
+    expect(response.json().plan.phases).toHaveLength(4)
+    expect(() => validatePlanSchedule(response.json().plan)).not.toThrow()
+  } finally {
+    await app.close()
   }
 })

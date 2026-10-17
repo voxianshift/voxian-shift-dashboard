@@ -2,21 +2,10 @@ import type { CareerPath } from "@voxian/shared"
 
 export type FlightSegment = { days: string; focus: string; module?: string }
 
-const ranges = {
-  lean: [
-    [1, 30],
-    [31, 75],
-    [76, 120],
-  ],
-  sprint: [
-    [1, 20],
-    [21, 55],
-    [56, 90],
-  ],
-} as const
-
+export { learningPhases } from "@voxian/shared"
+import { planPhaseRanges } from "@voxian/shared"
 export function phaseRanges(sprint: boolean) {
-  return ranges[sprint ? "sprint" : "lean"]
+  return planPhaseRanges(sprint ? 90 : 120)
 }
 
 /** Flight plan shown before a plan is generated: each phase splits into a learn half and an apply half. */
@@ -38,6 +27,10 @@ export function defaultFlightPlan(
     [
       "Turn your project into evidence: a short write-up of the problem, results and what you would improve.",
       `Talk to people working as ${targetRoles.join(", ")}. Check entry requirements and collect feedback before deciding.`,
+    ],
+    [
+      "Review your sample with a practitioner and document limitations.",
+      "Choose a next step based on feedback, without assuming promotion or employment.",
     ],
   ]
   return phaseRanges(sprint).map(([start, end], phase) => {

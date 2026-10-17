@@ -18,7 +18,16 @@ test("each phase splits into contiguous windows that cover its days", () => {
 
 test("study windows follow course order; the final window is for conversations", () => {
   const plan = defaultFlightPlan(false, path, [path.roles[1]!], courses)
-  expect(plan.flat().map((segment) => segment.module)).toEqual(["A", "B", "C", "D", "E", undefined])
+  expect(plan.flat().map((segment) => segment.module)).toEqual([
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    undefined,
+    undefined,
+    undefined,
+  ])
   expect(plan[0]![1]!.focus).toBe(path.firstStep)
   expect(plan[1]![1]!.focus).toBe(path.project)
   expect(plan[2]![1]!.focus).toContain(path.roles[1])

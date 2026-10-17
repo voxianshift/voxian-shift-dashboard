@@ -272,56 +272,6 @@ test("invalid or foreign requests never call provider", async () => {
     await app.close()
   }
 })
-test("plan generation receives the actual selected target and optional profile answers", async () => {
-  const plan = {
-    summary: "Practical software plan.",
-    phases: [1, 2, 3].map((phase) => ({
-      title: `Phase ${phase}`,
-      days: "Days 1–30",
-      focus: "Practical project",
-      actions: ["Map work", "Review evidence"],
-      deliverable: "A reviewed project",
-      flightPlan: [
-        { days: "D1–D15", focus: "Learn" },
-        { days: "D16–D30", focus: "Apply" },
-      ],
-    })),
-    firstStep: "Map one task.",
-  }
-  const fetch = vi.fn().mockResolvedValue(completion(plan))
-  vi.stubGlobal("fetch", fetch)
-  const app = buildApp()
-  try {
-    const response = await app.inject({
-      method: "POST",
-      url: "/plan",
-      payload: {
-        role: developer.title,
-        occupationCode: developer.code,
-        direction: "Developer Tooling",
-        targetRoles: ["Developer Tools Engineer"],
-        pace: "lean",
-        goals: context.goals,
-        hours: context.hours,
-        profile: context,
-      },
-    })
-    expect(response.statusCode).toBe(200)
-    const input = JSON.parse(
-      JSON.parse(fetch.mock.calls[0]![1]!.body as string).messages[1].content,
-    )
-    expect(input).toMatchObject({
-      role: developer.title,
-      targetRoles: ["Developer Tools Engineer"],
-      profile: context,
-      goals: ["Stability"],
-      hours: "1–2 hours",
-    })
-  } finally {
-    await app.close()
-  }
-})
-
 test("all reviewed source mappings return valid grounded fallback results without provider", async () => {
   vi.stubEnv("ROOTSYS_API_KEY", "")
   const { default: data } = await import("../data/navigator-pathways.json", {

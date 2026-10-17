@@ -259,7 +259,7 @@ const pathFields = {
   project: text(500),
   firstStep: text(300),
 }
-const resourceIdSchema = z.enum(
+export const resourceIdSchema = z.enum(
   Object.keys(navigatorResources) as [
     keyof typeof navigatorResources,
     ...(keyof typeof navigatorResources)[],

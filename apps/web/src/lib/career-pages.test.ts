@@ -88,7 +88,7 @@ test("plan view shows a flight plan for the first phase by default", () => {
   expect(html).toContain("D1–D15")
   expect(html).toContain("D16–D30")
   expect(html).toContain("Module:")
-  expect(html.match(/aria-controls="flight-plan"/g)).toHaveLength(3)
+  expect(html.match(/aria-controls="flight-plan"/g)).toHaveLength(4)
   // Committing to a direction generates the plan; there is no separate generate button.
   expect(html).toContain("Choose this direction")
   expect(html).not.toContain("Generate my plan")

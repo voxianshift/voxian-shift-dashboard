@@ -33,7 +33,7 @@ export function buildApp(options: { chatStore?: ChatStore; catalogue?: Occupatio
   if (catalogue) app.addHook("onClose", () => catalogue.close())
   registerOccupations(app, catalogue)
   registerOnboarding(app, store, catalogue)
-  registerPlan(app)
+  registerPlan(app, catalogue)
   registerNavigator(app, catalogue)
 
   return app

@@ -27,7 +27,7 @@ export function calendarIcs(commitment: Commitment) {
     const { first, last } = occurrences(commitment, slot)
     return [
       "BEGIN:VEVENT",
-      `UID:voxian-${commitment.startDate}-${slot.day}@voxian-shift`,
+      `UID:voxian-${commitment.startDate}-${slot.day}${commitment.plan?.plan.schedule ? `-${slot.start.replace(":", "")}` : ""}@voxian-shift`,
       `DTSTAMP:${stamp(commitment.startDate, "00:00")}`,
       `DTSTART:${stamp(first, slot.start)}`,
       `DTEND:${stamp(first, slotEnd(slot))}`,
