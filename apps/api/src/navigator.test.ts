@@ -97,7 +97,7 @@ test("destinations and titles are backend lookups while narrative uses confirmed
     expect(body.paths[0]!.title).toBe(lookupPathways(developer.code).automate!.title)
     expect(body.paths[3]).toMatchObject({
       coverage: "available",
-      title: "AI Safety & Red Team Lead",
+      title: "AI Safety Testing Practice",
     })
     expect(body.paths[3]!.roleResources[0]![0]!.href).toBe(
       "https://learn.microsoft.com/en-us/training/",

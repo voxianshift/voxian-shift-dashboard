@@ -43,3 +43,9 @@ Movement preferences alone no longer choose a recommended strategy: stay/grow→
 Issue #10 must validate grounded destination IDs when committing/generating plans; the legacy Plan API still accepts title strings. Issue #11 handles saved commitments and #13 broader screen integration. Issue #6 remains owned by the chatbot developer and should consume these grounded fields without inventing destinations.
 
 Future catalogue-backed mappings require exact codes and reviewed transition rationale. Widening source coverage is a dataset review, not permission for an LLM fallback. The original concept's actionable 30-day demo does not override the later 90/120-day scheduling baseline; the first month remains actionable.
+
+## Updated strategy definitions (17 October 2026)
+
+The user's latest definitions supersede the prototype's strategy interpretations. Automate means remaining in the field as the operator, supervisor or configurator of AI automating current work. Hybrid retains human judgment, relationships and creativity within the field while AI handles automatable tasks. Pivot redirects underlying skills into different work, with lower exposure and transferability requiring validation. Create means an owned service, practice, product or new role validated against market demand, rather than an employee job switch.
+
+Shared meanings and Navigator/Plan prompts use these definitions. No literal 50/50 task split or individual risk/transferability claim follows from a strategy label. Create mappings have been revised, with explicit user approval, into occupation-specific owned practices, services and toolkits. These are curated offer hypotheses, not proven market opportunities. Other prototype strategy mappings remain pending semantic review against the updated meanings. The model must not silently rename deterministic destinations. Existing saved plans are not rewritten.

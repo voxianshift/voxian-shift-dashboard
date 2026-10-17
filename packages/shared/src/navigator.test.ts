@@ -1,6 +1,7 @@
 import { expect, test } from "vite-plus/test"
 import {
   recommendStrategy,
+  navigatorStrategies,
   navigatorDraftSchema,
   pathIdSchema,
   courseList,
@@ -110,4 +111,11 @@ test("draft requires exactly one of each strategy and excludes model recommendat
       paths: draft.paths.map((p) => ({ ...p, id: "quality" })),
     }).success,
   ).toBe(false)
+})
+
+test("strategy meanings distinguish operating AI, human work, moving roles and ownership", () => {
+  expect(navigatorStrategies.automate.meaning).toContain("operate, supervise or configure")
+  expect(navigatorStrategies.hybrid.meaning).toContain("judgment, relationships and creativity")
+  expect(navigatorStrategies.pivot.meaning).toContain("validate transferability")
+  expect(navigatorStrategies.create.meaning).toContain("you own")
 })

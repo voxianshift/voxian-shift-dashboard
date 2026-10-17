@@ -49,6 +49,6 @@ export function pathwayRationale(strategy: StrategyId) {
     pivot:
       "Prototype proposes adjacent work drawing on domain knowledge; entry requirements and transferability need individual validation.",
     create:
-      "The prototype proposes emerging responsibilities, including governance and ethics, as a curated Create pathway; validate requirements before a transition.",
+      "Create options turn domain knowledge into an owned practice, service or toolkit; validate customer demand, professional requirements and delivery scope.",
   }[strategy]
 }

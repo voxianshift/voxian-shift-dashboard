@@ -185,23 +185,25 @@ export type StrategyId = z.infer<typeof pathIdSchema>
 export const navigatorStrategies = {
   automate: {
     label: "Automate",
-    meaning: "Improve current work through automation with human review.",
+    meaning: "Stay in your field and operate, supervise or configure the AI automating your work.",
     colorToken: "chart-3",
   },
   hybrid: {
     label: "Hybrid",
-    meaning: "Combine domain expertise with AI assistance and human judgment.",
+    meaning:
+      "Keep human judgment, relationships and creativity in your field while AI handles automatable tasks.",
     colorToken: "tertiary",
   },
   pivot: {
     label: "Pivot",
-    meaning: "Validate adjacent work using transferable skills.",
+    meaning:
+      "Redirect underlying skills toward a different role with lower exposure; validate transferability before moving.",
     colorToken: "warning",
   },
   create: {
     label: "Create",
     meaning:
-      "Explore emerging responsibilities and new forms of value, including governance and ethics.",
+      "Turn domain knowledge into a service, practice, product or new role you own; validate a market need.",
     colorToken: "success",
   },
 } as const
