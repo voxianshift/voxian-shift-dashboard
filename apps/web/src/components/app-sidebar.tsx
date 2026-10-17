@@ -2,10 +2,9 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ArrowUpRight, AudioLines, ChevronUp, PanelLeft } from "lucide-react"
+import { ArrowUpRight, AudioLines, ChevronUp } from "lucide-react"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { AccountMenu } from "@/components/account-menu"
-import { Button } from "@/components/ui/button"
 import {
   Sidebar,
   SidebarContent,
@@ -22,7 +21,7 @@ import { eyebrow } from "@/lib/styles"
 export function AppSidebar() {
   const pathname = usePathname()
   const { profile } = useCareerProfile()
-  const { state, isMobile, setOpenMobile, toggleSidebar } = useSidebar()
+  const { state, isMobile, setOpenMobile } = useSidebar()
   const collapsed = state === "collapsed" && !isMobile
 
   return (

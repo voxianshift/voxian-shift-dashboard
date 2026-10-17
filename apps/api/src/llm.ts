@@ -31,6 +31,8 @@ export function chatConfig(): ChatConfig | null {
 }
 
 export class ProviderAuthError extends Error {}
+export class ProviderQuotaError extends Error {}
+export class ProviderTimeoutError extends Error {}
 
 // One JSON completion from the configured provider (Rootsys OpenAI-style or Gemini).
 export async function completeJson(
@@ -39,62 +41,79 @@ export async function completeJson(
   input: unknown,
   schema: unknown,
   maxTokens = 2000,
-  timeoutMs = 20_000,
+  timeoutMs = 15_000,
 ): Promise<string> {
   const vertex = config.provider === "vertex"
   const gemini = vertex || config.provider === "gemini"
   const project = process.env.GOOGLE_CLOUD_PROJECT || "voxian-shift-app"
-  const response = await fetch(
-    vertex
-      ? `https://aiplatform.googleapis.com/v1/projects/${project}/locations/global/publishers/google/models/${encodeURIComponent(config.model)}:generateContent`
-      : gemini
-        ? `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(config.model)}:generateContent`
-        : "https://rootsys.cloud/v1/chat/completions",
-    {
-      method: "POST",
-      headers: vertex
-        ? {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${(await applicationDefault().getAccessToken()).access_token}`,
-          }
+  let response: Response
+  try {
+    response = await fetch(
+      vertex
+        ? `https://aiplatform.googleapis.com/v1/projects/${project}/locations/global/publishers/google/models/${encodeURIComponent(config.model)}:generateContent`
         : gemini
-          ? { "Content-Type": "application/json", "x-goog-api-key": config.apiKey ?? "" }
-          : { "Content-Type": "application/json", Authorization: `Bearer ${config.apiKey}` },
-      signal: AbortSignal.timeout(timeoutMs),
-      body: JSON.stringify(
-        gemini
+          ? `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(config.model)}:generateContent`
+          : "https://rootsys.cloud/v1/chat/completions",
+      {
+        method: "POST",
+        headers: vertex
           ? {
-              systemInstruction: { parts: [{ text: systemPrompt }] },
-              contents: [{ role: "user", parts: [{ text: JSON.stringify(input) }] }],
-              generationConfig: {
-                responseMimeType: "application/json",
-                responseJsonSchema: schema,
-                maxOutputTokens: maxTokens,
-                // Structured extraction, not reasoning: thinking would eat the output budget
-                thinkingConfig: { thinkingBudget: 0 },
-              },
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${(await applicationDefault().getAccessToken()).access_token}`,
             }
-          : {
-              model: config.model,
-              messages: [
-                {
-                  role: "system",
-                  content: `${systemPrompt} Return only a JSON object, without Markdown, matching this JSON Schema: ${JSON.stringify(schema)}`,
+          : gemini
+            ? { "Content-Type": "application/json", "x-goog-api-key": config.apiKey ?? "" }
+            : { "Content-Type": "application/json", Authorization: `Bearer ${config.apiKey}` },
+        signal: AbortSignal.timeout(timeoutMs),
+        body: JSON.stringify(
+          gemini
+            ? {
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                contents: [{ role: "user", parts: [{ text: JSON.stringify(input) }] }],
+                generationConfig: {
+                  responseMimeType: "application/json",
+                  responseJsonSchema: schema,
+                  maxOutputTokens: maxTokens,
+                  // Structured extraction, not reasoning: thinking would eat the output budget
+                  thinkingConfig: { thinkingBudget: 0 },
                 },
-                { role: "user", content: JSON.stringify(input) },
-              ],
-              response_format: { type: "json_object" },
-              max_tokens: maxTokens,
-              stream: false,
-            },
-      ),
-    },
-  )
+              }
+            : {
+                model: config.model,
+                messages: [
+                  {
+                    role: "system",
+                    content: `${systemPrompt} Return only a JSON object, without Markdown, matching this JSON Schema: ${JSON.stringify(schema)}`,
+                  },
+                  { role: "user", content: JSON.stringify(input) },
+                ],
+                response_format: { type: "json_object" },
+                max_tokens: maxTokens,
+                stream: false,
+              },
+        ),
+      },
+    )
+  } catch (err: unknown) {
+    const errorObj = err as { name?: string; message?: string; code?: number }
+    if (
+      errorObj?.name === "TimeoutError" ||
+      errorObj?.message?.toLowerCase().includes("timeout") ||
+      errorObj?.code === 23
+    ) {
+      throw new ProviderTimeoutError(`${config.label} request timed out after ${timeoutMs}ms`)
+    }
+    throw err
+  }
+
   if (!response.ok) {
     const failure = await response.json().catch(() => null)
     const providerError = z
       .object({
         error: z.object({
+          code: z.number().optional(),
+          message: z.string().optional(),
+          status: z.string().optional(),
           details: z.array(z.object({ reason: z.string().optional() })).optional(),
         }),
       })
@@ -104,7 +123,9 @@ export async function completeJson(
       providerError.data.error.details?.some((detail) => detail.reason === "API_KEY_INVALID")
     if (invalidKey || response.status === 401 || response.status === 403)
       throw new ProviderAuthError(`${config.label} credentials were not accepted`)
-    throw new Error("AI provider unavailable")
+    if (response.status === 429 || providerError.data?.error?.status === "RESOURCE_EXHAUSTED")
+      throw new ProviderQuotaError(`${config.label} quota exceeded or rate limited`)
+    throw new Error(`AI provider unavailable (${response.status})`)
   }
   const raw = await response.json()
   const text = gemini
