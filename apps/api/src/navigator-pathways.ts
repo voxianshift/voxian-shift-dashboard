@@ -1,4 +1,3 @@
-import { readdirSync, readFileSync } from "node:fs"
 import { z } from "zod"
 import { pathIdSchema, occupationCodeSchema, type StrategyId } from "@voxian/shared"
 import families from "../data/navigator-families.json" with { type: "json" }
@@ -36,65 +35,7 @@ const catalogue = z
     occupations: occupationsSchema,
   })
   .parse(data)
-// Per-SOC-group curated files (data/pathways/soc-XX.json) extend the base catalogue in a compact
-// form; the first option names the strategy and IDs follow `${role}-${strategy}-${n}`.
-const groupSchema = z.object({
-  source: z.string(),
-  occupations: z.record(
-    occupationCodeSchema,
-    z.object({
-      role: z.string().regex(/^[a-z0-9_]+$/),
-      strategies: z.record(
-        pathIdSchema,
-        z.object({
-          description: z.string(),
-          humanEdge: z.string(),
-          skills: z.array(z.string()).length(3),
-          options: z.array(z.string()).min(4).max(8),
-        }),
-      ),
-    }),
-  ),
-})
-const firstSteps = {
-  default:
-    "Review one example of your current work against these skills before choosing a learning project.",
-  create:
-    "Describe one customer problem, define a small owned offer, and ask one potential customer for feedback before building.",
-}
-const groupDir = new URL("../data/pathways/", import.meta.url)
-for (const file of readdirSync(groupDir)
-  .filter((name) => name.endsWith(".json"))
-  .sort()) {
-  const group = groupSchema.parse(JSON.parse(readFileSync(new URL(file, groupDir), "utf8")))
-  for (const [code, { role, strategies }] of Object.entries(group.occupations)) {
-    if (catalogue.occupations[code]) throw new Error(`Duplicate pathway mapping ${code} in ${file}`)
-    catalogue.occupations[code] = occupationsSchema.valueType.parse({
-      prototypeRole: role,
-      strategies: Object.fromEntries(
-        Object.entries(strategies).map(([id, path]) => [
-          id,
-          {
-            title: path.options[0],
-            description: path.description,
-            humanEdge: path.humanEdge,
-            skills:
-              id === "create"
-                ? [...path.skills, "Customer Discovery", "Offer Design"]
-                : path.skills,
-            firstStep: id === "create" ? firstSteps.create : firstSteps.default,
-            destinations: path.options.map((title, index) => ({
-              id: `${role}-${id}-${index + 1}`,
-              title,
-              kind: "curated_pathway",
-              occupationCode: null,
-            })),
-          },
-        ]),
-      ),
-    })
-  }
-}
+// Only occupations with prototype v2.3.8 branches are supported in search and the Navigator.
 export const curatedOccupationCodes = Object.keys(catalogue.occupations)
 
 export const pathwayVersion = `${catalogue.version}+${curatedOccupationCodes.length}-curated+${families.version}`
@@ -147,6 +88,6 @@ export function pathwayRationale(strategy: StrategyId, occupationCode?: string) 
     pivot:
       "Prototype proposes adjacent work drawing on domain knowledge; entry requirements and transferability need individual validation.",
     create:
-      "Create options turn domain knowledge into an owned practice, service or toolkit; validate customer demand, professional requirements and delivery scope.",
+      "Prototype maps this occupation to roles creating new value in AI governance, ethics or oversight; requirements and fit need individual validation.",
   }[strategy]
 }

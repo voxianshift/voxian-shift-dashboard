@@ -179,7 +179,7 @@ export const navigatorResources = {
   },
 } as const
 export const NAVIGATOR_CONTRACT_VERSION = 3
-export const NAVIGATOR_RULE_VERSION = 2
+export const NAVIGATOR_RULE_VERSION = 3
 export const pathIdSchema = z.enum(["automate", "hybrid", "pivot", "create"])
 export type StrategyId = z.infer<typeof pathIdSchema>
 export const navigatorStrategies = {
@@ -203,7 +203,7 @@ export const navigatorStrategies = {
   create: {
     label: "Create",
     meaning:
-      "Turn domain knowledge into a service, practice, product or new role you own; validate a market need.",
+      "Move into roles that generate new value AI can't replicate, such as governance, ethics and oversight of AI in your field.",
     colorToken: "success",
   },
 } as const

@@ -6,7 +6,7 @@ import { curatedOccupationCodes, lookupPathways, pathwayVersion } from "./naviga
 
 test("reviewed mapping IDs and titles are stable, unique and explicitly curated", () => {
   const ids = new Set<string>()
-  expect(Object.keys(data.occupations)).toHaveLength(26)
+  expect(Object.keys(data.occupations)).toHaveLength(25)
   for (const code of Object.keys(data.occupations)) {
     const strategies = lookupPathways(code)
     expect(Object.keys(strategies)).toEqual(["automate", "hybrid", "pivot", "create"])
@@ -21,33 +21,29 @@ test("reviewed mapping IDs and titles are stable, unique and explicitly curated"
       }
     }
   }
-  expect(pathwayVersion).toBe(
-    `strategy-definitions-2026-10-17-review-6+${curatedOccupationCodes.length}-curated+soc-family-exploration-1`,
-  )
+  expect(pathwayVersion).toBe(`prototype-v2.3.8-branches-1+25-curated+soc-family-exploration-1`)
   expect(lookupPathways("unmapped")).toEqual({})
   expect(lookupPathways("43-4051.00").automate!.title).not.toEqual(
     lookupPathways("15-1252.00").automate!.title,
   )
 })
 
-test("Create uses curated ownership options rather than employee titles", () => {
-  expect(lookupPathways("15-1252.00").create!.title).toBe("AI Safety Testing Practice")
-  expect(lookupPathways("43-4051.00").create!.title).toBe("Customer Support Quality Practice")
-  expect(lookupPathways("43-6011.00").create!.title).toBe("Workplace Workflow Practice")
-})
-
-test("every Create mapping includes owned offers and customer validation", () => {
-  for (const code of curatedOccupationCodes) {
-    const create = lookupPathways(code).create!
-    expect(create.description).toContain("owned")
-    expect(create.firstStep).toContain("potential customer")
-    expect(
-      create.destinations.every((destination) =>
-        /(?:Practice|Service|Toolkit)$/.test(destination.title),
-      ),
-    ).toBe(true)
-    expect(create.skills).toContain("Customer Discovery")
-  }
+test("strategies use prototype v2.3.8 branches, with governance and ethics roles for Create", () => {
+  const support = lookupPathways("43-4051.00")
+  expect(Object.values(support).map((path) => path.title)).toEqual([
+    "AI Support Ops & Engineering",
+    "AI Specialist & Evaluation",
+    "Strategic Client Advocate & PM",
+    "Enterprise AI Ethics Auditor",
+  ])
+  expect(support.automate!.destinations.map((destination) => destination.title)).toEqual([
+    "AI Support Ops & Engineering",
+    "Frontend Support Integrator",
+    "Agentic RAG Pipeline Architect",
+    "Head of CX Automation",
+  ])
+  expect(lookupPathways("15-1252.00").create!.title).toBe("AI Safety & Red Team Lead")
+  expect(curatedOccupationCodes).not.toContain("15-1232.00")
 })
 
 test("every SOC family resolves stable exploration IDs while exact mappings take priority", () => {
@@ -77,23 +73,11 @@ test("all codes in existing occupation crosswalk resolve four validated options"
   }
 })
 
-test("user support offers variable-length curated lists without changing existing IDs", () => {
-  const paths = lookupPathways("15-1232.00")
-  expect(Object.values(paths).map((path) => path.destinations.length)).toEqual([8, 6, 5, 7])
-  for (const [id, path] of Object.entries(paths)) {
-    expect(path.destinations.map((destination) => destination.id)).toEqual(
-      path.destinations.map((_, index) => `user_support-${id}-${index + 1}`),
-    )
-    expect(new Set(path.destinations.map((destination) => destination.title)).size).toBe(
-      path.destinations.length,
-    )
-  }
-})
-
-test("every mapped occupation offers more than three options per strategy with sequential IDs", () => {
+test("every mapped strategy mirrors its prototype branch with sequential IDs", () => {
   for (const code of curatedOccupationCodes) {
     for (const [id, path] of Object.entries(lookupPathways(code))) {
-      expect(path.destinations.length).toBeGreaterThan(3)
+      expect(path.destinations.length).toBeGreaterThanOrEqual(3)
+      expect(path.destinations[0]!.title).toBe(path.title)
       const prefix = path.destinations[0]!.id.replace(/-1$/, "")
       expect(path.destinations.map((destination) => destination.id)).toEqual(
         path.destinations.map((_, index) => `${prefix}-${index + 1}`),
@@ -104,13 +88,4 @@ test("every mapped occupation offers more than three options per strategy with s
       )
     }
   }
-})
-
-test("SOC group files add exact occupation mappings that override family templates", () => {
-  expect(curatedOccupationCodes.length).toBeGreaterThan(Object.keys(data.occupations).length)
-  const analyst = lookupPathways("15-1211.00")
-  expect(analyst.automate!.destinations[0]!.id).toBe("systems_analyst-automate-1")
-  expect(analyst.automate!.title).toBe(analyst.automate!.destinations[0]!.title)
-  expect(analyst.create!.skills).toContain("Customer Discovery")
-  expect(Object.values(analyst).every((path) => !path.title.includes(" · "))).toBe(true)
 })

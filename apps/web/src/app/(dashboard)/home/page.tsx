@@ -126,10 +126,6 @@ export default function HomePage() {
               profile={candidate}
               onChange={(patch) => setDraft((current) => mergeProfile(current ?? profile, patch))}
             />
-            <p className="text-[15px] leading-relaxed text-muted-foreground">
-              Choose the closest match. If you have several roles, select the one that takes most of
-              your time. You can add goals and preferences later.
-            </p>
           </fieldset>
         ) : (
           <div className="flex items-start gap-4">
@@ -159,9 +155,7 @@ export default function HomePage() {
             <ArrowRight className="size-4" aria-hidden="true" />
           </Button>
           {choosing && !canContinue && (
-            <p className="mt-3 text-[14px] text-muted-foreground">
-              Select a role and choose your main role to continue.
-            </p>
+            <p className="mt-3 text-[14px] text-muted-foreground">Select a role to continue.</p>
           )}
           <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
             Your Meter shows available research for this role. AI exposure describes tasks that
@@ -185,7 +179,7 @@ export default function HomePage() {
             </Button>
           ) : (
             <Button variant="ghost" disabled={busy} onClick={() => setChangingRoles(true)}>
-              Change roles
+              Change role
             </Button>
           )}
           <Button variant="ghost" disabled={busy} onClick={() => setEditing(true)}>

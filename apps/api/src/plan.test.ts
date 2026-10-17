@@ -124,7 +124,7 @@ test("all four strategies use grounded destinations and code-owned schedule/cont
       expect(input.profile.goals).toEqual(["Stability"])
       expect(input.occupation.title).toBe(occupation.title)
       if (strategyId === "pivot") expect(input.phases[0].focus).toContain("Validate adjacent")
-      if (strategyId === "create") expect(input.phases[0].focus).toContain("domain problem")
+      if (strategyId === "create") expect(input.phases[0].focus).toContain("governance")
     }
   } finally {
     await app.close()
@@ -349,9 +349,9 @@ test("one bounded schema repair can recover an extra phase without weakening cov
   }
 })
 
-test("computer user support destinations generate validated plans in every strategy", async () => {
+test("prototype occupation destinations generate validated plans in every strategy", async () => {
   mockProvider()
-  const support = { ...occupation, code: "15-1232.00", title: "Computer User Support Specialists" }
+  const support = { ...occupation, code: "43-4051.00", title: "Customer Service Representatives" }
   const app = buildApp({
     catalogue: { ...catalogue, search: async (code) => (code === support.code ? [support] : []) },
   })
@@ -365,7 +365,7 @@ test("computer user support destinations generate validated plans in every strat
           ...base,
           occupationCode: support.code,
           strategyId,
-          destinationId: `user_support-${strategyId}-4`,
+          destinationId: `cs_rep-${strategyId}-3`,
           profile: {
             ...base.profile,
             occupations: [support.code],
@@ -376,7 +376,7 @@ test("computer user support destinations generate validated plans in every strat
       expect(response.statusCode).toBe(200)
       const plan = flightPlanSchema.parse(response.json().plan)
       expect(plan.occupationCode).toBe(support.code)
-      expect(plan.destinationId).toBe(`user_support-${strategyId}-4`)
+      expect(plan.destinationId).toBe(`cs_rep-${strategyId}-3`)
       expect(() => validatePlanSchedule(plan)).not.toThrow()
     }
   } finally {
