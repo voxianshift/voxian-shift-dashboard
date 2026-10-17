@@ -9,7 +9,6 @@ import {
   ArrowRight,
   ArrowUpRight,
   BookOpen,
-  Compass,
   GitBranch,
   MapPin,
   X,
@@ -188,33 +187,21 @@ function NavigatorCanvas({
   }
   return (
     <div className="flex min-h-[660px] h-full flex-col bg-background text-foreground">
-      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-border px-7 py-5 max-[650px]:px-5">
-        <div className="flex items-center gap-3">
-          <span className="grid size-10 place-items-center rounded-xl border border-border bg-muted">
-            <Compass className="size-5 text-mauve-deep" />
-          </span>
-          <div>
-            <p className="text-[12px] tracking-[1.5px] text-muted-foreground">
-              NAVIGATOR / YOUR CAREER MAP
-            </p>
-            <h1 className="mt-1 text-[23px] font-medium tracking-[-0.5px]">Map your next move.</h1>
-          </div>
-        </div>
-        <Button
-          variant="outline"
-          asChild
-          className="border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground"
-        >
-          <Link href="/roadmap">
-            <ArrowLeft /> Plan view
-          </Link>
-        </Button>
-      </header>
+      <h1 className="sr-only">Map your next move</h1>
       <div
         ref={canvasRef}
         className="relative min-h-[400px] min-w-0 flex-1 overflow-hidden"
         aria-label="Interactive career path canvas"
       >
+        <Button
+          variant="outline"
+          asChild
+          className="absolute top-3 left-3 z-10 border-border bg-background/90 text-foreground shadow-sm backdrop-blur hover:bg-accent hover:text-accent-foreground"
+        >
+          <Link href="/roadmap">
+            <ArrowLeft /> Plan view
+          </Link>
+        </Button>
         <ReactFlow<RoleNode>
           nodes={visibleNodes.map((node) => ({
             ...node,
