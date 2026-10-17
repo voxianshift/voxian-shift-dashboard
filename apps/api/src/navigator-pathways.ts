@@ -48,6 +48,7 @@ export function pathwayRationale(strategy: StrategyId) {
       "Prototype maps this occupation to combining domain judgment with AI tools; this is an exploration pathway, not proven career fit.",
     pivot:
       "Prototype proposes adjacent work drawing on domain knowledge; entry requirements and transferability need individual validation.",
-    create: "No reviewed new-value creation pathway is available for this occupation.",
+    create:
+      "The prototype proposes emerging responsibilities, including governance and ethics, as a curated Create pathway; validate requirements before a transition.",
   }[strategy]
 }

@@ -57,6 +57,10 @@ function draft() {
       project: "Build a small sample using synthetic data.",
       firstStep: "Review one workflow.",
       resourceIds: ["web"],
+      destinationResources: (mappings[id]?.destinations ?? []).map((role) => ({
+        destinationId: role.id,
+        resourceIds: ["learn"],
+      })),
     })),
   }
 }
@@ -91,11 +95,30 @@ test("destinations and titles are backend lookups while narrative uses confirmed
       lookupPathways(developer.code).automate!.destinations,
     )
     expect(body.paths[0]!.title).toBe(lookupPathways(developer.code).automate!.title)
-    expect(body.paths[3]).toMatchObject({ coverage: "unsupported", roles: [], destinations: [] })
+    expect(body.paths[3]).toMatchObject({
+      coverage: "available",
+      title: "AI Safety & Red Team Lead",
+    })
+    expect(body.paths[3]!.roleResources[0]![0]!.href).toBe(
+      "https://learn.microsoft.com/en-us/training/",
+    )
+    expect(body.paths[3]!.destinations).toEqual(lookupPathways(developer.code).create!.destinations)
     const input = JSON.parse(
       JSON.parse(fetch.mock.calls[0]![1]!.body as string).messages[1].content,
     )
     expect(input.profile).toEqual(context)
+    expect(input.occupationalEvidence.status).toBe("available")
+    expect(input.occupationalEvidence.mapping.isco).toMatch(/^\d{4}$/)
+    expect(input.occupationalEvidence.tasks.length).toBeGreaterThan(0)
+    expect(
+      input.occupationalEvidence.tasks.every(
+        (task: { exposure: number }) => task.exposure >= 0 && task.exposure <= 1,
+      ),
+    ).toBe(true)
+    expect(input.transferableSkills.userStatedStrengths).toEqual(context.strengths)
+    expect(input.transferableSkills.byStrategy[3].skills).toEqual(
+      lookupPathways(developer.code).create!.skills,
+    )
     expect(input.pathways[0].destinationIds).toEqual(
       body.paths[0]!.destinations.map((role) => role.id),
     )
@@ -316,8 +339,77 @@ test("all reviewed source mappings return valid grounded fallback results withou
         remoteAddress: `127.0.0.${index + 1}`,
       })
       expect(response.statusCode, code).toBe(200)
+      expect(
+        response
+          .json()
+          .paths.every(
+            (path: { coverage: string; destinations: unknown[] }) =>
+              path.coverage === "available" && path.destinations.length > 0,
+          ),
+        code,
+      ).toBe(true)
       expect(navigatorResultSchema.safeParse(response.json()).success, code).toBe(true)
     }
+  } finally {
+    await app.close()
+  }
+})
+
+test("missing task evidence stays unknown while reviewed Create remains available", async () => {
+  const fetch = vi.fn().mockImplementation((_url, options) => {
+    const input = JSON.parse(JSON.parse(options.body).messages[1].content)
+    expect(input.occupationalEvidence).toMatchObject({
+      status: "unavailable",
+      mapping: null,
+      gradient: null,
+      tasks: [],
+    })
+    expect(input.transferableSkills.byStrategy[3].skills.length).toBeGreaterThan(0)
+    return completion({
+      ...draft(),
+      paths: draft().paths.map((path, index) => ({
+        ...path,
+        destinationIds: input.pathways[index].destinationIds,
+        destinationResources: [],
+      })),
+    })
+  })
+  vi.stubGlobal("fetch", fetch)
+  const store = catalogue()
+  store.search = async (code) => [{ ...developer, code }]
+  const app = buildApp({ catalogue: store })
+  try {
+    const response = await app.inject({
+      method: "POST",
+      url: "/navigator/paths",
+      payload: {
+        profile: { ...context, occupations: ["13-1199.06"], primaryOccupation: "13-1199.06" },
+      },
+    })
+    expect(response.statusCode).toBe(200)
+    expect(response.json().generationStatus).toBe("personalized")
+    expect(response.json().paths[3].coverage).toBe("available")
+    expect(fetch).toHaveBeenCalledOnce()
+  } finally {
+    await app.close()
+  }
+})
+
+test("invented destination-specific resource IDs cannot bypass grounded lookup", async () => {
+  const result = draft()
+  result.paths[0]!.destinationResources[0]!.destinationId = "invented-destination"
+  vi.stubGlobal("fetch", vi.fn().mockResolvedValue(completion(result)))
+  const app = buildApp({ catalogue: catalogue() })
+  try {
+    const response = await app.inject({
+      method: "POST",
+      url: "/navigator/paths",
+      payload: { profile: context },
+    })
+    expect(response.json().generationStatus).toBe("unavailable")
+    expect(response.json().paths[0].destinations).toEqual(
+      lookupPathways(developer.code).automate!.destinations,
+    )
   } finally {
     await app.close()
   }

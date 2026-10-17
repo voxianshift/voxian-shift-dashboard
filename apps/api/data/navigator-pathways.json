@@ -1,7 +1,7 @@
 {
-  "version": "prototype-2.3.8-review-1",
+  "version": "prototype-2.3.8-review-2",
   "source": "voxian-shift-v2.3.8.html ROLE_BRANCHES",
-  "reviewNotes": "Prototype pathway labels, not verified occupations, vacancies or evidence of transition suitability. Senior leaf destinations excluded; source-occupation mappings narrowed to explicit O*NET codes. Create mappings withheld: magenta prototype branches describe governance/ethics rather than new value creation. Content moderator and broad office-supervisor mapping withheld for insufficient source specificity.",
+  "reviewNotes": "Prototype pathway labels, not verified occupations, vacancies or evidence of transition suitability. All four prototype branches retained, including Create governance/ethics pathways, following explicit user direction. Executive leaf labels excluded; source-occupation mappings narrowed to explicit O*NET codes. Content moderator and broad office-supervisor mappings withheld for insufficient source specificity.",
   "occupations": {
     "43-4051.00": {
       "prototypeRole": "cs_rep",
@@ -80,6 +80,33 @@
               "occupationCode": null
             }
           ]
+        },
+        "create": {
+          "title": "Enterprise AI Ethics Auditor",
+          "description": "Formulate corporate AI moderation standards and map regulatory risk across jurisdictions.",
+          "humanEdge": "Navigating ethical ambiguity and translating policy into practice.",
+          "skills": ["AI Compliance Frameworks", "Risk Assessment", "Audit Logging"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "cs_rep-create-1",
+              "title": "Enterprise AI Ethics Auditor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-create-2",
+              "title": "Responsible AI Standards Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-create-3",
+              "title": "Enterprise AI Safety Auditor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
         }
       }
     },
@@ -150,6 +177,27 @@
             {
               "id": "admin_asst-pivot-2",
               "title": "Programme Operations Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "create": {
+          "title": "Workplace Governance Advisor",
+          "description": "Design AI usage policies for the workplace, review compliance frameworks, and assess ethical risk in administrative AI deployment.",
+          "humanEdge": "Navigating organizational politics and building consensus around sensitive policy changes.",
+          "skills": ["AI Policy Frameworks", "HR Compliance", "Risk Documentation"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "admin_asst-create-1",
+              "title": "Workplace Governance Advisor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "admin_asst-create-2",
+              "title": "AI Workplace Policy Lead",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -234,6 +282,27 @@
               "occupationCode": null
             }
           ]
+        },
+        "create": {
+          "title": "Fintech Compliance Officer",
+          "description": "Transition teller experience into AML/KYC compliance review, using AI-assisted transaction monitoring and suspicious activity reporting.",
+          "humanEdge": "Pattern intuition developed through years of seeing real customer transaction behavior.",
+          "skills": ["AML Frameworks", "KYC Procedures", "SAR Reporting"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "bank_teller-create-1",
+              "title": "Fintech Compliance Officer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-create-2",
+              "title": "Financial Crime Investigations Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
         }
       }
     },
@@ -310,6 +379,27 @@
             {
               "id": "data_entry-pivot-2",
               "title": "Analytics Engineering Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "create": {
+          "title": "Data Governance Officer",
+          "description": "Design data classification frameworks, privacy impact assessments, and governance policies aligned with GDPR and PDPA requirements.",
+          "humanEdge": "Understanding real-world data misuse scenarios from operational experience.",
+          "skills": ["Data Classification", "GDPR / PDPA Fundamentals", "Data Catalogues"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "data_entry-create-1",
+              "title": "Data Governance Officer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-create-2",
+              "title": "Data Steward & Quality Champion",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -394,6 +484,27 @@
               "occupationCode": null
             }
           ]
+        },
+        "create": {
+          "title": "Finance Risk & Compliance",
+          "description": "Apply bookkeeping experience to internal audit, risk control matrix design, and SOX/financial regulatory compliance.",
+          "humanEdge": "Practical intuition for where financial controls break in real organizational settings.",
+          "skills": ["Internal Audit Standards", "Risk Control Matrix", "SOX Compliance"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "bookkeeper-create-1",
+              "title": "Finance Risk & Compliance",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-create-2",
+              "title": "Risk & Controls Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
         }
       }
     },
@@ -458,6 +569,27 @@
             {
               "id": "payroll_hr-pivot-1",
               "title": "HR Business Partner",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "create": {
+          "title": "People & AI Ethics Lead",
+          "description": "Audit AI tools used in HR (screening algorithms, performance tools) for bias, and design ethical use frameworks and governance policies.",
+          "humanEdge": "Lived experience of how hiring and pay decisions affect real people.",
+          "skills": ["Algorithmic Bias Assessment", "HR AI Governance", "DEI Analytics"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "payroll_hr-create-1",
+              "title": "People & AI Ethics Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-create-2",
+              "title": "AI Ethics Auditor (HR Systems)",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -542,6 +674,27 @@
               "occupationCode": null
             }
           ]
+        },
+        "create": {
+          "title": "AI Law & Policy Advisor",
+          "description": "Study AI-specific legal frameworks (EU AI Act, model liability, IP ownership in generated content) and advise on compliant AI deployment.",
+          "humanEdge": "Legal research skills sharpened through years of case and statute analysis.",
+          "skills": ["EU AI Act", "IP & AI Copyright", "AI Liability Frameworks"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "paralegal-create-1",
+              "title": "AI Law & Policy Advisor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-create-2",
+              "title": "AI Compliance Counsel",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
         }
       }
     },
@@ -616,6 +769,27 @@
             {
               "id": "hr_recruiter-pivot-2",
               "title": "Employee Lifecycle Program Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "create": {
+          "title": "Ethical Hiring & DEI Lead",
+          "description": "Audit hiring pipelines for demographic bias, design structured interview frameworks, and implement inclusive job description tooling.",
+          "humanEdge": "Recruiter self-awareness about unconscious bias developed through honest reflection.",
+          "skills": ["Structured Interviewing", "Bias Audit Methodology", "Inclusive JD Design"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "hr_recruiter-create-1",
+              "title": "Ethical Hiring & DEI Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-create-2",
+              "title": "DEI Talent Strategy Lead",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -702,6 +876,31 @@
               "occupationCode": null
             }
           ]
+        },
+        "create": {
+          "title": "AI Safety & Red Team Lead",
+          "description": "Apply software engineering skills to AI safety: build safety evaluation frameworks, conduct adversarial testing (jailbreaking, prompt injection), and implement safety guardrails.",
+          "humanEdge": "Developer intuition about how systems fail under adversarial pressure.",
+          "skills": [
+            "Prompt Injection Testing",
+            "Safety Eval Frameworks",
+            "Interpretability Tools"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "software_dev-create-1",
+              "title": "AI Safety & Red Team Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "software_dev-create-2",
+              "title": "AI Safety Researcher",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
         }
       }
     },
@@ -780,6 +979,27 @@
               "occupationCode": null
             }
           ]
+        },
+        "create": {
+          "title": "Supply Chain Resilience Officer",
+          "description": "Map supply chain vulnerabilities using AI risk tools, design business continuity protocols, and implement ESG supplier compliance frameworks.",
+          "humanEdge": "Operational experience that reveals which risks are real vs. theoretical.",
+          "skills": ["Supply Chain Risk Mapping", "BCP Design", "ESG Supplier Assessment"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "logistics_coord-create-1",
+              "title": "Supply Chain Resilience Officer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-create-2",
+              "title": "Supply Chain Risk Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
         }
       }
     },
@@ -848,6 +1068,31 @@
             {
               "id": "sales_rep-pivot-1",
               "title": "Key Account Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "create": {
+          "title": "B2B Ethics & Value Advisor",
+          "description": "Design ethical AI sales tool governance: audit AI prospecting for bias, assess predatory pricing tool practices, and champion honest selling standards.",
+          "humanEdge": "Firsthand experience of how sales pressure creates ethical gray zones.",
+          "skills": [
+            "AI Sales Tool Audit",
+            "Ethical Selling Standards",
+            "Buyer Protection Advocacy"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "sales_rep-create-1",
+              "title": "B2B Ethics & Value Advisor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "sales_rep-create-2",
+              "title": "Sales Integrity & Compliance Lead",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -924,6 +1169,27 @@
             {
               "id": "graphic_designer-pivot-2",
               "title": "Senior Product Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "create": {
+          "title": "Creative Ethics Lead",
+          "description": "Navigate the ethical and legal landscape of AI-generated art: copyright, artist attribution, training data consent, and creator compensation models.",
+          "humanEdge": "First-person creator experience that gives authentic authority in advocacy.",
+          "skills": ["AI Art Copyright Law", "Creator Rights Frameworks", "Ethical AI Image Use"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "graphic_designer-create-1",
+              "title": "Creative Ethics Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-create-2",
+              "title": "Creative Industry AI Policy Lead",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1008,6 +1274,31 @@
               "occupationCode": null
             }
           ]
+        },
+        "create": {
+          "title": "E-Commerce Ethics & Sustainability Lead",
+          "description": "Audit e-commerce platforms for dark patterns, deceptive pricing, counterfeit product risks, and design ethical consumer experience standards.",
+          "humanEdge": "Merchant-side experience revealing which dark patterns are systemic vs. incidental.",
+          "skills": [
+            "Dark Pattern Recognition",
+            "Consumer Protection Law",
+            "Sustainable Commerce Principles"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "ecom_coord-create-1",
+              "title": "E-Commerce Ethics & Sustainability Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-create-2",
+              "title": "Consumer Trust & Ethics Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
         }
       }
     },
@@ -1080,6 +1371,31 @@
             {
               "id": "financial_analyst-pivot-2",
               "title": "Portfolio Manager (Multi-Asset)",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "create": {
+          "title": "Systemic Risk Officer",
+          "description": "Develop systemic risk analysis skills: macro stress testing, contagion modeling, AI model risk governance, and Basel regulatory capital framework expertise.",
+          "humanEdge": "Institutional experience of how risks that seem contained become systemic.",
+          "skills": [
+            "Stress Testing Frameworks",
+            "Model Risk Management",
+            "Basel III/IV Fundamentals"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "financial_analyst-create-1",
+              "title": "Systemic Risk Officer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-create-2",
+              "title": "Model Risk & Validation Specialist",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1164,6 +1480,21 @@
               "occupationCode": null
             }
           ]
+        },
+        "create": {
+          "title": "CFO Advisory & Finance Leadership",
+          "description": "Build towards CFO advisory: FP&A excellence, investor relations skills, capital markets literacy, and business partnership with executive leadership.",
+          "humanEdge": "Credibility earned through technical accounting depth combined with commercial acumen.",
+          "skills": ["FP&A Leadership", "Investor Relations Fundamentals", "Business Partnering"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "accountant-create-1",
+              "title": "CFO Advisory & Finance Leadership",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
         }
       }
     },
@@ -1240,6 +1571,31 @@
             {
               "id": "medical_records-pivot-1",
               "title": "Health IT Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "create": {
+          "title": "Medical Data Ethics Officer",
+          "description": "Develop health data ethics expertise: AI bias in clinical algorithms, patient consent frameworks, IRB governance, algorithmic fairness in healthcare, and GDPR/HIPAA intersection.",
+          "humanEdge": "Patient advocate perspective that holds AI clinical tools to human rights standards.",
+          "skills": [
+            "Health AI Bias Assessment",
+            "Patient Consent Frameworks",
+            "IRB / Ethics Review Processes"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "medical_records-create-1",
+              "title": "Medical Data Ethics Officer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "medical_records-create-2",
+              "title": "AI Ethics Review Specialist (Health)",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1324,6 +1680,31 @@
               "occupationCode": null
             }
           ]
+        },
+        "create": {
+          "title": "Insurance AI Ethics Advisor",
+          "description": "Build insurance AI ethics expertise: algorithmic pricing fairness analysis, state insurance regulation compliance, consumer rights in automated underwriting, and NAIC AI governance frameworks.",
+          "humanEdge": "Claims experience of how denial decisions affect real people.",
+          "skills": [
+            "NAIC AI Governance Framework",
+            "Algorithmic Pricing Fairness",
+            "State Insurance Regulation"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "insurance_claims-create-1",
+              "title": "Insurance AI Ethics Advisor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-create-2",
+              "title": "Regulatory Affairs Specialist (Insurance)",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
         }
       }
     },
@@ -1394,6 +1775,31 @@
             {
               "id": "journalist_writer-pivot-1",
               "title": "Content Strategy Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "create": {
+          "title": "Media Ethics Lead",
+          "description": "Build media ethics expertise: AI-generated content disclosure standards, deepfake detection, disinformation research methods, press law fundamentals, and editorial ethics frameworks.",
+          "humanEdge": "Journalist experience of real-world source relationships and information verification.",
+          "skills": [
+            "AI Content Disclosure Standards",
+            "Deepfake Detection Tools",
+            "Disinformation Research Methods"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "journalist_writer-create-1",
+              "title": "Media Ethics Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "journalist_writer-create-2",
+              "title": "Fact-Check & Verification Lead",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1472,6 +1878,31 @@
               "occupationCode": null
             }
           ]
+        },
+        "create": {
+          "title": "EdTech Ethics Officer",
+          "description": "Build EdTech ethics expertise: student data privacy (COPPA, FERPA), AI algorithmic bias in education assessment, surveillance technology in classrooms, and digital equity advocacy.",
+          "humanEdge": "Teacher experience of how children respond to surveillance and data collection.",
+          "skills": [
+            "FERPA / COPPA Compliance",
+            "Algorithmic Fairness in Education AI",
+            "Digital Equity Assessment"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "teacher_trainer-create-1",
+              "title": "EdTech Ethics Officer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "teacher_trainer-create-2",
+              "title": "Student Data Privacy Officer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
         }
       }
     },
@@ -1542,6 +1973,31 @@
             {
               "id": "digital_marketer-pivot-1",
               "title": "Brand Strategy Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "create": {
+          "title": "Advertising Ethics Lead",
+          "description": "Build advertising ethics expertise: privacy-first marketing design, GDPR/CCPA ad compliance, dark pattern identification, AI-generated ad content disclosure, and vulnerable audience protection.",
+          "humanEdge": "Marketing experience of audience targeting that identifies when precision becomes manipulation.",
+          "skills": [
+            "Privacy-First Marketing Design",
+            "GDPR/CCPA Ad Compliance",
+            "Dark Pattern Identification"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "digital_marketer-create-1",
+              "title": "Advertising Ethics Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "digital_marketer-create-2",
+              "title": "Privacy & Compliance Manager (Marketing)",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1626,6 +2082,31 @@
               "occupationCode": null
             }
           ]
+        },
+        "create": {
+          "title": "Programme Ethics Lead",
+          "description": "Build responsible delivery expertise: AI project impact assessment, workforce displacement risk in transformation programmes, ethical supplier management, and responsible automation governance.",
+          "humanEdge": "Project leadership experience of how transformation affects front-line worker lives.",
+          "skills": [
+            "AI Impact Assessment in Projects",
+            "Workforce Transition Planning",
+            "Responsible Automation Governance"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "project_manager-create-1",
+              "title": "Programme Ethics Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "project_manager-create-2",
+              "title": "Responsible Technology PM",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
         }
       }
     },
@@ -1702,6 +2183,31 @@
             {
               "id": "data_analyst-pivot-2",
               "title": "Senior Analytics PM",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "create": {
+          "title": "Data Governance Officer",
+          "description": "Build data governance expertise: data cataloguing, data lineage tracking, GDPR/CCPA compliance for analytics, AI ethics in data products, and responsible data use frameworks.",
+          "humanEdge": "Analyst experience of how poor data governance creates analytical misleads at scale.",
+          "skills": [
+            "Data Catalogue & Metadata Management",
+            "GDPR/CCPA Analytics Compliance",
+            "Data Lineage Frameworks"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "data_analyst-create-1",
+              "title": "Data Governance Officer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_analyst-create-2",
+              "title": "Data Steward & Quality Manager",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1786,6 +2292,31 @@
               "occupationCode": null
             }
           ]
+        },
+        "create": {
+          "title": "Urban Ethics & Sustainability Lead",
+          "description": "Develop built environment ethics expertise: BREEAM/LEED sustainability leadership, climate resilience design, community participatory design, housing justice, and AI urban planning ethics.",
+          "humanEdge": "Architectural experience of how design decisions affect communities that don't commission buildings.",
+          "skills": [
+            "BREEAM/LEED Sustainability Leadership",
+            "Climate Resilience Design",
+            "Participatory Community Design"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "architect_designer-create-1",
+              "title": "Urban Ethics & Sustainability Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "architect_designer-create-2",
+              "title": "Sustainability Architect / ESG Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
         }
       }
     },
@@ -1862,6 +2393,31 @@
             {
               "id": "translator-pivot-1",
               "title": "Global Content Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "create": {
+          "title": "Language Access & Ethics Lead",
+          "description": "Build language ethics expertise: language access rights law, AI translation bias in high-stakes contexts (legal, medical), low-resource language equity, and certified translation ethics.",
+          "humanEdge": "Translator understanding of real-world consequences when language access fails.",
+          "skills": [
+            "Language Access Rights Frameworks",
+            "AI Translation Bias Assessment",
+            "Low-Resource Language Advocacy"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "translator-create-1",
+              "title": "Language Access & Ethics Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "translator-create-2",
+              "title": "Language Access Coordinator (Legal/Medical)",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1948,6 +2504,31 @@
             {
               "id": "travel_agent-pivot-2",
               "title": "Destination Marketing Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "create": {
+          "title": "Sustainable Travel Ethics Lead",
+          "description": "Develop sustainable travel expertise: tourism carbon footprint measurement, GSTC sustainable tourism certification, regenerative travel design, and over-tourism policy advocacy.",
+          "humanEdge": "Travel industry knowledge of where greenwashing ends and genuine sustainability begins.",
+          "skills": [
+            "Tourism Carbon Footprint Measurement",
+            "GSTC Sustainable Tourism Framework",
+            "Regenerative Travel Design Principles"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "travel_agent-create-1",
+              "title": "Sustainable Travel Ethics Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "travel_agent-create-2",
+              "title": "Sustainable Travel Consultant",
               "kind": "curated_pathway",
               "occupationCode": null
             }

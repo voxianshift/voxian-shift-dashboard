@@ -200,7 +200,8 @@ export const navigatorStrategies = {
   },
   create: {
     label: "Create",
-    meaning: "Validate a new service, product or original body of work.",
+    meaning:
+      "Explore emerging responsibilities and new forms of value, including governance and ethics.",
     colorToken: "success",
   },
 } as const
@@ -273,6 +274,12 @@ export const navigatorDraftSchema = z
           ...pathFields,
           resourceIds: z.array(resourceIdSchema).min(1).max(3),
           destinationIds: z.array(text(100)).max(3),
+          destinationResources: z
+            .array(
+              z.object({ destinationId: text(100), resourceIds: z.array(resourceIdSchema).max(3) }),
+            )
+            .max(3)
+            .default([]),
         }),
       )
       .length(4),
