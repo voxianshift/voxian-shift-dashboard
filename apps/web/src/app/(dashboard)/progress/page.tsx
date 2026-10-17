@@ -122,7 +122,7 @@ function Progress({
             <Pencil /> Change schedule
           </Button>
           <Button variant="outline" asChild>
-            <Link href={`/roadmap?path=${commitment.pathId}`}>
+            <Link href={`/roadmap?path=${commitment.pathId}&plan=1`}>
               Open plan <ArrowRight />
             </Link>
           </Button>

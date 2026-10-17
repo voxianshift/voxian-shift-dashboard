@@ -1,10 +1,9 @@
 "use client"
 
 import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react"
-import Link from "next/link"
 import { useTheme } from "next-themes"
 import { useSearchParams } from "next/navigation"
-import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, GitBranch, MapPin, X } from "lucide-react"
+import { ArrowRight, ArrowUpRight, BookOpen, GitBranch, MapPin, X } from "lucide-react"
 import {
   ReactFlow,
   Background,
@@ -19,7 +18,30 @@ import "@xyflow/react/dist/style.css"
 import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import type { NavigatorResult } from "@voxian/shared"
+import {
+  generatedPlanSchema,
+  navigatorContext,
+  navigatorResources,
+  courseList,
+  type PlanScheduleInput,
+  type NavigatorResult,
+} from "@voxian/shared"
+import { useCareerProfile } from "@/components/career-profile-provider"
+import { CommitDirectionDialog } from "@/components/commit-direction-dialog"
+import { Roadmap } from "@/components/navigator-plan-view"
+import {
+  loadCommitment,
+  timelineSprint,
+  type Commitment,
+  type GeneratedPlan,
+} from "@/lib/commitment"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet"
 import { useNavigator } from "@/components/navigator-provider"
 import { NavigatorStatus } from "@/components/navigator-status"
 import {
@@ -139,6 +161,20 @@ function NavigatorCanvas({
   initialPathId: string | null
   initialSelectedId: string | null
 }) {
+  const { profile } = useCareerProfile()
+  const { profileKey } = useNavigator()
+  const params = useSearchParams()
+  const [commitOpen, setCommitOpen] = useState(false)
+  const [planOpen, setPlanOpen] = useState(false)
+  const [commitment, setCommitment] = useState<Commitment | null>(null)
+  useEffect(() => {
+    const saved = loadCommitment()
+    if (saved?.plan?.plan.occupationCode && saved.plan.plan.occupationCode !== data.occupationCode)
+      return
+    setCommitment(saved)
+    if (saved?.plan && params.get("plan") === "1") setPlanOpen(true)
+  }, [data.occupationCode, params])
+  const sprint = timelineSprint(profile.timeline) ?? profile.hours === "5+ hours"
   const careerPaths = data.paths
   const careerNodes = buildCareerNodes(careerPaths, data.roleTitle)
   const { resolvedTheme } = useTheme()
@@ -175,6 +211,32 @@ function NavigatorCanvas({
     observer.observe(details)
     return () => observer.disconnect()
   }, [flow, selectedId, focusRequest, data])
+  const targetRole =
+    selectedNode?.data.kind === "role" && selected ? selected.roles.indexOf(selectedRole) : null
+  async function generatePlan(schedule: PlanScheduleInput): Promise<GeneratedPlan> {
+    if (!selected || selected.coverage !== "available")
+      throw new Error("Choose an available direction.")
+    const courses = courseList(selected, targetRole)
+    const response = await fetch("/api/plan", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      signal: AbortSignal.timeout(65_000),
+      body: JSON.stringify({
+        occupationCode: data.occupationCode,
+        strategyId: selected.id,
+        destinationId: targetRole === null ? null : selected.destinations[targetRole]!.id,
+        profile: navigatorContext(profile),
+        pace: sprint ? "intensive" : "lean",
+        schedule,
+        resourceIds: Object.entries(navigatorResources)
+          .filter(([, resource]) => courses.some((course) => course.href === resource.href))
+          .map(([id]) => id),
+      }),
+    })
+    const result = await response.json()
+    if (!response.ok) throw new Error(result.error || "Your plan could not be generated.")
+    return generatedPlanSchema.parse(result)
+  }
   function selectNode(id: string) {
     const pathId = careerNodes.find((node) => node.id === id)?.data.pathId
     if (pathId) setExpandedPathId(pathId)
@@ -198,12 +260,11 @@ function NavigatorCanvas({
       >
         <Button
           variant="outline"
-          asChild
+          disabled={!commitment?.plan}
+          onClick={() => setPlanOpen(true)}
           className="absolute top-3 left-3 z-10 border-border bg-background/90 text-foreground shadow-sm backdrop-blur hover:bg-accent hover:text-accent-foreground"
         >
-          <Link href="/roadmap">
-            <ArrowLeft /> Plan view
-          </Link>
+          <BookOpen /> View full plan
         </Button>
         <ReactFlow<RoleNode>
           nodes={visibleNodes.map((node) => ({
@@ -410,12 +471,11 @@ function NavigatorCanvas({
             </Tabs>
             <footer className="shrink-0 border-t bg-popover px-6 py-4 max-[650px]:px-4">
               {selected.coverage === "available" ? (
-                <Button asChild className="h-auto min-h-11 w-full whitespace-normal">
-                  <Link
-                    href={`/roadmap?path=${selected.id}${selectedNode?.data.kind === "role" ? `&role=${selected.roles.indexOf(selectedRole)}` : ""}`}
-                  >
-                    Build this direction into a plan <ArrowRight />
-                  </Link>
+                <Button
+                  onClick={() => setCommitOpen(true)}
+                  className="h-auto min-h-11 w-full whitespace-normal"
+                >
+                  Build this direction into a plan <ArrowRight />
                 </Button>
               ) : (
                 <p>No plan available until a destination mapping is reviewed.</p>
@@ -424,6 +484,51 @@ function NavigatorCanvas({
           </aside>
         )}
       </div>
+      {selected && commitOpen && (
+        <CommitDirectionDialog
+          open={commitOpen}
+          onOpenChange={setCommitOpen}
+          pathId={selected.id}
+          direction={selected.title}
+          role={targetRole === null ? null : selectedRole}
+          sprint={sprint}
+          profile={profile}
+          generate={generatePlan}
+          onSaved={(saved) => {
+            setCommitment(saved)
+            setPlanOpen(true)
+          }}
+        />
+      )}
+      <Sheet open={planOpen} onOpenChange={setPlanOpen}>
+        <SheetContent side="bottom" className="data-[side=bottom]:h-[92dvh] gap-0 rounded-t-xl">
+          <SheetHeader className="shrink-0 border-b pr-14">
+            <SheetTitle>Your full plan</SheetTitle>
+            <SheetDescription>
+              Review your phases, daily tasks, milestones and learning resources.
+            </SheetDescription>
+          </SheetHeader>
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            {commitment?.plan && (
+              <Roadmap
+                data={data}
+                requestedPath={commitment.pathId}
+                requestedRole={
+                  commitment.role === null
+                    ? null
+                    : String(
+                        data.paths
+                          .find((path) => path.id === commitment.pathId)
+                          ?.roles.indexOf(commitment.role),
+                      )
+                }
+                profileKey={profileKey}
+                savedCommitment={commitment}
+              />
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   )
 }
