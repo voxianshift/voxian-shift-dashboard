@@ -14,7 +14,10 @@ export function selectedCardViewport(
   height: number,
   maxZoom = defaultZoom,
 ) {
-  const zoom = Math.max(0.25, Math.min(maxZoom, (width - 32) / cardWidth, (height - 32) / cardHeight))
+  const zoom = Math.max(
+    0.25,
+    Math.min(maxZoom, (width - 32) / cardWidth, (height - 32) / cardHeight),
+  )
   return {
     x: width / 2 - (position.x + cardWidth / 2) * zoom,
     y: height / 2 - (position.y + cardHeight / 2) * zoom,

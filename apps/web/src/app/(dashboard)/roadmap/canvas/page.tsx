@@ -4,15 +4,7 @@ import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { useTheme } from "next-themes"
 import { useSearchParams } from "next/navigation"
-import {
-  ArrowLeft,
-  ArrowRight,
-  ArrowUpRight,
-  BookOpen,
-  GitBranch,
-  MapPin,
-  X,
-} from "lucide-react"
+import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, GitBranch, MapPin, X } from "lucide-react"
 import {
   ReactFlow,
   Background,
@@ -96,8 +88,7 @@ function RoleCard({ data, selected }: NodeProps<RoleNode>) {
 }
 
 const nodeTypes = { role: RoleCard }
-const maxZoom = () =>
-  window.matchMedia(largeScreenQuery).matches ? largeScreenZoom : defaultZoom
+const maxZoom = () => (window.matchMedia(largeScreenQuery).matches ? largeScreenZoom : defaultZoom)
 export default function NavigatorCanvasPage() {
   const { setOpen } = useSidebar()
   // Collapse once on entry for canvas space; later toggles are the user's and persist via cookie.
@@ -235,6 +226,16 @@ function NavigatorCanvas({
           deleteKeyCode={null}
           onNodeClick={(_, node) => {
             if (node.data.pathId) selectNode(node.id)
+          }}
+          // Keyboard access to role details: Enter/Space on a focused card acts like a click.
+          onKeyDown={(event) => {
+            if (event.key !== "Enter" && event.key !== " ") return
+            const id = (event.target as HTMLElement).closest<HTMLElement>(".react-flow__node")
+              ?.dataset.id
+            if (id && careerNodes.find((node) => node.id === id)?.data.pathId) {
+              event.preventDefault()
+              selectNode(id)
+            }
           }}
           className="!bg-background motion-reduce:[&_path]:!animate-none"
           aria-label="Career paths: drag canvas to pan, scroll to zoom, select a role to see details"
@@ -413,24 +414,6 @@ function NavigatorCanvas({
           </aside>
         )}
       </div>
-      <footer className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-t px-6 py-3 text-[13px] text-muted-foreground">
-        <span>Drag background to pan · scroll or pinch to zoom · cards stay fixed.</span>
-        <div
-          className="flex flex-wrap gap-3"
-          aria-label="Open path details without using the canvas"
-        >
-          {careerPaths.map((path) => (
-            <button
-              key={path.id}
-              className="rounded px-1 py-1 underline-offset-4 hover:underline focus-visible:outline-2"
-              style={{ color: path.color }}
-              onClick={() => selectNode(path.id)}
-            >
-              {path.title}
-            </button>
-          ))}
-        </div>
-      </footer>
     </div>
   )
 }
