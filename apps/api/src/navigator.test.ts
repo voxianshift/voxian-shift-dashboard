@@ -13,7 +13,7 @@ const developer = {
   baselineId: null,
   reason: "Exact code",
 }
-const familyOnly = { ...developer, code: "29-1141.00", title: "Registered Nurses" }
+const familyOnly = { ...developer, code: "11-9199.00", title: "Managers, All Other" }
 const support = { ...developer, code: "15-1232.00", title: "Computer User Support Specialists" }
 const admin = { ...developer, code: "43-6011.00", title: "Executive Assistants" }
 const unknownMapping = { ...developer, code: "99-9999.00", title: "Unclassified test occupation" }
@@ -384,7 +384,7 @@ test("computer user support returns fixed coverage for all four strategies witho
     for (const path of result.paths) {
       expect(path.coverage).toBe("available")
       expect(path.destinations).toEqual(lookupPathways(support.code)[path.id]!.destinations)
-      expect(path.destinations).toHaveLength(3)
+      expect(path.destinations.length).toBeGreaterThan(3)
     }
     expect(result.paths[3]!.title).toBe("Small Business IT Support Practice")
   } finally {

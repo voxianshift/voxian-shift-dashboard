@@ -1,0 +1,1065 @@
+{
+  "source": "Product-curated from O*NET 31.0 occupation tasks for SOC major group 41 (https://www.onetonline.org/find/family?f=41). Exploration labels, not verified vacancies or transitions.",
+  "occupations": {
+    "41-1011.00": {
+      "role": "retail_sales_supervisor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in retail sales supervision and operate sales dashboards, staff rostering and stock replenishment tools with human sign-off.",
+          "humanEdge": "Reading the shop floor and coaching staff in the moment.",
+          "skills": ["Retail Analytics", "Rostering Software", "Replenishment Systems"],
+          "options": [
+            "Store Performance Analyst",
+            "Retail Rostering Coordinator",
+            "Replenishment Systems Supervisor",
+            "Omnichannel Fulfilment Supervisor",
+            "Loss Prevention Data Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine retail sales supervision judgment with AI tools for customer issues, staff duties and sales monitoring.",
+          "humanEdge": "Turning a complaint into a returning customer.",
+          "skills": ["Team Leadership", "Customer Recovery", "Visual Merchandising"],
+          "options": [
+            "Assistant Store Manager",
+            "Department Manager",
+            "Customer Experience Lead",
+            "Visual Merchandising Supervisor",
+            "Retail Trainer"
+          ]
+        },
+        "pivot": {
+          "description": "Use retail sales supervision experience in adjacent store management, merchandising or area operations work; verify requirements.",
+          "humanEdge": "Running a team against daily sales targets.",
+          "skills": ["Store Operations", "Merchandising", "P&L Basics"],
+          "options": [
+            "Store Manager Track",
+            "Area Operations Coordinator",
+            "Merchandising Manager",
+            "Retail Operations Analyst",
+            "E-Commerce Fulfilment Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned retail operations practice, service or toolkit with potential customers.",
+          "humanEdge": "Practical insight into store execution.",
+          "skills": ["Store Audits", "Staff Training", "Merchandising"],
+          "options": [
+            "Store Standards Audit Practice",
+            "Retail Staff Training Toolkit",
+            "Visual Merchandising Service",
+            "Mystery Shopping Service",
+            "Pop-Up Shop Setup Service"
+          ]
+        }
+      }
+    },
+    "41-1012.00": {
+      "role": "sales_team_supervisor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in non-retail sales supervision and operate CRM pipelines, performance reporting and lead routing with human sign-off.",
+          "humanEdge": "Coaching reps through real deals.",
+          "skills": ["CRM Administration", "Sales Reporting", "Lead Routing"],
+          "options": [
+            "Sales Operations Supervisor",
+            "CRM Pipeline Manager",
+            "Sales Performance Analyst",
+            "Lead Routing Coordinator",
+            "Sales Enablement Systems Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine non-retail sales supervision judgment with AI tools for rep coaching, complaint resolution and target setting.",
+          "humanEdge": "Knowing which rep needs which kind of help.",
+          "skills": ["Sales Coaching", "Complaint Resolution", "Forecasting"],
+          "options": [
+            "Sales Team Manager",
+            "Sales Enablement Manager",
+            "Key Account Manager",
+            "Inside Sales Manager",
+            "Customer Success Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use non-retail sales supervision experience in adjacent sales operations, enablement or account management work; verify requirements.",
+          "humanEdge": "Hiring, training and evaluating sales staff.",
+          "skills": ["Sales Training", "Account Planning", "Operations"],
+          "options": [
+            "Sales Operations Manager",
+            "Sales Trainer",
+            "Channel Partner Manager",
+            "Business Development Manager",
+            "Revenue Operations Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned sales management practice, service or toolkit with potential customers.",
+          "humanEdge": "Proven coaching methods.",
+          "skills": ["Sales Coaching", "Playbook Writing", "Hiring"],
+          "options": [
+            "Sales Coaching Practice",
+            "Sales Playbook Toolkit",
+            "Rep Hiring Assessment Service",
+            "Pipeline Review Service",
+            "Fractional Sales Manager Service"
+          ]
+        }
+      }
+    },
+    "41-2011.00": {
+      "role": "cashier",
+      "strategies": {
+        "automate": {
+          "description": "Stay in cashiering and operate self-checkout supervision, POS and cash reconciliation tools with human sign-off.",
+          "humanEdge": "Helping customers when the machine cannot.",
+          "skills": ["POS Systems", "Self-Checkout Supervision", "Cash Reconciliation"],
+          "options": [
+            "Self-Checkout Host",
+            "POS Support Assistant",
+            "Cash Office Assistant",
+            "Click and Collect Assistant",
+            "Front End Systems Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine cashiering judgment with AI tools for customer complaints, returns and new staff training.",
+          "humanEdge": "Staying friendly and accurate at speed.",
+          "skills": ["Customer Service", "Cash Handling", "Peer Training"],
+          "options": [
+            "Front End Supervisor",
+            "Customer Service Desk Associate",
+            "Cashier Trainer",
+            "Returns Specialist",
+            "Checkout Team Leader"
+          ]
+        },
+        "pivot": {
+          "description": "Use cashiering experience in adjacent retail, banking or customer service work; verify requirements.",
+          "humanEdge": "Accurate money handling and service.",
+          "skills": ["Cash Handling", "Customer Service", "Retail Operations"],
+          "options": [
+            "Retail Supervisor Track",
+            "Bank Teller Track",
+            "Customer Service Advisor",
+            "Stock Controller",
+            "Cash Office Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned retail service practice, service or toolkit with potential customers.",
+          "humanEdge": "Checkout and service know-how.",
+          "skills": ["Service Training", "Cash Procedures", "Customer Insight"],
+          "options": [
+            "Checkout Training Service",
+            "Cash Handling Procedure Toolkit",
+            "Market Stall Practice",
+            "Customer Service Script Toolkit",
+            "Event Cash Desk Service"
+          ]
+        }
+      }
+    },
+    "41-2012.00": {
+      "role": "casino_cage_cashier",
+      "strategies": {
+        "automate": {
+          "description": "Stay in gambling cage and change booth and operate cash counting machines, drawer audits and ID verification systems with human sign-off.",
+          "humanEdge": "Catching discrepancies and fraud attempts.",
+          "skills": ["Cash Counting Systems", "Drawer Audits", "ID Verification"],
+          "options": [
+            "Cage Audit Assistant",
+            "Cash Count Systems Operator",
+            "ID Verification Specialist",
+            "Ticket Redemption Kiosk Attendant",
+            "Cage Records Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine gambling cage and change booth judgment with AI tools for patron exchanges, age checks and drawer balancing.",
+          "humanEdge": "Staying precise and polite with large sums.",
+          "skills": ["Cash Accuracy", "Age Verification", "Patron Service"],
+          "options": [
+            "Cage Supervisor Track",
+            "Casino Cashier Lead",
+            "Credit Desk Clerk",
+            "Responsible Gaming Assistant",
+            "Count Room Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use gambling cage and change booth experience in adjacent banking, cash office or compliance work work; verify requirements.",
+          "humanEdge": "Strict accuracy and anti-fraud awareness.",
+          "skills": ["Cash Controls", "AML Awareness", "Customer Service"],
+          "options": [
+            "Bank Teller Track",
+            "Cash Office Supervisor",
+            "AML Analyst Track",
+            "Foreign Exchange Cashier",
+            "Retail Cash Controller"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned cash handling practice, service or toolkit with potential customers.",
+          "humanEdge": "Cash control discipline.",
+          "skills": ["Cash Procedures", "Audit Checks", "Training"],
+          "options": [
+            "Cash Control Audit Practice",
+            "Cash Office Procedure Toolkit",
+            "Cashier Fraud Awareness Training Service",
+            "Event Cash Management Service",
+            "Drawer Reconciliation Toolkit"
+          ]
+        }
+      }
+    },
+    "41-2021.00": {
+      "role": "rental_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in counter and rental service and operate rental booking, availability tracking and payment systems with human sign-off.",
+          "humanEdge": "Recommending the right item for each customer's job.",
+          "skills": ["Rental Software", "Availability Tracking", "Payment Processing"],
+          "options": [
+            "Rental Booking Coordinator",
+            "Fleet Availability Assistant",
+            "Online Rental Desk Agent",
+            "Returns Inspection Assistant",
+            "Counter Systems Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine counter and rental service judgment with AI tools for product advice, charges and damage checks.",
+          "humanEdge": "Explaining terms clearly and fairly.",
+          "skills": ["Product Advice", "Contract Terms", "Damage Inspection"],
+          "options": [
+            "Rental Branch Supervisor",
+            "Equipment Hire Advisor",
+            "Customer Service Lead",
+            "Rental Damage Assessor",
+            "Counter Sales Specialist"
+          ]
+        },
+        "pivot": {
+          "description": "Use counter and rental service experience in adjacent branch operations, sales or customer service work; verify requirements.",
+          "humanEdge": "Product knowledge and contract handling.",
+          "skills": ["Branch Operations", "Sales", "Inventory"],
+          "options": [
+            "Branch Manager Track",
+            "Equipment Sales Representative",
+            "Inventory Controller",
+            "Customer Service Supervisor",
+            "Car Rental Agent"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned rental practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what people rent and why.",
+          "skills": ["Rental Pricing", "Inventory", "Booking"],
+          "options": [
+            "Party Equipment Rental Service",
+            "Tool Library Practice",
+            "Rental Agreement Toolkit",
+            "Event Furniture Hire Service",
+            "Camera Gear Rental Service"
+          ]
+        }
+      }
+    },
+    "41-2022.00": {
+      "role": "parts_salesperson",
+      "strategies": {
+        "automate": {
+          "description": "Stay in parts sales and operate parts catalogues, inventory lookups and reorder systems with human sign-off.",
+          "humanEdge": "Identifying the right part from a vague description.",
+          "skills": ["Electronic Parts Catalogues", "Inventory Systems", "Reorder Tools"],
+          "options": [
+            "Parts Catalogue Specialist",
+            "Parts Inventory Coordinator",
+            "E-Commerce Parts Advisor",
+            "Parts Reorder Analyst",
+            "Warranty Parts Clerk"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine parts sales judgment with AI tools for customer orders, complaints and part identification.",
+          "humanEdge": "Solving a customer's repair problem through parts.",
+          "skills": ["Part Identification", "Customer Service", "Order Management"],
+          "options": [
+            "Parts Department Supervisor",
+            "Trade Counter Lead",
+            "Parts Advisor",
+            "Fleet Parts Coordinator",
+            "Parts Sales Representative"
+          ]
+        },
+        "pivot": {
+          "description": "Use parts sales experience in adjacent parts management, purchasing or field sales work; verify requirements.",
+          "humanEdge": "Technical product knowledge.",
+          "skills": ["Inventory Management", "Purchasing", "Sales"],
+          "options": [
+            "Parts Manager Track",
+            "Purchasing Assistant",
+            "Field Sales Representative",
+            "Warehouse Supervisor",
+            "Service Advisor"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned parts sourcing practice, service or toolkit with potential customers.",
+          "humanEdge": "Supplier and part knowledge.",
+          "skills": ["Part Sourcing", "Catalogue Building", "Supplier Contacts"],
+          "options": [
+            "Hard-to-Find Parts Sourcing Service",
+            "Online Parts Shop Practice",
+            "Parts Cross-Reference Toolkit",
+            "Fleet Parts Supply Service",
+            "Classic Vehicle Parts Service"
+          ]
+        }
+      }
+    },
+    "41-2031.00": {
+      "role": "retail_salesperson",
+      "strategies": {
+        "automate": {
+          "description": "Stay in retail selling and operate POS, inventory lookup and clienteling apps with human sign-off.",
+          "humanEdge": "Understanding what a customer really needs.",
+          "skills": ["POS Systems", "Inventory Lookup", "Clienteling Apps"],
+          "options": [
+            "Clienteling Associate",
+            "Omnichannel Sales Associate",
+            "Store Fulfilment Associate",
+            "Product Information Associate",
+            "Live Shopping Host"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine retail selling judgment with AI tools for customer needs, promotions and product demonstrations.",
+          "humanEdge": "Building trust that turns into sales.",
+          "skills": ["Needs Discovery", "Product Knowledge", "Merchandising"],
+          "options": [
+            "Senior Sales Associate",
+            "Personal Shopper",
+            "Product Specialist",
+            "Visual Merchandiser",
+            "Key Holder"
+          ]
+        },
+        "pivot": {
+          "description": "Use retail selling experience in adjacent store leadership, merchandising or customer service work; verify requirements.",
+          "humanEdge": "Customer insight and product knowledge.",
+          "skills": ["Merchandising", "Team Leadership", "Customer Service"],
+          "options": [
+            "Retail Supervisor Track",
+            "Visual Merchandiser",
+            "Buyer Assistant",
+            "Customer Service Advisor",
+            "E-Commerce Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned retail selling practice, service or toolkit with potential customers.",
+          "humanEdge": "Product knowledge and customer rapport.",
+          "skills": ["Personal Styling", "Product Curation", "Social Selling"],
+          "options": [
+            "Personal Shopping Service",
+            "Online Boutique Practice",
+            "Product Demo Script Toolkit",
+            "Live Selling Service",
+            "Gift Curation Service"
+          ]
+        }
+      }
+    },
+    "41-3011.00": {
+      "role": "advertising_sales_agent",
+      "strategies": {
+        "automate": {
+          "description": "Stay in advertising sales and operate CRM, ad inventory and proposal tools with human sign-off.",
+          "humanEdge": "Matching a client's goals to the right placements.",
+          "skills": ["CRM", "Ad Inventory Systems", "Proposal Automation"],
+          "options": [
+            "Programmatic Sales Specialist",
+            "Ad Inventory Coordinator",
+            "Sales Proposal Specialist",
+            "Ad Sales Operations Analyst",
+            "Account Reporting Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine advertising sales judgment with AI tools for presentations, account growth and campaign advice.",
+          "humanEdge": "Explaining how advertising will help a specific business.",
+          "skills": ["Sales Presentations", "Campaign Planning", "Account Management"],
+          "options": [
+            "Media Account Manager",
+            "Sponsorship Sales Manager",
+            "Digital Media Consultant",
+            "Partnership Manager",
+            "Agency Sales Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use advertising sales experience in adjacent media planning, marketing or partnerships work; verify requirements.",
+          "humanEdge": "Client relationships and media knowledge.",
+          "skills": ["Media Planning", "Marketing", "Negotiation"],
+          "options": [
+            "Media Planner",
+            "Marketing Manager",
+            "Partnership Manager",
+            "Brand Sponsorship Manager",
+            "Account Director"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned advertising practice, service or toolkit with potential customers.",
+          "humanEdge": "Know-how on what ads work for small firms.",
+          "skills": ["Campaign Planning", "Media Buying", "Reporting"],
+          "options": [
+            "Local Business Advertising Practice",
+            "Media Kit Toolkit",
+            "Sponsorship Sales Service",
+            "Ad Results Review Service",
+            "Newsletter Ad Sales Service"
+          ]
+        }
+      }
+    },
+    "41-3021.00": {
+      "role": "insurance_sales_agent",
+      "strategies": {
+        "automate": {
+          "description": "Stay in insurance sales and operate quoting tools, policy systems and renewal reminders with human sign-off.",
+          "humanEdge": "Understanding a client's real risks and fears.",
+          "skills": ["Quoting Systems", "Policy Administration", "CRM"],
+          "options": [
+            "Insurance Quoting Specialist",
+            "Renewals Coordinator",
+            "Policy Servicing Agent",
+            "Digital Insurance Advisor",
+            "Agency Systems Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine insurance sales judgment with AI tools for coverage analysis, premium calculation and programme customisation.",
+          "humanEdge": "Explaining coverage honestly so clients choose well.",
+          "skills": ["Needs Analysis", "Policy Knowledge", "Client Communication"],
+          "options": [
+            "Commercial Lines Agent",
+            "Account Executive",
+            "Benefits Advisor",
+            "Claims Advocate",
+            "Agency Manager Track"
+          ]
+        },
+        "pivot": {
+          "description": "Use insurance sales experience in adjacent underwriting, claims or broking work; verify requirements.",
+          "humanEdge": "Risk understanding and client trust.",
+          "skills": ["Risk Assessment", "Claims Handling", "Negotiation"],
+          "options": [
+            "Underwriting Assistant Track",
+            "Claims Handler",
+            "Insurance Broker Track",
+            "Risk Advisor",
+            "Customer Retention Specialist"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned insurance advisory practice, service or toolkit with potential customers.",
+          "humanEdge": "Client trust and coverage expertise.",
+          "skills": ["Policy Review", "Client Education", "Lead Generation"],
+          "options": [
+            "Policy Review Practice",
+            "Small Business Coverage Service",
+            "Coverage Explainer Toolkit",
+            "Claims Advocacy Service",
+            "Renewal Comparison Service"
+          ]
+        }
+      }
+    },
+    "41-3031.00": {
+      "role": "securities_sales_agent",
+      "strategies": {
+        "automate": {
+          "description": "Stay in securities and financial sales and operate market monitoring, order systems and transaction records with human sign-off.",
+          "humanEdge": "Judging client goals and risk appetite.",
+          "skills": ["Trading Platforms", "Market Monitoring", "Compliance Records"],
+          "options": [
+            "Trading Operations Specialist",
+            "Market Monitoring Analyst",
+            "Order Management Specialist",
+            "Compliance Surveillance Analyst",
+            "Client Reporting Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine securities and financial sales judgment with AI tools for client positions, pricing and transaction records.",
+          "humanEdge": "Explaining markets plainly while staying compliant.",
+          "skills": ["Client Communication", "Market Analysis", "Compliance"],
+          "options": [
+            "Client Relationship Manager",
+            "Trading Desk Associate",
+            "Wealth Associate",
+            "Institutional Sales Associate",
+            "Investor Relations Associate"
+          ]
+        },
+        "pivot": {
+          "description": "Use securities and financial sales experience in adjacent compliance, operations or client service work; verify requirements.",
+          "humanEdge": "Market knowledge and record discipline.",
+          "skills": ["Regulatory Compliance", "Operations", "Client Service"],
+          "options": [
+            "Compliance Analyst",
+            "Trade Operations Analyst",
+            "Client Service Manager",
+            "Fund Administration Associate",
+            "Financial Training Specialist"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned financial education practice, service or toolkit with potential customers.",
+          "humanEdge": "Market literacy and client communication.",
+          "skills": ["Financial Literacy", "Content Writing", "Workshop Delivery"],
+          "options": [
+            "Investor Education Workshop Service",
+            "Market Explainer Content Practice",
+            "Compliance Training Toolkit",
+            "Trading Operations Consulting Service",
+            "Financial Newsletter Service"
+          ]
+        }
+      }
+    },
+    "41-4011.00": {
+      "role": "technical_sales_rep",
+      "strategies": {
+        "automate": {
+          "description": "Stay in technical product sales and operate CRM, quoting tools and product configurators with human sign-off.",
+          "humanEdge": "Linking technical features to a buyer's problem.",
+          "skills": ["CRM", "Configure-Price-Quote Tools", "Product Data"],
+          "options": [
+            "Technical Quoting Specialist",
+            "Sales Configuration Analyst",
+            "Inside Technical Sales Rep",
+            "Bid Coordinator",
+            "CRM Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine technical product sales judgment with AI tools for needs analysis, negotiation and technical answers.",
+          "humanEdge": "Earning credibility with technical buyers.",
+          "skills": ["Needs Analysis", "Negotiation", "Technical Product Knowledge"],
+          "options": [
+            "Key Account Manager",
+            "Application Specialist",
+            "Product Specialist",
+            "Technical Account Manager",
+            "Channel Sales Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use technical product sales experience in adjacent product, applications or customer success work work; verify requirements.",
+          "humanEdge": "Technical depth and customer insight.",
+          "skills": ["Product Management", "Application Support", "Customer Success"],
+          "options": [
+            "Product Manager",
+            "Applications Engineer Track",
+            "Customer Success Manager",
+            "Sales Engineer Track",
+            "Market Development Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned technical sales practice, service or toolkit with potential customers.",
+          "humanEdge": "Industry contacts and technical credibility.",
+          "skills": ["Lead Generation", "Technical Writing", "Negotiation"],
+          "options": [
+            "Manufacturer Representative Practice",
+            "Technical Sales Training Service",
+            "Product Datasheet Toolkit",
+            "Distributor Development Service",
+            "Tender Writing Service"
+          ]
+        }
+      }
+    },
+    "41-4011.07": {
+      "role": "solar_sales_assessor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in solar sales and assessment and operate site assessment apps, design software and proposal generators with human sign-off.",
+          "humanEdge": "Explaining savings honestly to homeowners.",
+          "skills": ["Solar Design Software", "Site Survey Apps", "Proposal Tools"],
+          "options": [
+            "Solar Design Specialist",
+            "Remote Site Assessor",
+            "Solar Proposal Coordinator",
+            "Lead Qualification Specialist",
+            "Permit Paperwork Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine solar sales and assessment judgment with AI tools for site suitability, system selection and proposals.",
+          "humanEdge": "Matching systems to a home's real use and roof.",
+          "skills": ["Site Assessment", "System Sizing", "Consultative Sales"],
+          "options": [
+            "Senior Solar Consultant",
+            "Energy Efficiency Advisor",
+            "Commercial Solar Account Manager",
+            "Battery Storage Advisor",
+            "Solar Sales Trainer"
+          ]
+        },
+        "pivot": {
+          "description": "Use solar sales and assessment experience in adjacent energy advice, project coordination or renewables sales work; verify requirements.",
+          "humanEdge": "Energy knowledge and customer trust.",
+          "skills": ["Energy Auditing", "Project Coordination", "Sales"],
+          "options": [
+            "Home Energy Advisor",
+            "Solar Project Coordinator",
+            "EV Charging Sales Consultant",
+            "Energy Auditor Track",
+            "Renewables Account Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned home energy practice, service or toolkit with potential customers.",
+          "humanEdge": "Energy savings know-how.",
+          "skills": ["Energy Assessment", "Proposal Writing", "Customer Education"],
+          "options": [
+            "Home Energy Review Service",
+            "Solar Quote Comparison Service",
+            "Energy Savings Calculator Toolkit",
+            "Community Solar Outreach Practice",
+            "Solar Sales Training Service"
+          ]
+        }
+      }
+    },
+    "41-4012.00": {
+      "role": "wholesale_sales_rep",
+      "strategies": {
+        "automate": {
+          "description": "Stay in wholesale and manufacturing sales and operate order systems, CRM and route planning tools with human sign-off.",
+          "humanEdge": "Knowing which product fits which customer.",
+          "skills": ["Order Management", "CRM", "Route Planning"],
+          "options": [
+            "Inside Sales Representative",
+            "Order Desk Specialist",
+            "Sales Data Coordinator",
+            "Territory Planning Analyst",
+            "E-Commerce Trade Sales Rep"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine wholesale and manufacturing sales judgment with AI tools for contracts, recommendations and payment terms.",
+          "humanEdge": "Negotiating terms that keep accounts growing.",
+          "skills": ["Negotiation", "Account Management", "Product Recommendation"],
+          "options": [
+            "Key Account Manager",
+            "Regional Sales Manager",
+            "Trade Marketing Specialist",
+            "Category Sales Manager",
+            "Distributor Account Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use wholesale and manufacturing sales experience in adjacent category, buying or trade marketing work; verify requirements.",
+          "humanEdge": "Customer and market knowledge.",
+          "skills": ["Category Management", "Buying", "Trade Marketing"],
+          "options": [
+            "Category Manager",
+            "Buyer",
+            "Trade Marketing Manager",
+            "Customer Success Manager",
+            "Sales Operations Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned trade sales practice, service or toolkit with potential customers.",
+          "humanEdge": "Buyer networks and product knowledge.",
+          "skills": ["Wholesale Pricing", "Account Growth", "Territory Planning"],
+          "options": [
+            "Independent Sales Agency Practice",
+            "Wholesale Pricing Toolkit",
+            "Retail Account Opening Service",
+            "Trade Show Sales Service",
+            "Product Line Introduction Service"
+          ]
+        }
+      }
+    },
+    "41-9011.00": {
+      "role": "product_demonstrator",
+      "strategies": {
+        "automate": {
+          "description": "Stay in product demonstration and operate sampling records, footfall counters and demo content tools with human sign-off.",
+          "humanEdge": "Drawing people in and reading interest.",
+          "skills": ["Event Reporting", "Demo Content", "Sampling Records"],
+          "options": [
+            "Demo Reporting Coordinator",
+            "Livestream Product Demonstrator",
+            "Sampling Data Assistant",
+            "In-Store Demo Coordinator",
+            "Digital Promotions Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine product demonstration judgment with AI tools for demonstrations, samples and customer questions.",
+          "humanEdge": "Explaining products in a convincing, honest way.",
+          "skills": ["Product Demonstration", "Public Speaking", "Customer Engagement"],
+          "options": [
+            "Brand Ambassador",
+            "Product Trainer",
+            "Field Marketing Lead",
+            "Trade Show Presenter",
+            "Retail Merchandiser"
+          ]
+        },
+        "pivot": {
+          "description": "Use product demonstration experience in adjacent field marketing, training or sales work; verify requirements.",
+          "humanEdge": "Presentation and persuasion skill.",
+          "skills": ["Field Marketing", "Training", "Sales"],
+          "options": [
+            "Field Marketing Executive",
+            "Product Trainer",
+            "Sales Representative",
+            "Event Marketing Coordinator",
+            "Retail Account Executive"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned demonstration practice, service or toolkit with potential customers.",
+          "humanEdge": "Live-selling and demo experience.",
+          "skills": ["Demo Scripts", "Event Staffing", "Content"],
+          "options": [
+            "Product Demo Video Service",
+            "Brand Ambassador Agency Practice",
+            "Demo Script Toolkit",
+            "Trade Show Staffing Service",
+            "Live Shopping Host Service"
+          ]
+        }
+      }
+    },
+    "41-9012.00": {
+      "role": "model",
+      "strategies": {
+        "automate": {
+          "description": "Stay in modelling and operate booking apps, portfolio platforms and voucher records with human sign-off.",
+          "humanEdge": "Bringing a garment or product to life on camera.",
+          "skills": ["Booking Platforms", "Digital Portfolios", "Job Records"],
+          "options": [
+            "Digital Booking Model",
+            "E-Commerce Fit Model",
+            "Virtual Try-On Content Model",
+            "Portfolio Content Coordinator",
+            "Model Scheduling Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine modelling judgment with AI tools for brand work, self-presentation and agency coordination.",
+          "humanEdge": "Adapting to each creative brief.",
+          "skills": ["Posing", "Brand Collaboration", "Self-Management"],
+          "options": [
+            "Commercial Model",
+            "Fit Model",
+            "Content Creator",
+            "Brand Ambassador",
+            "Showroom Model"
+          ]
+        },
+        "pivot": {
+          "description": "Use modelling experience in adjacent styling, content or talent work work; verify requirements.",
+          "humanEdge": "Image and brand awareness.",
+          "skills": ["Styling", "Content Creation", "Talent Coordination"],
+          "options": [
+            "Stylist Assistant",
+            "Talent Coordinator",
+            "Social Media Content Creator",
+            "Fashion Merchandiser",
+            "Casting Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned modelling practice, service or toolkit with potential customers.",
+          "humanEdge": "Industry knowledge and personal brand.",
+          "skills": ["Coaching", "Content Creation", "Portfolio Building"],
+          "options": [
+            "Model Coaching Practice",
+            "Portfolio Shoot Service",
+            "Influencer Content Service",
+            "Runway Training Toolkit",
+            "Fit Model Service"
+          ]
+        }
+      }
+    },
+    "41-9021.00": {
+      "role": "real_estate_broker",
+      "strategies": {
+        "automate": {
+          "description": "Stay in real estate brokerage and operate listing platforms, valuation tools and transaction management with human sign-off.",
+          "humanEdge": "Reading a local market and pricing right.",
+          "skills": ["Listing Platforms", "Valuation Tools", "Transaction Management"],
+          "options": [
+            "Listing Operations Manager",
+            "Transaction Coordinator",
+            "Market Valuation Analyst",
+            "Brokerage Systems Lead",
+            "Lead Management Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine real estate brokerage judgment with AI tools for comparative pricing, contract monitoring and negotiation.",
+          "humanEdge": "Negotiating a deal both sides accept.",
+          "skills": ["Comparative Market Analysis", "Contract Monitoring", "Negotiation"],
+          "options": [
+            "Managing Broker Track",
+            "Commercial Real Estate Advisor",
+            "Property Investment Advisor",
+            "Agent Coach",
+            "Relocation Specialist"
+          ]
+        },
+        "pivot": {
+          "description": "Use real estate brokerage experience in adjacent property management, development or lending work work; verify requirements.",
+          "humanEdge": "Market knowledge and contract skill.",
+          "skills": ["Property Management", "Development Analysis", "Lending"],
+          "options": [
+            "Property Manager",
+            "Development Coordinator",
+            "Mortgage Advisor Track",
+            "Real Estate Analyst",
+            "Leasing Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned property advisory practice, service or toolkit with potential customers.",
+          "humanEdge": "Local market expertise.",
+          "skills": ["Market Analysis", "Client Advisory", "Agent Training"],
+          "options": [
+            "Buyer Advisory Practice",
+            "Agent Coaching Service",
+            "Listing Presentation Toolkit",
+            "Property Investment Review Service",
+            "Transaction Coordination Service"
+          ]
+        }
+      }
+    },
+    "41-9022.00": {
+      "role": "real_estate_agent",
+      "strategies": {
+        "automate": {
+          "description": "Stay in real estate sales and operate CRM, listing tools and offer paperwork with human sign-off.",
+          "humanEdge": "Understanding what a buyer will love.",
+          "skills": ["Real Estate CRM", "Listing Tools", "E-Signature Workflows"],
+          "options": [
+            "Listing Coordinator",
+            "Transaction Coordinator",
+            "Real Estate Marketing Coordinator",
+            "Lead Nurture Specialist",
+            "Virtual Tour Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine real estate sales judgment with AI tools for client needs, offers and coordination with lenders and inspectors.",
+          "humanEdge": "Guiding nervous clients through a big decision.",
+          "skills": ["Client Interviews", "Offer Negotiation", "Coordination"],
+          "options": [
+            "Buyer's Agent",
+            "Listing Agent",
+            "New Homes Sales Consultant",
+            "Rental Agent",
+            "Relocation Consultant"
+          ]
+        },
+        "pivot": {
+          "description": "Use real estate sales experience in adjacent property management, mortgage or development sales work; verify requirements.",
+          "humanEdge": "Local knowledge and closing skill.",
+          "skills": ["Property Management", "Mortgage Basics", "Sales"],
+          "options": [
+            "Property Manager",
+            "Mortgage Advisor Track",
+            "New Development Sales Manager",
+            "Leasing Consultant",
+            "Real Estate Marketing Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned home sales practice, service or toolkit with potential customers.",
+          "humanEdge": "Neighbourhood knowledge and client network.",
+          "skills": ["Listing Marketing", "Staging", "Client Advisory"],
+          "options": [
+            "Home Staging Service",
+            "First-Time Buyer Coaching Service",
+            "Neighbourhood Guide Toolkit",
+            "Listing Photography Service",
+            "For-Sale-By-Owner Support Practice"
+          ]
+        }
+      }
+    },
+    "41-9031.00": {
+      "role": "sales_engineer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in sales engineering and operate product configurators, demo environments and proposal tools with human sign-off.",
+          "humanEdge": "Shaping a solution around a customer's real constraints.",
+          "skills": ["Product Configurators", "Demo Environments", "Proposal Automation"],
+          "options": [
+            "Solutions Configuration Engineer",
+            "Demo Environment Engineer",
+            "Technical Proposal Specialist",
+            "Pre-Sales Automation Engineer",
+            "Bid Engineer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine sales engineering judgment with AI tools for configuration planning, needs assessment and technical presentations.",
+          "humanEdge": "Translating engineering detail into business value.",
+          "skills": ["Solution Design", "Technical Presentations", "Needs Assessment"],
+          "options": [
+            "Solutions Engineer",
+            "Technical Account Manager",
+            "Customer Success Engineer",
+            "Partner Engineer",
+            "Field Applications Engineer"
+          ]
+        },
+        "pivot": {
+          "description": "Use sales engineering experience in adjacent product, applications or solutions work work; verify requirements.",
+          "humanEdge": "Technical and customer insight.",
+          "skills": ["Product Management", "Solution Architecture", "Training"],
+          "options": [
+            "Product Manager",
+            "Solutions Architect Track",
+            "Applications Engineer",
+            "Technical Trainer",
+            "Implementation Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned pre-sales practice, service or toolkit with potential customers.",
+          "humanEdge": "Technical selling expertise.",
+          "skills": ["Solution Design", "Demo Building", "Proposal Writing"],
+          "options": [
+            "Fractional Pre-Sales Practice",
+            "Technical Demo Toolkit",
+            "RFP Response Service",
+            "Sales Engineer Training Service",
+            "Solution Proposal Toolkit"
+          ]
+        }
+      }
+    },
+    "41-9041.00": {
+      "role": "telemarketer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in telemarketing and operate dialler systems, call scripts and CRM logging with human sign-off.",
+          "humanEdge": "Adapting a script to a real person on the line.",
+          "skills": ["Dialler Systems", "CRM Logging", "Script Tools"],
+          "options": [
+            "Outbound Campaign Coordinator",
+            "Dialler Operations Assistant",
+            "CRM Data Assistant",
+            "Call Quality Reviewer",
+            "Lead Qualification Agent"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine telemarketing judgment with AI tools for sales talks, product questions and customer details.",
+          "humanEdge": "Keeping calls respectful and compliant.",
+          "skills": ["Phone Selling", "Objection Handling", "Data Privacy"],
+          "options": [
+            "Inside Sales Representative",
+            "Customer Retention Agent",
+            "Appointment Setter",
+            "Call Centre Team Leader",
+            "Fundraising Caller"
+          ]
+        },
+        "pivot": {
+          "description": "Use telemarketing experience in adjacent inside sales, customer service or support work; verify requirements.",
+          "humanEdge": "Persistence and phone communication.",
+          "skills": ["Inside Sales", "Customer Service", "Compliance"],
+          "options": [
+            "Sales Development Representative",
+            "Customer Service Advisor",
+            "Customer Success Associate",
+            "Quality Assurance Analyst",
+            "Recruitment Resourcer"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned phone outreach practice, service or toolkit with potential customers.",
+          "humanEdge": "Call scripting and objection handling.",
+          "skills": ["Script Writing", "Call Coaching", "Compliance"],
+          "options": [
+            "Appointment Setting Service",
+            "Call Script Toolkit",
+            "Call Coaching Practice",
+            "Survey Calling Service",
+            "Customer Win-Back Calling Service"
+          ]
+        }
+      }
+    },
+    "41-9091.00": {
+      "role": "street_vendor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in direct and street selling and operate mobile POS, order apps and route tracking with human sign-off.",
+          "humanEdge": "Making a sale face to face.",
+          "skills": ["Mobile POS", "Order Apps", "Route Tracking"],
+          "options": [
+            "Mobile Sales Agent",
+            "Route Sales Coordinator",
+            "Order Entry Assistant",
+            "Market Stall Systems Lead",
+            "Delivery Sales Driver"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine direct and street selling judgment with AI tools for product demonstrations, orders and parties.",
+          "humanEdge": "Building repeat customers on the street.",
+          "skills": ["Product Demonstration", "Customer Relationships", "Cash Handling"],
+          "options": [
+            "Market Stall Lead",
+            "Direct Sales Team Leader",
+            "Event Vendor",
+            "Field Sales Representative",
+            "Party Plan Host"
+          ]
+        },
+        "pivot": {
+          "description": "Use direct and street selling experience in adjacent retail, field sales or delivery work work; verify requirements.",
+          "humanEdge": "Selling directly to customers.",
+          "skills": ["Retail Sales", "Field Sales", "Logistics"],
+          "options": [
+            "Retail Sales Associate",
+            "Field Sales Representative",
+            "Delivery Driver Track",
+            "Event Sales Coordinator",
+            "Route Supervisor"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned direct selling practice, service or toolkit with potential customers.",
+          "humanEdge": "Street-level customer insight.",
+          "skills": ["Pricing", "Pitch Building", "Sourcing"],
+          "options": [
+            "Market Stall Practice",
+            "Pop-Up Food Stall Service",
+            "Party Plan Toolkit",
+            "Event Vending Service",
+            "Doorstep Delivery Service"
+          ]
+        }
+      }
+    }
+  }
+}

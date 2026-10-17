@@ -8,6 +8,7 @@ import {
   defaultZoom,
   largeScreenZoom,
 } from "./career-canvas"
+import actualMappings from "../../../api/data/navigator-pathways.json"
 import { navigatorFixture } from "./navigator.fixture"
 const careerPaths = navigatorFixture.paths
 const careerNodes = buildCareerNodes(careerPaths, navigatorFixture.roleTitle)
@@ -154,4 +155,22 @@ test("more-options card reveals batches outward with exact remaining counts and 
   const nodes = buildCareerNodes([path], "Starting occupation", { automate: 9 })
   const edges = careerEdges([path], nodes, "automate-role-7")
   expect(edges.find((edge) => edge.target === "automate-role-6")!.source).toBe("automate-role-5")
+})
+
+test("real support mappings show accurate overflow counts and exhaust independently", () => {
+  const actual = actualMappings.occupations["15-1232.00"].strategies
+  const paths = careerPaths.map((path) => ({
+    ...path,
+    roles: actual[path.id].destinations.map((destination) => destination.title),
+  }))
+  const initial = buildCareerNodes(paths, "Computer User Support Specialists")
+  expect(
+    initial.filter((node) => node.data.kind === "more").map((node) => node.data.title),
+  ).toEqual(["+5 more options", "+3 more options", "+2 more options", "+4 more options"])
+  const expanded = buildCareerNodes(paths, "Computer User Support Specialists", { automate: 9 })
+  expect(
+    expanded.filter((node) => node.data.kind === "role" && node.data.pathId === "automate"),
+  ).toHaveLength(8)
+  expect(expanded.some((node) => node.id === "automate-more")).toBe(false)
+  expect(expanded.find((node) => node.id === "create-more")!.data.title).toBe("+4 more options")
 })

@@ -365,7 +365,7 @@ test("computer user support destinations generate validated plans in every strat
           ...base,
           occupationCode: support.code,
           strategyId,
-          destinationId: `user_support-${strategyId}-1`,
+          destinationId: `user_support-${strategyId}-4`,
           profile: {
             ...base.profile,
             occupations: [support.code],
@@ -376,7 +376,7 @@ test("computer user support destinations generate validated plans in every strat
       expect(response.statusCode).toBe(200)
       const plan = flightPlanSchema.parse(response.json().plan)
       expect(plan.occupationCode).toBe(support.code)
-      expect(plan.destinationId).toBe(`user_support-${strategyId}-1`)
+      expect(plan.destinationId).toBe(`user_support-${strategyId}-4`)
       expect(() => validatePlanSchedule(plan)).not.toThrow()
     }
   } finally {
@@ -386,7 +386,7 @@ test("computer user support destinations generate validated plans in every strat
 
 test("family options use same resolver in Navigator and Plan and reject another occupation's IDs", async () => {
   const fetch = mockProvider()
-  const family = { ...occupation, code: "29-1141.00", title: "Registered Nurses" }
+  const family = { ...occupation, code: "11-9199.00", title: "Managers, All Other" }
   const app = buildApp({
     catalogue: { ...catalogue, search: async (code) => (code === family.code ? [family] : []) },
   })

@@ -1,0 +1,1383 @@
+{
+  "source": "Product-curated from O*NET 31.0 occupation tasks for SOC major group 33 (https://www.onetonline.org/find/family?f=33). Exploration labels, not verified vacancies or transitions.",
+  "occupations": {
+    "33-1011.00": {
+      "role": "correctional_supervisor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in correctional supervision and configure AI-assisted rostering, incident reports and movement logs with human sign-off.",
+          "humanEdge": "Keeping staff and people in custody safe.",
+          "skills": ["Rostering Software", "Incident Reporting", "Movement Tracking"],
+          "options": [
+            "Custody Systems Supervisor",
+            "Incident Data Supervisor",
+            "Rostering Automation Lead",
+            "Movement Tracking Lead",
+            "Body-Worn Camera Program Supervisor"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine custody leadership with AI tools for rostering, reports and risk records.",
+          "humanEdge": "Leading teams through tense incidents.",
+          "skills": ["Team Leadership", "AI Tool Evaluation", "Incident Review"],
+          "options": [
+            "Training Supervisor",
+            "Rehabilitation Program Supervisor",
+            "Security Operations Supervisor",
+            "Intake Supervisor",
+            "Staff Wellbeing Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use correctional supervision knowledge in adjacent corrections policy, training or reintegration work; verify entry requirements.",
+          "humanEdge": "Carrying correctional supervision judgment into a new setting.",
+          "skills": ["Training", "Reintegration Programs", "Policy"],
+          "options": [
+            "Correctional Training Officer",
+            "Reintegration Program Manager",
+            "Compliance Officer",
+            "Security Manager",
+            "Policy Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned custody operations practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what officers need to train on.",
+          "skills": ["Training Design", "Policy Writing", "Content Writing"],
+          "options": [
+            "Officer Training Practice",
+            "Report Writing Toolkit",
+            "Staff Wellbeing Training Service",
+            "Policy Template Toolkit",
+            "De-escalation Course Practice"
+          ]
+        }
+      }
+    },
+    "33-1012.00": {
+      "role": "police_supervisor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in police supervision and configure AI-assisted rostering, case records and report review with human sign-off.",
+          "humanEdge": "Supervising officers' judgment on the street.",
+          "skills": ["Records Management Systems", "Deployment Analytics", "Report Review Tools"],
+          "options": [
+            "Records Systems Supervisor",
+            "Deployment Analytics Supervisor",
+            "Body-Worn Camera Program Lead",
+            "Digital Evidence Supervisor",
+            "Report Quality Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine police leadership with AI tools for reports, deployment and records.",
+          "humanEdge": "Community trust and accountability.",
+          "skills": ["Officer Supervision", "AI Tool Evaluation", "Accountability"],
+          "options": [
+            "Training Sergeant",
+            "Community Policing Supervisor",
+            "Professional Standards Lead",
+            "Investigations Supervisor",
+            "Wellbeing Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use police supervision knowledge in adjacent training, policy or community safety work; verify entry requirements.",
+          "humanEdge": "Carrying police supervision judgment into a new setting.",
+          "skills": ["Training", "Policy", "Community Safety"],
+          "options": [
+            "Police Trainer",
+            "Community Safety Manager",
+            "Security Manager",
+            "Policy Analyst",
+            "Emergency Planner"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned policing practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what officers need to train on.",
+          "skills": ["Training Design", "Policy Writing", "Content Writing"],
+          "options": [
+            "Report Writing Training Practice",
+            "Community Engagement Toolkit",
+            "Officer Wellbeing Training Service",
+            "Leadership Course Practice",
+            "Policy Template Toolkit"
+          ]
+        }
+      }
+    },
+    "33-1021.00": {
+      "role": "fire_supervisor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in fire service supervision and configure AI-assisted crew rostering, incident reports and equipment logs with human sign-off.",
+          "humanEdge": "Commanding crews at incidents.",
+          "skills": ["Rostering Software", "Incident Reporting", "Equipment Tracking"],
+          "options": [
+            "Fire Data Officer",
+            "Equipment Tracking Lead",
+            "Incident Reporting Lead",
+            "Rostering Systems Lead",
+            "Risk Mapping Supervisor"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine fire leadership with AI tools for reports, risk data and equipment tracking.",
+          "humanEdge": "Protecting crew safety and morale.",
+          "skills": ["Incident Command", "AI Tool Evaluation", "Crew Leadership"],
+          "options": [
+            "Training Officer",
+            "Community Fire Safety Lead",
+            "Fire Investigation Supervisor",
+            "Station Manager",
+            "Wellbeing Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use fire service supervision knowledge in adjacent fire safety, training or emergency planning work; verify entry requirements.",
+          "humanEdge": "Carrying fire service supervision judgment into a new setting.",
+          "skills": ["Fire Safety", "Training", "Emergency Planning"],
+          "options": [
+            "Fire Safety Manager",
+            "Emergency Planner",
+            "Health and Safety Manager",
+            "Fire Instructor",
+            "Risk Consultant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned fire service practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what businesses get wrong about fire safety.",
+          "skills": ["Training Design", "Risk Assessment", "Content Writing"],
+          "options": [
+            "Fire Warden Training Practice",
+            "Fire Safety Plan Toolkit",
+            "Evacuation Drill Service",
+            "Crew Leadership Course Practice",
+            "Business Fire Safety Education Service"
+          ]
+        }
+      }
+    },
+    "33-1091.00": {
+      "role": "security_supervisor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in security supervision and configure AI-assisted patrol tracking, video alerts and incident logs with human sign-off.",
+          "humanEdge": "Judging real threats from false alarms.",
+          "skills": ["Video Analytics", "Patrol Tracking", "Incident Logging"],
+          "options": [
+            "Security Operations Centre Supervisor",
+            "Video Analytics Supervisor",
+            "Patrol Systems Lead",
+            "Access Control Supervisor",
+            "Incident Data Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine security leadership with AI tools for video alerts, patrols and reports.",
+          "humanEdge": "Calm leadership of guard teams.",
+          "skills": ["Team Leadership", "AI Tool Evaluation", "Risk Judgment"],
+          "options": [
+            "Event Security Supervisor",
+            "Corporate Security Supervisor",
+            "Hospital Security Lead",
+            "Retail Security Lead",
+            "Training Supervisor"
+          ]
+        },
+        "pivot": {
+          "description": "Use security supervision knowledge in adjacent risk, facilities or event safety work; verify entry requirements.",
+          "humanEdge": "Carrying security supervision judgment into a new setting.",
+          "skills": ["Risk Management", "Facilities", "Event Safety"],
+          "options": [
+            "Security Manager",
+            "Facilities Manager",
+            "Risk Coordinator",
+            "Event Safety Officer",
+            "Health and Safety Advisor"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned security operations practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what small venues need for safety.",
+          "skills": ["Training Design", "Risk Assessment", "Client Communication"],
+          "options": [
+            "Guard Training Practice",
+            "Venue Safety Checklist Toolkit",
+            "Event Security Planning Service",
+            "Incident Report Toolkit",
+            "De-escalation Course Practice"
+          ]
+        }
+      }
+    },
+    "33-2011.00": {
+      "role": "firefighter",
+      "strategies": {
+        "automate": {
+          "description": "Stay in firefighting and configure AI-assisted equipment checks, incident reports and hydrant data with human sign-off.",
+          "humanEdge": "Courage and teamwork in danger.",
+          "skills": ["Equipment Check Apps", "Incident Reporting", "Mapping Tools"],
+          "options": [
+            "Fire Data Firefighter",
+            "Drone Operations Firefighter",
+            "Equipment Systems Firefighter",
+            "Mapping Systems Firefighter",
+            "Reporting Systems Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine firefighting with AI tools for reports, maps and equipment.",
+          "humanEdge": "Rescue judgment under pressure.",
+          "skills": ["Fire Suppression", "AI Tool Evaluation", "Rescue Teamwork"],
+          "options": [
+            "Community Fire Safety Officer",
+            "Fire Instructor",
+            "Technical Rescue Specialist",
+            "Hazmat Specialist",
+            "Wildland Firefighter"
+          ]
+        },
+        "pivot": {
+          "description": "Use firefighting knowledge in adjacent fire safety, training or emergency planning work; verify entry requirements.",
+          "humanEdge": "Carrying firefighting judgment into a new setting.",
+          "skills": ["Fire Safety", "Training", "Emergency Planning"],
+          "options": [
+            "Fire Safety Advisor",
+            "Emergency Planner",
+            "Health and Safety Officer",
+            "Fire Inspector Track",
+            "Paramedic Track"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned firefighting practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what households and workplaces get wrong about fire.",
+          "skills": ["Training Design", "Risk Education", "Content Writing"],
+          "options": [
+            "Fire Safety Education Service",
+            "Fire Extinguisher Training Practice",
+            "Home Fire Safety Toolkit",
+            "Workplace Evacuation Service",
+            "Youth Fire Safety Practice"
+          ]
+        }
+      }
+    },
+    "33-2021.00": {
+      "role": "fire_inspector",
+      "strategies": {
+        "automate": {
+          "description": "Stay in fire inspection and investigation and configure AI-assisted inspection records, code checks and evidence logs with human sign-off.",
+          "humanEdge": "Interpreting fire codes in real buildings.",
+          "skills": ["Inspection Software", "Plan Review Tools", "Evidence Management"],
+          "options": [
+            "Digital Inspection Officer",
+            "Plan Review Automation Lead",
+            "Evidence Systems Investigator",
+            "Inspection Data Analyst",
+            "Risk Mapping Inspector"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine fire inspection with AI tools for records, plan review and evidence.",
+          "humanEdge": "Investigating causes carefully.",
+          "skills": ["Code Interpretation", "AI Tool Evaluation", "Investigation"],
+          "options": [
+            "Fire Investigator",
+            "Plans Examiner",
+            "Fire Prevention Educator",
+            "Fire Engineer Track",
+            "Code Compliance Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use fire inspection and investigation knowledge in adjacent fire safety consulting or insurance work; verify entry requirements.",
+          "humanEdge": "Carrying fire inspection and investigation judgment into a new setting.",
+          "skills": ["Fire Safety Consulting", "Insurance", "Building Control"],
+          "options": [
+            "Fire Safety Consultant",
+            "Insurance Risk Surveyor",
+            "Building Inspector Track",
+            "Loss Adjuster",
+            "Health and Safety Advisor"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned fire inspection practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing where buildings commonly fail inspection.",
+          "skills": ["Training Design", "Audit Design", "Content Writing"],
+          "options": [
+            "Fire Code Training Practice",
+            "Inspection Readiness Toolkit",
+            "Fire Risk Education Service",
+            "Landlord Fire Safety Toolkit",
+            "Inspector Mentoring Practice"
+          ]
+        }
+      }
+    },
+    "33-2022.00": {
+      "role": "forest_fire_specialist",
+      "strategies": {
+        "automate": {
+          "description": "Stay in forest fire prevention and configure AI-assisted fire danger data, patrol logs and burn permits with human sign-off.",
+          "humanEdge": "Reading fuel, weather and terrain.",
+          "skills": ["Fire Danger Analytics", "GIS Mapping", "Permit Systems"],
+          "options": [
+            "Wildfire Risk Analyst",
+            "GIS Fire Specialist",
+            "Remote Sensing Patrol Specialist",
+            "Permit Systems Coordinator",
+            "Fire Weather Data Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine wildfire prevention with AI tools for risk data, mapping and outreach.",
+          "humanEdge": "Community trust in prevention advice.",
+          "skills": ["Fire Behaviour", "AI Tool Evaluation", "Community Outreach"],
+          "options": [
+            "Prescribed Burn Specialist",
+            "Community Wildfire Educator",
+            "Fuels Management Specialist",
+            "Wildland Fire Investigator",
+            "Fire Lookout Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use forest fire prevention knowledge in adjacent land management or community safety work; verify entry requirements.",
+          "humanEdge": "Carrying forest fire prevention judgment into a new setting.",
+          "skills": ["Land Management", "Community Safety", "Conservation"],
+          "options": [
+            "Land Manager",
+            "Conservation Officer",
+            "Emergency Planner",
+            "Forestry Technician",
+            "Park Ranger"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned wildfire prevention practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what landowners need for wildfire readiness.",
+          "skills": ["Training Design", "Community Education", "Content Writing"],
+          "options": [
+            "Landowner Wildfire Readiness Practice",
+            "Defensible Space Toolkit",
+            "Community Wildfire Education Service",
+            "Fire Plan Toolkit",
+            "Volunteer Training Practice"
+          ]
+        }
+      }
+    },
+    "33-3011.00": {
+      "role": "bailiff",
+      "strategies": {
+        "automate": {
+          "description": "Stay in court security and order and configure AI-assisted courtroom schedules, visitor logs and incident records with human sign-off.",
+          "humanEdge": "Keeping courtrooms safe and orderly.",
+          "skills": ["Court Scheduling", "Visitor Logs", "Incident Records"],
+          "options": [
+            "Court Scheduling Coordinator",
+            "Visitor Management Officer",
+            "Incident Records Officer",
+            "Screening Technology Officer",
+            "Virtual Hearing Support Officer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine courtroom duties with AI tools for scheduling, logs and records.",
+          "humanEdge": "Calmly handling distressed people.",
+          "skills": ["Courtroom Order", "AI Tool Evaluation", "De-escalation"],
+          "options": [
+            "Court Security Lead",
+            "Jury Officer",
+            "Prisoner Escort Officer",
+            "Victim Liaison Officer",
+            "Court Operations Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use court security and order knowledge in adjacent court administration or security work; verify entry requirements.",
+          "humanEdge": "Carrying court security and order judgment into a new setting.",
+          "skills": ["Court Administration", "Security", "Victim Support"],
+          "options": [
+            "Court Clerk",
+            "Security Supervisor",
+            "Victim Support Worker",
+            "Court Usher",
+            "Compliance Officer"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned court support practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what visitors find confusing in courts.",
+          "skills": ["Training Design", "Content Writing", "Process Design"],
+          "options": [
+            "Court Visitor Guide Toolkit",
+            "Security Officer Training Practice",
+            "Courtroom Etiquette Education Service",
+            "De-escalation Course Practice",
+            "Jury Orientation Toolkit"
+          ]
+        }
+      }
+    },
+    "33-3012.00": {
+      "role": "correctional_officer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in correctional work and configure AI-assisted movement logs, headcounts and incident reports with human sign-off.",
+          "humanEdge": "Maintaining safety and respect.",
+          "skills": ["Movement Tracking", "Monitoring Systems", "Incident Reporting"],
+          "options": [
+            "Monitoring Systems Officer",
+            "Records Officer",
+            "Body-Worn Camera Officer",
+            "Movement Tracking Officer",
+            "Digital Visits Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine custody duties with AI tools for logs, monitoring and reports.",
+          "humanEdge": "De-escalation with people in custody.",
+          "skills": ["De-escalation", "AI Tool Evaluation", "Observation"],
+          "options": [
+            "Rehabilitation Programs Officer",
+            "Intake Officer",
+            "Training Officer",
+            "Youth Custody Officer",
+            "Mental Health Liaison Officer"
+          ]
+        },
+        "pivot": {
+          "description": "Use correctional work knowledge in adjacent reintegration, training or security work; verify entry requirements.",
+          "humanEdge": "Carrying correctional work judgment into a new setting.",
+          "skills": ["Reintegration", "Training", "Security"],
+          "options": [
+            "Reintegration Support Worker",
+            "Security Supervisor",
+            "Probation Assistant",
+            "Case Manager",
+            "Youth Worker"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned custody practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what helps people succeed on release.",
+          "skills": ["Training Design", "Program Design", "Content Writing"],
+          "options": [
+            "De-escalation Training Practice",
+            "Reentry Guide Toolkit",
+            "Report Writing Toolkit",
+            "Officer Wellbeing Training Service",
+            "Family Visit Guide Toolkit"
+          ]
+        }
+      }
+    },
+    "33-3021.00": {
+      "role": "detective",
+      "strategies": {
+        "automate": {
+          "description": "Stay in criminal investigation and configure AI-assisted case files, evidence logs and digital records with human sign-off.",
+          "humanEdge": "Interviewing and reading people.",
+          "skills": ["Case Management Systems", "Digital Evidence Tools", "Timeline Analysis"],
+          "options": [
+            "Digital Evidence Investigator",
+            "Case Analytics Detective",
+            "Open-Source Investigation Specialist",
+            "Evidence Systems Lead",
+            "Cybercrime Investigator Track"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine investigation with AI tools for evidence review, timelines and records.",
+          "humanEdge": "Building cases that stand up.",
+          "skills": ["Interviewing", "AI Tool Evaluation", "Evidence Assessment"],
+          "options": [
+            "Fraud Investigator",
+            "Cold Case Investigator",
+            "Financial Crime Investigator",
+            "Missing Persons Investigator",
+            "Investigations Trainer"
+          ]
+        },
+        "pivot": {
+          "description": "Use criminal investigation knowledge in adjacent fraud, compliance or investigation services work; verify entry requirements.",
+          "humanEdge": "Carrying criminal investigation judgment into a new setting.",
+          "skills": ["Fraud Investigation", "Compliance", "Corporate Investigation"],
+          "options": [
+            "Corporate Investigator",
+            "Compliance Investigator",
+            "Insurance Fraud Investigator",
+            "Private Investigator Track",
+            "Risk Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned investigation practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what businesses need for internal investigations.",
+          "skills": ["Training Design", "Report Writing", "Client Communication"],
+          "options": [
+            "Investigation Training Practice",
+            "Interview Skills Course Service",
+            "Report Writing Toolkit",
+            "Internal Investigation Process Toolkit",
+            "Evidence Handling Training Service"
+          ]
+        }
+      }
+    },
+    "33-3021.02": {
+      "role": "police_records_officer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in police identification and records and configure AI-assisted fingerprint matching, records entry and evidence logging with human sign-off.",
+          "humanEdge": "Accuracy in identity and records.",
+          "skills": ["Fingerprint Matching Systems", "Records Management", "Data Quality Tools"],
+          "options": [
+            "Biometric Systems Officer",
+            "Records Automation Officer",
+            "Data Quality Officer",
+            "Evidence Tracking Officer",
+            "Disclosure Systems Officer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine identification and records with AI tools for matching, data quality and requests.",
+          "humanEdge": "Protecting sensitive data.",
+          "skills": ["Records Accuracy", "AI Tool Evaluation", "Data Protection"],
+          "options": [
+            "Fingerprint Examiner Track",
+            "Disclosure Officer",
+            "Records Supervisor",
+            "Evidence Custodian",
+            "Criminal Records Analyst"
+          ]
+        },
+        "pivot": {
+          "description": "Use police identification and records knowledge in adjacent records, forensics support or data work; verify entry requirements.",
+          "humanEdge": "Carrying police identification and records judgment into a new setting.",
+          "skills": ["Records Management", "Forensics Support", "Data"],
+          "options": [
+            "Records Manager",
+            "Data Protection Officer",
+            "Forensic Technician",
+            "Information Governance Officer",
+            "Background Screening Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned police records practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing where records processes fail.",
+          "skills": ["Training Design", "Process Design", "Audit"],
+          "options": [
+            "Records Audit Service",
+            "Data Protection Training Practice",
+            "Records SOP Toolkit",
+            "Disclosure Process Toolkit",
+            "Staff Training Service"
+          ]
+        }
+      }
+    },
+    "33-3021.06": {
+      "role": "intelligence_analyst",
+      "strategies": {
+        "automate": {
+          "description": "Stay in intelligence analysis and configure AI-assisted data fusion, link analysis and reporting with human sign-off.",
+          "humanEdge": "Judging reliability and meaning in fragments.",
+          "skills": ["Link Analysis Tools", "OSINT Automation", "Reporting Tools"],
+          "options": [
+            "OSINT Automation Analyst",
+            "Data Fusion Analyst",
+            "Link Analysis Specialist",
+            "Threat Data Analyst",
+            "Reporting Automation Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine intelligence with AI tools for data analysis, OSINT and reporting.",
+          "humanEdge": "Clear, unbiased assessments.",
+          "skills": ["Analytic Judgment", "AI Tool Evaluation", "Briefing"],
+          "options": [
+            "Crime Analyst",
+            "Financial Intelligence Analyst",
+            "Strategic Analyst",
+            "Threat Assessment Analyst",
+            "Analytic Trainer"
+          ]
+        },
+        "pivot": {
+          "description": "Use intelligence analysis knowledge in adjacent risk, compliance or research work; verify entry requirements.",
+          "humanEdge": "Carrying intelligence analysis judgment into a new setting.",
+          "skills": ["Risk Analysis", "Compliance", "Research"],
+          "options": [
+            "Risk Analyst",
+            "Due Diligence Analyst",
+            "Compliance Analyst",
+            "Trust and Safety Analyst",
+            "Research Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned intelligence practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what organisations need from risk research.",
+          "skills": ["Report Writing", "Client Communication", "Training Design"],
+          "options": [
+            "Due Diligence Research Service",
+            "OSINT Training Practice",
+            "Risk Briefing Service",
+            "Analytic Writing Toolkit",
+            "Source Evaluation Toolkit"
+          ]
+        }
+      }
+    },
+    "33-3031.00": {
+      "role": "game_warden",
+      "strategies": {
+        "automate": {
+          "description": "Stay in fish and wildlife enforcement and configure AI-assisted patrol logs, licence checks and wildlife data with human sign-off.",
+          "humanEdge": "Reading landscapes and wildlife behaviour.",
+          "skills": ["Patrol Tracking", "Licence Systems", "Wildlife Data Tools"],
+          "options": [
+            "Wildlife Data Officer",
+            "Drone Patrol Officer",
+            "Licence Systems Officer",
+            "GIS Patrol Officer",
+            "Camera Trap Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine wildlife enforcement with AI tools for patrol data, mapping and reports.",
+          "humanEdge": "Fair enforcement with outdoor users.",
+          "skills": ["Field Patrol", "AI Tool Evaluation", "Public Education"],
+          "options": [
+            "Conservation Education Officer",
+            "Wildlife Crime Investigator",
+            "Marine Patrol Officer",
+            "Hunter Education Coordinator",
+            "Habitat Protection Officer"
+          ]
+        },
+        "pivot": {
+          "description": "Use fish and wildlife enforcement knowledge in adjacent conservation or outdoor education work; verify entry requirements.",
+          "humanEdge": "Carrying fish and wildlife enforcement judgment into a new setting.",
+          "skills": ["Conservation", "Outdoor Education", "Land Management"],
+          "options": [
+            "Park Ranger",
+            "Conservation Officer",
+            "Environmental Compliance Officer",
+            "Outdoor Educator",
+            "Land Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned wildlife protection practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what hunters, anglers and landowners need to know.",
+          "skills": ["Training Design", "Outdoor Education", "Content Writing"],
+          "options": [
+            "Hunter Education Practice",
+            "Angler Education Service",
+            "Wildlife Guide Toolkit",
+            "Landowner Workshop Practice",
+            "Outdoor Safety Toolkit"
+          ]
+        }
+      }
+    },
+    "33-3041.00": {
+      "role": "parking_officer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in parking enforcement and configure AI-assisted handheld ticketing, plate recognition and reports with human sign-off.",
+          "humanEdge": "Fair, calm enforcement.",
+          "skills": ["Plate Recognition", "Handheld Ticketing", "Route Planning"],
+          "options": [
+            "Plate Recognition Systems Officer",
+            "Parking Data Analyst",
+            "Route Optimisation Officer",
+            "Permit Systems Coordinator",
+            "Camera Enforcement Reviewer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine parking enforcement with AI tools for plate recognition, routes and records.",
+          "humanEdge": "Handling angry drivers.",
+          "skills": ["Enforcement Judgment", "AI Tool Evaluation", "Conflict Handling"],
+          "options": [
+            "Parking Appeals Officer",
+            "Parking Supervisor",
+            "Civil Enforcement Trainer",
+            "Traffic Management Officer",
+            "Event Parking Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use parking enforcement knowledge in adjacent transport or customer service work; verify entry requirements.",
+          "humanEdge": "Carrying parking enforcement judgment into a new setting.",
+          "skills": ["Transport", "Customer Service", "Facilities"],
+          "options": [
+            "Transport Coordinator",
+            "Customer Service Officer",
+            "Facilities Officer",
+            "Security Officer",
+            "Traffic Warden"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned parking practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what venues need for parking management.",
+          "skills": ["Process Design", "Training Design", "Client Communication"],
+          "options": [
+            "Event Parking Planning Service",
+            "Parking Operations Toolkit",
+            "Officer Training Practice",
+            "Appeals Process Toolkit",
+            "Car Park Signage Toolkit"
+          ]
+        }
+      }
+    },
+    "33-3051.00": {
+      "role": "patrol_officer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in police patrol and configure AI-assisted reports, body-worn video and dispatch data with human sign-off.",
+          "humanEdge": "De-escalation and judgment on scene.",
+          "skills": ["Report Writing Tools", "Body-Worn Video", "Dispatch Data"],
+          "options": [
+            "Digital Evidence Officer",
+            "Report Automation Officer",
+            "Real-Time Crime Centre Officer",
+            "Body-Worn Video Officer",
+            "Records Systems Officer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine patrol with AI tools for reporting, records and situational data.",
+          "humanEdge": "Building community trust.",
+          "skills": ["Situational Judgment", "AI Tool Evaluation", "Community Engagement"],
+          "options": [
+            "Community Policing Officer",
+            "School Resource Officer",
+            "Traffic Officer",
+            "Training Officer",
+            "Crisis Intervention Officer"
+          ]
+        },
+        "pivot": {
+          "description": "Use police patrol knowledge in adjacent community safety, training or investigations work; verify entry requirements.",
+          "humanEdge": "Carrying police patrol judgment into a new setting.",
+          "skills": ["Community Safety", "Training", "Investigations"],
+          "options": [
+            "Security Manager",
+            "Community Safety Officer",
+            "Investigator",
+            "Compliance Officer",
+            "Emergency Planner"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned patrol practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what communities need for safety.",
+          "skills": ["Training Design", "Community Education", "Content Writing"],
+          "options": [
+            "Community Safety Education Service",
+            "Personal Safety Workshop Practice",
+            "Report Writing Toolkit",
+            "Neighbourhood Watch Toolkit",
+            "Officer Wellbeing Training Service"
+          ]
+        }
+      }
+    },
+    "33-3051.04": {
+      "role": "border_officer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in customs and border protection and configure AI-assisted document scanning, risk targeting and records with human sign-off.",
+          "humanEdge": "Judging travellers and goods in context.",
+          "skills": ["Document Scanning", "Risk Targeting Systems", "Biometric Screening"],
+          "options": [
+            "Risk Targeting Analyst",
+            "Biometric Systems Officer",
+            "Cargo Screening Officer",
+            "Document Fraud Analyst",
+            "Border Data Officer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine border work with AI tools for screening, targeting and records.",
+          "humanEdge": "Fair, calm questioning.",
+          "skills": ["Interviewing", "AI Tool Evaluation", "Inspection"],
+          "options": [
+            "Trade Compliance Officer",
+            "Canine Officer",
+            "Training Officer",
+            "Passenger Liaison Officer",
+            "Agriculture Inspection Officer"
+          ]
+        },
+        "pivot": {
+          "description": "Use customs and border protection knowledge in adjacent trade compliance, travel or security work; verify entry requirements.",
+          "humanEdge": "Carrying customs and border protection judgment into a new setting.",
+          "skills": ["Trade Compliance", "Travel Security", "Logistics"],
+          "options": [
+            "Customs Broker Track",
+            "Trade Compliance Manager",
+            "Aviation Security Manager",
+            "Logistics Compliance Coordinator",
+            "Immigration Adviser Track"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned border practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what traders and travellers need to comply.",
+          "skills": ["Training Design", "Compliance Advice", "Content Writing"],
+          "options": [
+            "Trade Compliance Education Service",
+            "Customs Process Toolkit",
+            "Traveller Guide Toolkit",
+            "Document Fraud Awareness Training Practice",
+            "Exporter Training Service"
+          ]
+        }
+      }
+    },
+    "33-3052.00": {
+      "role": "transit_police",
+      "strategies": {
+        "automate": {
+          "description": "Stay in transit and railroad policing and configure AI-assisted CCTV monitoring, incident reports and patrol data with human sign-off.",
+          "humanEdge": "Spotting risk in crowds.",
+          "skills": ["CCTV Analytics", "Incident Reporting", "Patrol Data"],
+          "options": [
+            "CCTV Operations Officer",
+            "Transit Data Officer",
+            "Patrol Analytics Officer",
+            "Incident Systems Officer",
+            "Crowd Monitoring Officer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine transit policing with AI tools for CCTV, reports and patrols.",
+          "humanEdge": "Helping vulnerable passengers.",
+          "skills": ["Crowd Awareness", "AI Tool Evaluation", "Passenger Support"],
+          "options": [
+            "Passenger Safety Officer",
+            "Railway Crime Investigator",
+            "Station Security Lead",
+            "Event Transport Officer",
+            "Training Officer"
+          ]
+        },
+        "pivot": {
+          "description": "Use transit and railroad policing knowledge in adjacent transport safety or security work; verify entry requirements.",
+          "humanEdge": "Carrying transit and railroad policing judgment into a new setting.",
+          "skills": ["Transport Safety", "Security", "Emergency Planning"],
+          "options": [
+            "Transport Safety Manager",
+            "Security Manager",
+            "Emergency Planner",
+            "Rail Operations Supervisor",
+            "Crowd Safety Advisor"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned transit safety practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what transport operators need for passenger safety.",
+          "skills": ["Training Design", "Risk Assessment", "Content Writing"],
+          "options": [
+            "Passenger Safety Training Practice",
+            "Station Safety Toolkit",
+            "Crowd Management Service",
+            "Staff Conflict Training Service",
+            "Incident Report Toolkit"
+          ]
+        }
+      }
+    },
+    "33-9011.00": {
+      "role": "animal_control_officer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in animal control and configure AI-assisted call logs, case records and microchip checks with human sign-off.",
+          "humanEdge": "Safely handling frightened animals.",
+          "skills": ["Case Management", "Call Triage", "Microchip Databases"],
+          "options": [
+            "Case Records Officer",
+            "Call Triage Coordinator",
+            "Microchip Systems Officer",
+            "Field Data Officer",
+            "Licensing Systems Officer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine animal control with AI tools for case records, call triage and owner lookup.",
+          "humanEdge": "Educating owners fairly.",
+          "skills": ["Animal Handling", "AI Tool Evaluation", "Owner Education"],
+          "options": [
+            "Animal Cruelty Investigator",
+            "Humane Education Officer",
+            "Shelter Operations Lead",
+            "Dangerous Dog Officer",
+            "Wildlife Response Officer"
+          ]
+        },
+        "pivot": {
+          "description": "Use animal control knowledge in adjacent animal welfare or public health work; verify entry requirements.",
+          "humanEdge": "Carrying animal control judgment into a new setting.",
+          "skills": ["Animal Welfare", "Public Health", "Shelter Work"],
+          "options": [
+            "Animal Welfare Inspector",
+            "Shelter Manager",
+            "Vet Assistant",
+            "Public Health Officer",
+            "Dog Trainer"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned animal control practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what owners need to keep pets safe.",
+          "skills": ["Training Design", "Education", "Content Writing"],
+          "options": [
+            "Pet Owner Education Service",
+            "Dog Bite Prevention Practice",
+            "Responsible Ownership Toolkit",
+            "Community Cat Program Service",
+            "Animal Handling Training Practice"
+          ]
+        }
+      }
+    },
+    "33-9021.00": {
+      "role": "private_investigator",
+      "strategies": {
+        "automate": {
+          "description": "Stay in private investigation and configure AI-assisted records searches, surveillance logs and reports with human sign-off.",
+          "humanEdge": "Discreet, lawful fact-finding.",
+          "skills": ["OSINT Tools", "Records Search", "Report Automation"],
+          "options": [
+            "OSINT Investigator",
+            "Records Research Specialist",
+            "Digital Investigations Specialist",
+            "Report Automation Investigator",
+            "Background Screening Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine investigation with AI tools for OSINT, records and reports.",
+          "humanEdge": "Interviewing and reading people.",
+          "skills": ["Interviewing", "AI Tool Evaluation", "Lawful Surveillance"],
+          "options": [
+            "Insurance Investigator",
+            "Corporate Investigator",
+            "Due Diligence Investigator",
+            "Process Server Lead",
+            "Missing Persons Investigator"
+          ]
+        },
+        "pivot": {
+          "description": "Use private investigation knowledge in adjacent compliance, insurance or due diligence work; verify entry requirements.",
+          "humanEdge": "Carrying private investigation judgment into a new setting.",
+          "skills": ["Compliance", "Insurance", "Due Diligence"],
+          "options": [
+            "Compliance Investigator",
+            "Fraud Analyst",
+            "Due Diligence Analyst",
+            "Paralegal Track",
+            "Security Consultant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned private investigation practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what clients need from investigations.",
+          "skills": ["Report Writing", "Client Communication", "Training Design"],
+          "options": [
+            "Background Research Service",
+            "Due Diligence Practice",
+            "Investigation Report Toolkit",
+            "OSINT Training Practice",
+            "Tenant Screening Service"
+          ]
+        }
+      }
+    },
+    "33-9031.00": {
+      "role": "casino_surveillance",
+      "strategies": {
+        "automate": {
+          "description": "Stay in gambling surveillance and configure AI-assisted video analytics, alerts and incident logs with human sign-off.",
+          "humanEdge": "Spotting cheating and suspicious patterns.",
+          "skills": ["Video Analytics", "Play Data Analytics", "Incident Logging"],
+          "options": [
+            "Video Analytics Operator",
+            "Play Data Analyst",
+            "Surveillance Systems Specialist",
+            "Incident Data Analyst",
+            "Facial Recognition Reviewer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine surveillance with AI tools for video, play data and reports.",
+          "humanEdge": "Careful, evidence-based reports.",
+          "skills": ["Surveillance Judgment", "AI Tool Evaluation", "Evidence Review"],
+          "options": [
+            "Gaming Investigator",
+            "AML Surveillance Analyst",
+            "Surveillance Supervisor",
+            "Gaming Compliance Officer",
+            "Training Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use gambling surveillance knowledge in adjacent compliance or security work; verify entry requirements.",
+          "humanEdge": "Carrying gambling surveillance judgment into a new setting.",
+          "skills": ["Compliance", "Security", "Fraud"],
+          "options": [
+            "Fraud Analyst",
+            "Compliance Officer",
+            "Security Manager",
+            "AML Analyst",
+            "Loss Prevention Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned casino surveillance practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what venues need for gaming compliance.",
+          "skills": ["Training Design", "Compliance Advice", "Report Writing"],
+          "options": [
+            "Surveillance Training Practice",
+            "Game Protection Course Service",
+            "Compliance Toolkit",
+            "Report Writing Toolkit",
+            "Venue Security Review Service"
+          ]
+        }
+      }
+    },
+    "33-9032.00": {
+      "role": "security_guard",
+      "strategies": {
+        "automate": {
+          "description": "Stay in security guarding and configure AI-assisted patrol logs, video monitoring and access control with human sign-off.",
+          "humanEdge": "Calm presence and good judgment.",
+          "skills": ["Video Monitoring", "Patrol Apps", "Access Control"],
+          "options": [
+            "Remote Video Monitoring Officer",
+            "Security Control Room Operator",
+            "Access Control Systems Officer",
+            "Patrol App Lead",
+            "Alarm Response Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine security with AI tools for monitoring, patrols and reports.",
+          "humanEdge": "Helping people while staying alert.",
+          "skills": ["Observation", "AI Tool Evaluation", "Customer Care"],
+          "options": [
+            "Event Security Officer",
+            "Corporate Concierge Security",
+            "Hospital Security Officer",
+            "Retail Security Officer",
+            "Close Protection Officer Track"
+          ]
+        },
+        "pivot": {
+          "description": "Use security guarding knowledge in adjacent facilities, customer service or event safety work; verify entry requirements.",
+          "humanEdge": "Carrying security guarding judgment into a new setting.",
+          "skills": ["Facilities", "Customer Service", "Event Safety"],
+          "options": [
+            "Facilities Coordinator",
+            "Customer Service Officer",
+            "Security Supervisor",
+            "Event Safety Steward",
+            "Health and Safety Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned security practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what small premises need for safety.",
+          "skills": ["Training Design", "Site Assessment", "Client Communication"],
+          "options": [
+            "Site Safety Checklist Toolkit",
+            "Event Steward Training Practice",
+            "Conflict Management Course Service",
+            "Security Report Toolkit",
+            "Venue Safety Review Service"
+          ]
+        }
+      }
+    },
+    "33-9091.00": {
+      "role": "crossing_guard",
+      "strategies": {
+        "automate": {
+          "description": "Stay in crossing guarding and flagging and configure AI-assisted schedules, traffic data and incident reports with human sign-off.",
+          "humanEdge": "Keeping children and workers safe in traffic.",
+          "skills": ["Scheduling Apps", "Traffic Data", "Incident Reporting"],
+          "options": [
+            "Traffic Signal Systems Assistant",
+            "Smart Work Zone Operator",
+            "Scheduling Coordinator",
+            "Traffic Data Assistant",
+            "Remote Flagging Operator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine traffic safety with AI tools for scheduling, alerts and reports.",
+          "humanEdge": "Friendly, firm presence.",
+          "skills": ["Traffic Awareness", "AI Tool Evaluation", "Community Relations"],
+          "options": [
+            "Road Safety Educator",
+            "Traffic Control Supervisor",
+            "School Safety Lead",
+            "Event Traffic Marshal",
+            "Work Zone Safety Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use crossing guarding and flagging knowledge in adjacent road safety or community work work; verify entry requirements.",
+          "humanEdge": "Carrying crossing guarding and flagging judgment into a new setting.",
+          "skills": ["Road Safety", "Community Work", "Traffic Management"],
+          "options": [
+            "Traffic Management Planner",
+            "Community Safety Officer",
+            "School Support Worker",
+            "Parking Officer",
+            "Site Safety Officer"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned road safety practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what schools and sites need for traffic safety.",
+          "skills": ["Training Design", "Safety Education", "Content Writing"],
+          "options": [
+            "School Road Safety Practice",
+            "Traffic Marshal Training Service",
+            "Safe Route Toolkit",
+            "Event Traffic Planning Service",
+            "Flagger Training Toolkit"
+          ]
+        }
+      }
+    },
+    "33-9092.00": {
+      "role": "lifeguard_patrol",
+      "strategies": {
+        "automate": {
+          "description": "Stay in recreational protective service and configure AI-assisted incident logs, weather data and patrol records with human sign-off.",
+          "humanEdge": "Spotting someone in trouble early.",
+          "skills": ["Drowning Detection Systems", "Incident Logging", "Weather Data"],
+          "options": [
+            "Pool Monitoring Systems Operator",
+            "Beach Safety Data Officer",
+            "Avalanche Data Specialist",
+            "Incident Systems Coordinator",
+            "Drone Rescue Operator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine water and snow safety with AI tools for monitoring, logs and alerts.",
+          "humanEdge": "Calm rescue under pressure.",
+          "skills": ["Rescue Skills", "AI Tool Evaluation", "Public Safety Education"],
+          "options": [
+            "Head Lifeguard",
+            "Swim Instructor",
+            "Ski Patrol Lead",
+            "Water Safety Educator",
+            "Aquatics Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use recreational protective service knowledge in adjacent recreation, coaching or first aid training work; verify entry requirements.",
+          "humanEdge": "Carrying recreational protective service judgment into a new setting.",
+          "skills": ["Recreation", "Coaching", "First Aid Training"],
+          "options": [
+            "Recreation Manager",
+            "Swim Coach",
+            "First Aid Instructor",
+            "Outdoor Educator",
+            "Event Safety Officer"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned recreation safety practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what families need to stay safe outdoors.",
+          "skills": ["Training Design", "Safety Education", "Program Design"],
+          "options": [
+            "Swim Safety Practice",
+            "First Aid Training Service",
+            "Water Safety Toolkit",
+            "Lifeguard Exam Prep Practice",
+            "Snow Safety Education Service"
+          ]
+        }
+      }
+    },
+    "33-9093.00": {
+      "role": "security_screener",
+      "strategies": {
+        "automate": {
+          "description": "Stay in security screening and configure AI-assisted scanner alerts, threat images and passenger flow with human sign-off.",
+          "humanEdge": "Judging true threats on screen.",
+          "skills": ["Automated Threat Detection", "CT Scanning", "Passenger Flow Analytics"],
+          "options": [
+            "Automated Screening Operator",
+            "Threat Image Reviewer",
+            "Passenger Flow Analyst",
+            "Screening Systems Specialist",
+            "Remote Screening Operator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine screening with AI tools for image analysis, alerts and flow.",
+          "humanEdge": "Respectful handling of passengers.",
+          "skills": ["Image Interpretation", "AI Tool Evaluation", "Passenger Care"],
+          "options": [
+            "Screening Supervisor",
+            "Screening Trainer",
+            "Cargo Screener",
+            "Canine Screening Handler",
+            "Quality Assurance Screener"
+          ]
+        },
+        "pivot": {
+          "description": "Use security screening knowledge in adjacent aviation operations or security work; verify entry requirements.",
+          "humanEdge": "Carrying security screening judgment into a new setting.",
+          "skills": ["Aviation Operations", "Security", "Customer Service"],
+          "options": [
+            "Aviation Security Manager",
+            "Airport Operations Officer",
+            "Event Security Supervisor",
+            "Customer Service Lead",
+            "Compliance Officer"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned screening practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what travellers and venues get wrong at screening.",
+          "skills": ["Training Design", "Process Design", "Content Writing"],
+          "options": [
+            "Venue Screening Training Practice",
+            "Screening SOP Toolkit",
+            "Traveller Guide Toolkit",
+            "Screener Exam Prep Service",
+            "Event Screening Planning Service"
+          ]
+        }
+      }
+    },
+    "33-9094.00": {
+      "role": "school_bus_monitor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in school bus monitoring and configure AI-assisted route apps, attendance and incident notes with human sign-off.",
+          "humanEdge": "Keeping children safe and calm.",
+          "skills": ["Route Tracking Apps", "Attendance Scanning", "Parent Alerts"],
+          "options": [
+            "Route Tracking Coordinator",
+            "Attendance Systems Assistant",
+            "Parent Alert Coordinator",
+            "Transport Data Assistant",
+            "Camera Review Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine student safety with AI tools for routes, attendance and parent alerts.",
+          "humanEdge": "Managing behaviour kindly.",
+          "skills": ["Behaviour Support", "AI Tool Evaluation", "Child Safety"],
+          "options": [
+            "Special Needs Transport Aide",
+            "Lead Bus Monitor",
+            "Transport Safety Trainer",
+            "Field Trip Supervisor",
+            "Playground Supervisor"
+          ]
+        },
+        "pivot": {
+          "description": "Use school bus monitoring knowledge in adjacent school support or youth work work; verify entry requirements.",
+          "humanEdge": "Carrying school bus monitoring judgment into a new setting.",
+          "skills": ["School Support", "Youth Work", "Transport"],
+          "options": [
+            "Teaching Assistant",
+            "Youth Worker",
+            "School Admin Assistant",
+            "Childcare Worker",
+            "Transport Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned school transport practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what parents worry about on school transport.",
+          "skills": ["Training Design", "Parent Communication", "Content Writing"],
+          "options": [
+            "Bus Behaviour Toolkit",
+            "Monitor Training Practice",
+            "Parent Guide Toolkit",
+            "Field Trip Safety Service",
+            "Special Needs Transport Training Service"
+          ]
+        }
+      }
+    },
+    "33-9099.02": {
+      "role": "loss_prevention",
+      "strategies": {
+        "automate": {
+          "description": "Stay in retail loss prevention and configure AI-assisted CCTV analytics, exception reports and inventory data with human sign-off.",
+          "humanEdge": "Spotting suspicious behaviour and patterns.",
+          "skills": ["CCTV Analytics", "Exception Reporting", "Inventory Analytics"],
+          "options": [
+            "Exception Reporting Analyst",
+            "Video Analytics Specialist",
+            "Shrink Data Analyst",
+            "Self-Checkout Monitoring Specialist",
+            "E-commerce Fraud Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine loss prevention with AI tools for video, transaction data and investigations.",
+          "humanEdge": "Fair, lawful handling of incidents.",
+          "skills": ["Investigation", "AI Tool Evaluation", "Lawful Intervention"],
+          "options": [
+            "Loss Prevention Investigator",
+            "Organised Retail Crime Investigator",
+            "LP Trainer",
+            "Store Safety Lead",
+            "Inventory Control Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use retail loss prevention knowledge in adjacent retail operations, fraud or audit work; verify entry requirements.",
+          "humanEdge": "Carrying retail loss prevention judgment into a new setting.",
+          "skills": ["Retail Operations", "Fraud", "Audit"],
+          "options": [
+            "Retail Operations Manager",
+            "Fraud Analyst",
+            "Internal Auditor",
+            "Security Manager",
+            "Inventory Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned loss prevention practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing where small shops lose stock.",
+          "skills": ["Training Design", "Audit Design", "Client Communication"],
+          "options": [
+            "Shrink Audit Service",
+            "Small Shop Security Toolkit",
+            "Staff Awareness Training Practice",
+            "Stocktake Process Toolkit",
+            "Retail Safety Review Service"
+          ]
+        }
+      }
+    }
+  }
+}

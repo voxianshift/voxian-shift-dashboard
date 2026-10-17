@@ -1,0 +1,1648 @@
+{
+  "source": "Product-curated from O*NET 31.0 occupation tasks for SOC major group 39 (https://www.onetonline.org/find/family?f=39). Exploration labels, not verified vacancies or transitions.",
+  "occupations": {
+    "39-1013.00": {
+      "role": "gaming_floor_supervisor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in gaming floor supervision and operate table and slot monitoring dashboards, incident logs and rule-compliance alerts with human sign-off.",
+          "humanEdge": "Reading patron behaviour and deciding when a situation needs intervention.",
+          "skills": ["Surveillance Analytics", "Incident Reporting", "Gaming Compliance Systems"],
+          "options": [
+            "Gaming Floor Analytics Supervisor",
+            "Slot Performance Monitoring Lead",
+            "Table Games Compliance Monitor",
+            "Casino Incident Reporting Coordinator",
+            "Player Tracking Systems Supervisor"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine gaming floor supervision judgment with AI tools for patron complaint handling, cheating-pattern review and staff scheduling.",
+          "humanEdge": "Calming disputes fairly while protecting house rules.",
+          "skills": ["Patron Dispute Resolution", "Game Protection", "Shift Scheduling"],
+          "options": [
+            "Game Protection Specialist",
+            "Casino Guest Relations Supervisor",
+            "Responsible Gaming Coordinator",
+            "Table Games Training Lead",
+            "Casino Shift Operations Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use gaming floor supervision experience in adjacent casino surveillance, compliance or hospitality operations work; verify requirements.",
+          "humanEdge": "Knowing how floor operations, rules and patrons interact under pressure.",
+          "skills": ["Regulatory Compliance", "Surveillance Operations", "Hospitality Management"],
+          "options": [
+            "Casino Surveillance Officer Track",
+            "Gaming Compliance Analyst",
+            "Hotel Operations Supervisor",
+            "Event Venue Manager",
+            "Responsible Gambling Advisor"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned gaming operations practice, service or toolkit with potential customers.",
+          "humanEdge": "Credibility with floor teams and knowledge of where games leak value.",
+          "skills": ["Game Protection Training", "Procedure Writing", "Compliance Checklists"],
+          "options": [
+            "Table Games Protection Training Service",
+            "Gaming Floor Procedure Toolkit",
+            "Responsible Gaming Audit Practice",
+            "Dealer Onboarding Toolkit",
+            "Casino Incident Review Service"
+          ]
+        }
+      }
+    },
+    "39-1014.00": {
+      "role": "recreation_operations_supervisor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in entertainment and recreation supervision and operate scheduling software, attendance tracking and customer feedback dashboards with human sign-off.",
+          "humanEdge": "Matching staff, programmes and guests on busy days.",
+          "skills": ["Workforce Scheduling Tools", "Attendance Analytics", "Feedback Systems"],
+          "options": [
+            "Recreation Scheduling Systems Supervisor",
+            "Guest Feedback Analytics Lead",
+            "Attendance Reporting Coordinator",
+            "Venue Booking Systems Supervisor",
+            "Ride Operations Data Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine entertainment and recreation supervision judgment with AI tools for programme planning, service improvement and incident reports.",
+          "humanEdge": "Turning guest feedback into programme changes staff will actually run.",
+          "skills": ["Programme Design", "Service Improvement", "Staff Coaching"],
+          "options": [
+            "Recreation Programme Coordinator",
+            "Guest Experience Supervisor",
+            "Events Operations Lead",
+            "Staff Training Coordinator",
+            "Leisure Centre Duty Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use entertainment and recreation supervision experience in adjacent event, venue or parks operations work; verify requirements.",
+          "humanEdge": "Running people-heavy operations safely and smoothly.",
+          "skills": ["Event Planning", "Facility Operations", "Budget Tracking"],
+          "options": [
+            "Event Operations Manager",
+            "Parks and Recreation Coordinator",
+            "Venue Operations Manager",
+            "Community Centre Manager",
+            "Visitor Experience Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned recreation programme practice, service or toolkit with potential customers.",
+          "humanEdge": "Know-how for designing activities people return for.",
+          "skills": ["Programme Design", "Staff Training", "Feedback Analysis"],
+          "options": [
+            "Recreation Programme Design Service",
+            "Guest Feedback Review Practice",
+            "Seasonal Staff Training Toolkit",
+            "Party and Event Package Service",
+            "Venue Scheduling Toolkit"
+          ]
+        }
+      }
+    },
+    "39-1022.00": {
+      "role": "personal_service_supervisor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in personal service supervision and operate booking systems, service quality checklists and supply tracking with human sign-off.",
+          "humanEdge": "Judging service quality the way clients experience it.",
+          "skills": ["Booking Platforms", "Quality Checklists", "Inventory Tracking"],
+          "options": [
+            "Salon Booking Systems Supervisor",
+            "Service Quality Audit Lead",
+            "Spa Operations Systems Coordinator",
+            "Supply Reorder Coordinator",
+            "Client Records Supervisor"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine personal service supervision judgment with AI tools for staff training, performance review and client complaint follow-up.",
+          "humanEdge": "Coaching staff on appearance, conduct and technique.",
+          "skills": ["Staff Coaching", "Client Relations", "Procedure Training"],
+          "options": [
+            "Salon Floor Manager",
+            "Spa Operations Supervisor",
+            "Service Training Coordinator",
+            "Client Experience Lead",
+            "Wellness Centre Supervisor"
+          ]
+        },
+        "pivot": {
+          "description": "Use personal service supervision experience in adjacent salon, spa or hospitality management work; verify requirements.",
+          "humanEdge": "Running a service floor where reputation is built one client at a time.",
+          "skills": ["Business Operations", "Hospitality Service", "Retail Merchandising"],
+          "options": [
+            "Spa Manager",
+            "Salon Manager",
+            "Hotel Guest Services Manager",
+            "Beauty Retail Manager",
+            "Fitness Club Operations Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned personal service operations practice, service or toolkit with potential customers.",
+          "humanEdge": "Insight into what makes service teams consistent.",
+          "skills": ["Procedure Writing", "Training Design", "Quality Audits"],
+          "options": [
+            "Salon Standards Audit Practice",
+            "Service Staff Training Toolkit",
+            "Mystery Client Review Service",
+            "Spa Procedure Manual Toolkit",
+            "Client Retention Review Service"
+          ]
+        }
+      }
+    },
+    "39-2011.00": {
+      "role": "animal_trainer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in animal training and operate training logs, behaviour tracking apps and session video review with human sign-off.",
+          "humanEdge": "Reading an animal's state and adjusting the session in the moment.",
+          "skills": ["Behaviour Tracking Apps", "Video Analysis", "Training Records"],
+          "options": [
+            "Behaviour Data Trainer",
+            "Training Records Coordinator",
+            "Video-Reviewed Training Specialist",
+            "Animal Performance Tracking Lead",
+            "Enrichment Schedule Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine animal training judgment with AI tools for trainability assessment, behaviour plans and owner coaching.",
+          "humanEdge": "Building trust with animals and teaching owners consistent cues.",
+          "skills": ["Behaviour Assessment", "Positive Reinforcement", "Client Coaching"],
+          "options": [
+            "Behaviour Modification Trainer",
+            "Service Dog Training Track",
+            "Zoo Animal Trainer",
+            "Dog Sports Coach",
+            "Shelter Behaviour Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use animal training experience in adjacent animal welfare, shelter or veterinary support work; verify requirements.",
+          "humanEdge": "Understanding animal behaviour and welfare signs.",
+          "skills": ["Animal Welfare", "Client Communication", "Health Observation"],
+          "options": [
+            "Shelter Behaviour Specialist",
+            "Veterinary Assistant Track",
+            "Animal Welfare Officer Track",
+            "Zoo Keeper Track",
+            "Pet Care Business Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned animal training practice, service or toolkit with potential customers.",
+          "humanEdge": "Proven behaviour methods and a feel for owner problems.",
+          "skills": ["Lesson Planning", "Behaviour Assessment", "Content Creation"],
+          "options": [
+            "Puppy Training Class Service",
+            "Reactive Dog Coaching Service",
+            "Online Training Course Toolkit",
+            "Behaviour Assessment Practice",
+            "Trainer Session Plan Toolkit"
+          ]
+        }
+      }
+    },
+    "39-2021.00": {
+      "role": "animal_caretaker",
+      "strategies": {
+        "automate": {
+          "description": "Stay in animal care and operate feeding schedules, kennel monitoring and booking tools with human sign-off.",
+          "humanEdge": "Noticing small health or behaviour changes in animals.",
+          "skills": ["Care Scheduling Apps", "Facility Monitoring", "Booking Systems"],
+          "options": [
+            "Kennel Systems Coordinator",
+            "Feeding Programme Coordinator",
+            "Pet Facility Booking Lead",
+            "Animal Health Log Keeper",
+            "Boarding Operations Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine animal care judgment with AI tools for pet owner advice, care records and appointment handling.",
+          "humanEdge": "Reassuring owners while keeping animals comfortable.",
+          "skills": ["Animal Handling", "Owner Communication", "Health Observation"],
+          "options": [
+            "Boarding Kennel Supervisor",
+            "Veterinary Reception Coordinator",
+            "Shelter Care Lead",
+            "Doggy Daycare Supervisor",
+            "Pet Grooming Assistant"
+          ]
+        },
+        "pivot": {
+          "description": "Use animal care experience in adjacent veterinary support, shelter or pet retail work work; verify requirements.",
+          "humanEdge": "Hands-on animal handling and hygiene discipline.",
+          "skills": ["Animal First Aid", "Sanitation Procedures", "Customer Service"],
+          "options": [
+            "Veterinary Assistant Track",
+            "Animal Shelter Coordinator",
+            "Pet Store Manager",
+            "Pet Groomer Track",
+            "Wildlife Rehabilitation Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned pet care practice, service or toolkit with potential customers.",
+          "humanEdge": "Trust from pet owners and practical care routines.",
+          "skills": ["Pet Care Routines", "Scheduling", "Client Communication"],
+          "options": [
+            "Pet Sitting Service",
+            "Dog Walking Service",
+            "Senior Pet Care Service",
+            "Pet Care Routine Toolkit",
+            "Home Boarding Practice"
+          ]
+        }
+      }
+    },
+    "39-3011.00": {
+      "role": "table_games_dealer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in table games dealing and operate electronic tables, chip tracking and automated shuffler checks with human sign-off.",
+          "humanEdge": "Keeping a game fair, fast and friendly.",
+          "skills": ["Electronic Table Systems", "Chip Tracking", "Game Procedures"],
+          "options": [
+            "Electronic Table Games Dealer",
+            "Card Shuffler Operations Specialist",
+            "Chip Inventory Tracker",
+            "Table Game Integrity Assistant",
+            "Stadium Gaming Attendant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine table games dealing judgment with AI tools for game security, patron engagement and payout accuracy.",
+          "humanEdge": "Spotting irregular play while keeping guests welcome.",
+          "skills": ["Game Protection", "Guest Engagement", "Payout Accuracy"],
+          "options": [
+            "Table Games Floor Supervisor Track",
+            "Dealer Trainer",
+            "Poker Room Coordinator",
+            "Game Protection Assistant",
+            "VIP Table Host"
+          ]
+        },
+        "pivot": {
+          "description": "Use table games dealing experience in adjacent casino hospitality, surveillance or guest service work; verify requirements.",
+          "humanEdge": "Handling money and people calmly under scrutiny.",
+          "skills": ["Cash Handling", "Guest Service", "Rule Enforcement"],
+          "options": [
+            "Casino Host",
+            "Gaming Surveillance Track",
+            "Cage Cashier Track",
+            "Hotel Front Desk Agent",
+            "Event Hospitality Lead"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned dealer training practice, service or toolkit with potential customers.",
+          "humanEdge": "Mastery of game procedures and dealer habits.",
+          "skills": ["Game Procedures", "Teaching", "Video Lessons"],
+          "options": [
+            "Dealer School Training Service",
+            "Game Procedure Video Toolkit",
+            "Charity Casino Night Service",
+            "Dealer Audition Prep Practice",
+            "Table Games Rule Card Toolkit"
+          ]
+        }
+      }
+    },
+    "39-3012.00": {
+      "role": "sports_book_writer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in sports book and gaming writing and operate betting terminals, odds feeds and payout verification tools with human sign-off.",
+          "humanEdge": "Catching errors and suspicious patterns before they cost money.",
+          "skills": ["Betting Terminals", "Payout Verification", "Transaction Records"],
+          "options": [
+            "Sports Book Terminal Operator",
+            "Payout Verification Clerk",
+            "Wagering Records Assistant",
+            "Bet Settlement Checker",
+            "Keno Systems Writer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine sports book and gaming writing judgment with AI tools for customer rule questions, bet recording and dispute handling.",
+          "humanEdge": "Explaining rules clearly and resolving disputes fairly.",
+          "skills": ["Rule Explanation", "Cash Handling", "Dispute Resolution"],
+          "options": [
+            "Sports Book Supervisor Track",
+            "Wagering Customer Service Lead",
+            "Race Book Coordinator",
+            "Responsible Gaming Assistant",
+            "Betting Shop Supervisor"
+          ]
+        },
+        "pivot": {
+          "description": "Use sports book and gaming writing experience in adjacent wagering compliance, cash handling or customer service work; verify requirements.",
+          "humanEdge": "Accuracy with money and rules under time pressure.",
+          "skills": ["Compliance Procedures", "Cash Reconciliation", "Customer Service"],
+          "options": [
+            "Gaming Compliance Assistant",
+            "Cage Cashier Track",
+            "Bank Teller Track",
+            "Customer Service Representative",
+            "Lottery Retail Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned wagering operations practice, service or toolkit with potential customers.",
+          "humanEdge": "Insight into common bet-recording and payout mistakes.",
+          "skills": ["Procedure Writing", "Training", "Reconciliation"],
+          "options": [
+            "Bet Settlement Training Service",
+            "Wagering Counter Procedure Toolkit",
+            "Payout Reconciliation Practice",
+            "Rules Explainer Toolkit",
+            "Sports Book Staff Onboarding Service"
+          ]
+        }
+      }
+    },
+    "39-3021.00": {
+      "role": "projectionist",
+      "strategies": {
+        "automate": {
+          "description": "Stay in projection operations and operate digital cinema servers, playlist scheduling and remote monitoring with human sign-off.",
+          "humanEdge": "Noticing picture and sound faults audiences would notice.",
+          "skills": ["Digital Cinema Servers", "Playlist Scheduling", "Remote Monitoring"],
+          "options": [
+            "Digital Cinema Systems Operator",
+            "Theatre Playlist Scheduler",
+            "Remote Projection Monitor",
+            "Cinema Booth Technician",
+            "Screen Quality Monitoring Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine projection operations judgment with AI tools for image and sound quality checks, lamp maintenance and show troubleshooting.",
+          "humanEdge": "Fixing a show problem fast without stopping the film.",
+          "skills": ["Projection Maintenance", "Sound Calibration", "Troubleshooting"],
+          "options": [
+            "Cinema Technical Coordinator",
+            "Event AV Technician",
+            "Screening Room Operator",
+            "Film Festival Projection Lead",
+            "Planetarium Show Operator"
+          ]
+        },
+        "pivot": {
+          "description": "Use projection operations experience in adjacent AV, event production or venue technical work work; verify requirements.",
+          "humanEdge": "Running shows on time with tight technical standards.",
+          "skills": ["AV Systems", "Event Production", "Equipment Maintenance"],
+          "options": [
+            "Audiovisual Technician",
+            "Event Production Technician",
+            "Venue Technical Coordinator",
+            "Broadcast Playout Operator",
+            "Museum AV Technician"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned screening practice, service or toolkit with potential customers.",
+          "humanEdge": "Practical projection and sound know-how.",
+          "skills": ["AV Setup", "Content Scheduling", "Equipment Care"],
+          "options": [
+            "Outdoor Cinema Screening Service",
+            "Private Screening Room Practice",
+            "Projection Booth Checklist Toolkit",
+            "Film Society Screening Service",
+            "Event Projection Hire Service"
+          ]
+        }
+      }
+    },
+    "39-3031.00": {
+      "role": "venue_usher",
+      "strategies": {
+        "automate": {
+          "description": "Stay in venue ushering and ticketing and operate ticket scanners, crowd counters and digital wayfinding with human sign-off.",
+          "humanEdge": "Helping guests feel welcome and safe in crowds.",
+          "skills": ["Ticket Scanning Systems", "Crowd Counting", "Digital Wayfinding"],
+          "options": [
+            "Ticket Scanning Lead",
+            "Venue Access Control Assistant",
+            "Crowd Flow Monitor",
+            "Membership Desk Assistant",
+            "Digital Wayfinding Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine venue ushering and ticketing judgment with AI tools for guest directions, tours and visitor questions.",
+          "humanEdge": "Answering questions warmly and spotting guests who need help.",
+          "skills": ["Guest Assistance", "Tour Delivery", "Crowd Awareness"],
+          "options": [
+            "Front of House Supervisor",
+            "Museum Visitor Host",
+            "Tour Guide",
+            "Venue Guest Services Lead",
+            "Accessibility Host"
+          ]
+        },
+        "pivot": {
+          "description": "Use venue ushering and ticketing experience in adjacent front of house, events or visitor services work; verify requirements.",
+          "humanEdge": "Calm crowd handling and guest service.",
+          "skills": ["Guest Service", "Event Operations", "Ticketing"],
+          "options": [
+            "Box Office Coordinator",
+            "Event Steward Track",
+            "Visitor Services Coordinator",
+            "Hotel Concierge Assistant",
+            "Theatre Front of House Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned visitor experience practice, service or toolkit with potential customers.",
+          "humanEdge": "First-hand view of guest confusion points.",
+          "skills": ["Guest Service Training", "Signage Review", "Volunteer Coordination"],
+          "options": [
+            "Front of House Training Service",
+            "Visitor Wayfinding Review Service",
+            "Volunteer Usher Toolkit",
+            "Event Stewarding Practice",
+            "Venue Accessibility Review Service"
+          ]
+        }
+      }
+    },
+    "39-3091.00": {
+      "role": "recreation_attendant",
+      "strategies": {
+        "automate": {
+          "description": "Stay in amusement and recreation attending and operate ride booking, attendance recording and maintenance logging with human sign-off.",
+          "humanEdge": "Watching guests and stopping unsafe behaviour early.",
+          "skills": ["Booking Systems", "Attendance Records", "Maintenance Logs"],
+          "options": [
+            "Attraction Booking Assistant",
+            "Attendance Records Assistant",
+            "Equipment Fault Logger",
+            "Ride Queue Monitor",
+            "Admissions Systems Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine amusement and recreation attending judgment with AI tools for guest information, rule enforcement and sales.",
+          "humanEdge": "Explaining rules so guests follow them happily.",
+          "skills": ["Guest Communication", "Safety Rules", "Point of Sale"],
+          "options": [
+            "Attraction Supervisor Track",
+            "Party Host",
+            "Leisure Centre Attendant Lead",
+            "Guest Services Associate",
+            "Climbing Wall Instructor Track"
+          ]
+        },
+        "pivot": {
+          "description": "Use amusement and recreation attending experience in adjacent recreation, guest service or event work work; verify requirements.",
+          "humanEdge": "Keeping fun activities running safely.",
+          "skills": ["Activity Supervision", "Customer Service", "Event Support"],
+          "options": [
+            "Recreation Assistant",
+            "Event Crew Lead",
+            "Holiday Camp Activity Leader",
+            "Leisure Centre Receptionist",
+            "Visitor Experience Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned recreation activity practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what keeps guests engaged and safe.",
+          "skills": ["Activity Planning", "Party Hosting", "Safety Briefing"],
+          "options": [
+            "Kids Party Hosting Service",
+            "Activity Station Hire Service",
+            "Attraction Briefing Toolkit",
+            "Mobile Game Booth Service",
+            "Team Day Activity Practice"
+          ]
+        }
+      }
+    },
+    "39-3092.00": {
+      "role": "costume_attendant",
+      "strategies": {
+        "automate": {
+          "description": "Stay in costume attending and operate costume inventory, quick-change cue sheets and rental tracking with human sign-off.",
+          "humanEdge": "Getting a performer changed fast without damage.",
+          "skills": ["Costume Inventory Systems", "Cue Sheets", "Rental Tracking"],
+          "options": [
+            "Costume Inventory Coordinator",
+            "Quick-Change Cue Planner",
+            "Costume Rental Tracker",
+            "Wardrobe Records Assistant",
+            "Production Wardrobe Scheduler"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine costume attending judgment with AI tools for dressing assistance, fitting notes and costume care.",
+          "humanEdge": "Reading a scene's pace and a performer's needs.",
+          "skills": ["Garment Care", "Fitting Notes", "Performer Support"],
+          "options": [
+            "Wardrobe Supervisor Track",
+            "Dresser Lead",
+            "Costume Maintenance Specialist",
+            "Film Set Costumer",
+            "Touring Wardrobe Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use costume attending experience in adjacent wardrobe, alterations or production support work; verify requirements.",
+          "humanEdge": "Garment handling and production timing.",
+          "skills": ["Alterations", "Production Coordination", "Garment Care"],
+          "options": [
+            "Costume Maker Track",
+            "Alterations Specialist",
+            "Production Assistant",
+            "Costume Rental Shop Manager",
+            "Fashion Wardrobe Stylist"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned costume practice, service or toolkit with potential customers.",
+          "humanEdge": "Practical wardrobe and garment care skill.",
+          "skills": ["Garment Care", "Inventory", "Sewing"],
+          "options": [
+            "Costume Rental Service",
+            "Costume Care and Repair Service",
+            "Quick-Change Planning Toolkit",
+            "Community Theatre Wardrobe Service",
+            "Cosplay Alteration Practice"
+          ]
+        }
+      }
+    },
+    "39-3093.00": {
+      "role": "locker_room_attendant",
+      "strategies": {
+        "automate": {
+          "description": "Stay in locker and dressing room attending and operate locker assignment, towel and kit tracking and cleaning schedules with human sign-off.",
+          "humanEdge": "Keeping spaces clean, private and welcoming.",
+          "skills": ["Locker Systems", "Inventory Tracking", "Cleaning Schedules"],
+          "options": [
+            "Locker Systems Assistant",
+            "Kit and Towel Inventory Assistant",
+            "Facility Cleaning Scheduler",
+            "Club Membership Desk Assistant",
+            "Equipment Check-Out Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine locker and dressing room attending judgment with AI tools for member enquiries, equipment repair and lost property.",
+          "humanEdge": "Handling member requests discreetly.",
+          "skills": ["Member Service", "Equipment Care", "Facility Hygiene"],
+          "options": [
+            "Club Facility Supervisor",
+            "Sports Kit Manager",
+            "Spa Changing Area Lead",
+            "Equipment Room Coordinator",
+            "Guest Services Associate"
+          ]
+        },
+        "pivot": {
+          "description": "Use locker and dressing room attending experience in adjacent facility, sports kit or guest service work work; verify requirements.",
+          "humanEdge": "Facility care and member service.",
+          "skills": ["Facility Maintenance", "Equipment Care", "Customer Service"],
+          "options": [
+            "Sports Kit Manager Track",
+            "Leisure Facility Assistant",
+            "Hotel Housekeeping Supervisor",
+            "Gym Receptionist",
+            "Facilities Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned facility care practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing how clubs keep changing areas in order.",
+          "skills": ["Hygiene Routines", "Equipment Repair", "Inventory"],
+          "options": [
+            "Club Kit Laundry Service",
+            "Sports Equipment Repair Service",
+            "Changing Room Hygiene Toolkit",
+            "Team Kit Management Service",
+            "Event Cloakroom Service"
+          ]
+        }
+      }
+    },
+    "39-4011.00": {
+      "role": "embalmer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in embalming and operate case records, regulatory documentation and supply tracking with human sign-off.",
+          "humanEdge": "Respectful care of the deceased and meeting families' wishes.",
+          "skills": ["Case Management Software", "Regulatory Records", "Supply Tracking"],
+          "options": [
+            "Funeral Case Records Coordinator",
+            "Mortuary Compliance Records Lead",
+            "Preparation Room Supply Coordinator",
+            "Removal Scheduling Coordinator",
+            "Funeral Documentation Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine embalming judgment with AI tools for restorative presentation planning and family preference notes.",
+          "humanEdge": "Restoring a natural appearance with dignity.",
+          "skills": ["Restorative Art", "Sanitation Compliance", "Family Communication"],
+          "options": [
+            "Restorative Art Specialist",
+            "Mortuary Preparation Lead",
+            "Funeral Director Track",
+            "Mortuary Trainer",
+            "Repatriation Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use embalming experience in adjacent funeral service, mortuary or forensic support work; verify requirements.",
+          "humanEdge": "Composure, hygiene discipline and respect for families.",
+          "skills": ["Funeral Arranging", "Sanitation Law", "Documentation"],
+          "options": [
+            "Funeral Director Track",
+            "Mortuary Technician Track",
+            "Anatomical Donation Coordinator",
+            "Bereavement Services Coordinator",
+            "Pathology Support Track"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned funeral support practice, service or toolkit with potential customers.",
+          "humanEdge": "Specialist knowledge for funeral homes.",
+          "skills": ["Restorative Techniques", "Compliance Records", "Training"],
+          "options": [
+            "Mortuary Compliance Review Practice",
+            "Restorative Art Training Service",
+            "Preparation Room Procedure Toolkit",
+            "Funeral Home Relief Staffing Service",
+            "Removal Coordination Service"
+          ]
+        }
+      }
+    },
+    "39-4012.00": {
+      "role": "crematory_operator",
+      "strategies": {
+        "automate": {
+          "description": "Stay in crematory operations and operate cremator controls, chain-of-custody records and maintenance logs with human sign-off.",
+          "humanEdge": "Making sure every family receives the right remains.",
+          "skills": ["Cremator Controls", "Chain of Custody", "Maintenance Logs"],
+          "options": [
+            "Cremation Records Coordinator",
+            "Chain of Custody Specialist",
+            "Cremator Monitoring Technician",
+            "Crematory Scheduling Coordinator",
+            "Crematory Compliance Records Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine crematory operations judgment with AI tools for family explanations, identification checks and equipment care.",
+          "humanEdge": "Explaining cremation gently and accurately.",
+          "skills": ["Identification Procedures", "Family Communication", "Equipment Care"],
+          "options": [
+            "Crematory Supervisor Track",
+            "Funeral Service Assistant",
+            "Pet Cremation Coordinator",
+            "Witnessed Cremation Host",
+            "Cremation Arrangements Advisor"
+          ]
+        },
+        "pivot": {
+          "description": "Use crematory operations experience in adjacent funeral service or compliance records work; verify requirements.",
+          "humanEdge": "Strict identification discipline and respect.",
+          "skills": ["Funeral Service", "Records Management", "Compliance"],
+          "options": [
+            "Funeral Arranger",
+            "Funeral Director Track",
+            "Cemetery Records Coordinator",
+            "Pet Memorial Manager",
+            "Bereavement Support Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned cremation support practice, service or toolkit with potential customers.",
+          "humanEdge": "Know-how in custody and memorial options.",
+          "skills": ["Custody Procedures", "Memorial Products", "Family Guidance"],
+          "options": [
+            "Pet Cremation Service",
+            "Memorial Keepsake Service",
+            "Chain of Custody Procedure Toolkit",
+            "Cremation Planning Guide Toolkit",
+            "Ash Scattering Ceremony Service"
+          ]
+        }
+      }
+    },
+    "39-4021.00": {
+      "role": "funeral_attendant",
+      "strategies": {
+        "automate": {
+          "description": "Stay in funeral attending and operate scheduling, procession planning and admin documents with human sign-off.",
+          "humanEdge": "Quiet, dependable support for grieving families.",
+          "skills": ["Scheduling Tools", "Document Preparation", "Route Planning"],
+          "options": [
+            "Funeral Scheduling Assistant",
+            "Procession Route Coordinator",
+            "Funeral Documents Assistant",
+            "Service Livestream Assistant",
+            "Funeral Fleet Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine funeral attending judgment with AI tools for family comfort, service setup and procession coordination.",
+          "humanEdge": "Offering comfort with the right words.",
+          "skills": ["Bereavement Support", "Event Setup", "Procession Coordination"],
+          "options": [
+            "Funeral Service Coordinator",
+            "Memorial Event Host",
+            "Funeral Arranger Track",
+            "Cemetery Services Assistant",
+            "Bereavement Liaison"
+          ]
+        },
+        "pivot": {
+          "description": "Use funeral attending experience in adjacent funeral arranging, events or care support work; verify requirements.",
+          "humanEdge": "Composure and empathy in hard moments.",
+          "skills": ["Event Coordination", "Empathetic Communication", "Admin Support"],
+          "options": [
+            "Funeral Arranger",
+            "Memorial Event Planner",
+            "Hospice Volunteer Coordinator",
+            "Cemetery Operations Assistant",
+            "Bereavement Services Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned memorial event practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what families need on the day.",
+          "skills": ["Event Planning", "Family Liaison", "Livestreaming"],
+          "options": [
+            "Memorial Livestream Service",
+            "Celebration of Life Planning Service",
+            "Funeral Day Checklist Toolkit",
+            "Memorial Setup Service",
+            "Eulogy Support Practice"
+          ]
+        }
+      }
+    },
+    "39-4031.00": {
+      "role": "funeral_director",
+      "strategies": {
+        "automate": {
+          "description": "Stay in funeral directing and operate arrangement software, permit paperwork and pre-need records with human sign-off.",
+          "humanEdge": "Guiding families through choices with compassion.",
+          "skills": ["Funeral Management Software", "Permit Processing", "Pre-Need Records"],
+          "options": [
+            "Funeral Arrangements Systems Lead",
+            "Death Registration Coordinator",
+            "Pre-Need Records Manager",
+            "Funeral Home Operations Analyst",
+            "Memorial Website Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine funeral directing judgment with AI tools for service planning, staff supervision and community outreach.",
+          "humanEdge": "Balancing family wishes, budgets and legal duties.",
+          "skills": ["Arrangement Conferences", "Staff Supervision", "Community Outreach"],
+          "options": [
+            "Funeral Home Manager",
+            "Pre-Need Planning Advisor",
+            "Aftercare Programme Lead",
+            "Multi-Faith Services Coordinator",
+            "Funeral Home Trainer"
+          ]
+        },
+        "pivot": {
+          "description": "Use funeral directing experience in adjacent bereavement, cemetery or hospice work work; verify requirements.",
+          "humanEdge": "Trusted guidance through loss.",
+          "skills": ["Bereavement Support", "Operations Management", "Compliance"],
+          "options": [
+            "Cemetery Manager",
+            "Hospice Family Liaison",
+            "Bereavement Services Manager",
+            "Celebrant Track",
+            "Estate Settlement Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned funeral planning practice, service or toolkit with potential customers.",
+          "humanEdge": "Deep trust with families and process knowledge.",
+          "skills": ["Arrangement Planning", "Grief Resources", "Pricing Clarity"],
+          "options": [
+            "Pre-Planning Advisory Practice",
+            "Grief Aftercare Service",
+            "Funeral Planning Guide Toolkit",
+            "Independent Celebrant Service",
+            "Funeral Home Mystery Shopper Service"
+          ]
+        }
+      }
+    },
+    "39-5011.00": {
+      "role": "barber",
+      "strategies": {
+        "automate": {
+          "description": "Stay in barbering and operate online booking, client cut history and reminder tools with human sign-off.",
+          "humanEdge": "Reading a client's head and style in the chair.",
+          "skills": ["Booking Apps", "Client Records", "Reminder Messaging"],
+          "options": [
+            "Booking-Led Barber",
+            "Client History Barber",
+            "Barbershop Systems Coordinator",
+            "Chair Rental Operations Lead",
+            "Barbershop Inventory Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine barbering judgment with AI tools for style consultations, beard work and tool hygiene.",
+          "humanEdge": "Turning a vague request into the cut a client wants.",
+          "skills": ["Style Consultation", "Precision Cutting", "Sanitation"],
+          "options": [
+            "Senior Barber",
+            "Barbershop Manager",
+            "Barber Educator",
+            "Grooming Product Advisor",
+            "Film and TV Barber"
+          ]
+        },
+        "pivot": {
+          "description": "Use barbering experience in adjacent grooming, product or training work work; verify requirements.",
+          "humanEdge": "Trusted client relationships and cutting skill.",
+          "skills": ["Grooming Techniques", "Product Knowledge", "Teaching"],
+          "options": [
+            "Barber Instructor Track",
+            "Men's Grooming Brand Educator",
+            "Salon Manager",
+            "Grooming Retail Specialist",
+            "Session Barber"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned barbering practice, service or toolkit with potential customers.",
+          "humanEdge": "Loyal clients and signature styles.",
+          "skills": ["Cutting Techniques", "Booking Management", "Content Creation"],
+          "options": [
+            "Mobile Barber Service",
+            "Barber Education Practice",
+            "Grooming Tutorial Toolkit",
+            "Event Barber Service",
+            "Beard Care Consultation Service"
+          ]
+        }
+      }
+    },
+    "39-5012.00": {
+      "role": "hairstylist",
+      "strategies": {
+        "automate": {
+          "description": "Stay in hairstyling and operate booking, colour formula records and product reordering tools with human sign-off.",
+          "humanEdge": "Seeing what suits a client's hair and features.",
+          "skills": ["Salon Software", "Colour Records", "Inventory Reordering"],
+          "options": [
+            "Colour Records Stylist",
+            "Salon Booking Lead",
+            "Product Reorder Coordinator",
+            "Salon Systems Coordinator",
+            "Virtual Consultation Stylist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine hairstyling judgment with AI tools for hair analysis, colour planning and treatment advice.",
+          "humanEdge": "Recommending styles and treatments clients trust.",
+          "skills": ["Hair Analysis", "Colour Theory", "Client Consultation"],
+          "options": [
+            "Colour Specialist",
+            "Salon Educator",
+            "Bridal Stylist",
+            "Texture Specialist",
+            "Salon Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use hairstyling experience in adjacent beauty education, retail or production styling work; verify requirements.",
+          "humanEdge": "Creative skill and client trust.",
+          "skills": ["Teaching", "Product Knowledge", "Session Styling"],
+          "options": [
+            "Cosmetology Instructor Track",
+            "Brand Education Specialist",
+            "Editorial Session Stylist",
+            "Beauty Retail Manager",
+            "Wig Specialist"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned hairstyling practice, service or toolkit with potential customers.",
+          "humanEdge": "Signature techniques and a client base.",
+          "skills": ["Styling Techniques", "Pricing", "Client Retention"],
+          "options": [
+            "Bridal Hair Service",
+            "Colour Correction Practice",
+            "Home Visit Styling Service",
+            "Stylist Education Toolkit",
+            "Curly Hair Care Service"
+          ]
+        }
+      }
+    },
+    "39-5091.00": {
+      "role": "theatrical_makeup_artist",
+      "strategies": {
+        "automate": {
+          "description": "Stay in theatrical makeup and operate continuity photo logs, budget tracking and scheduling tools with human sign-off.",
+          "humanEdge": "Matching a look precisely day after day.",
+          "skills": ["Continuity Logging", "Budget Tracking", "Scheduling"],
+          "options": [
+            "Makeup Continuity Coordinator",
+            "Makeup Department Scheduler",
+            "Kit Budget Coordinator",
+            "Look Reference Archivist",
+            "Makeup Trailer Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine theatrical makeup judgment with AI tools for character design, look replication and performer care.",
+          "humanEdge": "Translating a director's idea into a wearable look.",
+          "skills": ["Character Design", "Skin Prep", "Look Replication"],
+          "options": [
+            "Makeup Department Head Track",
+            "Special Effects Makeup Artist",
+            "Prosthetics Assistant",
+            "Theatre Makeup Supervisor",
+            "Broadcast Makeup Artist"
+          ]
+        },
+        "pivot": {
+          "description": "Use theatrical makeup experience in adjacent beauty, prosthetics or teaching work work; verify requirements.",
+          "humanEdge": "Precision under pressure on set.",
+          "skills": ["Prosthetics", "Teaching", "Product Development"],
+          "options": [
+            "Makeup Instructor",
+            "Prosthetics Technician",
+            "Beauty Brand Artist",
+            "Wig and Makeup Supervisor",
+            "Editorial Makeup Artist"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned makeup design practice, service or toolkit with potential customers.",
+          "humanEdge": "Production credits and character skills.",
+          "skills": ["Character Design", "Kit Management", "Teaching"],
+          "options": [
+            "Special Effects Makeup Service",
+            "Makeup Masterclass Practice",
+            "Continuity Logging Toolkit",
+            "Event Character Makeup Service",
+            "Student Film Makeup Service"
+          ]
+        }
+      }
+    },
+    "39-5092.00": {
+      "role": "nail_technician",
+      "strategies": {
+        "automate": {
+          "description": "Stay in nail care and operate booking, client records and supply reordering with human sign-off.",
+          "humanEdge": "Assessing nail and skin condition before every service.",
+          "skills": ["Booking Apps", "Client Records", "Supply Tracking"],
+          "options": [
+            "Nail Studio Booking Lead",
+            "Client Records Technician",
+            "Nail Supply Coordinator",
+            "Salon Systems Assistant",
+            "Online Booking Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine nail care judgment with AI tools for nail design, condition assessment and hygiene.",
+          "humanEdge": "Creating designs clients love while keeping hygiene tight.",
+          "skills": ["Nail Art", "Sanitation", "Hand and Foot Care"],
+          "options": [
+            "Nail Artist",
+            "Nail Educator",
+            "Spa Nail Lead",
+            "Nail Brand Ambassador",
+            "Medical Pedicure Assistant Track"
+          ]
+        },
+        "pivot": {
+          "description": "Use nail care experience in adjacent beauty education, retail or spa work work; verify requirements.",
+          "humanEdge": "Precise handwork and client rapport.",
+          "skills": ["Teaching", "Product Knowledge", "Spa Services"],
+          "options": [
+            "Nail Instructor Track",
+            "Beauty Retail Advisor",
+            "Spa Therapist Track",
+            "Nail Product Educator",
+            "Salon Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned nail care practice, service or toolkit with potential customers.",
+          "humanEdge": "Design style and loyal clientele.",
+          "skills": ["Nail Art", "Hygiene Protocols", "Social Media"],
+          "options": [
+            "Nail Art Studio Practice",
+            "Mobile Manicure Service",
+            "Press-On Nail Design Service",
+            "Nail Hygiene Toolkit",
+            "Nail Technique Course Toolkit"
+          ]
+        }
+      }
+    },
+    "39-5093.00": {
+      "role": "shampooer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in shampoo and scalp care and operate treatment records, product use tracking and booking prompts with human sign-off.",
+          "humanEdge": "Noticing scalp issues clients may not mention.",
+          "skills": ["Treatment Records", "Inventory Tracking", "Booking Tools"],
+          "options": [
+            "Scalp Treatment Records Assistant",
+            "Salon Product Tracker",
+            "Salon Booking Assistant",
+            "Backbar Inventory Assistant",
+            "Client Notes Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine shampoo and scalp care judgment with AI tools for scalp treatment advice and condition notes.",
+          "humanEdge": "Giving a relaxing experience while spotting problems.",
+          "skills": ["Scalp Care", "Client Care", "Product Knowledge"],
+          "options": [
+            "Scalp Care Specialist",
+            "Salon Assistant Lead",
+            "Spa Head Treatment Therapist",
+            "Trichology Assistant Track",
+            "Salon Apprentice Stylist"
+          ]
+        },
+        "pivot": {
+          "description": "Use shampoo and scalp care experience in adjacent hairdressing, spa or product work work; verify requirements.",
+          "humanEdge": "Client comfort and product knowledge.",
+          "skills": ["Hairdressing Basics", "Spa Treatments", "Retail Advice"],
+          "options": [
+            "Hairdresser Apprentice Track",
+            "Spa Therapist Track",
+            "Hair Care Retail Advisor",
+            "Salon Coordinator",
+            "Brand Education Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned scalp care practice, service or toolkit with potential customers.",
+          "humanEdge": "Hands-on scalp treatment experience.",
+          "skills": ["Scalp Treatments", "Product Selection", "Client Education"],
+          "options": [
+            "Head Spa Treatment Service",
+            "Scalp Care Routine Toolkit",
+            "Salon Wash Training Service",
+            "Mobile Hair Wash Service",
+            "Scalp Treatment Kit Toolkit"
+          ]
+        }
+      }
+    },
+    "39-5094.00": {
+      "role": "skincare_specialist",
+      "strategies": {
+        "automate": {
+          "description": "Stay in skincare and operate skin analysis devices, client records and booking tools with human sign-off.",
+          "humanEdge": "Interpreting skin analysis with the client in front of you.",
+          "skills": ["Skin Analysis Devices", "Client Records", "Booking Platforms"],
+          "options": [
+            "Skin Analysis Technician",
+            "Client Records Esthetician",
+            "Spa Booking Lead",
+            "Treatment Tracking Coordinator",
+            "Virtual Skin Consultant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine skincare judgment with AI tools for treatment planning, product recommendations and home care coaching.",
+          "humanEdge": "Building routines clients actually follow.",
+          "skills": ["Skin Assessment", "Treatment Planning", "Client Education"],
+          "options": [
+            "Lead Esthetician",
+            "Spa Treatment Educator",
+            "Skincare Brand Trainer",
+            "Medical Spa Assistant Track",
+            "Clinical Skincare Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use skincare experience in adjacent beauty education, retail or spa management work; verify requirements.",
+          "humanEdge": "Skin knowledge and client trust.",
+          "skills": ["Teaching", "Product Knowledge", "Spa Operations"],
+          "options": [
+            "Esthetics Instructor Track",
+            "Skincare Retail Specialist",
+            "Spa Manager",
+            "Product Development Assistant",
+            "Brand Educator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned skincare practice, service or toolkit with potential customers.",
+          "humanEdge": "Treatment know-how and client loyalty.",
+          "skills": ["Treatment Protocols", "Product Curation", "Content"],
+          "options": [
+            "Facial Treatment Studio Practice",
+            "Skincare Routine Coaching Service",
+            "Home Care Guide Toolkit",
+            "Mobile Facial Service",
+            "Acne Care Consultation Service"
+          ]
+        }
+      }
+    },
+    "39-6011.00": {
+      "role": "bellhop",
+      "strategies": {
+        "automate": {
+          "description": "Stay in baggage and bell service and operate luggage tagging, storage tracking and guest request apps with human sign-off.",
+          "humanEdge": "Making arrival feel personal and smooth.",
+          "skills": ["Luggage Tracking", "Guest Request Apps", "Storage Logs"],
+          "options": [
+            "Luggage Storage Coordinator",
+            "Guest Request Dispatcher",
+            "Bell Desk Systems Lead",
+            "Baggage Tagging Assistant",
+            "Arrivals Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine baggage and bell service judgment with AI tools for guest greetings, directions and travel information.",
+          "humanEdge": "Anticipating guest needs before they ask.",
+          "skills": ["Guest Service", "Local Knowledge", "Luggage Handling"],
+          "options": [
+            "Bell Captain",
+            "Hotel Concierge Track",
+            "Guest Relations Associate",
+            "Airport Meet and Greet Host",
+            "Front Office Associate"
+          ]
+        },
+        "pivot": {
+          "description": "Use baggage and bell service experience in adjacent concierge, front office or travel service work; verify requirements.",
+          "humanEdge": "Hospitality and local knowledge.",
+          "skills": ["Front Office Systems", "Local Knowledge", "Customer Service"],
+          "options": [
+            "Concierge",
+            "Front Desk Agent",
+            "Guest Relations Officer",
+            "Travel Desk Assistant",
+            "Event Hospitality Host"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned guest service practice, service or toolkit with potential customers.",
+          "humanEdge": "Insight into what arriving guests need.",
+          "skills": ["Luggage Logistics", "Local Guiding", "Hospitality Training"],
+          "options": [
+            "Luggage Delivery Service",
+            "Local Welcome Guide Service",
+            "Bell Desk Procedure Toolkit",
+            "Event Luggage Storage Service",
+            "Hospitality Training Practice"
+          ]
+        }
+      }
+    },
+    "39-6012.00": {
+      "role": "concierge",
+      "strategies": {
+        "automate": {
+          "description": "Stay in concierge service and operate reservation platforms, request tracking and local recommendation databases with human sign-off.",
+          "humanEdge": "Knowing which recommendation fits which guest.",
+          "skills": ["Reservation Platforms", "Request Tracking", "Local Knowledge Bases"],
+          "options": [
+            "Digital Concierge Coordinator",
+            "Guest Request Systems Lead",
+            "Local Recommendations Curator",
+            "Reservations Specialist",
+            "Virtual Concierge Agent"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine concierge service judgment with AI tools for special event planning, bookings and problem solving.",
+          "humanEdge": "Pulling strings to make a guest's plan happen.",
+          "skills": ["Event Planning", "Supplier Relationships", "Guest Service"],
+          "options": [
+            "Chef Concierge",
+            "Guest Experience Manager",
+            "Private Events Coordinator",
+            "Residential Concierge Lead",
+            "Luxury Travel Host"
+          ]
+        },
+        "pivot": {
+          "description": "Use concierge service experience in adjacent events, travel or guest relations work; verify requirements.",
+          "humanEdge": "Relationships with local suppliers and venues.",
+          "skills": ["Event Coordination", "Travel Planning", "Client Relations"],
+          "options": [
+            "Event Planner",
+            "Travel Consultant",
+            "Guest Relations Manager",
+            "Corporate Concierge",
+            "Destination Management Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned concierge practice, service or toolkit with potential customers.",
+          "humanEdge": "Local networks and refined service skill.",
+          "skills": ["Supplier Networks", "Itinerary Planning", "Request Handling"],
+          "options": [
+            "Lifestyle Concierge Service",
+            "Corporate Concierge Practice",
+            "Local Itinerary Toolkit",
+            "Relocation Concierge Service",
+            "Event Booking Concierge Service"
+          ]
+        }
+      }
+    },
+    "39-7011.00": {
+      "role": "tour_guide",
+      "strategies": {
+        "automate": {
+          "description": "Stay in tour guiding and operate tour booking, audio guide content and visitor feedback tools with human sign-off.",
+          "humanEdge": "Telling stories that make a place come alive.",
+          "skills": ["Booking Platforms", "Audio Guide Content", "Feedback Tools"],
+          "options": [
+            "Audio Guide Content Guide",
+            "Tour Booking Coordinator",
+            "Visitor Feedback Lead",
+            "Virtual Tour Host",
+            "Self-Guided Tour Curator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine tour guiding judgment with AI tools for site research, school activities and volunteer training.",
+          "humanEdge": "Reading a group and adapting the story.",
+          "skills": ["Site Research", "Storytelling", "Group Management"],
+          "options": [
+            "Heritage Interpreter",
+            "Museum Education Officer",
+            "Guide Trainer",
+            "School Programme Guide",
+            "Cruise Excursion Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use tour guiding experience in adjacent heritage, education or visitor services work; verify requirements.",
+          "humanEdge": "Historical knowledge and presentation skill.",
+          "skills": ["Interpretation", "Education Programmes", "Visitor Services"],
+          "options": [
+            "Museum Learning Officer",
+            "Heritage Site Coordinator",
+            "Visitor Experience Manager",
+            "Outdoor Educator",
+            "Destination Content Writer"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned tour practice, service or toolkit with potential customers.",
+          "humanEdge": "Deep local knowledge and storytelling.",
+          "skills": ["Storytelling", "Route Planning", "Booking"],
+          "options": [
+            "Walking Tour Practice",
+            "Themed History Tour Service",
+            "Self-Guided Tour Toolkit",
+            "School Field Trip Service",
+            "Virtual Tour Service"
+          ]
+        }
+      }
+    },
+    "39-7012.00": {
+      "role": "travel_guide",
+      "strategies": {
+        "automate": {
+          "description": "Stay in travel guiding and operate itinerary planning tools, booking systems and traveller messaging with human sign-off.",
+          "humanEdge": "Solving trip problems on the ground.",
+          "skills": ["Itinerary Software", "Booking Systems", "Group Messaging"],
+          "options": [
+            "Itinerary Planning Specialist",
+            "Group Travel Booking Coordinator",
+            "Traveller Communications Lead",
+            "Tour Operations Assistant",
+            "Trip Logistics Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine travel guiding judgment with AI tools for route planning, accommodation problems and package sales.",
+          "humanEdge": "Keeping a group happy when plans change.",
+          "skills": ["Itinerary Design", "Supplier Negotiation", "Group Leadership"],
+          "options": [
+            "Tour Leader",
+            "Expedition Leader Track",
+            "Tour Product Developer",
+            "Group Travel Coordinator",
+            "Adventure Travel Guide"
+          ]
+        },
+        "pivot": {
+          "description": "Use travel guiding experience in adjacent travel operations, sales or destination management work; verify requirements.",
+          "humanEdge": "Destination expertise and supplier networks.",
+          "skills": ["Travel Sales", "Destination Management", "Operations"],
+          "options": [
+            "Tour Operations Manager",
+            "Travel Consultant",
+            "Destination Manager",
+            "Group Sales Coordinator",
+            "Travel Product Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned guided travel practice, service or toolkit with potential customers.",
+          "humanEdge": "Proven routes and supplier contacts.",
+          "skills": ["Itinerary Design", "Supplier Negotiation", "Group Marketing"],
+          "options": [
+            "Small Group Tour Practice",
+            "Custom Itinerary Service",
+            "Expedition Planning Toolkit",
+            "Destination Guide Toolkit",
+            "Corporate Retreat Travel Service"
+          ]
+        }
+      }
+    },
+    "39-9011.00": {
+      "role": "childcare_worker",
+      "strategies": {
+        "automate": {
+          "description": "Stay in childcare and operate attendance apps, parent messaging and activity logs with human sign-off.",
+          "humanEdge": "Keeping children safe and noticing how each one is doing.",
+          "skills": ["Childcare Apps", "Parent Messaging", "Activity Records"],
+          "options": [
+            "Childcare Records Coordinator",
+            "Parent Communications Lead",
+            "Nursery Systems Assistant",
+            "Learning Journal Practitioner",
+            "Attendance Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine childcare judgment with AI tools for lesson planning, development notes and parent conversations.",
+          "humanEdge": "Building warm, trusting relationships with children.",
+          "skills": ["Early Learning Planning", "Child Observation", "Parent Communication"],
+          "options": [
+            "Room Leader",
+            "Early Years Practitioner",
+            "Childcare Supervisor",
+            "Special Needs Support Assistant",
+            "After-School Club Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use childcare experience in adjacent early education, family support or play work work; verify requirements.",
+          "humanEdge": "Understanding child development and routine.",
+          "skills": ["Child Development", "Family Support", "Activity Planning"],
+          "options": [
+            "Teaching Assistant Track",
+            "Early Years Teacher Track",
+            "Family Support Worker",
+            "Play Worker",
+            "Nursery Manager Track"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned childcare practice, service or toolkit with potential customers.",
+          "humanEdge": "Trust from parents and play-based learning skill.",
+          "skills": ["Activity Planning", "Safeguarding", "Parent Communication"],
+          "options": [
+            "Home Childcare Practice",
+            "Play-Based Learning Toolkit",
+            "Holiday Club Service",
+            "Parent Workshop Service",
+            "Baby Sensory Class Service"
+          ]
+        }
+      }
+    },
+    "39-9011.01": {
+      "role": "nanny",
+      "strategies": {
+        "automate": {
+          "description": "Stay in nanny care and operate family calendars, meal planning apps and daily update tools with human sign-off.",
+          "humanEdge": "Knowing each child's needs and moods.",
+          "skills": ["Family Calendar Apps", "Meal Planning", "Daily Updates"],
+          "options": [
+            "Household Schedule Nanny",
+            "Family Logistics Nanny",
+            "Meal Planning Nanny",
+            "Nanny Daily Report Lead",
+            "Travel Nanny"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine nanny care judgment with AI tools for development activities, routines and parent check-ins.",
+          "humanEdge": "Adapting routines as children grow.",
+          "skills": ["Child Development", "Routine Planning", "Parent Partnership"],
+          "options": [
+            "Maternity Nanny",
+            "Newborn Care Specialist Track",
+            "Governess",
+            "Special Needs Nanny",
+            "Rota Nanny"
+          ]
+        },
+        "pivot": {
+          "description": "Use nanny care experience in adjacent childcare, family support or household management work; verify requirements.",
+          "humanEdge": "Trusted family relationships.",
+          "skills": ["Childcare", "Household Management", "Safeguarding"],
+          "options": [
+            "Childcare Worker",
+            "Family Assistant",
+            "Household Manager",
+            "Teaching Assistant Track",
+            "Nursery Practitioner"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned family support practice, service or toolkit with potential customers.",
+          "humanEdge": "Child routines and family trust.",
+          "skills": ["Routine Design", "Sleep Guidance", "Parent Coaching"],
+          "options": [
+            "Newborn Routine Coaching Service",
+            "Nanny Share Service",
+            "Family Routine Toolkit",
+            "Babysitting Network Service",
+            "Toddler Activity Toolkit"
+          ]
+        }
+      }
+    },
+    "39-9031.00": {
+      "role": "fitness_instructor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in fitness instruction and operate class booking, wearable data and programme apps with human sign-off.",
+          "humanEdge": "Spotting form problems and adapting to each participant.",
+          "skills": ["Fitness Apps", "Wearable Data", "Class Booking"],
+          "options": [
+            "Data-Led Personal Trainer",
+            "Online Programme Coach",
+            "Class Booking Coordinator",
+            "Connected Fitness Instructor",
+            "Member Progress Tracker"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine fitness instruction judgment with AI tools for routine design, form correction and level options.",
+          "humanEdge": "Motivating people to keep showing up.",
+          "skills": ["Exercise Programming", "Form Coaching", "Group Motivation"],
+          "options": [
+            "Personal Trainer",
+            "Group Fitness Lead",
+            "Strength Coach",
+            "Older Adult Fitness Instructor",
+            "Corporate Wellness Coach"
+          ]
+        },
+        "pivot": {
+          "description": "Use fitness instruction experience in adjacent wellness, coaching or sports work work; verify requirements.",
+          "humanEdge": "Movement knowledge and motivation skill.",
+          "skills": ["Coaching", "Wellness Programming", "Client Assessment"],
+          "options": [
+            "Wellness Coordinator",
+            "Sports Coach Track",
+            "Gym Manager",
+            "Exercise Referral Instructor Track",
+            "Fitness Educator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned fitness practice, service or toolkit with potential customers.",
+          "humanEdge": "Programmes that get results.",
+          "skills": ["Programme Design", "Online Delivery", "Marketing"],
+          "options": [
+            "Online Coaching Practice",
+            "Bootcamp Class Service",
+            "Programme Template Toolkit",
+            "Corporate Fitness Service",
+            "Pre and Post Natal Class Service"
+          ]
+        }
+      }
+    },
+    "39-9032.00": {
+      "role": "recreation_worker",
+      "strategies": {
+        "automate": {
+          "description": "Stay in recreation work and operate activity scheduling, attendance records and progress notes tools with human sign-off.",
+          "humanEdge": "Finding activities each person enjoys.",
+          "skills": ["Scheduling Tools", "Progress Notes", "Attendance Records"],
+          "options": [
+            "Activity Records Coordinator",
+            "Recreation Scheduling Assistant",
+            "Outing Logistics Coordinator",
+            "Resident Engagement Tracker",
+            "Programme Data Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine recreation work judgment with AI tools for needs assessment, activity planning and outings.",
+          "humanEdge": "Engaging people with different abilities.",
+          "skills": ["Needs Assessment", "Activity Planning", "Group Facilitation"],
+          "options": [
+            "Activities Coordinator",
+            "Therapeutic Recreation Assistant Track",
+            "Community Outreach Worker",
+            "Youth Programme Leader",
+            "Senior Centre Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use recreation work experience in adjacent community, care or youth work work; verify requirements.",
+          "humanEdge": "Inclusive activity facilitation.",
+          "skills": ["Community Engagement", "Care Planning Support", "Youth Work"],
+          "options": [
+            "Care Home Activities Lead",
+            "Youth Worker",
+            "Community Development Assistant",
+            "Recreation Therapist Track",
+            "Day Centre Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned recreation activity practice, service or toolkit with potential customers.",
+          "humanEdge": "Activities that work for diverse groups.",
+          "skills": ["Activity Design", "Facilitation", "Inclusion"],
+          "options": [
+            "Care Home Activity Service",
+            "Inclusive Games Toolkit",
+            "Community Outing Service",
+            "Reminiscence Session Practice",
+            "Youth Activity Kit Toolkit"
+          ]
+        }
+      }
+    },
+    "39-9041.00": {
+      "role": "residential_advisor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in residential advising and operate incident logs, room assignments and resident communications with human sign-off.",
+          "humanEdge": "Knowing residents and spotting who needs support.",
+          "skills": ["Housing Software", "Incident Logging", "Resident Messaging"],
+          "options": [
+            "Residence Systems Coordinator",
+            "Housing Assignments Coordinator",
+            "Incident Records Lead",
+            "Resident Communications Coordinator",
+            "Housing Data Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine residential advising judgment with AI tools for programme planning, staff supervision and rule enforcement.",
+          "humanEdge": "Mediating conflicts fairly.",
+          "skills": ["Conflict Mediation", "Programme Planning", "Staff Supervision"],
+          "options": [
+            "Residence Life Coordinator",
+            "Student Wellbeing Advisor",
+            "Supported Housing Officer",
+            "Hall Manager",
+            "Resident Engagement Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use residential advising experience in adjacent student services, housing or youth support work; verify requirements.",
+          "humanEdge": "Supporting people in shared living.",
+          "skills": ["Student Support", "Housing Management", "Safeguarding"],
+          "options": [
+            "Student Services Advisor",
+            "Housing Officer",
+            "Youth Support Worker",
+            "Accommodation Manager",
+            "Wellbeing Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned residential life practice, service or toolkit with potential customers.",
+          "humanEdge": "Shared-living know-how.",
+          "skills": ["Programme Design", "Mediation", "Staff Training"],
+          "options": [
+            "Resident Assistant Training Service",
+            "House Rules Toolkit",
+            "Shared Housing Mediation Service",
+            "Residence Programme Toolkit",
+            "Student Housing Review Practice"
+          ]
+        }
+      }
+    }
+  }
+}

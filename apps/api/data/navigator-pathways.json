@@ -1,7 +1,7 @@
 {
-  "version": "strategy-definitions-2026-10-17-review-4",
+  "version": "strategy-definitions-2026-10-17-review-6",
   "source": "voxian-shift-v2.3.8.html ROLE_BRANCHES; user strategy definitions 2026-10-17; O*NET 15-1232.00 tasks (2026)",
-  "reviewNotes": "Curated exploration options, not verified occupations, vacancies or proven suitability. Create revised to owned practice, service and toolkit options following user definitions and approval; validate customer demand, scope and relevant professional requirements. Other strategy mappings retain prototype labels pending semantic review. Executive labels excluded; source mappings limited to explicit O*NET codes. Computer User Support Specialists added as explicit product-curated options grounded in O*NET support, diagnostics, documentation and training tasks; Pivot exposure and transition suitability remain unverified.",
+  "reviewNotes": "Curated exploration options, not verified occupations, vacancies or proven suitability. Create revised to owned practice, service and toolkit options following user definitions and approval; validate customer demand, scope and relevant professional requirements. Other strategy mappings retain prototype labels pending semantic review. Executive labels excluded; source mappings limited to explicit O*NET codes. Computer User Support Specialists added as explicit product-curated options grounded in O*NET support, diagnostics, documentation and training tasks; Pivot exposure and transition suitability remain unverified. Revision 5 expands user-support options from source tasks with variable counts; these remain exploratory labels, not verified vacancies or measured lower-exposure transitions. Revision 6 appends three product-curated exploration options to every strategy of every mapped occupation; existing IDs unchanged; labels remain exploratory, not verified vacancies or validated transitions.",
   "occupations": {
     "43-4051.00": {
       "prototypeRole": "cs_rep",
@@ -28,6 +28,24 @@
             {
               "id": "cs_rep-automate-3",
               "title": "Agentic RAG Pipeline Architect",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-automate-4",
+              "title": "Support Chatbot Content Operations",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-automate-5",
+              "title": "Customer Contact Workflow Automation",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-automate-6",
+              "title": "Service Quality Monitoring Analyst",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -57,6 +75,24 @@
               "title": "NLP Voice & Sentiment Specialist",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "cs_rep-hybrid-4",
+              "title": "Complex Case Resolution Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-hybrid-5",
+              "title": "Customer Retention Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-hybrid-6",
+              "title": "AI-Assisted Service Coach",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -76,6 +112,24 @@
             {
               "id": "cs_rep-pivot-2",
               "title": "High-Stakes Escalation Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-pivot-3",
+              "title": "Customer Success Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-pivot-4",
+              "title": "Customer Onboarding Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-pivot-5",
+              "title": "Customer Insights Analyst",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -111,6 +165,24 @@
               "title": "Customer Support Quality Toolkit",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "cs_rep-create-4",
+              "title": "Customer Service Training Practice",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-create-5",
+              "title": "Support Script Review Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-create-6",
+              "title": "Customer Feedback Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         }
@@ -143,6 +215,24 @@
               "title": "Digital Operations Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "admin_asst-automate-4",
+              "title": "Document Workflow Automation Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "admin_asst-automate-5",
+              "title": "Scheduling Systems Administrator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "admin_asst-automate-6",
+              "title": "Records Digitisation Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -164,6 +254,24 @@
               "title": "Strategic Intelligence Lead",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "admin_asst-hybrid-3",
+              "title": "Chief of Staff Support Track",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "admin_asst-hybrid-4",
+              "title": "Executive Communications Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "admin_asst-hybrid-5",
+              "title": "Meeting & Decision Records Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -183,6 +291,24 @@
             {
               "id": "admin_asst-pivot-2",
               "title": "Programme Operations Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "admin_asst-pivot-3",
+              "title": "Office Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "admin_asst-pivot-4",
+              "title": "Project Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "admin_asst-pivot-5",
+              "title": "Events & Travel Coordinator",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -210,6 +336,24 @@
             {
               "id": "admin_asst-create-2",
               "title": "Workplace Workflow Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "admin_asst-create-3",
+              "title": "Virtual Executive Assistance Practice",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "admin_asst-create-4",
+              "title": "Office Systems Setup Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "admin_asst-create-5",
+              "title": "Workplace Workflow Toolkit",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -244,6 +388,24 @@
               "title": "Payments & Settlements Analyst",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "bank_teller-automate-4",
+              "title": "Branch Digital Adoption Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-automate-5",
+              "title": "Transaction Exception Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-automate-6",
+              "title": "Cash Operations Systems Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -271,6 +433,24 @@
               "title": "Private Wealth Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "bank_teller-hybrid-4",
+              "title": "Customer Due Diligence Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-hybrid-5",
+              "title": "Small Business Banking Officer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-hybrid-6",
+              "title": "Fraud Prevention Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -290,6 +470,24 @@
             {
               "id": "bank_teller-pivot-2",
               "title": "Insurance Solutions Advisor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-pivot-3",
+              "title": "Loan Processing Officer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-pivot-4",
+              "title": "Customer Service Team Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-pivot-5",
+              "title": "Compliance Operations Analyst",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -317,6 +515,24 @@
             {
               "id": "bank_teller-create-2",
               "title": "Financial Service Literacy Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-create-3",
+              "title": "Money Skills Workshop Practice",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-create-4",
+              "title": "Household Budget Review Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-create-5",
+              "title": "Financial Service Literacy Toolkit",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -351,6 +567,24 @@
               "title": "Data Platform Engineer",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "data_entry-automate-4",
+              "title": "Document Capture Automation Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-automate-5",
+              "title": "Data Migration Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-automate-6",
+              "title": "Master Data Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -378,6 +612,24 @@
               "title": "Data Analytics Team Lead",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "data_entry-hybrid-4",
+              "title": "Data Steward",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-hybrid-5",
+              "title": "Reporting Quality Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-hybrid-6",
+              "title": "Records & Data Governance Officer",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -397,6 +649,24 @@
             {
               "id": "data_entry-pivot-2",
               "title": "Analytics Engineering Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-pivot-3",
+              "title": "Operations Data Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-pivot-4",
+              "title": "Database Administrator Track",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-pivot-5",
+              "title": "Data Operations Coordinator",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -424,6 +694,24 @@
             {
               "id": "data_entry-create-2",
               "title": "Data Quality Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-create-3",
+              "title": "Spreadsheet Clean-Up Practice",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-create-4",
+              "title": "Data Entry Audit Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-create-5",
+              "title": "Data Quality Toolkit",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -458,6 +746,24 @@
               "title": "Finance Systems Analyst",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-automate-4",
+              "title": "Cloud Accounting Implementation Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-automate-5",
+              "title": "Bank Reconciliation Automation Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-automate-6",
+              "title": "Expense Systems Administrator",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -485,6 +791,24 @@
               "title": "Group Financial Controller",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-hybrid-4",
+              "title": "Management Accounts Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-hybrid-5",
+              "title": "Accounts Receivable Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-hybrid-6",
+              "title": "Cash Flow Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -504,6 +828,24 @@
             {
               "id": "bookkeeper-pivot-2",
               "title": "SME Tax & Business Advisor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-pivot-3",
+              "title": "Payroll Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-pivot-4",
+              "title": "Accounts Payable Supervisor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-pivot-5",
+              "title": "Financial Operations Analyst",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -531,6 +873,24 @@
             {
               "id": "bookkeeper-create-2",
               "title": "Small Business Bookkeeping Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-create-3",
+              "title": "Small Business Bookkeeping Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-create-4",
+              "title": "Month-End Close Review Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-create-5",
+              "title": "Cloud Accounting Setup Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -565,6 +925,24 @@
               "title": "HR Systems Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-automate-4",
+              "title": "Time & Attendance Systems Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-automate-5",
+              "title": "Payroll Data Integration Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-automate-6",
+              "title": "HR Self-Service Configuration Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -586,6 +964,24 @@
               "title": "HR Data Scientist",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-hybrid-3",
+              "title": "Payroll Compliance Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-hybrid-4",
+              "title": "Total Rewards Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-hybrid-5",
+              "title": "Employee Benefits Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -599,6 +995,24 @@
             {
               "id": "payroll_hr-pivot-1",
               "title": "HR Business Partner",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-pivot-2",
+              "title": "Compensation Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-pivot-3",
+              "title": "HR Operations Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-pivot-4",
+              "title": "Employee Relations Advisor",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -626,6 +1040,24 @@
             {
               "id": "payroll_hr-create-2",
               "title": "Payroll Operations Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-create-3",
+              "title": "Payroll Operations Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-create-4",
+              "title": "Payroll Audit Review Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-create-5",
+              "title": "Small Employer Payroll Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -660,6 +1092,24 @@
               "title": "Legal Operations Technology Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "paralegal-automate-4",
+              "title": "eDiscovery Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-automate-5",
+              "title": "Legal Document Automation Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-automate-6",
+              "title": "Matter Management Systems Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -687,6 +1137,24 @@
               "title": "General Counsel Deputy",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "paralegal-hybrid-4",
+              "title": "Legal Research Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-hybrid-5",
+              "title": "Compliance Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-hybrid-6",
+              "title": "Litigation Support Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -706,6 +1174,24 @@
             {
               "id": "paralegal-pivot-2",
               "title": "Legal Technology Programme Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-pivot-3",
+              "title": "Contracts Administrator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-pivot-4",
+              "title": "Regulatory Affairs Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-pivot-5",
+              "title": "Knowledge Management Specialist (Legal)",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -733,6 +1219,24 @@
             {
               "id": "paralegal-create-2",
               "title": "Legal Operations Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-create-3",
+              "title": "Legal Operations Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-create-4",
+              "title": "Document Template Review Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-create-5",
+              "title": "Legal Admin Training Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -767,6 +1271,24 @@
               "title": "Talent Acquisition Tech Lead",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-automate-4",
+              "title": "Applicant Tracking Systems Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-automate-5",
+              "title": "Recruitment Analytics Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-automate-6",
+              "title": "Candidate Experience Automation Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -792,6 +1314,24 @@
               "title": "Strategic Workforce Planner",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-hybrid-3",
+              "title": "Structured Interview Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-hybrid-4",
+              "title": "Employer Brand Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-hybrid-5",
+              "title": "Talent Advisor",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -811,6 +1351,24 @@
             {
               "id": "hr_recruiter-pivot-2",
               "title": "Employee Lifecycle Program Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-pivot-3",
+              "title": "Learning & Development Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-pivot-4",
+              "title": "HR Generalist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-pivot-5",
+              "title": "Onboarding Specialist",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -838,6 +1396,24 @@
             {
               "id": "hr_recruiter-create-2",
               "title": "Responsible Hiring Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-create-3",
+              "title": "Responsible Hiring Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-create-4",
+              "title": "Job Description Review Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-create-5",
+              "title": "Interview Skills Coaching Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -876,6 +1452,24 @@
               "title": "Platform Engineering Lead",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "software_dev-automate-4",
+              "title": "Developer Productivity Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "software_dev-automate-5",
+              "title": "Test Automation Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "software_dev-automate-6",
+              "title": "DevOps / CI Pipeline Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -901,6 +1495,24 @@
               "title": "ML Platform Engineer",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "software_dev-hybrid-3",
+              "title": "AI Code Review & Quality Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "software_dev-hybrid-4",
+              "title": "Software Architect",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "software_dev-hybrid-5",
+              "title": "Security-Focused Software Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -920,6 +1532,24 @@
             {
               "id": "software_dev-pivot-2",
               "title": "Senior AI Product Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "software_dev-pivot-3",
+              "title": "Solutions Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "software_dev-pivot-4",
+              "title": "Developer Relations Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "software_dev-pivot-5",
+              "title": "Engineering Manager",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -947,6 +1577,24 @@
             {
               "id": "software_dev-create-2",
               "title": "AI Safety Testing Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "software_dev-create-3",
+              "title": "AI Safety Testing Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "software_dev-create-4",
+              "title": "Code Quality Audit Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "software_dev-create-5",
+              "title": "Custom Software Development Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -985,6 +1633,24 @@
               "title": "Supply Chain Operations Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-automate-4",
+              "title": "Transport Management Systems Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-automate-5",
+              "title": "Inventory Optimisation Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-automate-6",
+              "title": "Warehouse Automation Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1006,6 +1672,24 @@
               "title": "Category Procurement Lead",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-hybrid-3",
+              "title": "Supplier Relationship Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-hybrid-4",
+              "title": "Logistics Exception Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-hybrid-5",
+              "title": "Trade Compliance Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1025,6 +1709,24 @@
             {
               "id": "logistics_coord-pivot-2",
               "title": "SCM Systems Implementation Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-pivot-3",
+              "title": "Operations Planner",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-pivot-4",
+              "title": "Sustainability Supply Chain Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-pivot-5",
+              "title": "Vendor Management Specialist",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1052,6 +1754,24 @@
             {
               "id": "logistics_coord-create-2",
               "title": "Supply Chain Resilience Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-create-3",
+              "title": "Supply Chain Resilience Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-create-4",
+              "title": "Shipping Process Review Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-create-5",
+              "title": "Small Business Logistics Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1086,6 +1806,24 @@
               "title": "Enterprise Sales Strategist",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "sales_rep-automate-4",
+              "title": "Sales Enablement Systems Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "sales_rep-automate-5",
+              "title": "CRM Automation Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "sales_rep-automate-6",
+              "title": "Sales Analytics Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1107,6 +1845,24 @@
               "title": "Senior Solution Architect",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "sales_rep-hybrid-3",
+              "title": "Account Executive (Consultative)",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "sales_rep-hybrid-4",
+              "title": "Partner / Channel Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "sales_rep-hybrid-5",
+              "title": "Customer Success Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1124,6 +1880,24 @@
             {
               "id": "sales_rep-pivot-1",
               "title": "Key Account Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "sales_rep-pivot-2",
+              "title": "Business Development Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "sales_rep-pivot-3",
+              "title": "Product Marketing Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "sales_rep-pivot-4",
+              "title": "Sales Trainer",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1151,6 +1925,24 @@
             {
               "id": "sales_rep-create-2",
               "title": "B2B Sales Enablement Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "sales_rep-create-3",
+              "title": "B2B Sales Enablement Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "sales_rep-create-4",
+              "title": "Sales Pitch Review Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "sales_rep-create-5",
+              "title": "Independent Sales Agency Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1183,6 +1975,24 @@
               "title": "Brand AI Systems Designer",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-automate-3",
+              "title": "Design Systems Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-automate-4",
+              "title": "Creative Production Automation Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-automate-5",
+              "title": "Generative Asset Quality Reviewer",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1208,6 +2018,24 @@
               "title": "Global Brand Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-hybrid-3",
+              "title": "Art Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-hybrid-4",
+              "title": "Packaging & Print Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-hybrid-5",
+              "title": "Visual Content Strategist",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1227,6 +2055,24 @@
             {
               "id": "graphic_designer-pivot-2",
               "title": "Senior Product Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-pivot-3",
+              "title": "Motion Graphics Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-pivot-4",
+              "title": "Presentation & Information Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-pivot-5",
+              "title": "Marketing Design Lead",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1254,6 +2100,24 @@
             {
               "id": "graphic_designer-create-2",
               "title": "Brand Design Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-create-3",
+              "title": "Brand Design Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-create-4",
+              "title": "Logo & Identity Practice",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-create-5",
+              "title": "Brand Asset Review Service",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1292,6 +2156,24 @@
               "title": "Marketplace Growth Strategist",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-automate-4",
+              "title": "Product Data & Catalogue Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-automate-5",
+              "title": "Pricing Automation Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-automate-6",
+              "title": "E-Commerce Operations Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1309,6 +2191,24 @@
             {
               "id": "ecom_coord-hybrid-1",
               "title": "Digital Commerce Strategist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-hybrid-2",
+              "title": "Customer Experience Optimisation Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-hybrid-3",
+              "title": "Marketplace Account Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-hybrid-4",
+              "title": "Content Merchandising Specialist",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1336,6 +2236,24 @@
               "title": "Senior Category Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-pivot-3",
+              "title": "Digital Marketing Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-pivot-4",
+              "title": "Retail Buyer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-pivot-5",
+              "title": "Supply & Fulfilment Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1361,6 +2279,24 @@
             {
               "id": "ecom_coord-create-2",
               "title": "Sustainable E-Commerce Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-create-3",
+              "title": "Sustainable E-Commerce Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-create-4",
+              "title": "Online Store Setup Practice",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-create-5",
+              "title": "Product Listing Review Service",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1393,6 +2329,24 @@
               "title": "Quantitative Research Analyst",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-automate-3",
+              "title": "Financial Data Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-automate-4",
+              "title": "FP&A Systems Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-automate-5",
+              "title": "Automated Reporting Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1418,6 +2372,24 @@
               "title": "Senior Technology Equity Analyst",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-hybrid-3",
+              "title": "FP&A Business Partner",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-hybrid-4",
+              "title": "Credit Risk Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-hybrid-5",
+              "title": "ESG Investment Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1437,6 +2409,24 @@
             {
               "id": "financial_analyst-pivot-2",
               "title": "Portfolio Manager (Multi-Asset)",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-pivot-3",
+              "title": "Corporate Development Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-pivot-4",
+              "title": "Treasury Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-pivot-5",
+              "title": "Risk Manager",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1464,6 +2454,24 @@
             {
               "id": "financial_analyst-create-2",
               "title": "Financial Scenario Analysis Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-create-3",
+              "title": "Financial Scenario Analysis Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-create-4",
+              "title": "Business Plan Review Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-create-5",
+              "title": "Financial Modelling Training Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1496,6 +2504,24 @@
               "title": "Data Analytics Audit Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "accountant-automate-3",
+              "title": "Accounting Systems Implementation Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "accountant-automate-4",
+              "title": "Continuous Controls Monitoring Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "accountant-automate-5",
+              "title": "Automated Reconciliation Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1519,6 +2545,24 @@
             {
               "id": "accountant-hybrid-2",
               "title": "Finance Transformation Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "accountant-hybrid-3",
+              "title": "Internal Auditor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "accountant-hybrid-4",
+              "title": "Management Accountant",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "accountant-hybrid-5",
+              "title": "Forensic Accounting Analyst",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1546,6 +2590,24 @@
               "title": "International Tax Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "accountant-pivot-3",
+              "title": "Financial Controller",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "accountant-pivot-4",
+              "title": "Risk & Controls Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "accountant-pivot-5",
+              "title": "FP&A Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1565,6 +2627,24 @@
             {
               "id": "accountant-create-1",
               "title": "Small Business Finance Practice",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "accountant-create-2",
+              "title": "Small Business Finance Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "accountant-create-3",
+              "title": "Small Business Finance Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "accountant-create-4",
+              "title": "Finance Health Check Service",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1603,6 +2683,24 @@
               "title": "Health Analytics Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "medical_records-automate-4",
+              "title": "EHR Systems Support Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "medical_records-automate-5",
+              "title": "Clinical Coding Automation Reviewer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "medical_records-automate-6",
+              "title": "Health Information Systems Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1628,6 +2726,24 @@
               "title": "Clinical Documentation Improvement Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "medical_records-hybrid-3",
+              "title": "Release of Information Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "medical_records-hybrid-4",
+              "title": "Health Data Privacy Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "medical_records-hybrid-5",
+              "title": "Clinical Coding Auditor",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1645,6 +2761,24 @@
             {
               "id": "medical_records-pivot-1",
               "title": "Health IT Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "medical_records-pivot-2",
+              "title": "Health Information Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "medical_records-pivot-3",
+              "title": "Patient Access Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "medical_records-pivot-4",
+              "title": "Quality Improvement Analyst (Health)",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1672,6 +2806,24 @@
             {
               "id": "medical_records-create-2",
               "title": "Health Records Quality Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "medical_records-create-3",
+              "title": "Health Records Quality Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "medical_records-create-4",
+              "title": "Records Process Training Practice",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "medical_records-create-5",
+              "title": "Documentation Workflow Review Service",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1704,6 +2856,24 @@
               "title": "Claims Analytics Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-automate-3",
+              "title": "Claims Automation Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-automate-4",
+              "title": "Fraud Detection Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-automate-5",
+              "title": "Claims Data Quality Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1727,6 +2897,24 @@
             {
               "id": "insurance_claims-hybrid-2",
               "title": "Underwriting Analytics Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-hybrid-3",
+              "title": "Complex Claims Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-hybrid-4",
+              "title": "Customer Claims Advocate",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-hybrid-5",
+              "title": "Loss Adjuster Track",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1754,6 +2942,24 @@
               "title": "Product Manager (Insurance)",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-pivot-3",
+              "title": "Underwriting Assistant",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-pivot-4",
+              "title": "Insurance Compliance Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-pivot-5",
+              "title": "Customer Experience Manager (Insurance)",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1779,6 +2985,24 @@
             {
               "id": "insurance_claims-create-2",
               "title": "Claims Documentation Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-create-3",
+              "title": "Claims Documentation Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-create-4",
+              "title": "Claims Preparation Support Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-create-5",
+              "title": "Claims Process Training Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1811,6 +3035,24 @@
               "title": "Managing Editor (Digital)",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "journalist_writer-automate-3",
+              "title": "Content Workflow & CMS Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "journalist_writer-automate-4",
+              "title": "Fact-Checking Tools Editor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "journalist_writer-automate-5",
+              "title": "Audience Analytics Editor",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1836,6 +3078,24 @@
               "title": "Investigative Data Journalist",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "journalist_writer-hybrid-3",
+              "title": "Fact-Checker / Verification Editor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "journalist_writer-hybrid-4",
+              "title": "Newsletter Editor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "journalist_writer-hybrid-5",
+              "title": "Long-Form Features Writer",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1853,6 +3113,24 @@
             {
               "id": "journalist_writer-pivot-1",
               "title": "Content Strategy Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "journalist_writer-pivot-2",
+              "title": "Communications Officer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "journalist_writer-pivot-3",
+              "title": "Technical Writer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "journalist_writer-pivot-4",
+              "title": "Podcast Producer",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1880,6 +3158,24 @@
             {
               "id": "journalist_writer-create-2",
               "title": "Independent Publishing Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "journalist_writer-create-3",
+              "title": "Independent Publishing Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "journalist_writer-create-4",
+              "title": "Editorial Review Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "journalist_writer-create-5",
+              "title": "Writing Workshop Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1912,6 +3208,24 @@
               "title": "EdTech Integration Specialist",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "teacher_trainer-automate-3",
+              "title": "Learning Management Systems Administrator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "teacher_trainer-automate-4",
+              "title": "Learning Analytics Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "teacher_trainer-automate-5",
+              "title": "Digital Course Production Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1937,6 +3251,24 @@
               "title": "Curriculum Innovation Lead",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "teacher_trainer-hybrid-3",
+              "title": "Instructional Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "teacher_trainer-hybrid-4",
+              "title": "Facilitation & Coaching Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "teacher_trainer-hybrid-5",
+              "title": "Assessment Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -1954,6 +3286,24 @@
             {
               "id": "teacher_trainer-pivot-1",
               "title": "Education Innovation Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "teacher_trainer-pivot-2",
+              "title": "Learning & Development Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "teacher_trainer-pivot-3",
+              "title": "Onboarding Programme Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "teacher_trainer-pivot-4",
+              "title": "Change Enablement Specialist",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -1981,6 +3331,24 @@
             {
               "id": "teacher_trainer-create-2",
               "title": "Domain Learning Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "teacher_trainer-create-3",
+              "title": "Domain Learning Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "teacher_trainer-create-4",
+              "title": "Training Needs Review Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "teacher_trainer-create-5",
+              "title": "Corporate Workshop Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -2013,6 +3381,24 @@
               "title": "Marketing Automation Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "digital_marketer-automate-3",
+              "title": "Marketing Operations Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "digital_marketer-automate-4",
+              "title": "Campaign Analytics Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "digital_marketer-automate-5",
+              "title": "Content Personalisation Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -2038,6 +3424,24 @@
               "title": "Senior Growth Analyst",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "digital_marketer-hybrid-3",
+              "title": "Content Strategist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "digital_marketer-hybrid-4",
+              "title": "Community Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "digital_marketer-hybrid-5",
+              "title": "Customer Insights Researcher",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -2055,6 +3459,24 @@
             {
               "id": "digital_marketer-pivot-1",
               "title": "Brand Strategy Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "digital_marketer-pivot-2",
+              "title": "Product Marketing Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "digital_marketer-pivot-3",
+              "title": "Partnerships Marketing Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "digital_marketer-pivot-4",
+              "title": "Market Research Analyst",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -2082,6 +3504,24 @@
             {
               "id": "digital_marketer-create-2",
               "title": "Responsible Marketing Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "digital_marketer-create-3",
+              "title": "Responsible Marketing Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "digital_marketer-create-4",
+              "title": "Marketing Audit Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "digital_marketer-create-5",
+              "title": "Small Business Marketing Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -2114,6 +3554,24 @@
               "title": "Senior Project Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "project_manager-automate-3",
+              "title": "PMO Tools & Reporting Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "project_manager-automate-4",
+              "title": "Project Controls Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "project_manager-automate-5",
+              "title": "Resource Planning Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -2137,6 +3595,24 @@
             {
               "id": "project_manager-hybrid-2",
               "title": "Digital Transformation Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "project_manager-hybrid-3",
+              "title": "Change Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "project_manager-hybrid-4",
+              "title": "Stakeholder Engagement Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "project_manager-hybrid-5",
+              "title": "Agile Delivery Lead",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -2164,6 +3640,24 @@
               "title": "Senior Programme Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "project_manager-pivot-3",
+              "title": "Operations Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "project_manager-pivot-4",
+              "title": "Product Owner",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "project_manager-pivot-5",
+              "title": "Portfolio Manager (Projects)",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -2189,6 +3683,24 @@
             {
               "id": "project_manager-create-2",
               "title": "Project Delivery Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "project_manager-create-3",
+              "title": "Project Delivery Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "project_manager-create-4",
+              "title": "Project Health Check Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "project_manager-create-5",
+              "title": "Project Management Training Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -2221,6 +3733,24 @@
               "title": "Applied Machine Learning Engineer",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "data_analyst-automate-3",
+              "title": "Analytics Automation Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_analyst-automate-4",
+              "title": "Data Pipeline Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_analyst-automate-5",
+              "title": "Self-Service BI Developer",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -2244,6 +3774,24 @@
             {
               "id": "data_analyst-hybrid-2",
               "title": "Analytics Engineering Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_analyst-hybrid-3",
+              "title": "Decision Science Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_analyst-hybrid-4",
+              "title": "Experimentation Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_analyst-hybrid-5",
+              "title": "Data Storytelling Specialist",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -2271,6 +3819,24 @@
               "title": "Senior Analytics PM",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "data_analyst-pivot-3",
+              "title": "Data Product Owner",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_analyst-pivot-4",
+              "title": "Operations Strategy Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_analyst-pivot-5",
+              "title": "Data Governance Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -2296,6 +3862,24 @@
             {
               "id": "data_analyst-create-2",
               "title": "Data Governance Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_analyst-create-3",
+              "title": "Data Governance Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_analyst-create-4",
+              "title": "Dashboard Review Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_analyst-create-5",
+              "title": "Data Literacy Training Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -2334,6 +3918,24 @@
               "title": "Digital Design Lead",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "architect_designer-automate-4",
+              "title": "Parametric Design Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "architect_designer-automate-5",
+              "title": "Design Visualisation Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "architect_designer-automate-6",
+              "title": "Building Performance Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -2359,6 +3961,24 @@
               "title": "Computational Design Researcher",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "architect_designer-hybrid-3",
+              "title": "Sustainability & Retrofit Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "architect_designer-hybrid-4",
+              "title": "Project Architect Track",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "architect_designer-hybrid-5",
+              "title": "Urban Design Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -2376,6 +3996,24 @@
             {
               "id": "architect_designer-pivot-1",
               "title": "Design Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "architect_designer-pivot-2",
+              "title": "Construction Project Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "architect_designer-pivot-3",
+              "title": "Interior Architecture Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "architect_designer-pivot-4",
+              "title": "Planning & Development Consultant",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -2403,6 +4041,24 @@
             {
               "id": "architect_designer-create-2",
               "title": "Sustainable Design Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "architect_designer-create-3",
+              "title": "Sustainable Design Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "architect_designer-create-4",
+              "title": "Home Renovation Design Practice",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "architect_designer-create-5",
+              "title": "Design Feasibility Review Service",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -2441,6 +4097,24 @@
               "title": "Localisation Programme Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "translator-automate-4",
+              "title": "Translation Memory & Terminology Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "translator-automate-5",
+              "title": "Machine Translation Quality Evaluator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "translator-automate-6",
+              "title": "Localisation Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -2466,6 +4140,24 @@
               "title": "Language AI Engineer",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "translator-hybrid-3",
+              "title": "Transcreation Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "translator-hybrid-4",
+              "title": "Community Interpreter Track",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "translator-hybrid-5",
+              "title": "Subtitling & Accessibility Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -2483,6 +4175,24 @@
             {
               "id": "translator-pivot-1",
               "title": "Global Content Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "translator-pivot-2",
+              "title": "International Marketing Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "translator-pivot-3",
+              "title": "Language Trainer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "translator-pivot-4",
+              "title": "Cross-Cultural Communications Specialist",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -2510,6 +4220,24 @@
             {
               "id": "translator-create-2",
               "title": "Language Access Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "translator-create-3",
+              "title": "Language Access Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "translator-create-4",
+              "title": "Translation Quality Review Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "translator-create-5",
+              "title": "Specialist Translation Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -2548,6 +4276,24 @@
               "title": "Travel Technology Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "travel_agent-automate-4",
+              "title": "Booking Systems Operations Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "travel_agent-automate-5",
+              "title": "Travel Content & Itinerary Automation Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "travel_agent-automate-6",
+              "title": "Revenue & Pricing Analyst (Travel)",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -2571,6 +4317,24 @@
             {
               "id": "travel_agent-hybrid-2",
               "title": "Luxury Travel Experience Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "travel_agent-hybrid-3",
+              "title": "Corporate Travel Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "travel_agent-hybrid-4",
+              "title": "Group & Events Travel Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "travel_agent-hybrid-5",
+              "title": "Travel Disruption Support Specialist",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -2598,6 +4362,24 @@
               "title": "Destination Marketing Manager",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "travel_agent-pivot-3",
+              "title": "Event Planner",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "travel_agent-pivot-4",
+              "title": "Hospitality Operations Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "travel_agent-pivot-5",
+              "title": "Tourism Partnerships Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -2623,6 +4405,24 @@
             {
               "id": "travel_agent-create-2",
               "title": "Sustainable Travel Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "travel_agent-create-3",
+              "title": "Sustainable Travel Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "travel_agent-create-4",
+              "title": "Itinerary Planning Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "travel_agent-create-5",
+              "title": "Specialist Group Travel Practice",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -2661,6 +4461,36 @@
               "title": "Endpoint Automation Operations",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "user_support-automate-4",
+              "title": "Support Automation Quality Review",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-automate-5",
+              "title": "AI Ticket Classification Configuration",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-automate-6",
+              "title": "Support Agent Escalation Monitoring",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-automate-7",
+              "title": "AI-Assisted Device Setup Operations",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-automate-8",
+              "title": "Support Workflow Reporting",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -2688,6 +4518,24 @@
               "title": "User Enablement & Training",
               "kind": "curated_pathway",
               "occupationCode": null
+            },
+            {
+              "id": "user_support-hybrid-4",
+              "title": "Complex Incident Resolution",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-hybrid-5",
+              "title": "User-Focused Support Documentation",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-hybrid-6",
+              "title": "IT Change Communication & Adoption",
+              "kind": "curated_pathway",
+              "occupationCode": null
             }
           ]
         },
@@ -2713,6 +4561,18 @@
             {
               "id": "user_support-pivot-3",
               "title": "Technology Adoption Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-pivot-4",
+              "title": "Technical Documentation Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-pivot-5",
+              "title": "Service Quality Analyst",
               "kind": "curated_pathway",
               "occupationCode": null
             }
@@ -2745,6 +4605,30 @@
             {
               "id": "user_support-create-3",
               "title": "Small Business IT Support Toolkit",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-create-4",
+              "title": "IT Onboarding & Setup Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-create-5",
+              "title": "Technical Help-Centre Content Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-create-6",
+              "title": "Digital Skills Workshop Practice",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-create-7",
+              "title": "Device Setup Checklist Toolkit",
               "kind": "curated_pathway",
               "occupationCode": null
             }

@@ -1,0 +1,2390 @@
+{
+  "source": "Product-curated from O*NET 31.0 occupation tasks for SOC major group 43 (https://www.onetonline.org/find/family?f=43). Exploration labels, not verified vacancies or transitions.",
+  "occupations": {
+    "43-1011.00": {
+      "role": "office_support_supervisor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in office support supervision and operate workflow queues, ticket dashboards and document automation with human sign-off.",
+          "humanEdge": "Guiding staff through difficult cases and exceptions.",
+          "skills": ["Workflow Automation", "Queue Dashboards", "Document Automation"],
+          "options": [
+            "Back Office Automation Supervisor",
+            "Service Queue Manager",
+            "Office Workflow Analyst",
+            "Document Processing Supervisor",
+            "Shared Services Systems Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine office support supervision judgment with AI tools for staff guidance, complaint resolution and work allocation.",
+          "humanEdge": "Balancing workload, quality and morale.",
+          "skills": ["Team Leadership", "Complaint Resolution", "Process Improvement"],
+          "options": [
+            "Office Manager",
+            "Shared Services Team Leader",
+            "Customer Service Manager",
+            "Administrative Services Manager Track",
+            "Operations Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use office support supervision experience in adjacent operations, HR or process improvement work work; verify requirements.",
+          "humanEdge": "Running reliable admin operations.",
+          "skills": ["Operations Management", "Process Improvement", "People Management"],
+          "options": [
+            "Operations Manager",
+            "Process Improvement Analyst",
+            "HR Generalist",
+            "Facilities Coordinator",
+            "Business Support Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned office operations practice, service or toolkit with potential customers.",
+          "humanEdge": "Admin process know-how.",
+          "skills": ["Process Mapping", "Staff Training", "Procedure Writing"],
+          "options": [
+            "Office Process Review Practice",
+            "Admin Procedure Toolkit",
+            "Virtual Office Management Service",
+            "Team Onboarding Toolkit",
+            "Back Office Setup Service"
+          ]
+        }
+      }
+    },
+    "43-2011.00": {
+      "role": "switchboard_operator",
+      "strategies": {
+        "automate": {
+          "description": "Stay in switchboard and answering service and operate cloud phone systems, call routing rules and message logging with human sign-off.",
+          "humanEdge": "Handling callers with care when routing fails.",
+          "skills": ["Cloud Telephony", "Call Routing", "Message Logging"],
+          "options": [
+            "Call Routing Configurator",
+            "Cloud Phone Systems Assistant",
+            "Answering Service Coordinator",
+            "Message Desk Lead",
+            "IVR Content Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine switchboard and answering service judgment with AI tools for urgent calls, orders and scheduling.",
+          "humanEdge": "Sensing urgency in a caller's voice.",
+          "skills": ["Call Handling", "Scheduling", "Data Entry"],
+          "options": [
+            "Answering Service Supervisor",
+            "Medical Answering Specialist",
+            "Reception Team Lead",
+            "Contact Centre Agent",
+            "Office Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use switchboard and answering service experience in adjacent reception, contact centre or admin work work; verify requirements.",
+          "humanEdge": "Calm, accurate call handling.",
+          "skills": ["Customer Service", "Admin Support", "Scheduling"],
+          "options": [
+            "Receptionist",
+            "Contact Centre Advisor",
+            "Office Administrator",
+            "Dispatch Assistant Track",
+            "Patient Access Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned call answering practice, service or toolkit with potential customers.",
+          "humanEdge": "Call handling expertise.",
+          "skills": ["Call Scripts", "Message Handling", "Scheduling"],
+          "options": [
+            "Virtual Receptionist Service",
+            "Answering Script Toolkit",
+            "After-Hours Call Service",
+            "Appointment Booking Service",
+            "Call Handling Training Practice"
+          ]
+        }
+      }
+    },
+    "43-2021.00": {
+      "role": "telephone_operator",
+      "strategies": {
+        "automate": {
+          "description": "Stay in telephone operator service and operate directory search, call connection and assistance logging tools with human sign-off.",
+          "humanEdge": "Helping callers who cannot help themselves.",
+          "skills": ["Directory Systems", "Call Connection", "Accessibility Services"],
+          "options": [
+            "Directory Assistance Systems Agent",
+            "Relay Service Assistant",
+            "Call Connection Specialist",
+            "Operator Services Coordinator",
+            "Listing Data Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine telephone operator service judgment with AI tools for listing searches, special assistance and call routing.",
+          "humanEdge": "Patient help for elderly or disabled callers.",
+          "skills": ["Listing Search", "Accessibility Support", "Clear Communication"],
+          "options": [
+            "Relay Operator",
+            "Emergency Call Assistant Track",
+            "Accessibility Services Agent",
+            "Contact Centre Agent",
+            "Customer Care Specialist"
+          ]
+        },
+        "pivot": {
+          "description": "Use telephone operator service experience in adjacent accessibility, contact centre or dispatch work work; verify requirements.",
+          "humanEdge": "Patience and clear communication.",
+          "skills": ["Accessibility", "Customer Service", "Call Handling"],
+          "options": [
+            "Relay Service Operator",
+            "Contact Centre Advisor",
+            "Dispatch Assistant Track",
+            "Telecare Monitoring Operator",
+            "Helpline Advisor"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned phone assistance practice, service or toolkit with potential customers.",
+          "humanEdge": "Call assistance expertise.",
+          "skills": ["Accessibility", "Call Handling", "Script Writing"],
+          "options": [
+            "Senior Phone Assistance Service",
+            "Call Handling Toolkit",
+            "Helpline Setup Service",
+            "Telecare Check-In Service",
+            "Accessible Calling Guide Toolkit"
+          ]
+        }
+      }
+    },
+    "43-3011.00": {
+      "role": "collections_agent",
+      "strategies": {
+        "automate": {
+          "description": "Stay in bill and account collection and operate collections platforms, payment reminders and account posting with human sign-off.",
+          "humanEdge": "Negotiating with people under financial stress.",
+          "skills": ["Collections Software", "Payment Automation", "Account Posting"],
+          "options": [
+            "Collections Automation Specialist",
+            "Payment Plan Coordinator",
+            "Accounts Receivable Systems Analyst",
+            "Collections Data Analyst",
+            "Digital Collections Agent"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine bill and account collection judgment with AI tools for account questions, insurance claim follow-up and payment plans.",
+          "humanEdge": "Firm but fair conversations that recover money.",
+          "skills": ["Negotiation", "Account Reconciliation", "Regulatory Compliance"],
+          "options": [
+            "Collections Team Leader",
+            "Hardship Specialist",
+            "Medical Billing Collector",
+            "Credit Control Specialist",
+            "Customer Financial Support Advisor"
+          ]
+        },
+        "pivot": {
+          "description": "Use bill and account collection experience in adjacent credit control, billing or financial support work; verify requirements.",
+          "humanEdge": "Account handling and negotiation.",
+          "skills": ["Credit Control", "Billing", "Customer Support"],
+          "options": [
+            "Credit Controller",
+            "Medical Billing Specialist",
+            "Accounts Receivable Specialist",
+            "Debt Advice Assistant",
+            "Financial Counsellor Track"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned collections practice, service or toolkit with potential customers.",
+          "humanEdge": "Recovery and negotiation know-how.",
+          "skills": ["Collections Process", "Script Writing", "Compliance"],
+          "options": [
+            "Small Business Credit Control Service",
+            "Collections Script Toolkit",
+            "Invoice Follow-Up Service",
+            "Payment Plan Toolkit",
+            "Collections Compliance Review Practice"
+          ]
+        }
+      }
+    },
+    "43-3021.00": {
+      "role": "billing_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in billing and posting and operate billing systems, payment posting rules and exception reports with human sign-off.",
+          "humanEdge": "Catching billing errors before customers do.",
+          "skills": ["Billing Software", "Payment Posting", "Exception Reporting"],
+          "options": [
+            "Billing Automation Specialist",
+            "Payment Posting Analyst",
+            "Billing Exception Analyst",
+            "Revenue Cycle Assistant",
+            "Invoice Data Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine billing and posting judgment with AI tools for billing accuracy, check verification and customer queries.",
+          "humanEdge": "Fixing disputes accurately and politely.",
+          "skills": ["Billing Accuracy", "Reconciliation", "Customer Communication"],
+          "options": [
+            "Billing Specialist",
+            "Accounts Receivable Specialist",
+            "Medical Billing Coordinator",
+            "Billing Team Lead",
+            "Revenue Assurance Assistant"
+          ]
+        },
+        "pivot": {
+          "description": "Use billing and posting experience in adjacent accounts, revenue or credit work work; verify requirements.",
+          "humanEdge": "Numerical accuracy and process discipline.",
+          "skills": ["Accounts Receivable", "Revenue Assurance", "Reconciliation"],
+          "options": [
+            "Accounts Assistant",
+            "Revenue Assurance Analyst",
+            "Credit Controller",
+            "Payroll Assistant",
+            "Finance Operations Associate"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned billing practice, service or toolkit with potential customers.",
+          "humanEdge": "Billing process expertise.",
+          "skills": ["Invoicing", "Reconciliation", "Process Design"],
+          "options": [
+            "Outsourced Billing Service",
+            "Invoice Audit Practice",
+            "Billing Process Toolkit",
+            "Medical Billing Review Service",
+            "Subscription Billing Setup Service"
+          ]
+        }
+      }
+    },
+    "43-3041.00": {
+      "role": "gaming_cage_worker",
+      "strategies": {
+        "automate": {
+          "description": "Stay in gaming cage work and operate cage systems, transaction reconciliation and compliance reporting with human sign-off.",
+          "humanEdge": "Spotting fraud and regulatory red flags.",
+          "skills": ["Cage Management Systems", "Reconciliation", "Compliance Reporting"],
+          "options": [
+            "Cage Systems Specialist",
+            "Cage Reconciliation Analyst",
+            "Gaming Compliance Reporter",
+            "Credit Records Coordinator",
+            "Count Room Systems Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine gaming cage work judgment with AI tools for customer transactions, credit checks and confidentiality.",
+          "humanEdge": "Handling large sums discreetly and correctly.",
+          "skills": ["Cash Controls", "Regulatory Compliance", "Customer Confidentiality"],
+          "options": [
+            "Cage Supervisor Track",
+            "Casino Credit Analyst",
+            "Count Team Lead",
+            "Gaming Compliance Assistant",
+            "VIP Cashier"
+          ]
+        },
+        "pivot": {
+          "description": "Use gaming cage work experience in adjacent banking, compliance or finance work work; verify requirements.",
+          "humanEdge": "Cash control and compliance discipline.",
+          "skills": ["AML Compliance", "Banking", "Reconciliation"],
+          "options": [
+            "Bank Teller Track",
+            "AML Analyst Track",
+            "Finance Assistant",
+            "Audit Assistant",
+            "Treasury Operations Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned cash compliance practice, service or toolkit with potential customers.",
+          "humanEdge": "Regulated cash expertise.",
+          "skills": ["AML Procedures", "Training", "Audit"],
+          "options": [
+            "Cage Procedure Toolkit",
+            "AML Training Service",
+            "Cash Audit Practice",
+            "Reconciliation Template Toolkit",
+            "Count Room Review Service"
+          ]
+        }
+      }
+    },
+    "43-3061.00": {
+      "role": "procurement_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in procurement support and operate purchase order systems, supplier portals and invoice matching with human sign-off.",
+          "humanEdge": "Spotting supplier problems and bad deals.",
+          "skills": ["Procurement Software", "Supplier Portals", "Invoice Matching"],
+          "options": [
+            "Procure-to-Pay Specialist",
+            "Purchase Order Automation Analyst",
+            "Supplier Portal Coordinator",
+            "Invoice Matching Analyst",
+            "Procurement Data Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine procurement support judgment with AI tools for purchase orders, bill approvals and supplier follow-up.",
+          "humanEdge": "Keeping suppliers reliable and costs controlled.",
+          "skills": ["Purchasing", "Supplier Relations", "Approval Controls"],
+          "options": [
+            "Buyer",
+            "Procurement Coordinator",
+            "Supplier Relationship Assistant",
+            "Purchasing Team Lead",
+            "Contracts Assistant"
+          ]
+        },
+        "pivot": {
+          "description": "Use procurement support experience in adjacent buying, supply chain or contracts work work; verify requirements.",
+          "humanEdge": "Supplier and cost knowledge.",
+          "skills": ["Purchasing", "Inventory Planning", "Contract Administration"],
+          "options": [
+            "Buyer",
+            "Supply Planner",
+            "Contracts Administrator",
+            "Inventory Controller",
+            "Category Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned purchasing practice, service or toolkit with potential customers.",
+          "humanEdge": "Supplier and process knowledge.",
+          "skills": ["Supplier Research", "Purchasing Process", "Cost Review"],
+          "options": [
+            "Small Business Purchasing Service",
+            "Supplier Comparison Toolkit",
+            "Spend Review Practice",
+            "Purchase Order Template Toolkit",
+            "Supplier Onboarding Service"
+          ]
+        }
+      }
+    },
+    "43-4011.00": {
+      "role": "brokerage_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in brokerage support and operate trade records, settlement systems and client correspondence tools with human sign-off.",
+          "humanEdge": "Catching trade breaks before settlement.",
+          "skills": ["Trade Settlement Systems", "Records Management", "Client Correspondence"],
+          "options": [
+            "Trade Settlement Specialist",
+            "Operations Reconciliation Analyst",
+            "Corporate Actions Assistant",
+            "Client Correspondence Coordinator",
+            "Brokerage Systems Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine brokerage support judgment with AI tools for transaction records, client questions and corrections.",
+          "humanEdge": "Explaining account activity clearly.",
+          "skills": ["Trade Processing", "Client Service", "Reconciliation"],
+          "options": [
+            "Client Service Associate",
+            "Trade Support Associate",
+            "Wealth Operations Specialist",
+            "Account Transfer Specialist",
+            "Operations Team Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use brokerage support experience in adjacent operations, compliance or client service work; verify requirements.",
+          "humanEdge": "Securities process knowledge.",
+          "skills": ["Securities Operations", "Compliance", "Client Service"],
+          "options": [
+            "Compliance Assistant",
+            "Fund Administrator",
+            "Client Service Manager",
+            "Middle Office Analyst",
+            "Registered Representative Track"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned investment operations practice, service or toolkit with potential customers.",
+          "humanEdge": "Back-office process expertise.",
+          "skills": ["Reconciliation", "Procedure Writing", "Training"],
+          "options": [
+            "Operations Procedure Toolkit",
+            "Trade Break Review Practice",
+            "Back Office Training Service",
+            "Account Transfer Support Service",
+            "Reconciliation Template Toolkit"
+          ]
+        }
+      }
+    },
+    "43-4021.00": {
+      "role": "correspondence_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in correspondence handling and operate letter templates, case systems and report generation with human sign-off.",
+          "humanEdge": "Writing replies that are accurate and humane.",
+          "skills": ["Letter Templates", "Case Management", "Report Generation"],
+          "options": [
+            "Correspondence Automation Specialist",
+            "Template Content Coordinator",
+            "Case Response Analyst",
+            "Report Compilation Assistant",
+            "Complaints Data Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine correspondence handling judgment with AI tools for damage claims, rule explanations and periodic reports.",
+          "humanEdge": "Explaining rules clearly to frustrated people.",
+          "skills": ["Business Writing", "Policy Explanation", "Records"],
+          "options": [
+            "Complaints Handler",
+            "Customer Correspondence Lead",
+            "Claims Correspondence Specialist",
+            "Case Officer",
+            "Correspondence Team Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use correspondence handling experience in adjacent complaints, case handling or content work work; verify requirements.",
+          "humanEdge": "Clear writing and policy knowledge.",
+          "skills": ["Case Handling", "Plain Language", "Records Management"],
+          "options": [
+            "Complaints Officer",
+            "Case Worker",
+            "Content Writer",
+            "Records Officer",
+            "Policy Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned business writing practice, service or toolkit with potential customers.",
+          "humanEdge": "Plain-language writing skill.",
+          "skills": ["Plain Language", "Template Design", "Editing"],
+          "options": [
+            "Plain Language Rewrite Service",
+            "Letter Template Toolkit",
+            "Complaint Response Practice",
+            "Correspondence Style Guide Toolkit",
+            "Customer Letter Review Service"
+          ]
+        }
+      }
+    },
+    "43-4031.00": {
+      "role": "court_license_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in court, municipal and license clerking and operate case management, application intake and records systems with human sign-off.",
+          "humanEdge": "Handling public requests fairly and correctly.",
+          "skills": ["Case Management Systems", "Application Intake", "Records Management"],
+          "options": [
+            "Court Records Systems Clerk",
+            "License Application Analyst",
+            "E-Filing Coordinator",
+            "Minutes Transcription Specialist",
+            "Records Digitisation Clerk"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine court, municipal and license clerking judgment with AI tools for application review, document verification and minutes.",
+          "humanEdge": "Verifying documents and applying rules fairly.",
+          "skills": ["Document Verification", "Minutes Taking", "Public Service"],
+          "options": [
+            "Court Clerk Lead",
+            "Licensing Officer",
+            "Committee Clerk",
+            "Registrar Assistant",
+            "Public Counter Supervisor"
+          ]
+        },
+        "pivot": {
+          "description": "Use court, municipal and license clerking experience in adjacent records, legal support or local government work work; verify requirements.",
+          "humanEdge": "Procedural accuracy.",
+          "skills": ["Legal Procedures", "Records Management", "Public Administration"],
+          "options": [
+            "Paralegal Track",
+            "Records Manager",
+            "Local Government Officer",
+            "Compliance Officer",
+            "Elections Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned public records practice, service or toolkit with potential customers.",
+          "humanEdge": "Procedural expertise.",
+          "skills": ["Procedure Guides", "Records", "Training"],
+          "options": [
+            "License Application Help Service",
+            "Court Filing Guide Toolkit",
+            "Minutes Taking Service",
+            "Records Retention Practice",
+            "Public Counter Training Service"
+          ]
+        }
+      }
+    },
+    "43-4041.00": {
+      "role": "credit_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in credit authorization and checking and operate credit decision engines, bureau data and account records with human sign-off.",
+          "humanEdge": "Spotting exceptions automated scores miss.",
+          "skills": ["Credit Decisioning Systems", "Bureau Data", "Account Records"],
+          "options": [
+            "Credit Decisioning Analyst",
+            "Credit Data Specialist",
+            "Fraud Screening Assistant",
+            "Account Records Analyst",
+            "Credit Policy Systems Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine credit authorization and checking judgment with AI tools for credit information, creditor checks and payment records.",
+          "humanEdge": "Fair judgments on borderline applications.",
+          "skills": ["Credit Analysis", "Fraud Awareness", "Documentation"],
+          "options": [
+            "Credit Analyst",
+            "Underwriting Assistant",
+            "Credit Control Officer",
+            "Fraud Analyst",
+            "Trade Credit Specialist"
+          ]
+        },
+        "pivot": {
+          "description": "Use credit authorization and checking experience in adjacent credit, fraud or lending work work; verify requirements.",
+          "humanEdge": "Credit risk understanding.",
+          "skills": ["Credit Risk", "Fraud Detection", "Lending"],
+          "options": [
+            "Credit Analyst",
+            "Fraud Analyst",
+            "Loan Officer Track",
+            "Collections Specialist",
+            "Risk Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned credit review practice, service or toolkit with potential customers.",
+          "humanEdge": "Credit assessment skill.",
+          "skills": ["Credit Assessment", "Policy Writing", "Training"],
+          "options": [
+            "Trade Credit Review Practice",
+            "Credit Policy Toolkit",
+            "Customer Vetting Service",
+            "Credit Application Template Toolkit",
+            "Credit Training Service"
+          ]
+        }
+      }
+    },
+    "43-4061.00": {
+      "role": "eligibility_interviewer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in benefits eligibility interviewing and operate case management, eligibility rules engines and document checks with human sign-off.",
+          "humanEdge": "Treating applicants with dignity while applying rules.",
+          "skills": ["Case Management", "Eligibility Rules", "Document Verification"],
+          "options": [
+            "Eligibility Systems Specialist",
+            "Benefits Rules Analyst",
+            "Document Verification Specialist",
+            "Case Data Coordinator",
+            "Renewal Processing Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine benefits eligibility interviewing judgment with AI tools for applicant questions, recertification interviews and rule explanations.",
+          "humanEdge": "Explaining complex rules in plain terms.",
+          "skills": ["Interviewing", "Policy Interpretation", "Case Notes"],
+          "options": [
+            "Benefits Caseworker",
+            "Eligibility Supervisor Track",
+            "Welfare Rights Assistant",
+            "Fraud Investigator Track",
+            "Quality Reviewer"
+          ]
+        },
+        "pivot": {
+          "description": "Use benefits eligibility interviewing experience in adjacent social services, advice or investigations work work; verify requirements.",
+          "humanEdge": "Benefit rule knowledge and empathy.",
+          "skills": ["Social Services", "Advice Work", "Investigations"],
+          "options": [
+            "Benefits Advisor",
+            "Case Manager",
+            "Community Support Worker",
+            "Fraud Investigator Track",
+            "Housing Officer"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned benefits navigation practice, service or toolkit with potential customers.",
+          "humanEdge": "Benefit process expertise.",
+          "skills": ["Advice", "Form Completion", "Training"],
+          "options": [
+            "Benefits Application Help Service",
+            "Eligibility Guide Toolkit",
+            "Caseworker Training Service",
+            "Benefit Appeals Support Practice",
+            "Community Benefits Clinic Service"
+          ]
+        }
+      }
+    },
+    "43-4071.00": {
+      "role": "file_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in filing and records and operate document management systems, scanning and indexing with human sign-off.",
+          "humanEdge": "Knowing where records belong and why.",
+          "skills": ["Document Management", "Scanning", "Metadata Indexing"],
+          "options": [
+            "Records Digitisation Specialist",
+            "Document Indexing Specialist",
+            "Records Systems Assistant",
+            "Scanning Operations Lead",
+            "Retention Schedule Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine filing and records judgment with AI tools for file requests, logbooks and record retrieval.",
+          "humanEdge": "Keeping records accurate and confidential.",
+          "skills": ["Records Retrieval", "Confidentiality", "Data Entry"],
+          "options": [
+            "Records Officer",
+            "Records Team Lead",
+            "Archives Assistant",
+            "Information Governance Assistant",
+            "Office Administrator"
+          ]
+        },
+        "pivot": {
+          "description": "Use filing and records experience in adjacent records, archives or information governance work work; verify requirements.",
+          "humanEdge": "Organisation and confidentiality.",
+          "skills": ["Records Management", "Archiving", "Data Protection"],
+          "options": [
+            "Records Manager",
+            "Archivist Track",
+            "Information Governance Officer",
+            "Data Protection Assistant",
+            "Library Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned records practice, service or toolkit with potential customers.",
+          "humanEdge": "Filing system know-how.",
+          "skills": ["Records Systems", "Digitisation", "Retention Rules"],
+          "options": [
+            "Records Digitisation Service",
+            "Filing System Setup Practice",
+            "Retention Schedule Toolkit",
+            "Archive Clean-Up Service",
+            "Home Office Organising Service"
+          ]
+        }
+      }
+    },
+    "43-4081.00": {
+      "role": "hotel_desk_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in hotel front desk and operate property management systems, online check-in and revenue reports with human sign-off.",
+          "humanEdge": "Making each guest feel recognised.",
+          "skills": ["Property Management Systems", "Online Check-In", "Night Audit"],
+          "options": [
+            "Front Office Systems Specialist",
+            "Night Auditor",
+            "Online Check-In Coordinator",
+            "Revenue Reporting Assistant",
+            "Reservations Agent"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine hotel front desk judgment with AI tools for guest enquiries, registration and complaints.",
+          "humanEdge": "Resolving problems before they become reviews.",
+          "skills": ["Guest Service", "Complaint Handling", "Upselling"],
+          "options": [
+            "Front Office Supervisor",
+            "Guest Relations Officer",
+            "Reservations Supervisor",
+            "Concierge",
+            "Duty Manager Track"
+          ]
+        },
+        "pivot": {
+          "description": "Use hotel front desk experience in adjacent hospitality, reservations or guest relations work; verify requirements.",
+          "humanEdge": "Guest service and front office systems.",
+          "skills": ["Hospitality", "Revenue Management", "Guest Relations"],
+          "options": [
+            "Revenue Analyst Track",
+            "Guest Relations Manager",
+            "Event Coordinator",
+            "Travel Consultant",
+            "Housekeeping Supervisor"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned guest experience practice, service or toolkit with potential customers.",
+          "humanEdge": "Front desk know-how.",
+          "skills": ["Guest Journey", "Review Response", "Training"],
+          "options": [
+            "Guest Review Response Service",
+            "Front Desk Training Practice",
+            "Check-In Procedure Toolkit",
+            "Holiday Let Guest Management Service",
+            "Mystery Guest Service"
+          ]
+        }
+      }
+    },
+    "43-4111.00": {
+      "role": "survey_interviewer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in survey and research interviewing and operate survey platforms, call scripts and response coding with human sign-off.",
+          "humanEdge": "Getting honest answers from reluctant respondents.",
+          "skills": ["Survey Platforms", "Response Coding", "CATI Systems"],
+          "options": [
+            "Survey Data Coordinator",
+            "Response Coding Specialist",
+            "Online Survey Assistant",
+            "Fieldwork Systems Coordinator",
+            "Panel Management Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine survey and research interviewing judgment with AI tools for interviews, data quality and staff training.",
+          "humanEdge": "Building rapport without biasing answers.",
+          "skills": ["Interviewing", "Data Quality", "Interviewer Training"],
+          "options": [
+            "Field Interviewer Lead",
+            "Research Assistant",
+            "Fieldwork Supervisor",
+            "Qualitative Recruiter",
+            "Survey Quality Reviewer"
+          ]
+        },
+        "pivot": {
+          "description": "Use survey and research interviewing experience in adjacent market research, data or customer insight work work; verify requirements.",
+          "humanEdge": "Interview and data collection skill.",
+          "skills": ["Market Research", "Data Analysis", "Customer Insight"],
+          "options": [
+            "Market Research Assistant",
+            "Research Coordinator",
+            "Customer Insight Analyst Track",
+            "Data Analyst Track",
+            "UX Research Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned research fieldwork practice, service or toolkit with potential customers.",
+          "humanEdge": "Interview and recruitment skill.",
+          "skills": ["Questionnaire Design", "Recruitment", "Interviewing"],
+          "options": [
+            "Survey Fieldwork Service",
+            "Participant Recruitment Service",
+            "Questionnaire Design Toolkit",
+            "Customer Interview Practice",
+            "Survey Quality Review Service"
+          ]
+        }
+      }
+    },
+    "43-4121.00": {
+      "role": "library_assistant",
+      "strategies": {
+        "automate": {
+          "description": "Stay in library assistance and operate circulation systems, self-service kiosks and catalogue records with human sign-off.",
+          "humanEdge": "Helping patrons find what they need.",
+          "skills": ["Library Systems", "Self-Service Kiosks", "Catalogue Records"],
+          "options": [
+            "Circulation Systems Assistant",
+            "Digital Lending Coordinator",
+            "Catalogue Records Assistant",
+            "Self-Service Kiosk Coordinator",
+            "Library Data Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine library assistance judgment with AI tools for patron help, volunteer supervision and opening routines.",
+          "humanEdge": "Welcoming everyone and keeping spaces safe.",
+          "skills": ["Patron Service", "Volunteer Coordination", "Information Searching"],
+          "options": [
+            "Library Supervisor Track",
+            "Community Library Coordinator",
+            "Digital Skills Helper",
+            "Children's Library Assistant",
+            "Outreach Assistant"
+          ]
+        },
+        "pivot": {
+          "description": "Use library assistance experience in adjacent information, archives or education support work; verify requirements.",
+          "humanEdge": "Information organisation and public service.",
+          "skills": ["Information Retrieval", "Archiving", "Community Engagement"],
+          "options": [
+            "Librarian Track",
+            "Archives Assistant",
+            "School Library Coordinator",
+            "Knowledge Management Assistant",
+            "Community Learning Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned information services practice, service or toolkit with potential customers.",
+          "humanEdge": "Research and organising skill.",
+          "skills": ["Research", "Cataloguing", "Teaching"],
+          "options": [
+            "Home Library Cataloguing Service",
+            "Digital Skills Workshop Service",
+            "Research Assistance Practice",
+            "Small Archive Setup Service",
+            "Reading Programme Toolkit"
+          ]
+        }
+      }
+    },
+    "43-4131.00": {
+      "role": "loan_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in loan interviewing and processing and operate loan origination systems, document verification and checklists with human sign-off.",
+          "humanEdge": "Spotting inconsistencies in an application.",
+          "skills": ["Loan Origination Systems", "Document Verification", "Checklists"],
+          "options": [
+            "Loan Processing Specialist",
+            "Document Verification Analyst",
+            "Loan Closing Coordinator",
+            "Origination Systems Assistant",
+            "Pipeline Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine loan interviewing and processing judgment with AI tools for applicant interviews, file checks and closing documents.",
+          "humanEdge": "Explaining loan steps plainly to nervous applicants.",
+          "skills": ["Interviewing", "Document Review", "Closing Preparation"],
+          "options": [
+            "Loan Processor",
+            "Mortgage Assistant",
+            "Closing Coordinator",
+            "Underwriting Assistant",
+            "Loan Servicing Specialist"
+          ]
+        },
+        "pivot": {
+          "description": "Use loan interviewing and processing experience in adjacent lending, underwriting or credit work work; verify requirements.",
+          "humanEdge": "Loan process knowledge.",
+          "skills": ["Underwriting", "Credit Analysis", "Compliance"],
+          "options": [
+            "Underwriter Track",
+            "Mortgage Advisor Track",
+            "Credit Analyst",
+            "Loan Servicing Specialist",
+            "Compliance Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned loan support practice, service or toolkit with potential customers.",
+          "humanEdge": "Lending process expertise.",
+          "skills": ["Application Prep", "Document Checklists", "Client Guidance"],
+          "options": [
+            "Loan Application Prep Service",
+            "Mortgage Document Checklist Toolkit",
+            "Closing Coordination Service",
+            "First-Time Borrower Coaching Practice",
+            "Broker Processing Service"
+          ]
+        }
+      }
+    },
+    "43-4141.00": {
+      "role": "new_accounts_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in new account opening and operate account opening systems, identity checks and onboarding workflows with human sign-off.",
+          "humanEdge": "Matching customers to the right products honestly.",
+          "skills": ["Onboarding Systems", "KYC Checks", "Workflow Tools"],
+          "options": [
+            "Digital Onboarding Specialist",
+            "KYC Analyst",
+            "Account Opening Operations Specialist",
+            "Onboarding Quality Reviewer",
+            "Customer Data Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine new account opening judgment with AI tools for service explanations, account information and loan applications.",
+          "humanEdge": "Building trust at the first interaction.",
+          "skills": ["Customer Service", "KYC Procedures", "Product Knowledge"],
+          "options": [
+            "Personal Banker",
+            "Customer Service Officer",
+            "Branch Coordinator",
+            "Member Services Representative",
+            "Business Account Officer"
+          ]
+        },
+        "pivot": {
+          "description": "Use new account opening experience in adjacent banking, compliance or customer service work; verify requirements.",
+          "humanEdge": "Product and compliance knowledge.",
+          "skills": ["Banking Products", "Compliance", "Sales"],
+          "options": [
+            "Personal Banker",
+            "KYC Analyst",
+            "Customer Service Manager",
+            "Financial Advisor Assistant",
+            "Branch Manager Track"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned onboarding practice, service or toolkit with potential customers.",
+          "humanEdge": "Onboarding process know-how.",
+          "skills": ["KYC Process", "Checklists", "Training"],
+          "options": [
+            "KYC Process Review Practice",
+            "Account Opening Checklist Toolkit",
+            "Onboarding Training Service",
+            "Business Banking Setup Service",
+            "Financial Literacy Workshop Service"
+          ]
+        }
+      }
+    },
+    "43-4151.00": {
+      "role": "order_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in order processing and operate order management systems, invoices and shipping documents with human sign-off.",
+          "humanEdge": "Resolving order problems customers care about.",
+          "skills": ["Order Management Systems", "Invoicing", "Shipping Documents"],
+          "options": [
+            "Order Management Specialist",
+            "Order Automation Analyst",
+            "E-Commerce Order Coordinator",
+            "Invoice Processing Specialist",
+            "Order Data Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine order processing judgment with AI tools for customer details, order updates and contracts.",
+          "humanEdge": "Keeping customers informed and orders correct.",
+          "skills": ["Order Processing", "Customer Communication", "Documentation"],
+          "options": [
+            "Sales Order Coordinator",
+            "Customer Service Specialist",
+            "Order Desk Supervisor",
+            "Inside Sales Assistant",
+            "Account Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use order processing experience in adjacent supply chain, sales or customer service work; verify requirements.",
+          "humanEdge": "Order flow knowledge.",
+          "skills": ["Supply Chain", "Inside Sales", "Inventory"],
+          "options": [
+            "Supply Chain Coordinator",
+            "Inside Sales Representative",
+            "Inventory Planner",
+            "Logistics Coordinator",
+            "Customer Service Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned order operations practice, service or toolkit with potential customers.",
+          "humanEdge": "Order fulfilment know-how.",
+          "skills": ["Order Workflows", "Customer Updates", "Templates"],
+          "options": [
+            "Order Processing Outsourcing Service",
+            "Order Workflow Toolkit",
+            "E-Commerce Order Desk Service",
+            "Customer Update Template Toolkit",
+            "Order Accuracy Review Practice"
+          ]
+        }
+      }
+    },
+    "43-4161.00": {
+      "role": "hr_assistant",
+      "strategies": {
+        "automate": {
+          "description": "Stay in human resources assistance and operate HRIS records, onboarding workflows and document checks with human sign-off.",
+          "humanEdge": "Handling sensitive employee matters with care.",
+          "skills": ["HRIS", "Onboarding Workflows", "Document Management"],
+          "options": [
+            "HRIS Assistant",
+            "Onboarding Coordinator",
+            "HR Data Specialist",
+            "Employee Records Coordinator",
+            "HR Service Desk Agent"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine human resources assistance judgment with AI tools for policy explanations, orientation and personnel records.",
+          "humanEdge": "Explaining policies fairly and consistently.",
+          "skills": ["Employee Relations Basics", "Onboarding", "Policy Communication"],
+          "options": [
+            "HR Coordinator",
+            "Recruitment Coordinator",
+            "Benefits Assistant",
+            "HR Advisor Track",
+            "Learning Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use human resources assistance experience in adjacent recruitment, benefits or learning work work; verify requirements.",
+          "humanEdge": "People process knowledge.",
+          "skills": ["Recruitment", "Benefits", "Training Coordination"],
+          "options": [
+            "Recruiter",
+            "Benefits Administrator",
+            "Learning and Development Coordinator",
+            "HR Generalist",
+            "Payroll Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned HR support practice, service or toolkit with potential customers.",
+          "humanEdge": "HR admin know-how.",
+          "skills": ["HR Policies", "Onboarding", "Documentation"],
+          "options": [
+            "Small Business HR Admin Service",
+            "Onboarding Pack Toolkit",
+            "Employee Handbook Practice",
+            "HR Records Setup Service",
+            "Interview Scheduling Service"
+          ]
+        }
+      }
+    },
+    "43-4171.00": {
+      "role": "receptionist",
+      "strategies": {
+        "automate": {
+          "description": "Stay in reception and operate visitor management systems, call routing and booking tools with human sign-off.",
+          "humanEdge": "Making visitors feel welcome and safe.",
+          "skills": ["Visitor Management Systems", "Call Routing", "Booking Tools"],
+          "options": [
+            "Visitor Systems Coordinator",
+            "Virtual Receptionist",
+            "Appointment Booking Specialist",
+            "Front Desk Systems Lead",
+            "Office Services Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine reception judgment with AI tools for visitor screening, payments and admin support.",
+          "humanEdge": "Staying calm with many demands at once.",
+          "skills": ["Visitor Service", "Multitasking", "Admin Support"],
+          "options": [
+            "Reception Supervisor",
+            "Office Coordinator",
+            "Patient Services Coordinator",
+            "Front of House Manager",
+            "Executive Assistant Track"
+          ]
+        },
+        "pivot": {
+          "description": "Use reception experience in adjacent office admin, patient access or front of house work; verify requirements.",
+          "humanEdge": "Service and organisation.",
+          "skills": ["Office Administration", "Patient Access", "Hospitality"],
+          "options": [
+            "Office Administrator",
+            "Patient Access Coordinator",
+            "Front of House Manager",
+            "Event Coordinator",
+            "Facilities Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned front desk practice, service or toolkit with potential customers.",
+          "humanEdge": "Reception expertise.",
+          "skills": ["Visitor Process", "Call Handling", "Training"],
+          "options": [
+            "Virtual Reception Service",
+            "Front Desk Procedure Toolkit",
+            "Reception Training Practice",
+            "Event Registration Service",
+            "Coworking Front Desk Service"
+          ]
+        }
+      }
+    },
+    "43-4181.00": {
+      "role": "ticket_agent",
+      "strategies": {
+        "automate": {
+          "description": "Stay in reservations and ticketing and operate booking systems, fare engines and itinerary tools with human sign-off.",
+          "humanEdge": "Solving travel problems customers cannot.",
+          "skills": ["Booking Systems", "Fare Rules", "Itinerary Tools"],
+          "options": [
+            "Reservations Systems Specialist",
+            "Fare Rules Analyst",
+            "Online Booking Support Agent",
+            "Disruption Rebooking Specialist",
+            "Ticketing Systems Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine reservations and ticketing judgment with AI tools for route planning, rebooking and customer questions.",
+          "humanEdge": "Rebooking stressed travellers with patience.",
+          "skills": ["Itinerary Planning", "Fare Knowledge", "Customer Service"],
+          "options": [
+            "Customer Service Lead",
+            "Group Reservations Agent",
+            "Travel Consultant",
+            "Gate Agent Lead",
+            "Station Supervisor Track"
+          ]
+        },
+        "pivot": {
+          "description": "Use reservations and ticketing experience in adjacent travel planning, customer service or operations work; verify requirements.",
+          "humanEdge": "Travel systems knowledge.",
+          "skills": ["Travel Planning", "Operations", "Customer Service"],
+          "options": [
+            "Travel Consultant",
+            "Operations Controller Track",
+            "Customer Service Manager",
+            "Tour Operations Coordinator",
+            "Event Ticketing Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned travel booking practice, service or toolkit with potential customers.",
+          "humanEdge": "Booking and fare expertise.",
+          "skills": ["Itinerary Design", "Fare Rules", "Customer Service"],
+          "options": [
+            "Group Travel Booking Service",
+            "Itinerary Planning Toolkit",
+            "Travel Disruption Help Service",
+            "Event Ticketing Practice",
+            "Fare Rules Guide Toolkit"
+          ]
+        }
+      }
+    },
+    "43-5011.00": {
+      "role": "cargo_agent",
+      "strategies": {
+        "automate": {
+          "description": "Stay in cargo and freight handling and operate shipment tracking, customs documentation and notification tools with human sign-off.",
+          "humanEdge": "Solving shipment problems quickly.",
+          "skills": ["Shipment Tracking", "Customs Documents", "Notification Systems"],
+          "options": [
+            "Shipment Tracking Specialist",
+            "Cargo Documentation Specialist",
+            "Freight Exceptions Analyst",
+            "Customs Data Coordinator",
+            "Cargo Booking Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine cargo and freight handling judgment with AI tools for delivery progress, consignee updates and documentation checks.",
+          "humanEdge": "Keeping cargo moving and customers informed.",
+          "skills": ["Freight Documentation", "Customer Updates", "Problem Solving"],
+          "options": [
+            "Cargo Operations Supervisor Track",
+            "Freight Customer Service Lead",
+            "Import Coordinator",
+            "Export Coordinator",
+            "Dangerous Goods Acceptance Track"
+          ]
+        },
+        "pivot": {
+          "description": "Use cargo and freight handling experience in adjacent logistics, customs or warehouse work work; verify requirements.",
+          "humanEdge": "Freight process knowledge.",
+          "skills": ["Logistics", "Customs", "Warehousing"],
+          "options": [
+            "Logistics Coordinator",
+            "Customs Broker Assistant",
+            "Warehouse Supervisor",
+            "Freight Forwarder",
+            "Supply Chain Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned freight practice, service or toolkit with potential customers.",
+          "humanEdge": "Freight paperwork know-how.",
+          "skills": ["Shipping Documents", "Customer Communication", "Compliance"],
+          "options": [
+            "Shipping Documentation Service",
+            "Small Exporter Freight Practice",
+            "Cargo Checklist Toolkit",
+            "Shipment Tracking Service",
+            "Freight Training Service"
+          ]
+        }
+      }
+    },
+    "43-5011.01": {
+      "role": "freight_forwarder",
+      "strategies": {
+        "automate": {
+          "description": "Stay in freight forwarding and operate routing tools, booking platforms and cost comparison with human sign-off.",
+          "humanEdge": "Choosing the best route when conditions change.",
+          "skills": ["Freight Booking Platforms", "Route Optimisation", "Cost Comparison"],
+          "options": [
+            "Freight Pricing Analyst",
+            "Digital Freight Coordinator",
+            "Route Optimisation Specialist",
+            "Booking Operations Specialist",
+            "Freight Data Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine freight forwarding judgment with AI tools for shipment routing, carrier space and cost decisions.",
+          "humanEdge": "Negotiating space and solving disruptions.",
+          "skills": ["Route Planning", "Carrier Negotiation", "Customs Knowledge"],
+          "options": [
+            "Senior Freight Forwarder",
+            "Ocean Freight Specialist",
+            "Air Freight Specialist",
+            "Project Cargo Coordinator",
+            "Freight Account Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use freight forwarding experience in adjacent supply chain, customs or logistics sales work; verify requirements.",
+          "humanEdge": "Global freight knowledge.",
+          "skills": ["Supply Chain", "Customs Brokerage", "Sales"],
+          "options": [
+            "Supply Chain Planner",
+            "Customs Broker Track",
+            "Logistics Sales Executive",
+            "Procurement Analyst",
+            "Import Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned forwarding practice, service or toolkit with potential customers.",
+          "humanEdge": "Carrier networks and route expertise.",
+          "skills": ["Route Planning", "Pricing", "Compliance"],
+          "options": [
+            "Independent Forwarding Practice",
+            "Import Guide Toolkit",
+            "Freight Quote Service",
+            "Small Shipper Consulting Service",
+            "Incoterms Training Service"
+          ]
+        }
+      }
+    },
+    "43-5021.00": {
+      "role": "courier",
+      "strategies": {
+        "automate": {
+          "description": "Stay in courier and messenger and operate route apps, proof-of-delivery and dispatch tools with human sign-off.",
+          "humanEdge": "Knowing shortcuts and handling sensitive items.",
+          "skills": ["Route Apps", "Proof of Delivery", "Dispatch Tools"],
+          "options": [
+            "Route Planning Courier",
+            "Medical Courier",
+            "Dispatch Assistant",
+            "Delivery Operations Coordinator",
+            "Last-Mile Systems Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine courier and messenger judgment with AI tools for specimen and record runs, vehicle loading and customer handover.",
+          "humanEdge": "Reliable, careful delivery of urgent items.",
+          "skills": ["Time Management", "Secure Handling", "Customer Service"],
+          "options": [
+            "Medical Courier Lead",
+            "Same-Day Courier",
+            "Courier Supervisor",
+            "Legal Courier",
+            "Logistics Assistant"
+          ]
+        },
+        "pivot": {
+          "description": "Use courier and messenger experience in adjacent logistics, dispatch or delivery driving work; verify requirements.",
+          "humanEdge": "Local knowledge and reliability.",
+          "skills": ["Logistics", "Dispatch", "Driving"],
+          "options": [
+            "Dispatcher",
+            "Delivery Driver Track",
+            "Logistics Coordinator",
+            "Warehouse Associate",
+            "Fleet Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned delivery practice, service or toolkit with potential customers.",
+          "humanEdge": "Local routes and reliability.",
+          "skills": ["Routing", "Pricing", "Customer Service"],
+          "options": [
+            "Same-Day Courier Service",
+            "Medical Delivery Service",
+            "Cargo Bike Delivery Service",
+            "Courier Routing Toolkit",
+            "Legal Document Delivery Practice"
+          ]
+        }
+      }
+    },
+    "43-5031.00": {
+      "role": "emergency_telecommunicator",
+      "strategies": {
+        "automate": {
+          "description": "Stay in public safety telecommunication and operate CAD systems, call recording and location tools with supervisor oversight with human sign-off.",
+          "humanEdge": "Staying calm and getting critical facts fast.",
+          "skills": ["CAD Systems", "Location Technology", "Call Recording"],
+          "options": [
+            "CAD Systems Specialist",
+            "Emergency Call Quality Reviewer",
+            "Dispatch Data Analyst",
+            "Location Data Specialist",
+            "Emergency Communications Trainer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine public safety telecommunication judgment with AI tools for call triage, priorities and incident records.",
+          "humanEdge": "Prioritising lives under extreme pressure.",
+          "skills": ["Call Triage", "Radio Communication", "Incident Records"],
+          "options": [
+            "Dispatch Supervisor Track",
+            "Communications Training Officer",
+            "Emergency Medical Dispatcher Track",
+            "Crisis Line Advisor",
+            "Emergency Operations Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use public safety telecommunication experience in adjacent emergency management, crisis support or operations work; verify requirements.",
+          "humanEdge": "Crisis communication skill.",
+          "skills": ["Emergency Planning", "Crisis Support", "Operations"],
+          "options": [
+            "Emergency Management Coordinator",
+            "Crisis Line Advisor",
+            "Security Control Room Operator",
+            "Operations Controller",
+            "Telecare Monitoring Lead"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned emergency communication practice, service or toolkit with potential customers.",
+          "humanEdge": "Crisis communication expertise.",
+          "skills": ["Training", "Protocol Writing", "Coaching"],
+          "options": [
+            "Dispatcher Training Practice",
+            "Call Protocol Toolkit",
+            "Crisis Communication Coaching Service",
+            "Control Room Review Service",
+            "Emergency Plan Toolkit"
+          ]
+        }
+      }
+    },
+    "43-5032.00": {
+      "role": "dispatcher",
+      "strategies": {
+        "automate": {
+          "description": "Stay in dispatching and operate dispatch software, route optimisation and work order tools with human sign-off.",
+          "humanEdge": "Juggling crews and priorities when plans break.",
+          "skills": ["Dispatch Software", "Route Optimisation", "Work Order Systems"],
+          "options": [
+            "Dispatch Systems Analyst",
+            "Route Optimisation Specialist",
+            "Work Order Coordinator",
+            "Field Service Scheduler",
+            "Fleet Telematics Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine dispatching judgment with AI tools for crew scheduling, repairs and work order relay.",
+          "humanEdge": "Making fast, fair calls when everything is urgent.",
+          "skills": ["Scheduling", "Radio Communication", "Problem Solving"],
+          "options": [
+            "Dispatch Supervisor",
+            "Field Service Coordinator",
+            "Transport Planner",
+            "Fleet Coordinator",
+            "Operations Controller"
+          ]
+        },
+        "pivot": {
+          "description": "Use dispatching experience in adjacent logistics, field service or fleet work work; verify requirements.",
+          "humanEdge": "Operations coordination.",
+          "skills": ["Logistics Planning", "Fleet Management", "Customer Service"],
+          "options": [
+            "Logistics Coordinator",
+            "Fleet Manager Track",
+            "Service Delivery Manager",
+            "Transport Planner",
+            "Operations Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned dispatch practice, service or toolkit with potential customers.",
+          "humanEdge": "Scheduling expertise.",
+          "skills": ["Scheduling", "Routing", "Process Design"],
+          "options": [
+            "Outsourced Dispatch Service",
+            "Crew Scheduling Toolkit",
+            "Route Planning Service",
+            "Dispatch Process Review Practice",
+            "After-Hours Dispatch Service"
+          ]
+        }
+      }
+    },
+    "43-5041.00": {
+      "role": "meter_reader",
+      "strategies": {
+        "automate": {
+          "description": "Stay in utility meter reading and operate handheld readers, smart meter data and route tools with human sign-off.",
+          "humanEdge": "Spotting tampering, leaks and access hazards.",
+          "skills": ["Handheld Readers", "Smart Meter Data", "Route Planning"],
+          "options": [
+            "Smart Meter Data Technician",
+            "Meter Data Validation Analyst",
+            "Route Planning Assistant",
+            "Field Data Coordinator",
+            "Meter Exceptions Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine utility meter reading judgment with AI tools for readings, irregularity reports and customer contact.",
+          "humanEdge": "Noticing unusual usage and reporting it.",
+          "skills": ["Field Inspection", "Data Accuracy", "Customer Contact"],
+          "options": [
+            "Field Services Representative",
+            "Meter Operations Lead",
+            "Utility Customer Advisor",
+            "Revenue Protection Officer Track",
+            "Smart Meter Installer Track"
+          ]
+        },
+        "pivot": {
+          "description": "Use utility meter reading experience in adjacent utility field service, customer or data work work; verify requirements.",
+          "humanEdge": "Field and data accuracy.",
+          "skills": ["Field Service", "Data Validation", "Customer Service"],
+          "options": [
+            "Utility Field Technician Track",
+            "Meter Data Analyst",
+            "Utility Customer Service Advisor",
+            "Energy Advisor",
+            "Water Network Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned utility data practice, service or toolkit with potential customers.",
+          "humanEdge": "Field metering knowledge.",
+          "skills": ["Usage Review", "Data Checks", "Customer Education"],
+          "options": [
+            "Home Energy Usage Review Service",
+            "Meter Reading Contract Practice",
+            "Usage Tracking Toolkit",
+            "Leak Check Service",
+            "Utility Bill Review Service"
+          ]
+        }
+      }
+    },
+    "43-5051.00": {
+      "role": "postal_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in postal counter service and operate postage systems, parcel tracking and cash balancing with human sign-off.",
+          "humanEdge": "Helping customers choose the right service.",
+          "skills": ["Postage Systems", "Parcel Tracking", "Cash Balancing"],
+          "options": [
+            "Postal Systems Clerk",
+            "Parcel Tracking Specialist",
+            "Counter Automation Assistant",
+            "Cash Reconciliation Clerk",
+            "Self-Service Kiosk Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine postal counter service judgment with AI tools for parcel weighing, registered mail and customer service.",
+          "humanEdge": "Accurate service under queues.",
+          "skills": ["Postal Rates", "Cash Handling", "Customer Service"],
+          "options": [
+            "Counter Supervisor Track",
+            "Retail Postal Lead",
+            "Mail Services Coordinator",
+            "Customer Service Associate",
+            "Parcel Shop Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use postal counter service experience in adjacent retail, logistics or customer service work; verify requirements.",
+          "humanEdge": "Service and accuracy.",
+          "skills": ["Retail", "Logistics", "Customer Service"],
+          "options": [
+            "Retail Supervisor",
+            "Logistics Assistant",
+            "Customer Service Advisor",
+            "Shipping Clerk",
+            "Mailroom Supervisor"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned shipping practice, service or toolkit with potential customers.",
+          "humanEdge": "Postal and parcel know-how.",
+          "skills": ["Shipping Rates", "Packaging", "Customer Guidance"],
+          "options": [
+            "Small Seller Shipping Service",
+            "Parcel Packing Service",
+            "Shipping Rate Guide Toolkit",
+            "Mailroom Setup Practice",
+            "International Shipping Help Service"
+          ]
+        }
+      }
+    },
+    "43-5052.00": {
+      "role": "mail_carrier",
+      "strategies": {
+        "automate": {
+          "description": "Stay in mail delivery and operate route scanners, delivery sequencing and tracking devices with human sign-off.",
+          "humanEdge": "Knowing a route and noticing when something is wrong.",
+          "skills": ["Delivery Scanners", "Route Sequencing", "Tracking Devices"],
+          "options": [
+            "Route Data Carrier",
+            "Delivery Sequencing Specialist",
+            "Parcel Tracking Carrier",
+            "Route Inspection Assistant",
+            "Delivery Operations Clerk"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine mail delivery judgment with AI tools for mail sorting, signed receipts and route delivery.",
+          "humanEdge": "Reliable delivery and community awareness.",
+          "skills": ["Route Knowledge", "Secure Handling", "Customer Contact"],
+          "options": [
+            "Lead Carrier",
+            "Route Examiner",
+            "Delivery Supervisor Track",
+            "Rural Carrier",
+            "Parcel Delivery Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use mail delivery experience in adjacent delivery, logistics or community work work; verify requirements.",
+          "humanEdge": "Route knowledge and reliability.",
+          "skills": ["Logistics", "Customer Service", "Driving"],
+          "options": [
+            "Delivery Driver Track",
+            "Logistics Coordinator",
+            "Courier",
+            "Warehouse Supervisor",
+            "Community Outreach Worker"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned local delivery practice, service or toolkit with potential customers.",
+          "humanEdge": "Route and community knowledge.",
+          "skills": ["Routing", "Delivery", "Customer Service"],
+          "options": [
+            "Local Delivery Service",
+            "Neighbourhood Errand Service",
+            "Route Planning Toolkit",
+            "Leaflet Distribution Practice",
+            "Parcel Collection Service"
+          ]
+        }
+      }
+    },
+    "43-5053.00": {
+      "role": "mail_sorter",
+      "strategies": {
+        "automate": {
+          "description": "Stay in mail sorting and processing and operate sorting machines, routing schemes and jam monitoring with human sign-off.",
+          "humanEdge": "Clearing faults and catching misroutes.",
+          "skills": ["Sorting Machines", "Routing Schemes", "Fault Monitoring"],
+          "options": [
+            "Sorting Machine Operator",
+            "Mail Processing Technician",
+            "Routing Scheme Coordinator",
+            "Sortation Systems Monitor",
+            "Parcel Hub Operator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine mail sorting and processing judgment with AI tools for item routing, bundling and new worker training.",
+          "humanEdge": "Keeping volume flowing accurately.",
+          "skills": ["Routing", "Machine Operation", "Training"],
+          "options": [
+            "Processing Lead",
+            "Mail Hub Supervisor Track",
+            "Sortation Trainer",
+            "Parcel Hub Lead",
+            "Quality Checker"
+          ]
+        },
+        "pivot": {
+          "description": "Use mail sorting and processing experience in adjacent warehouse, logistics or equipment work work; verify requirements.",
+          "humanEdge": "Machine and volume skill.",
+          "skills": ["Warehousing", "Logistics", "Equipment Operation"],
+          "options": [
+            "Warehouse Operative",
+            "Logistics Coordinator",
+            "Maintenance Assistant Track",
+            "Inventory Clerk",
+            "Conveyor Operator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned mail handling practice, service or toolkit with potential customers.",
+          "humanEdge": "Sorting expertise.",
+          "skills": ["Mail Workflows", "Sorting", "Training"],
+          "options": [
+            "Mailroom Outsourcing Service",
+            "Bulk Mail Prep Service",
+            "Sorting Workflow Toolkit",
+            "Mail Hub Training Practice",
+            "Direct Mail Fulfilment Service"
+          ]
+        }
+      }
+    },
+    "43-5061.00": {
+      "role": "production_planning_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in production planning and expediting and operate scheduling systems, work order tracking and status reports with human sign-off.",
+          "humanEdge": "Spotting delays before they hit delivery.",
+          "skills": ["Production Scheduling Software", "Work Order Tracking", "ERP"],
+          "options": [
+            "Production Scheduling Analyst",
+            "Work Order Tracking Specialist",
+            "ERP Planning Assistant",
+            "Materials Expediting Analyst",
+            "Production Data Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine production planning and expediting judgment with AI tools for document reviews, progress checks and supervisor coordination.",
+          "humanEdge": "Pushing priorities through without burning relationships.",
+          "skills": ["Expediting", "Coordination", "Production Planning"],
+          "options": [
+            "Production Planner",
+            "Expeditor",
+            "Materials Planner",
+            "Supply Chain Coordinator",
+            "Production Control Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use production planning and expediting experience in adjacent supply chain, planning or operations work work; verify requirements.",
+          "humanEdge": "Production flow knowledge.",
+          "skills": ["Supply Planning", "Operations", "Inventory"],
+          "options": [
+            "Supply Planner",
+            "Operations Analyst",
+            "Inventory Controller",
+            "Purchasing Assistant",
+            "Project Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned production planning practice, service or toolkit with potential customers.",
+          "humanEdge": "Scheduling expertise.",
+          "skills": ["Scheduling", "Process Mapping", "Expediting"],
+          "options": [
+            "Small Manufacturer Scheduling Service",
+            "Production Schedule Toolkit",
+            "Expediting Service",
+            "Work Order Process Review Practice",
+            "Capacity Planning Toolkit"
+          ]
+        }
+      }
+    },
+    "43-5071.00": {
+      "role": "shipping_receiving_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in shipping, receiving and inventory and operate warehouse management systems, scanners and carrier rate tools with human sign-off.",
+          "humanEdge": "Catching damage and discrepancies at the dock.",
+          "skills": ["Warehouse Management Systems", "Barcode Scanning", "Carrier Rate Tools"],
+          "options": [
+            "WMS Inventory Specialist",
+            "Receiving Systems Clerk",
+            "Carrier Rate Analyst",
+            "Cycle Count Coordinator",
+            "Shipping Automation Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine shipping, receiving and inventory judgment with AI tools for shipment checks, routing choices and packing.",
+          "humanEdge": "Getting the right goods out on time.",
+          "skills": ["Inventory Control", "Carrier Selection", "Packing"],
+          "options": [
+            "Shipping Supervisor Track",
+            "Receiving Lead",
+            "Inventory Controller",
+            "Logistics Coordinator",
+            "Returns Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use shipping, receiving and inventory experience in adjacent logistics, purchasing or inventory planning work; verify requirements.",
+          "humanEdge": "Stock and shipping knowledge.",
+          "skills": ["Logistics", "Inventory Planning", "Purchasing"],
+          "options": [
+            "Logistics Coordinator",
+            "Inventory Planner",
+            "Purchasing Assistant",
+            "Warehouse Supervisor",
+            "Supply Chain Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned fulfilment practice, service or toolkit with potential customers.",
+          "humanEdge": "Shipping and inventory know-how.",
+          "skills": ["Fulfilment", "Inventory", "Packaging"],
+          "options": [
+            "Small Business Fulfilment Service",
+            "Inventory Count Service",
+            "Shipping Process Toolkit",
+            "Returns Handling Practice",
+            "Stockroom Setup Service"
+          ]
+        }
+      }
+    },
+    "43-5111.00": {
+      "role": "weigher_checker",
+      "strategies": {
+        "automate": {
+          "description": "Stay in weighing, measuring and checking and operate scale systems, label printing and data logging with human sign-off.",
+          "humanEdge": "Catching mismatches between paperwork and goods.",
+          "skills": ["Scale Systems", "Label Printing", "Data Logging"],
+          "options": [
+            "Weighbridge Systems Clerk",
+            "Quality Data Recorder",
+            "Label Verification Specialist",
+            "Sampling Records Coordinator",
+            "Inventory Data Checker"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine weighing, measuring and checking judgment with AI tools for measurements, label checks and sample prep.",
+          "humanEdge": "Accuracy that others rely on.",
+          "skills": ["Measurement", "Documentation", "Sampling"],
+          "options": [
+            "Quality Checker Lead",
+            "Sampling Technician",
+            "Weighbridge Supervisor",
+            "Goods-In Inspector",
+            "Inventory Auditor"
+          ]
+        },
+        "pivot": {
+          "description": "Use weighing, measuring and checking experience in adjacent quality, inventory or lab support work; verify requirements.",
+          "humanEdge": "Measurement accuracy.",
+          "skills": ["Quality Control", "Inventory", "Lab Support"],
+          "options": [
+            "Quality Control Technician",
+            "Inventory Controller",
+            "Lab Assistant",
+            "Logistics Clerk",
+            "Compliance Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned measurement practice, service or toolkit with potential customers.",
+          "humanEdge": "Checking expertise.",
+          "skills": ["Measurement", "Audits", "Documentation"],
+          "options": [
+            "Inventory Audit Service",
+            "Weight Check Procedure Toolkit",
+            "Label Compliance Review Practice",
+            "Sampling Service",
+            "Goods-In Inspection Service"
+          ]
+        }
+      }
+    },
+    "43-6012.00": {
+      "role": "legal_secretary",
+      "strategies": {
+        "automate": {
+          "description": "Stay in legal secretarial support and operate document assembly, e-filing and time billing tools with human sign-off.",
+          "humanEdge": "Catching legal document errors that matter.",
+          "skills": ["Document Assembly", "E-Filing", "Legal Billing"],
+          "options": [
+            "Legal Document Automation Specialist",
+            "E-Filing Coordinator",
+            "Legal Billing Specialist",
+            "Matter Records Coordinator",
+            "Docketing Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine legal secretarial support judgment with AI tools for legal documents, invoices and attorney travel.",
+          "humanEdge": "Anticipating attorney needs and deadlines.",
+          "skills": ["Legal Document Preparation", "Deadline Tracking", "Billing"],
+          "options": [
+            "Senior Legal Assistant",
+            "Docketing Clerk",
+            "Legal Practice Coordinator",
+            "Conveyancing Assistant",
+            "Litigation Support Assistant"
+          ]
+        },
+        "pivot": {
+          "description": "Use legal secretarial support experience in adjacent paralegal, compliance or legal operations work; verify requirements.",
+          "humanEdge": "Legal process knowledge.",
+          "skills": ["Legal Research Basics", "Compliance", "Legal Operations"],
+          "options": [
+            "Paralegal Track",
+            "Legal Operations Coordinator",
+            "Compliance Assistant",
+            "Contracts Administrator",
+            "Court Clerk"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned legal admin practice, service or toolkit with potential customers.",
+          "humanEdge": "Law firm admin expertise.",
+          "skills": ["Document Templates", "Billing", "Deadlines"],
+          "options": [
+            "Virtual Legal Assistant Service",
+            "Legal Template Toolkit",
+            "Legal Billing Service",
+            "Docket Management Practice",
+            "Law Firm Admin Setup Service"
+          ]
+        }
+      }
+    },
+    "43-6013.00": {
+      "role": "medical_secretary",
+      "strategies": {
+        "automate": {
+          "description": "Stay in medical secretarial support and operate scheduling systems, EHR correspondence and referral tracking with human sign-off.",
+          "humanEdge": "Coordinating patients kindly and accurately.",
+          "skills": ["Clinic Scheduling", "EHR Correspondence", "Referral Tracking"],
+          "options": [
+            "Patient Scheduling Specialist",
+            "Referral Coordinator",
+            "EHR Correspondence Specialist",
+            "Clinic Systems Assistant",
+            "Waiting List Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine medical secretarial support judgment with AI tools for test scheduling, charts and patient queries.",
+          "humanEdge": "Reassuring patients while protecting privacy.",
+          "skills": ["Patient Scheduling", "Medical Terminology", "Confidentiality"],
+          "options": [
+            "Medical Office Coordinator",
+            "Practice Administrator",
+            "Patient Liaison",
+            "Surgical Scheduler",
+            "Clinic Team Leader"
+          ]
+        },
+        "pivot": {
+          "description": "Use medical secretarial support experience in adjacent health admin, billing or patient access work; verify requirements.",
+          "humanEdge": "Clinic process knowledge.",
+          "skills": ["Health Administration", "Medical Billing", "Patient Access"],
+          "options": [
+            "Medical Biller",
+            "Patient Access Manager",
+            "Practice Manager Track",
+            "Health Information Assistant",
+            "Clinical Trial Coordinator Track"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned clinic admin practice, service or toolkit with potential customers.",
+          "humanEdge": "Medical office expertise.",
+          "skills": ["Scheduling", "Templates", "Patient Communication"],
+          "options": [
+            "Virtual Medical Secretary Service",
+            "Clinic Letter Template Toolkit",
+            "Patient Booking Service",
+            "Practice Admin Review Practice",
+            "Referral Tracking Toolkit"
+          ]
+        }
+      }
+    },
+    "43-6014.00": {
+      "role": "admin_assistant",
+      "strategies": {
+        "automate": {
+          "description": "Stay in administrative assistance and operate databases, filing systems and office automation with human sign-off.",
+          "humanEdge": "Knowing what matters to the people you support.",
+          "skills": ["Office Automation", "Database Management", "Digital Filing"],
+          "options": [
+            "Office Automation Assistant",
+            "Database Administrator Assistant",
+            "Digital Filing Coordinator",
+            "Workflow Assistant",
+            "Admin Systems Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine administrative assistance judgment with AI tools for records, scheduling and correspondence.",
+          "humanEdge": "Keeping many plates spinning reliably.",
+          "skills": ["Organisation", "Business Writing", "Scheduling"],
+          "options": [
+            "Office Coordinator",
+            "Team Administrator",
+            "Project Support Officer",
+            "Operations Assistant",
+            "Executive Assistant Track"
+          ]
+        },
+        "pivot": {
+          "description": "Use administrative assistance experience in adjacent operations, project support or HR work work; verify requirements.",
+          "humanEdge": "Organisation and admin skill.",
+          "skills": ["Project Support", "Operations", "HR Admin"],
+          "options": [
+            "Project Coordinator",
+            "Operations Coordinator",
+            "HR Assistant",
+            "Facilities Coordinator",
+            "Events Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned admin support practice, service or toolkit with potential customers.",
+          "humanEdge": "Office organisation skill.",
+          "skills": ["Organising", "Templates", "Scheduling"],
+          "options": [
+            "Virtual Assistant Service",
+            "Office Setup Practice",
+            "Admin Template Toolkit",
+            "Digital Filing Service",
+            "Event Admin Service"
+          ]
+        }
+      }
+    },
+    "43-9022.00": {
+      "role": "typist",
+      "strategies": {
+        "automate": {
+          "description": "Stay in word processing and typing and operate dictation, speech-to-text and formatting tools with human sign-off.",
+          "humanEdge": "Catching meaning and errors machines miss.",
+          "skills": ["Speech-to-Text", "Formatting Tools", "Proofing Tools"],
+          "options": [
+            "Transcript Editor",
+            "Document Formatting Specialist",
+            "Speech-to-Text Reviewer",
+            "Template Designer",
+            "Document Production Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine word processing and typing judgment with AI tools for proofreading, scheduling and document production.",
+          "humanEdge": "Accuracy and consistency across documents.",
+          "skills": ["Proofreading", "Document Formatting", "Scheduling"],
+          "options": [
+            "Document Production Lead",
+            "Transcriptionist",
+            "Proofreader",
+            "Office Administrator",
+            "Minutes Taker"
+          ]
+        },
+        "pivot": {
+          "description": "Use word processing and typing experience in adjacent editing, transcription or admin work work; verify requirements.",
+          "humanEdge": "Language accuracy.",
+          "skills": ["Editing", "Transcription", "Admin"],
+          "options": [
+            "Proofreader",
+            "Transcriptionist",
+            "Office Administrator",
+            "Captioner Track",
+            "Content Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned document production practice, service or toolkit with potential customers.",
+          "humanEdge": "Document craft.",
+          "skills": ["Formatting", "Proofreading", "Transcription"],
+          "options": [
+            "Document Formatting Service",
+            "Transcription Service",
+            "Template Toolkit",
+            "Thesis Formatting Service",
+            "Proofreading Practice"
+          ]
+        }
+      }
+    },
+    "43-9031.00": {
+      "role": "desktop_publisher",
+      "strategies": {
+        "automate": {
+          "description": "Stay in desktop publishing and operate layout templates, automated typesetting and preflight checks with human sign-off.",
+          "humanEdge": "Making layouts readable and on-brand.",
+          "skills": ["Layout Software", "Template Automation", "Preflight Checks"],
+          "options": [
+            "Template Automation Specialist",
+            "Preflight Technician",
+            "Digital Publishing Specialist",
+            "Brand Asset Coordinator",
+            "Catalogue Production Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine desktop publishing judgment with AI tools for proof checks, layout design and print prep.",
+          "humanEdge": "Judging visual balance and typography.",
+          "skills": ["Typography", "Layout Design", "Print Production"],
+          "options": [
+            "Layout Designer",
+            "Production Artist",
+            "Publications Coordinator",
+            "Print Production Specialist",
+            "Digital Content Designer"
+          ]
+        },
+        "pivot": {
+          "description": "Use desktop publishing experience in adjacent graphic design, publishing or marketing work; verify requirements.",
+          "humanEdge": "Visual and production skill.",
+          "skills": ["Graphic Design", "Publishing", "Marketing"],
+          "options": [
+            "Graphic Designer",
+            "Publishing Assistant",
+            "Marketing Coordinator",
+            "Presentation Designer",
+            "Production Editor"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned publishing practice, service or toolkit with potential customers.",
+          "humanEdge": "Layout expertise.",
+          "skills": ["Layout", "Templates", "Print Production"],
+          "options": [
+            "Brochure Layout Service",
+            "Template Design Toolkit",
+            "Self-Publishing Layout Practice",
+            "Print Prep Service",
+            "Presentation Design Service"
+          ]
+        }
+      }
+    },
+    "43-9041.00": {
+      "role": "claims_policy_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in insurance claims and policy processing and operate claims systems, document intake and calculation tools with human sign-off.",
+          "humanEdge": "Spotting claim inconsistencies and vulnerable customers.",
+          "skills": ["Claims Systems", "Document Intake", "Calculation Rules"],
+          "options": [
+            "Claims Automation Specialist",
+            "Document Intake Analyst",
+            "Policy Administration Specialist",
+            "Claims Data Analyst",
+            "Straight-Through Processing Reviewer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine insurance claims and policy processing judgment with AI tools for claim forms, amount calculations and file updates.",
+          "humanEdge": "Treating claimants fairly while following policy.",
+          "skills": ["Claims Processing", "Policy Wording", "Customer Communication"],
+          "options": [
+            "Claims Handler",
+            "Policy Administrator",
+            "Claims Team Lead",
+            "Underwriting Assistant",
+            "Customer Claims Advisor"
+          ]
+        },
+        "pivot": {
+          "description": "Use insurance claims and policy processing experience in adjacent underwriting, claims adjusting or compliance work; verify requirements.",
+          "humanEdge": "Insurance process knowledge.",
+          "skills": ["Underwriting", "Claims Adjusting", "Compliance"],
+          "options": [
+            "Underwriting Assistant",
+            "Claims Adjuster Track",
+            "Compliance Assistant",
+            "Insurance Broker Assistant",
+            "Fraud Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned claims support practice, service or toolkit with potential customers.",
+          "humanEdge": "Claims process expertise.",
+          "skills": ["Claims Process", "Documentation", "Customer Guidance"],
+          "options": [
+            "Claims Preparation Help Service",
+            "Claims Checklist Toolkit",
+            "Claims Process Review Practice",
+            "Small Broker Admin Service",
+            "Policy Comparison Service"
+          ]
+        }
+      }
+    },
+    "43-9051.00": {
+      "role": "mail_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in mailroom operations and operate mail machines, postage meters and tracking logs with human sign-off.",
+          "humanEdge": "Catching misaddressed or suspicious items.",
+          "skills": ["Mail Machines", "Postage Meters", "Tracking Logs"],
+          "options": [
+            "Mailroom Systems Operator",
+            "Postage Meter Specialist",
+            "Digital Mailroom Assistant",
+            "Tracking Logs Coordinator",
+            "Inserter Machine Operator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine mailroom operations judgment with AI tools for mail sorting, address checks and package handling.",
+          "humanEdge": "Accuracy and security in handling mail.",
+          "skills": ["Mail Sorting", "Address Verification", "Package Handling"],
+          "options": [
+            "Mailroom Supervisor",
+            "Office Services Assistant",
+            "Facilities Assistant",
+            "Shipping Clerk",
+            "Digital Mailroom Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use mailroom operations experience in adjacent facilities, shipping or office services work; verify requirements.",
+          "humanEdge": "Mail and logistics know-how.",
+          "skills": ["Facilities", "Shipping", "Office Services"],
+          "options": [
+            "Facilities Coordinator",
+            "Shipping Clerk",
+            "Office Services Supervisor",
+            "Logistics Assistant",
+            "Records Clerk"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned mailroom practice, service or toolkit with potential customers.",
+          "humanEdge": "Mail handling expertise.",
+          "skills": ["Mail Processes", "Scanning", "Fulfilment"],
+          "options": [
+            "Digital Mailroom Service",
+            "Mail Process Toolkit",
+            "Mailing Fulfilment Practice",
+            "Mail Scanning Service",
+            "Mailroom Training Service"
+          ]
+        }
+      }
+    },
+    "43-9061.00": {
+      "role": "office_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in general office clerking and operate office software, data entry tools and payment records with human sign-off.",
+          "humanEdge": "Handling varied tasks without dropping any.",
+          "skills": ["Office Software", "Data Entry Tools", "Payment Records"],
+          "options": [
+            "Office Data Clerk",
+            "Digital Records Clerk",
+            "Accounts Admin Assistant",
+            "Office Systems Assistant",
+            "Shared Inbox Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine general office clerking judgment with AI tools for customer communication, phones and basic bookkeeping.",
+          "humanEdge": "Being the reliable go-to person.",
+          "skills": ["Customer Communication", "Bookkeeping Basics", "Organisation"],
+          "options": [
+            "Office Administrator",
+            "Accounts Assistant",
+            "Receptionist",
+            "Admin Team Lead",
+            "Operations Assistant"
+          ]
+        },
+        "pivot": {
+          "description": "Use general office clerking experience in adjacent bookkeeping, admin or customer service work; verify requirements.",
+          "humanEdge": "Broad office skill.",
+          "skills": ["Bookkeeping", "Admin", "Customer Service"],
+          "options": [
+            "Bookkeeper Track",
+            "Office Manager Track",
+            "Customer Service Advisor",
+            "HR Assistant",
+            "Purchasing Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned office admin practice, service or toolkit with potential customers.",
+          "humanEdge": "All-round admin skill.",
+          "skills": ["Organising", "Bookkeeping", "Templates"],
+          "options": [
+            "Small Business Admin Service",
+            "Office Routine Toolkit",
+            "Paperwork Catch-Up Service",
+            "Home Office Admin Practice",
+            "Expense Tracking Service"
+          ]
+        }
+      }
+    },
+    "43-9071.00": {
+      "role": "office_machine_operator",
+      "strategies": {
+        "automate": {
+          "description": "Stay in office machine operation and operate print management systems, high-speed copiers and finishing equipment with human sign-off.",
+          "humanEdge": "Spotting quality problems in print runs.",
+          "skills": ["Print Management", "Copier Operation", "Finishing Equipment"],
+          "options": [
+            "Print Management Specialist",
+            "Digital Print Operator",
+            "Finishing Equipment Operator",
+            "Print Queue Coordinator",
+            "Reprographics Technician"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine office machine operation judgment with AI tools for job orders, machine setup and quality checks.",
+          "humanEdge": "Getting jobs right first time.",
+          "skills": ["Job Setup", "Quality Checks", "Machine Care"],
+          "options": [
+            "Reprographics Supervisor",
+            "Print Room Lead",
+            "Digital Print Specialist",
+            "Document Services Coordinator",
+            "Copy Centre Supervisor"
+          ]
+        },
+        "pivot": {
+          "description": "Use office machine operation experience in adjacent print, document services or equipment support work; verify requirements.",
+          "humanEdge": "Machine and quality skill.",
+          "skills": ["Print Production", "Document Services", "Equipment Support"],
+          "options": [
+            "Print Production Assistant",
+            "Document Services Coordinator",
+            "Copier Technician Track",
+            "Mailroom Supervisor",
+            "Office Services Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned printing practice, service or toolkit with potential customers.",
+          "humanEdge": "Print know-how.",
+          "skills": ["Print Setup", "Finishing", "Quality"],
+          "options": [
+            "Print-on-Demand Service",
+            "Print Setup Toolkit",
+            "Document Finishing Service",
+            "Copy Shop Practice",
+            "Event Print Service"
+          ]
+        }
+      }
+    },
+    "43-9081.00": {
+      "role": "proofreader",
+      "strategies": {
+        "automate": {
+          "description": "Stay in proofreading and copy marking and operate grammar checkers, style rules and track-changes tools with human sign-off.",
+          "humanEdge": "Catching meaning errors and tone problems.",
+          "skills": ["Grammar Tools", "Style Guides", "Track Changes"],
+          "options": [
+            "AI Copy Reviewer",
+            "Style Guide Coordinator",
+            "Content Quality Reviewer",
+            "Editorial Systems Assistant",
+            "Localisation Reviewer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine proofreading and copy marking judgment with AI tools for manuscript changes, research checks and captions.",
+          "humanEdge": "Respecting an author's voice while fixing errors.",
+          "skills": ["Proofreading", "Fact Checking", "Copywriting"],
+          "options": [
+            "Copy Editor",
+            "Fact Checker",
+            "Editorial Assistant",
+            "Content Editor",
+            "Caption Writer"
+          ]
+        },
+        "pivot": {
+          "description": "Use proofreading and copy marking experience in adjacent editing, content or publishing work work; verify requirements.",
+          "humanEdge": "Language precision.",
+          "skills": ["Editing", "Content Writing", "Publishing"],
+          "options": [
+            "Copy Editor",
+            "Content Editor",
+            "Technical Writer Track",
+            "Publishing Assistant",
+            "Localisation Specialist"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned editing practice, service or toolkit with potential customers.",
+          "humanEdge": "Editorial skill.",
+          "skills": ["Proofreading", "Style Guides", "Editing"],
+          "options": [
+            "Proofreading Practice",
+            "Style Guide Toolkit",
+            "Manuscript Review Service",
+            "Academic Editing Service",
+            "Website Copy Review Service"
+          ]
+        }
+      }
+    },
+    "43-9111.00": {
+      "role": "statistical_assistant",
+      "strategies": {
+        "automate": {
+          "description": "Stay in statistical assistance and operate statistical software, scripts and automated reports with human sign-off.",
+          "humanEdge": "Checking whether results make sense.",
+          "skills": ["Statistical Software", "Scripting", "Automated Reporting"],
+          "options": [
+            "Statistical Programming Assistant",
+            "Report Automation Analyst",
+            "Data Quality Analyst",
+            "Survey Data Processor",
+            "Dashboard Assistant"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine statistical assistance judgment with AI tools for statistical code, analysis and stakeholder results.",
+          "humanEdge": "Explaining numbers to non-experts.",
+          "skills": ["Statistical Analysis", "Data Visualisation", "Communication"],
+          "options": [
+            "Research Analyst",
+            "Data Analyst",
+            "Survey Statistician Assistant",
+            "Insights Analyst",
+            "Monitoring and Evaluation Officer"
+          ]
+        },
+        "pivot": {
+          "description": "Use statistical assistance experience in adjacent data analysis, research or evaluation work; verify requirements.",
+          "humanEdge": "Statistical skill.",
+          "skills": ["Data Analysis", "Research Methods", "Evaluation"],
+          "options": [
+            "Data Analyst Track",
+            "Research Associate",
+            "Evaluation Officer",
+            "Business Intelligence Analyst",
+            "Biostatistics Assistant Track"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned data analysis practice, service or toolkit with potential customers.",
+          "humanEdge": "Statistics expertise.",
+          "skills": ["Analysis", "Visualisation", "Survey Design"],
+          "options": [
+            "Survey Analysis Service",
+            "Statistics Tutoring Practice",
+            "Analysis Template Toolkit",
+            "Dashboard Build Service",
+            "Data Cleaning Service"
+          ]
+        }
+      }
+    }
+  }
+}

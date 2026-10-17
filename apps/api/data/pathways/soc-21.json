@@ -1,0 +1,755 @@
+{
+  "source": "Product-curated from O*NET 31.0 occupation tasks for SOC major group 21 (https://www.onetonline.org/find/family?f=21). Exploration labels, not verified vacancies or transitions.",
+  "occupations": {
+    "21-1011.00": {
+      "role": "substance_abuse_counselor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in counselling and configure digital intake, progress tracking and relapse-risk reminders with counsellor sign-off.",
+          "humanEdge": "Building trust with clients and judging readiness for change.",
+          "skills": ["Client Record Systems", "Outcome Tracking Tools", "Digital Check-In Tools"],
+          "options": [
+            "Digital Recovery Program Counselor",
+            "Outcome Tracking Counselor",
+            "Telehealth Addiction Counselor",
+            "Intake Automation Coordinator",
+            "Recovery App Support Counselor"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine assessment and group work with AI tools for session notes, treatment plan drafts and resource matching.",
+          "humanEdge": "Reading what sits behind a client's behaviour.",
+          "skills": ["Treatment Planning", "AI Output Verification", "Group Facilitation"],
+          "options": [
+            "Co-Occurring Disorders Counselor Track",
+            "Recovery Program Coordinator",
+            "Clinical Supervisor Track",
+            "Peer Recovery Program Lead",
+            "Family Recovery Counselor"
+          ]
+        },
+        "pivot": {
+          "description": "Use recovery support experience in adjacent case management, prevention or health education work; verify entry requirements.",
+          "humanEdge": "Non-judgmental engagement with people in crisis.",
+          "skills": ["Case Management", "Prevention Programs", "Health Education"],
+          "options": [
+            "Case Manager",
+            "Prevention Program Specialist",
+            "Health Education Specialist",
+            "Reentry Program Coordinator",
+            "Employee Assistance Program Specialist"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned recovery support practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to design support that keeps people engaged in recovery.",
+          "skills": ["Program Design", "Workshop Facilitation", "Resource Curation"],
+          "options": [
+            "Family Recovery Education Service",
+            "Workplace Substance Awareness Workshop Service",
+            "Recovery Resource Toolkit",
+            "Sober Living Operations Practice",
+            "Relapse Prevention Workbook Toolkit"
+          ]
+        }
+      }
+    },
+    "21-1012.00": {
+      "role": "guidance_counselor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in advising and configure AI-assisted course planning, scholarship matching and caseload alerts with counsellor sign-off.",
+          "humanEdge": "Understanding a student's situation beyond grades and test scores.",
+          "skills": ["Student Information Systems", "Course Planning Tools", "Caseload Analytics"],
+          "options": [
+            "Digital Advising Counselor",
+            "College Application Systems Counselor",
+            "Early Alert Advising Specialist",
+            "Course Planning Automation Specialist",
+            "Scholarship Matching Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine one-to-one advising with AI tools for career exploration, application review and planning documents.",
+          "humanEdge": "Helping students make choices they own.",
+          "skills": ["Career Assessment", "AI Output Verification", "Academic Planning"],
+          "options": [
+            "Career Services Advisor",
+            "College Admissions Counselor",
+            "Academic Success Coach",
+            "Student Transition Advisor",
+            "Career Readiness Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use advising skill in adjacent career coaching, admissions or student services work; verify entry requirements.",
+          "humanEdge": "Motivating people through uncertain decisions.",
+          "skills": ["Coaching", "Admissions", "Program Coordination"],
+          "options": [
+            "Career Coach",
+            "Admissions Officer",
+            "Student Services Coordinator",
+            "Workforce Development Specialist",
+            "Talent Development Specialist"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned education guidance practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to guide families through education and career decisions.",
+          "skills": ["Advising Frameworks", "Workshop Design", "Client Intake"],
+          "options": [
+            "College Application Coaching Service",
+            "Career Exploration Workshop Service",
+            "Study Planning Toolkit",
+            "Independent Education Advising Practice",
+            "Scholarship Search Toolkit"
+          ]
+        }
+      }
+    },
+    "21-1013.00": {
+      "role": "marriage_family_therapist",
+      "strategies": {
+        "automate": {
+          "description": "Stay in therapy practice and configure telehealth scheduling, intake questionnaires and progress measures with therapist sign-off.",
+          "humanEdge": "Reading relationship dynamics in the room.",
+          "skills": ["Telehealth Platforms", "Outcome Measures", "Practice Management Systems"],
+          "options": [
+            "Telehealth Family Therapist Track",
+            "Measurement-Based Care Therapist Track",
+            "Practice Systems Coordinator",
+            "Digital Intake Coordinator",
+            "Couples Program Telehealth Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine systemic therapy with AI tools for note drafting, resource lists and psychoeducation materials.",
+          "humanEdge": "Holding several family members' perspectives at once.",
+          "skills": ["Family Systems Assessment", "AI Output Verification", "Psychoeducation"],
+          "options": [
+            "Family Services Program Lead",
+            "Clinical Supervisor Track",
+            "Parenting Program Coordinator",
+            "Family Support Specialist",
+            "Couples Education Facilitator"
+          ]
+        },
+        "pivot": {
+          "description": "Use family systems insight in adjacent mediation, family support or HR work; verify entry requirements.",
+          "humanEdge": "Navigating conflict with empathy.",
+          "skills": ["Mediation", "Case Management", "Program Design"],
+          "options": [
+            "Family Mediator Track",
+            "Family Support Coordinator",
+            "Parenting Educator",
+            "Employee Assistance Specialist",
+            "Child Welfare Case Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned family wellbeing practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to explain relationship patterns in practical language.",
+          "skills": ["Curriculum Design", "Workshop Facilitation", "Resource Writing"],
+          "options": [
+            "Relationship Education Workshop Service",
+            "Parenting Skills Course Service",
+            "Co-Parenting Communication Toolkit",
+            "Premarital Education Practice",
+            "Family Communication Toolkit"
+          ]
+        }
+      }
+    },
+    "21-1014.00": {
+      "role": "mental_health_counselor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in counselling and configure digital screening, scheduling and outcome tracking with counsellor sign-off.",
+          "humanEdge": "Judging risk and building therapeutic rapport.",
+          "skills": ["Screening Tools", "Telehealth Platforms", "Outcome Tracking"],
+          "options": [
+            "Telehealth Counselor Track",
+            "Measurement-Based Care Counselor Track",
+            "Digital Intake Coordinator",
+            "Crisis Line Systems Lead",
+            "Digital Mental Health Program Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine counselling with AI tools for session documentation, resource matching and psychoeducation drafts.",
+          "humanEdge": "Responding to emotion and risk in real time.",
+          "skills": ["Counselling Techniques", "AI Output Verification", "Crisis Assessment"],
+          "options": [
+            "Crisis Counselor",
+            "Clinical Supervisor Track",
+            "Campus Counseling Coordinator",
+            "Employee Assistance Counselor",
+            "Digital Mental Health Content Reviewer"
+          ]
+        },
+        "pivot": {
+          "description": "Use counselling skill in adjacent case management, wellbeing or peer support work; verify entry requirements.",
+          "humanEdge": "Calm, attuned listening.",
+          "skills": ["Case Management", "Wellbeing Programs", "Training"],
+          "options": [
+            "Case Manager",
+            "Workplace Wellbeing Coordinator",
+            "Peer Support Program Lead",
+            "Mental Health First Aid Trainer Track",
+            "Behavioral Health Navigator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned mental wellbeing education practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to translate mental health concepts into usable skills.",
+          "skills": ["Workshop Design", "Content Writing", "Facilitation"],
+          "options": [
+            "Workplace Wellbeing Workshop Service",
+            "Stress Management Course Service",
+            "Mental Health Literacy Toolkit",
+            "Resilience Skills Training Practice",
+            "Self-Help Workbook Toolkit"
+          ]
+        }
+      }
+    },
+    "21-1015.00": {
+      "role": "rehabilitation_counselor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in rehabilitation counselling and configure job-matching tools, case tracking and accommodation databases with counsellor sign-off.",
+          "humanEdge": "Understanding how disability, goals and work demands fit together.",
+          "skills": [
+            "Case Management Systems",
+            "Job Matching Tools",
+            "Assistive Technology Databases"
+          ],
+          "options": [
+            "Vocational Case Systems Counselor",
+            "Job Matching Specialist",
+            "Assistive Technology Coordinator",
+            "Remote Work Placement Counselor",
+            "Benefits Planning Systems Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine vocational assessment with AI tools for job analysis, résumé drafting and accommodation research.",
+          "humanEdge": "Advocating with employers for realistic accommodations.",
+          "skills": ["Vocational Assessment", "AI Output Verification", "Employer Engagement"],
+          "options": [
+            "Disability Employment Specialist",
+            "Return-to-Work Coordinator",
+            "Job Placement Specialist",
+            "Workforce Inclusion Advisor",
+            "Transition Services Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use rehabilitation knowledge in adjacent HR, accessibility or case management work; verify entry requirements.",
+          "humanEdge": "Matching people to workable roles.",
+          "skills": ["Accessibility Standards", "HR Practice", "Case Management"],
+          "options": [
+            "Accessibility Coordinator",
+            "Disability Management Specialist",
+            "Workforce Development Specialist",
+            "Case Manager",
+            "Inclusive Hiring Advisor"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned vocational rehabilitation practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to make workplaces work for people with disabilities.",
+          "skills": ["Job Analysis", "Employer Training", "Resource Design"],
+          "options": [
+            "Workplace Accommodation Advisory Service",
+            "Disability Inclusion Training Service",
+            "Return-to-Work Planning Toolkit",
+            "Job Readiness Coaching Practice",
+            "Inclusive Hiring Toolkit"
+          ]
+        }
+      }
+    },
+    "21-1021.00": {
+      "role": "child_family_social_worker",
+      "strategies": {
+        "automate": {
+          "description": "Stay in child and family work and configure case management systems, risk screening and visit scheduling with social worker sign-off.",
+          "humanEdge": "Judging child safety and family capacity in context.",
+          "skills": ["Case Management Systems", "Risk Screening Tools", "Mobile Case Notes"],
+          "options": [
+            "Child Welfare Systems Caseworker",
+            "Family Services Data Coordinator",
+            "Mobile Casework Specialist",
+            "Intake Screening Specialist",
+            "Placement Matching Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine home visits and family engagement with AI tools for case notes, service referrals and court report drafts.",
+          "humanEdge": "Engaging families who may not trust services.",
+          "skills": ["Family Assessment", "AI Output Verification", "Service Coordination"],
+          "options": [
+            "Family Preservation Specialist",
+            "School Social Work Track",
+            "Foster Care Coordinator",
+            "Adoption Services Coordinator",
+            "Family Support Program Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use family casework in adjacent advocacy, program coordination or school support work; verify entry requirements.",
+          "humanEdge": "Navigating complex systems for families.",
+          "skills": ["Advocacy", "Program Coordination", "Community Outreach"],
+          "options": [
+            "Family Advocate",
+            "Youth Program Coordinator",
+            "Community Resource Coordinator",
+            "School Attendance Officer",
+            "Child Advocacy Specialist"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned family support practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to connect families to the right support quickly.",
+          "skills": ["Resource Mapping", "Workshop Design", "Program Design"],
+          "options": [
+            "Parenting Support Workshop Service",
+            "Family Resource Directory Toolkit",
+            "Foster Carer Training Service",
+            "Family Support Program Design Practice",
+            "School Liaison Service"
+          ]
+        }
+      }
+    },
+    "21-1022.00": {
+      "role": "healthcare_social_worker",
+      "strategies": {
+        "automate": {
+          "description": "Stay in healthcare social work and configure discharge planning tools, referral platforms and psychosocial screening with social worker sign-off.",
+          "humanEdge": "Understanding how illness changes a patient's whole life.",
+          "skills": ["Discharge Planning Systems", "Referral Platforms", "Screening Tools"],
+          "options": [
+            "Discharge Planning Systems Coordinator",
+            "Care Transitions Specialist",
+            "Social Needs Screening Lead",
+            "Referral Platform Coordinator",
+            "Telehealth Social Work Track"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine patient counselling with AI tools for resource matching, care plan drafting and benefits research.",
+          "humanEdge": "Supporting families through difficult health decisions.",
+          "skills": ["Psychosocial Assessment", "AI Output Verification", "Care Coordination"],
+          "options": [
+            "Care Coordinator",
+            "Palliative Care Social Work Track",
+            "Patient Navigator",
+            "Transitional Care Manager",
+            "Patient Advocate"
+          ]
+        },
+        "pivot": {
+          "description": "Use care coordination skill in adjacent navigation, advocacy or program work; verify entry requirements.",
+          "humanEdge": "Working across clinical and community systems.",
+          "skills": ["Patient Advocacy", "Benefits Navigation", "Program Coordination"],
+          "options": [
+            "Patient Advocate",
+            "Health Benefits Navigator",
+            "Community Health Program Coordinator",
+            "Care Management Lead",
+            "Caregiver Support Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned patient navigation practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to guide patients and families through health and social care systems.",
+          "skills": ["Navigation Design", "Resource Curation", "Client Intake"],
+          "options": [
+            "Patient Navigation Service",
+            "Caregiver Support Practice",
+            "Care Transition Planning Toolkit",
+            "Benefits Navigation Service",
+            "Advance Care Planning Guide Toolkit"
+          ]
+        }
+      }
+    },
+    "21-1023.00": {
+      "role": "mh_substance_social_worker",
+      "strategies": {
+        "automate": {
+          "description": "Stay in mental health and substance use social work and configure case tracking, screening and crisis alerts with social worker sign-off.",
+          "humanEdge": "Judging risk and engagement in complex cases.",
+          "skills": ["Case Management Systems", "Screening Tools", "Crisis Alerts"],
+          "options": [
+            "Behavioral Health Case Systems Lead",
+            "Crisis Response Coordinator",
+            "Integrated Care Data Coordinator",
+            "Telehealth Social Work Track",
+            "Screening Program Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine psychosocial support with AI tools for case notes, resource matching and treatment plan drafts.",
+          "humanEdge": "Advocating for clients across services.",
+          "skills": ["Psychosocial Assessment", "AI Output Verification", "Crisis Intervention"],
+          "options": [
+            "Integrated Care Social Worker",
+            "Assertive Community Treatment Track",
+            "Harm Reduction Program Lead",
+            "Housing First Case Manager",
+            "Clinical Supervisor Track"
+          ]
+        },
+        "pivot": {
+          "description": "Use behavioural health casework in adjacent housing, reentry or peer program work; verify entry requirements.",
+          "humanEdge": "Engaging people others struggle to reach.",
+          "skills": ["Housing Support", "Reentry Services", "Peer Programs"],
+          "options": [
+            "Housing Support Coordinator",
+            "Reentry Program Coordinator",
+            "Peer Program Manager",
+            "Behavioral Health Navigator",
+            "Outreach Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned community mental health support practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to design services around real client barriers.",
+          "skills": ["Program Design", "Training Delivery", "Resource Mapping"],
+          "options": [
+            "Harm Reduction Training Service",
+            "Community Resource Mapping Service",
+            "Crisis Response Planning Toolkit",
+            "Behavioral Health Program Design Practice",
+            "Family Support Workshop Service"
+          ]
+        }
+      }
+    },
+    "21-1091.00": {
+      "role": "health_education_specialist",
+      "strategies": {
+        "automate": {
+          "description": "Stay in health education and configure digital campaigns, learning platforms and program evaluation dashboards with specialist sign-off.",
+          "humanEdge": "Knowing what actually changes health behaviour in a community.",
+          "skills": ["E-Learning Platforms", "Campaign Tools", "Evaluation Dashboards"],
+          "options": [
+            "Digital Health Campaign Specialist",
+            "Health E-Learning Specialist",
+            "Program Evaluation Analyst",
+            "Health Messaging Automation Lead",
+            "Community Health Data Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine community engagement with AI tools for materials drafting, translation checks and needs assessment.",
+          "humanEdge": "Tailoring messages to culture and literacy.",
+          "skills": ["Needs Assessment", "AI Output Verification", "Health Communication"],
+          "options": [
+            "Health Promotion Program Manager",
+            "Workplace Wellness Coordinator",
+            "Patient Education Specialist",
+            "Health Literacy Specialist",
+            "Community Outreach Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use health education skill in adjacent communication, wellness or training work; verify entry requirements.",
+          "humanEdge": "Explaining health clearly and persuasively.",
+          "skills": ["Health Communication", "Training Design", "Program Management"],
+          "options": [
+            "Health Communications Specialist",
+            "Wellness Program Manager",
+            "Instructional Designer",
+            "Public Health Program Coordinator",
+            "Patient Experience Specialist"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned health education practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to turn health guidance into programs people use.",
+          "skills": ["Curriculum Design", "Facilitation", "Evaluation"],
+          "options": [
+            "Workplace Wellness Program Service",
+            "Health Literacy Review Service",
+            "Community Health Workshop Service",
+            "Patient Education Materials Toolkit",
+            "Health Program Evaluation Practice"
+          ]
+        }
+      }
+    },
+    "21-1092.00": {
+      "role": "probation_officer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in supervision and configure case management systems, risk assessment tools and electronic monitoring with officer sign-off.",
+          "humanEdge": "Judging risk and readiness for change fairly.",
+          "skills": ["Case Management Systems", "Risk Assessment Tools", "Electronic Monitoring"],
+          "options": [
+            "Electronic Monitoring Specialist",
+            "Risk Assessment Specialist",
+            "Supervision Systems Coordinator",
+            "Pretrial Services Data Specialist",
+            "Caseload Analytics Officer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine supervision with AI tools for report drafting, compliance tracking and service referrals.",
+          "humanEdge": "Balancing accountability with rehabilitation.",
+          "skills": ["Motivational Interviewing", "AI Output Verification", "Report Writing"],
+          "options": [
+            "Reentry Coordinator",
+            "Treatment Court Coordinator",
+            "Pretrial Services Officer",
+            "Juvenile Probation Track",
+            "Correctional Program Specialist"
+          ]
+        },
+        "pivot": {
+          "description": "Use supervision experience in adjacent reentry, investigation or victim services work; verify entry requirements.",
+          "humanEdge": "Firm, fair engagement.",
+          "skills": ["Reentry Services", "Investigation", "Victim Advocacy"],
+          "options": [
+            "Reentry Program Manager",
+            "Workplace Investigator",
+            "Victim Services Coordinator",
+            "Workforce Reentry Specialist",
+            "Compliance Investigator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned reentry support practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to design programs that reduce reoffending.",
+          "skills": ["Program Design", "Employer Engagement", "Training"],
+          "options": [
+            "Reentry Employment Readiness Service",
+            "Second-Chance Hiring Advisory Service",
+            "Reentry Resource Toolkit",
+            "Cognitive Skills Workshop Practice",
+            "Mentoring Program Design Service"
+          ]
+        }
+      }
+    },
+    "21-1093.00": {
+      "role": "human_service_assistant",
+      "strategies": {
+        "automate": {
+          "description": "Stay in human services and configure intake forms, benefits eligibility tools and case tracking with caseworker sign-off.",
+          "humanEdge": "Noticing needs clients do not say out loud.",
+          "skills": ["Intake Systems", "Eligibility Screening Tools", "Case Tracking"],
+          "options": [
+            "Digital Intake Specialist",
+            "Benefits Eligibility Specialist",
+            "Case Data Coordinator",
+            "Referral Platform Coordinator",
+            "Client Portal Support Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine client support with AI tools for resource lookup, form completion and follow-up reminders.",
+          "humanEdge": "Patient, practical help for people under stress.",
+          "skills": ["Client Interviewing", "AI Output Verification", "Resource Navigation"],
+          "options": [
+            "Case Manager",
+            "Benefits Navigator",
+            "Community Resource Specialist",
+            "Housing Assistance Coordinator",
+            "Family Support Worker"
+          ]
+        },
+        "pivot": {
+          "description": "Use client support skill in adjacent outreach, program or administration work; verify entry requirements.",
+          "humanEdge": "Building trust across backgrounds.",
+          "skills": ["Outreach", "Program Coordination", "Administration"],
+          "options": [
+            "Community Outreach Worker",
+            "Program Coordinator",
+            "Volunteer Coordinator",
+            "Nonprofit Operations Assistant",
+            "Community Health Worker"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned community services practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to navigate local services quickly.",
+          "skills": ["Resource Mapping", "Client Intake", "Plain-Language Writing"],
+          "options": [
+            "Benefits Application Help Service",
+            "Local Resource Guide Toolkit",
+            "Senior Services Navigation Service",
+            "Newcomer Support Service",
+            "Form Completion Help Service"
+          ]
+        }
+      }
+    },
+    "21-1094.00": {
+      "role": "community_health_worker",
+      "strategies": {
+        "automate": {
+          "description": "Stay in community health and configure mobile screening, outreach tracking and appointment reminders with supervisor sign-off.",
+          "humanEdge": "Trusted relationships inside the community.",
+          "skills": ["Mobile Data Collection", "Outreach Tracking", "Reminder Systems"],
+          "options": [
+            "Digital Outreach Community Health Worker",
+            "Remote Monitoring Support Worker",
+            "Health Screening Data Coordinator",
+            "Telehealth Navigator",
+            "Outreach Analytics Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine outreach and home visits with AI tools for health information, translation checks and referral matching.",
+          "humanEdge": "Bridging cultural and language gaps.",
+          "skills": ["Health Coaching", "AI Output Verification", "Community Outreach"],
+          "options": [
+            "Patient Navigator",
+            "Health Coach",
+            "Chronic Disease Self-Management Leader",
+            "Care Coordinator",
+            "Maternal Health Outreach Worker"
+          ]
+        },
+        "pivot": {
+          "description": "Use community health experience in adjacent navigation, education or program work; verify entry requirements.",
+          "humanEdge": "Community credibility and practical problem solving.",
+          "skills": ["Health Education", "Care Navigation", "Program Coordination"],
+          "options": [
+            "Health Education Specialist",
+            "Care Coordinator",
+            "Public Health Program Coordinator",
+            "Social Services Case Manager",
+            "Patient Advocate"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned community health practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to reach people health systems miss.",
+          "skills": ["Outreach Design", "Workshop Facilitation", "Resource Mapping"],
+          "options": [
+            "Community Health Outreach Service",
+            "Health Workshop Facilitation Service",
+            "Multilingual Health Resource Toolkit",
+            "Employer Health Navigation Service",
+            "Community Partnership Practice"
+          ]
+        }
+      }
+    },
+    "21-2011.00": {
+      "role": "clergy",
+      "strategies": {
+        "automate": {
+          "description": "Stay in ministry and configure digital worship, congregation management and giving platforms with clergy oversight.",
+          "humanEdge": "Spiritual leadership and pastoral presence.",
+          "skills": [
+            "Livestream Platforms",
+            "Congregation Management Systems",
+            "Online Giving Tools"
+          ],
+          "options": [
+            "Digital Ministry Lead",
+            "Online Congregation Pastor",
+            "Congregation Systems Coordinator",
+            "Livestream Worship Coordinator",
+            "Giving Platform Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine pastoral care and preaching with AI tools for sermon research, communication and program planning.",
+          "humanEdge": "Accompanying people through life's major moments.",
+          "skills": ["Pastoral Care", "AI Output Verification", "Public Speaking"],
+          "options": [
+            "Chaplain Track",
+            "Pastoral Care Coordinator",
+            "Community Ministry Director",
+            "Faith-Based Program Manager",
+            "Interfaith Engagement Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use pastoral and leadership skill in adjacent chaplaincy, nonprofit or counselling support work; verify entry requirements.",
+          "humanEdge": "Compassionate leadership of communities.",
+          "skills": ["Nonprofit Management", "Grief Support", "Community Organising"],
+          "options": [
+            "Hospital Chaplain Track",
+            "Nonprofit Executive Director Track",
+            "Grief Support Facilitator",
+            "Community Organizer",
+            "Volunteer Program Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned faith community practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to gather and sustain communities.",
+          "skills": ["Facilitation", "Writing", "Event Planning"],
+          "options": [
+            "Ceremony Officiant Service",
+            "Grief Support Group Practice",
+            "Retreat Facilitation Service",
+            "Devotional Writing Toolkit",
+            "Congregation Growth Advisory Service"
+          ]
+        }
+      }
+    },
+    "21-2021.00": {
+      "role": "religious_education_director",
+      "strategies": {
+        "automate": {
+          "description": "Stay in religious education and configure learning platforms, registration and volunteer scheduling with director sign-off.",
+          "humanEdge": "Shaping formation that fits the community's tradition.",
+          "skills": ["Learning Management Systems", "Registration Tools", "Volunteer Scheduling"],
+          "options": [
+            "Digital Faith Formation Lead",
+            "Program Registration Coordinator",
+            "Volunteer Systems Coordinator",
+            "Online Class Coordinator",
+            "Youth Program Data Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine program leadership with AI tools for curriculum drafts, communications and event planning.",
+          "humanEdge": "Inspiring volunteers and learners.",
+          "skills": ["Curriculum Design", "AI Output Verification", "Volunteer Management"],
+          "options": [
+            "Youth Ministry Director",
+            "Adult Education Coordinator",
+            "Family Ministry Coordinator",
+            "Camp Program Director",
+            "Faith-Based Program Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use education and volunteer leadership in adjacent nonprofit, youth or training work; verify entry requirements.",
+          "humanEdge": "Building engaged learning communities.",
+          "skills": ["Program Management", "Youth Development", "Training"],
+          "options": [
+            "Youth Program Manager",
+            "Nonprofit Program Manager",
+            "Volunteer Program Manager",
+            "Training Coordinator",
+            "Camp Director"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned faith education practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to design formation programs people return to.",
+          "skills": ["Curriculum Writing", "Event Design", "Facilitation"],
+          "options": [
+            "Faith Curriculum Toolkit",
+            "Retreat Planning Service",
+            "Volunteer Training Service",
+            "Youth Program Design Practice",
+            "Family Faith Activity Toolkit"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,327 @@
+{
+  "source": "Product-curated from O*NET 31.0 occupation tasks for SOC major group 23 (https://www.onetonline.org/find/family?f=23). Exploration labels, not verified vacancies or transitions.",
+  "occupations": {
+    "23-1011.00": {
+      "role": "lawyer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in legal practice and configure AI-assisted research, contract review and document assembly with lawyer sign-off.",
+          "humanEdge": "Deciding which legal position actually serves the client's interests and risk tolerance.",
+          "skills": ["Legal Research Platforms", "Contract Review Automation", "Document Assembly"],
+          "options": [
+            "AI-Assisted Contract Review Lawyer",
+            "Legal Research Automation Lead",
+            "Document Assembly Counsel",
+            "E-Discovery Review Counsel",
+            "Clause Library Counsel"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine advocacy and client counselling with AI tools for drafting, case analysis and due diligence.",
+          "humanEdge": "Advising clients on strategy and negotiating outcomes under uncertainty.",
+          "skills": ["Legal Drafting", "AI Output Verification", "Client Counselling"],
+          "options": [
+            "Legal Technology Counsel",
+            "AI Governance Counsel",
+            "Commercial Contracts Counsel",
+            "Litigation Strategy Counsel",
+            "Regulatory Advisory Counsel"
+          ]
+        },
+        "pivot": {
+          "description": "Use legal analysis in adjacent compliance, policy, contracts or mediation work; verify entry requirements.",
+          "humanEdge": "Reading rules and risk precisely and explaining them plainly.",
+          "skills": ["Compliance Frameworks", "Policy Analysis", "Negotiation"],
+          "options": [
+            "Compliance Manager Track",
+            "Contracts Manager",
+            "Legal Operations Manager",
+            "Policy Advisor",
+            "Mediator Track"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned legal workflow practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to spot recurring legal friction that small organisations cannot afford to handle ad hoc.",
+          "skills": ["Legal Process Design", "Plain-Language Drafting", "Scope Definition"],
+          "options": [
+            "Contract Template Toolkit",
+            "Legal Operations Setup Service",
+            "Plain-Language Policy Drafting Service",
+            "Startup Legal Readiness Practice",
+            "Contract Playbook Toolkit"
+          ]
+        }
+      }
+    },
+    "23-1012.00": {
+      "role": "judicial_law_clerk",
+      "strategies": {
+        "automate": {
+          "description": "Stay in chambers work and configure AI-assisted legal research, citation checking and docket tracking with judge sign-off.",
+          "humanEdge": "Recognising which precedent and facts matter to the question the judge must decide.",
+          "skills": ["Legal Research Platforms", "Citation Checking Tools", "Docket Management"],
+          "options": [
+            "AI-Assisted Research Clerk",
+            "Citation Verification Clerk",
+            "Docket Automation Clerk",
+            "Bench Memo Drafting Clerk",
+            "Case File Digitisation Clerk"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine close reading of records and briefs with AI tools for summarising filings and drafting bench memos.",
+          "humanEdge": "Neutral analysis that fairly represents both parties' arguments.",
+          "skills": ["Bench Memo Writing", "AI Output Verification", "Record Review"],
+          "options": [
+            "Judicial Research Attorney Track",
+            "Appellate Staff Attorney Track",
+            "Court Opinion Editor",
+            "Legal Writing Specialist",
+            "Case Management Analyst"
+          ]
+        },
+        "pivot": {
+          "description": "Use research and drafting discipline in adjacent legal research, editing or court operations work; verify entry requirements.",
+          "humanEdge": "Precise legal writing under deadlines.",
+          "skills": ["Legal Writing", "Research Methods", "Court Procedures"],
+          "options": [
+            "Legal Research Analyst",
+            "Court Operations Analyst",
+            "Legal Editor",
+            "Law Library Research Specialist",
+            "Litigation Associate Track"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned judicial research practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to explain how courts read and weigh written arguments.",
+          "skills": ["Legal Writing Instruction", "Research Workflow Design", "Editorial Review"],
+          "options": [
+            "Brief Writing Review Service",
+            "Legal Research Training Practice",
+            "Citation Checking Toolkit",
+            "Moot Preparation Service",
+            "Legal Writing Feedback Service"
+          ]
+        }
+      }
+    },
+    "23-1021.00": {
+      "role": "administrative_law_judge",
+      "strategies": {
+        "automate": {
+          "description": "Stay in adjudication and configure AI-assisted case intake, evidence indexing and decision drafting templates with adjudicator sign-off.",
+          "humanEdge": "Weighing credibility and applying law fairly to individual circumstances.",
+          "skills": ["Case Management Systems", "Evidence Indexing Tools", "Decision Templates"],
+          "options": [
+            "Digital Hearings Adjudicator",
+            "Case Intake Automation Lead",
+            "Evidence Indexing Adjudicator",
+            "Decision Template Lead",
+            "Hearing Records Automation Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine hearing conduct and fact-finding with AI tools for record summaries and consistency checks across decisions.",
+          "humanEdge": "Running fair hearings where parties feel heard.",
+          "skills": ["Hearing Management", "AI Output Verification", "Written Decisions"],
+          "options": [
+            "Appeals Board Member Track",
+            "Hearing Office Director Track",
+            "Administrative Review Specialist",
+            "Benefits Appeals Analyst",
+            "Decision Quality Reviewer"
+          ]
+        },
+        "pivot": {
+          "description": "Use adjudication experience in adjacent mediation, policy or regulatory review work; verify entry requirements.",
+          "humanEdge": "Impartial judgment and clear reasoning.",
+          "skills": ["Dispute Resolution", "Regulatory Analysis", "Policy Writing"],
+          "options": [
+            "Mediator Track",
+            "Regulatory Policy Advisor",
+            "Ombudsperson Track",
+            "Agency Rules Analyst",
+            "Compliance Review Lead"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned administrative hearing practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to see where agency procedures confuse parties and stall outcomes.",
+          "skills": ["Procedure Design", "Training Design", "Plain-Language Drafting"],
+          "options": [
+            "Hearing Procedure Design Service",
+            "Adjudicator Training Practice",
+            "Decision Writing Toolkit",
+            "Tribunal Process Review Service",
+            "Hearing Preparation Guide Toolkit"
+          ]
+        }
+      }
+    },
+    "23-1022.00": {
+      "role": "mediator",
+      "strategies": {
+        "automate": {
+          "description": "Stay in dispute resolution and configure AI-assisted case intake, scheduling and agreement drafting with mediator sign-off.",
+          "humanEdge": "Reading parties' underlying interests and the moment to move toward settlement.",
+          "skills": [
+            "Online Dispute Resolution Platforms",
+            "Case Intake Tools",
+            "Agreement Templates"
+          ],
+          "options": [
+            "Online Dispute Resolution Mediator",
+            "Case Intake Automation Coordinator",
+            "Settlement Drafting Lead",
+            "ODR Platform Specialist",
+            "Virtual Mediation Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine facilitation and negotiation with AI tools for issue mapping, option generation and summary drafting.",
+          "humanEdge": "Building trust between people in conflict.",
+          "skills": ["Facilitation", "Negotiation Analysis", "AI Output Verification"],
+          "options": [
+            "Workplace Conflict Mediator",
+            "Commercial Mediator",
+            "Family Mediation Track",
+            "Arbitration Case Manager",
+            "Restorative Practice Facilitator"
+          ]
+        },
+        "pivot": {
+          "description": "Use conflict resolution skill in adjacent HR, ombuds, labour relations or facilitation work; verify entry requirements.",
+          "humanEdge": "Calm neutrality under pressure.",
+          "skills": ["Employee Relations", "Facilitation", "Investigation"],
+          "options": [
+            "Employee Relations Specialist",
+            "Ombudsperson Track",
+            "Labour Relations Specialist",
+            "Community Engagement Facilitator",
+            "Workplace Investigator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned dispute resolution practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to de-escalate disputes before they become costly.",
+          "skills": ["Conflict Coaching", "Workshop Design", "Process Design"],
+          "options": [
+            "Workplace Mediation Service",
+            "Conflict Coaching Practice",
+            "Neighbour Dispute Mediation Service",
+            "Team Conflict Workshop Service",
+            "Dispute Prevention Toolkit"
+          ]
+        }
+      }
+    },
+    "23-1023.00": {
+      "role": "judge",
+      "strategies": {
+        "automate": {
+          "description": "Stay in judicial work and configure AI-assisted docket management, filings triage and research support with judge sign-off.",
+          "humanEdge": "Final judgment on facts, credibility and sentencing within the law.",
+          "skills": ["Docket Management Systems", "Legal Research Platforms", "Filings Triage"],
+          "options": [
+            "Digital Court Docket Lead",
+            "Case Flow Management Judge",
+            "E-Filing Oversight Judge",
+            "Court Technology Committee Lead",
+            "Research Support Oversight Judge"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine courtroom management with AI tools for summarising records and checking decision consistency.",
+          "humanEdge": "Maintaining fairness and public trust in proceedings.",
+          "skills": ["Courtroom Management", "AI Output Verification", "Opinion Writing"],
+          "options": [
+            "Presiding Judge Track",
+            "Court Administration Lead",
+            "Judicial Education Faculty",
+            "Specialty Court Judge Track",
+            "Appellate Panel Track"
+          ]
+        },
+        "pivot": {
+          "description": "Use judicial experience in adjacent arbitration, education or court reform work; verify entry requirements.",
+          "humanEdge": "Authoritative, impartial reasoning.",
+          "skills": ["Arbitration Practice", "Teaching", "Policy Analysis"],
+          "options": [
+            "Arbitrator Track",
+            "Judicial Educator",
+            "Court Reform Advisor",
+            "Mediator Track",
+            "Legal Ethics Advisor"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned judicial administration practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to explain how courts actually work to people who must use them.",
+          "skills": ["Curriculum Design", "Process Review", "Public Speaking"],
+          "options": [
+            "Court Process Review Service",
+            "Judicial Training Practice",
+            "Self-Represented Litigant Guide Toolkit",
+            "Arbitration Practice",
+            "Court Technology Advisory Service"
+          ]
+        }
+      }
+    },
+    "23-2093.00": {
+      "role": "title_examiner",
+      "strategies": {
+        "automate": {
+          "description": "Stay in title work and configure automated record retrieval, chain-of-title extraction and exception flagging with examiner sign-off.",
+          "humanEdge": "Spotting defects and ambiguities in records that automation misreads.",
+          "skills": ["Title Plant Software", "Document Extraction Tools", "Records Databases"],
+          "options": [
+            "Automated Title Search Specialist",
+            "Title Data Extraction Lead",
+            "Title Exception Review Specialist",
+            "Digital Abstracting Specialist",
+            "Recording Data Quality Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine record examination with AI tools for summarising deeds, liens and easements.",
+          "humanEdge": "Judging which encumbrances genuinely affect a transaction.",
+          "skills": ["Chain of Title Analysis", "AI Output Verification", "Lien Research"],
+          "options": [
+            "Title Examiner Lead",
+            "Title Curative Specialist",
+            "Commercial Title Examiner",
+            "Title Underwriting Assistant",
+            "Escrow Title Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use property records expertise in adjacent escrow, land, or compliance work; verify entry requirements.",
+          "humanEdge": "Meticulous record review.",
+          "skills": ["Real Estate Closing", "Land Records", "Due Diligence"],
+          "options": [
+            "Escrow Officer Track",
+            "Land Records Analyst",
+            "Real Estate Paralegal",
+            "Due Diligence Analyst",
+            "Right-of-Way Agent"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned title search practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to trace ownership history quickly and accurately.",
+          "skills": ["Records Research", "Report Writing", "Client Intake"],
+          "options": [
+            "Independent Title Search Service",
+            "Property Records Research Service",
+            "Title Curative Support Service",
+            "Land Due Diligence Practice",
+            "Title Search Checklist Toolkit"
+          ]
+        }
+      }
+    }
+  }
+}
