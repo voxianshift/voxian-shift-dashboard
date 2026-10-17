@@ -300,9 +300,6 @@ function Roadmap({
           </div>
           <div className="mt-4 rounded-xl border p-4 text-sm text-muted-foreground">
             <p>{selected.mappingRationale}</p>
-            <p className="mt-2">
-              Source: {selected.mappingSource} · {selected.mappingVersion}
-            </p>
             <p className="mt-2">Human edge: {selected.humanEdge}</p>
             <p className="mt-2">Tradeoff: {selected.tradeoff}</p>
             {data.generationStatus !== "personalized" && (

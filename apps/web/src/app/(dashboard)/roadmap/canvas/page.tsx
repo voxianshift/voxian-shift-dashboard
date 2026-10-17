@@ -308,9 +308,6 @@ function NavigatorCanvas({
                     : "Curated pathways, not verified occupations or job openings."}{" "}
                   {selected.mappingRationale}
                 </p>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Source: {selected.mappingSource} · {selected.mappingVersion}
-                </p>
 
                 <section aria-label="Other roles in this direction">
                   <h3 className="mb-3 text-[15px] font-medium">Curated pathway labels</h3>

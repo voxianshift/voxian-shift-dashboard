@@ -215,7 +215,7 @@ test("unsupported strategies show missing coverage without a plan or invented ro
   expect(canvas).not.toContain("Build this direction into a plan")
 })
 
-test("partial coverage ignores out-of-range role links and shows pathway provenance", () => {
+test("partial coverage ignores out-of-range role links without exposing internal provenance", () => {
   state.data = {
     ...navigatorFixture,
     paths: navigatorFixture.paths.map((path) => ({
@@ -229,5 +229,11 @@ test("partial coverage ignores out-of-range role links and shows pathway provena
   const html = renderToStaticMarkup(createElement(RoadmapPage))
   expect(html).not.toContain("undefined")
   expect(html).toContain("Curated pathway labels")
-  expect(html).toContain("Test reviewed mapping")
+  expect(html).not.toContain("Test reviewed mapping")
+  expect(html).not.toContain("test-1")
+  const canvas = renderToStaticMarkup(
+    createElement(SidebarProvider, null, createElement(CanvasPage)),
+  )
+  expect(canvas).not.toContain("Test reviewed mapping")
+  expect(canvas).not.toContain("test-1")
 })
