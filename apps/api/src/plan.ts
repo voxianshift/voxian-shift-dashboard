@@ -78,6 +78,7 @@ export function registerPlan(app: FastifyInstance) {
         },
         z.toJSONSchema(planSchema),
         8192,
+        60_000,
       )
       return {
         plan: planSchema.parse(JSON.parse(raw)),
@@ -87,6 +88,10 @@ export function registerPlan(app: FastifyInstance) {
     } catch (error) {
       if (error instanceof ProviderAuthError)
         return reply.code(503).send({ error: `${config.label} credentials were not accepted.` })
+      request.log.warn(
+        { reason: error instanceof Error ? error.message : String(error) },
+        "plan failed",
+      )
       return reply.code(502).send({ error: "The plan could not be generated. Try again." })
     }
   })
