@@ -5,13 +5,6 @@ import { Info, X } from "lucide-react"
 import { occupationCode, occupationSearchSchema, type OccupationMatch } from "@voxian/shared"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import type { CareerProfile } from "@/lib/onboarding"
 import { fieldHelp } from "@/lib/styles"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
@@ -27,7 +20,6 @@ export function OccupationPicker({
 }) {
   const searchId = useId()
   const searchInput = useRef<HTMLInputElement>(null)
-  const primaryId = useId()
   const [query, setQuery] = useState(
     suggestions.length || profile.occupations.length ? "" : profile.currentWork,
   )
@@ -66,22 +58,20 @@ export function OccupationPicker({
       controller.abort()
     }
   }, [term, attempt])
-  function toggle(role: OccupationMatch) {
-    const code = role.code
-    const current = [...new Set(profile.occupations.map(occupationCode))]
-    const occupations = current.includes(code)
-      ? current.filter((id) => id !== code)
-      : [...current, code].slice(0, 5)
-    const names = { ...profile.occupationNames, [code]: role.title }
-    onChange({
-      occupations,
-      occupationNames: Object.fromEntries(occupations.map((id) => [id, names[id] ?? id])),
-      primaryOccupation: occupations.includes(occupationCode(profile.primaryOccupation))
-        ? occupationCode(profile.primaryOccupation)
-        : occupations.length === 1
-          ? occupations[0]!
-          : "",
-    })
+  // Legacy multi-role profiles without a main role show no selection until one role is chosen.
+  const selected = occupationCode(
+    profile.primaryOccupation || (profile.occupations.length === 1 ? profile.occupations[0]! : ""),
+  )
+  function choose(role: OccupationMatch | null) {
+    onChange(
+      role
+        ? {
+            occupations: [role.code],
+            occupationNames: { [role.code]: role.title },
+            primaryOccupation: role.code,
+          }
+        : { occupations: [], occupationNames: {}, primaryOccupation: "" },
+    )
   }
   const matches = term.length >= 2 ? results : suggestions
   return (
@@ -117,9 +107,7 @@ export function OccupationPicker({
           </Button>
         )}
       </div>
-      <p className={fieldHelp}>
-        Choose up to five roles that fit. Matching a role does not guarantee an exposure baseline.
-      </p>
+      <p className={fieldHelp}>Choose the one role that takes most of your time.</p>
       {status === "loading" && (
         <p role="status" className={fieldHelp}>
           Searching occupations…
@@ -159,98 +147,40 @@ export function OccupationPicker({
           <p className="text-muted-foreground">
             {role.category} · {role.code}
           </p>
-          <p className="leading-relaxed line-clamp-3">{role.description}</p>
-          <p className="text-muted-foreground">{role.reason}</p>
-          <p className={fieldHelp}>
-            {role.baselineId
-              ? "Illustrative Meter baseline available"
-              : "Meter availability checked after you choose this role"}
-          </p>
           <Button
             type="button"
             variant="outline"
-            aria-label={`${profile.occupations.map(occupationCode).includes(role.code) ? "Remove" : "Choose"} ${role.title}`}
-            aria-pressed={profile.occupations.map(occupationCode).includes(role.code)}
-            disabled={
-              profile.occupations.length >= 5 &&
-              !profile.occupations.map(occupationCode).includes(role.code)
-            }
-            onClick={() => toggle(role)}
+            aria-label={`${selected === role.code ? "Remove" : "Choose"} ${role.title}`}
+            aria-pressed={selected === role.code}
+            onClick={() => choose(selected === role.code ? null : role)}
           >
-            {profile.occupations.map(occupationCode).includes(role.code)
-              ? "Remove role"
-              : "This fits my work"}
+            {selected === role.code ? "Remove role" : "This fits my work"}
           </Button>
         </div>
       ))}
-      {profile.occupations.length > 0 && (
-        <div className="rounded-lg border p-3 space-y-2">
-          <p className="text-[14px] font-medium">Your selected roles</p>
-          {profile.occupations.map((id) => (
-            <div key={id} className="flex items-center justify-between gap-2 text-[14px]">
-              <span>
-                {profile.occupationNames[id] ??
-                  (id === "customer-support"
-                    ? "Customer Support Specialist"
-                    : id === "administrative-assistant"
-                      ? "Administrative & Executive Assistant"
-                      : id)}
-              </span>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                aria-label={`Remove ${profile.occupationNames[id] ?? id}`}
-                onClick={() => {
-                  const occupations = profile.occupations.filter((code) => code !== id)
-                  onChange({
-                    occupations,
-                    primaryOccupation:
-                      occupations.length === 1
-                        ? occupations[0]!
-                        : occupations.includes(profile.primaryOccupation)
-                          ? profile.primaryOccupation
-                          : "",
-                  })
-                }}
-              >
-                Remove
-              </Button>
-            </div>
-          ))}
-          {profile.occupations.length > 1 && (
-            <>
-              <label htmlFor={primaryId} className={fieldHelp}>
-                Which role takes most of your time?
-              </label>
-              <Select
-                value={profile.primaryOccupation || "unselected"}
-                onValueChange={(value) =>
-                  onChange({ primaryOccupation: value === "unselected" ? "" : value })
-                }
-              >
-                <SelectTrigger id={primaryId} className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="unselected">Choose your main role</SelectItem>
-                  {profile.occupations.map((id) => (
-                    <SelectItem value={id} key={id}>
-                      {profile.occupationNames[id] ?? id}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </>
-          )}
+      {selected && (
+        <div className="flex items-center justify-between gap-2 rounded-lg border p-3 text-[14px]">
+          <span>
+            <span className="block text-muted-foreground">Your selected role</span>
+            <span className="font-medium">{profile.occupationNames[selected] ?? selected}</span>
+          </span>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            aria-label={`Remove ${profile.occupationNames[selected] ?? selected}`}
+            onClick={() => choose(null)}
+          >
+            Remove
+          </Button>
         </div>
       )}
       <Tooltip>
-        <TooltipTrigger asChild>
+        {/* <TooltipTrigger asChild>
           <button type="button" className={`${fieldHelp} inline-flex items-center gap-1`}>
             <Info className="size-3.5" /> Source: O*NET® 31.0 (US)
           </button>
-        </TooltipTrigger>
+        </TooltipTrigger> */}
         <TooltipContent className="max-w-72 text-[13px] leading-relaxed">
           Occupation data from the O*NET® 31.0 Database, U.S. Department of Labor, Employment and
           Training Administration, adapted under CC BY 4.0. Voxian adds matching and illustrative
