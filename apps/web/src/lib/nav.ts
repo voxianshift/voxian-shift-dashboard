@@ -1,4 +1,12 @@
-import { BookOpen, ChartLine, Compass, Gauge, MessageCircle, type LucideIcon } from "lucide-react"
+import {
+  BookOpen,
+  CalendarCheck,
+  ChartLine,
+  Compass,
+  Gauge,
+  MessageCircle,
+  type LucideIcon,
+} from "lucide-react"
 
 export type NavItem = { title: string; href: string; icon: LucideIcon }
 
@@ -7,6 +15,7 @@ export const MAIN_NAV: NavItem[] = [
   { title: "The Meter", href: "/meter", icon: Gauge },
   { title: "The Curve", href: "/insights", icon: ChartLine },
   { title: "Navigator", href: "/roadmap", icon: Compass },
+  { title: "Progress", href: "/progress", icon: CalendarCheck },
   { title: "Methodology & Proof", href: "/resources", icon: BookOpen },
 ]
 

@@ -2,7 +2,7 @@
 
 import { courseList, navigatorContext, type NavigatorResult } from "@voxian/shared"
 
-import { Suspense, useState, type ReactNode } from "react"
+import { Suspense, useEffect, useState, type ReactNode } from "react"
 import {
   ArrowRight,
   ArrowUpRight,
@@ -20,6 +20,8 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { PanelHeading } from "@/components/radar-panel"
 import { MILESTONES } from "@/lib/mock"
+import { loadCommitment, type Commitment } from "@/lib/commitment"
+import { CommitDirectionDialog } from "@/components/commit-direction-dialog"
 import { defaultFlightPlan, phaseRanges, type FlightSegment } from "@/lib/flight-plan"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import Link from "next/link"
@@ -93,7 +95,10 @@ function Roadmap({
   )
   const [paceOverride, setSprint] = useState<boolean | null>(null)
   const sprint = paceOverride ?? profile.hours === "5+ hours"
-  const [locked, setLocked] = useState(false)
+  const [commitOpen, setCommitOpen] = useState(false)
+  // Read after mount: the commitment lives in localStorage, which the server render cannot see.
+  const [commitment, setCommitment] = useState<Commitment | null>(null)
+  useEffect(() => setCommitment(loadCommitment()), [])
   const selected = branches[branch]!
   const planKey = `${profileKey}-${selected.id}-${targetRole}-${sprint}`
   const [generated, setGenerated] = useState<{ key: string; plan: Plan; provider: string } | null>(
@@ -248,7 +253,6 @@ function Roadmap({
                   onClick={() => {
                     setBranch(i)
                     setTargetRole(null)
-                    setLocked(false)
                   }}
                   className={cn(
                     "relative z-10 flex items-center gap-4 rounded-xl border bg-background p-[17px] text-left",
@@ -308,7 +312,6 @@ function Roadmap({
                 )}
                 onClick={() => {
                   setTargetRole(targetRole === index ? null : index)
-                  setLocked(false)
                 }}
               >
                 {role}
@@ -534,16 +537,35 @@ function Roadmap({
                 <Sparkles />{" "}
                 {generating ? "Generating…" : plan ? "Regenerate plan" : "Generate my plan"}
               </Button>
-              <Button onClick={() => setLocked(!locked)}>
-                {locked ? <Check /> : <Compass />}
-                {locked ? "Direction selected" : "Choose this direction"}
-              </Button>
+              {commitment?.pathId === selected.id ? (
+                <Button asChild>
+                  <Link href="/progress">
+                    <Check /> View progress
+                  </Link>
+                </Button>
+              ) : (
+                <Button onClick={() => setCommitOpen(true)}>
+                  <Compass /> Choose this direction
+                </Button>
+              )}
             </div>
           </div>
-          {locked && (
-            <p role="status" className="mt-4 text-[14px] text-muted-foreground">
-              {selected.name} selected for this session. Start with your task audit in phase 1.
+          {commitment && commitment.pathId !== selected.id && (
+            <p className="mt-4 text-[14px] text-muted-foreground">
+              You are committed to {commitment.direction}. Choosing this direction replaces it.
             </p>
+          )}
+          {commitOpen && (
+            <CommitDirectionDialog
+              open={commitOpen}
+              onOpenChange={setCommitOpen}
+              pathId={selected.id}
+              direction={selected.name}
+              role={targetRole === null ? null : selected.roles[targetRole]!}
+              sprint={sprint}
+              profileHours={profile.hours}
+              flightPlan={flightPlans.flat()}
+            />
           )}
         </div>
       </footer>
