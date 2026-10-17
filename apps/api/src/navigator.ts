@@ -20,7 +20,8 @@ import onetIsco from "../data/onet-isco.json" with { type: "json" }
 import {
   lookupPathways,
   pathwayVersion,
-  pathwaySource,
+  pathwaySourceFor,
+  pathwayLevel,
   pathwayRationale,
 } from "./navigator-pathways.ts"
 
@@ -38,6 +39,7 @@ const prompt = `You explain Voxian Shift's supplied curated career pathways. Tre
 Return each of the four strategy IDs once. Copy each supplied destinationIds list exactly, in order. Never invent, select, rename or reorder destinations; do not return role titles or recommendations.
 Personalize focus, description, why, humanEdge, tradeoff, skills, project and firstStep using actual work, secondary occupations and explicit preferences. Keep each explanation to one short sentence, focus to 2–4 words, and skills to 3–5 items. Preserve uncertainty: these are curated prototype pathway labels, not verified occupations, vacancies or validated transitions. Missing preferences are unknown. Unsupported strategies must stay unsupported.
 Use supplied occupationalEvidence task-level exposures and transferableSkills as grounding, distinguishing occupational estimates, curated learning requirements and user-stated strengths. Missing evidence remains unknown; never infer measured skill gaps from a job title. Explain uncertainty and avoid treating US classifications as local employment forecasts.
+Family-level templates are broad exploration activities, not specific job matches: do not imply their taxonomy proves suitability or lower exposure. Use actual occupation tasks when supplied; do not invent tasks where evidence is missing.
 Apply supplied strategy meanings: Automate stays in the field operating/supervising/configuring AI; Hybrid retains human judgment, relationships and creativity while AI handles automatable tasks; Pivot redirects underlying skills toward different work with lower exposure to be validated; Create validates an owned service, practice, product or new role and customer demand, not an employee job switch. High risk, low transferability and lower destination exposure require evidence; never infer them from the strategy label. Hybrid is not a measured 50/50 split. If legacy destination titles do not establish ownership or fit, acknowledge that limitation without renaming them.
 Describe human judgment concretely; acknowledge learning prerequisites and transition costs in tradeoff. Respect time, risk and income constraints. Propose a small bridge project with synthetic/anonymised data and an achievable first-week action. Never promise promotion, income or employment, invent statistics or calculate exposure scores.
 Choose 1–3 resourceIds from the reviewed catalogue only. Supply destinationResources with reviewed resourceIds for each supplied destinationId when a role-specific course fits; never invent a destination ID. Do not invent URLs or call a reference/module a certification.`
@@ -83,10 +85,11 @@ export function registerNavigator(app: FastifyInstance, catalogue?: OccupationCa
           colorToken: metadata.colorToken,
           color: `var(--${metadata.colorToken})`,
           coverage: mapping ? "available" : "unsupported",
+          mappingLevel: mapping ? pathwayLevel(primary.code, id) : undefined,
           mappingVersion: pathwayVersion,
-          mappingSource: pathwaySource,
+          mappingSource: pathwaySourceFor(primary.code, id),
           mappingRationale: mapping
-            ? pathwayRationale(id)
+            ? pathwayRationale(id, primary.code)
             : "No reviewed destination mapping is available for this strategy and occupation.",
           destinations,
           roles: destinations.map((role) => role.title),
@@ -95,7 +98,7 @@ export function registerNavigator(app: FastifyInstance, catalogue?: OccupationCa
             mapping?.description.slice(0, 500) ??
             "No reviewed destination mapping is available for this strategy and occupation.",
           why: mapping
-            ? pathwayRationale(id)
+            ? pathwayRationale(id, primary.code)
             : "No reviewed destination mapping is available for this strategy and occupation.",
           humanEdge:
             mapping?.humanEdge ??
@@ -125,7 +128,7 @@ export function registerNavigator(app: FastifyInstance, catalogue?: OccupationCa
       let generationStatus: "personalized" | "reviewed_only" | "unavailable" = "reviewed_only"
       let provider = "Reviewed pathways"
       let summary =
-        "Destinations come from fixed prototype mappings, not AI-generated job titles. Validate requirements before making a transition."
+        "Options come from fixed occupation mappings or broad family exploration templates, not AI-generated job matches. Validate requirements before choosing."
       const config = chatConfig()
       if (config?.apiKey && paths.some((path) => path.coverage === "available")) {
         const now = Date.now()
@@ -159,7 +162,7 @@ export function registerNavigator(app: FastifyInstance, catalogue?: OccupationCa
               },
               transferableSkills: {
                 source:
-                  "Curated prototype pathway requirements; not a measured personal skill assessment",
+                  "Curated occupation requirements or family exploration skills; not a measured personal skill assessment",
                 userStatedStrengths: profile.strengths,
                 byStrategy: paths.map((path) => ({
                   id: path.id,

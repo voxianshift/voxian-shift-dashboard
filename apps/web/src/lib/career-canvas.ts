@@ -72,7 +72,8 @@ export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): 
           data: {
             title: path.title,
             strategyLabel: path.label,
-            subtitle: path.focus,
+            subtitle:
+              path.mappingLevel === "family" ? "Family exploration · validate fit" : path.focus,
             color: path.color,
             kind: "path",
             pathId: path.id,

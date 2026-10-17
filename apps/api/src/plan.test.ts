@@ -383,3 +383,62 @@ test("computer user support destinations generate validated plans in every strat
     await app.close()
   }
 })
+
+test("family options use same resolver in Navigator and Plan and reject another occupation's IDs", async () => {
+  const fetch = mockProvider()
+  const family = { ...occupation, code: "29-1141.00", title: "Registered Nurses" }
+  const app = buildApp({
+    catalogue: { ...catalogue, search: async (code) => (code === family.code ? [family] : []) },
+  })
+  try {
+    for (const strategyId of ["automate", "hybrid", "pivot", "create"]) {
+      const base = request()
+      const payload = {
+        ...base,
+        occupationCode: family.code,
+        strategyId,
+        destinationId: `family-${family.code}-${strategyId}-1`,
+        profile: { ...base.profile, occupations: [family.code], primaryOccupation: family.code },
+      }
+      const response = await app.inject({ method: "POST", url: "/plan", payload })
+      expect(response.statusCode).toBe(200)
+      const plan = flightPlanSchema.parse(response.json().plan)
+      expect(plan.destinationId).toBe(payload.destinationId)
+      const input = JSON.parse(JSON.parse(fetch.mock.calls.at(-1)![1]!.body).messages[1].content)
+      expect(input.pathway.limitation).toContain("Family-level exploration template")
+      const wrong = await app.inject({
+        method: "POST",
+        url: "/plan",
+        payload: { ...payload, destinationId: `family-29-1142.00-${strategyId}-1` },
+        remoteAddress: `127.0.1.${fetch.mock.calls.length + 1}`,
+      })
+      expect(wrong.statusCode).toBe(400)
+    }
+  } finally {
+    await app.close()
+  }
+})
+
+test("family prefix never bypasses verification against actual occupation catalogue", async () => {
+  const fetch = mockProvider()
+  const app = buildApp({ catalogue })
+  try {
+    const base = request()
+    const code = "15-9999.00"
+    const response = await app.inject({
+      method: "POST",
+      url: "/plan",
+      payload: {
+        ...base,
+        occupationCode: code,
+        strategyId: "create",
+        destinationId: `family-${code}-create-1`,
+        profile: { ...base.profile, occupations: [code], primaryOccupation: code },
+      },
+    })
+    expect(response.statusCode).toBe(400)
+    expect(fetch).not.toHaveBeenCalled()
+  } finally {
+    await app.close()
+  }
+})

@@ -18,7 +18,7 @@ const NavigatorContext = createContext<{
   profileKey: string
   retry: () => void
 } | null>(null)
-const storageKey = "voxian-navigator-v3-support4"
+const storageKey = "voxian-navigator-v3-families1"
 
 export function NavigatorProvider({ children }: { children: ReactNode }) {
   const { profile, ready } = useCareerProfile()

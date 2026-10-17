@@ -326,6 +326,11 @@ function NavigatorCanvas({
               >
                 {selected.label.toUpperCase()} / YOUR PROFILE
               </p>
+              {selected.mappingLevel === "family" && (
+                <p className="mb-2 text-xs text-muted-foreground">
+                  Family exploration · validate fit
+                </p>
+              )}
               <h2
                 id="role-details-title"
                 className="pr-5 text-[25px] font-medium leading-tight max-[650px]:text-[21px]"

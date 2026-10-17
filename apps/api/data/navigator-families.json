@@ -1,0 +1,80 @@
+{
+  "version": "soc-family-exploration-1",
+  "source": "BLS 2018 SOC major groups; product-curated exploration templates",
+  "taxonomySource": "https://www.bls.gov/soc/2018/major_groups.htm",
+  "families": {
+    "11": "Management",
+    "13": "Business & finance",
+    "15": "Computing & mathematics",
+    "17": "Architecture & engineering",
+    "19": "Science & research",
+    "21": "Community & social services",
+    "23": "Legal work",
+    "25": "Education & libraries",
+    "27": "Arts, design & media",
+    "29": "Healthcare professional work",
+    "31": "Healthcare support",
+    "33": "Protective services",
+    "35": "Food preparation & service",
+    "37": "Building & grounds",
+    "39": "Personal care & services",
+    "41": "Sales",
+    "43": "Office & administration",
+    "45": "Agriculture & forestry",
+    "47": "Construction & extraction",
+    "49": "Installation & repair",
+    "51": "Production",
+    "53": "Transport & material moving",
+    "55": "Military experience"
+  },
+  "strategies": {
+    "automate": {
+      "title": "AI workflow practice",
+      "description": "Explore operating, supervising or configuring AI for a current-field administrative or information task. Validate applicability before automating; keep physical, regulated and consequential actions under qualified human control.",
+      "humanEdge": "Select appropriate tools, verify results and retain responsibility for permissions and exceptions.",
+      "skills": ["Workflow Analysis", "AI Tool Evaluation", "Human Review"],
+      "firstStep": "Choose one low-consequence task from your actual work; test an AI-assisted draft using synthetic data and document human checks.",
+      "options": [
+        "AI workflow operation",
+        "Automation quality checks",
+        "Knowledge workflow configuration"
+      ]
+    },
+    "hybrid": {
+      "title": "Human expertise with AI",
+      "description": "Explore keeping judgment, relationships, creativity and hands-on expertise while AI assists with appropriate preparation or documentation within your field.",
+      "humanEdge": "Understand context, communicate with people and make accountable decisions within your competence.",
+      "skills": ["Domain Judgment", "Communication", "AI Output Verification"],
+      "firstStep": "Separate one actual work task into human responsibilities and optional AI assistance; verify that this division is appropriate.",
+      "options": [
+        "Human judgment with AI assistance",
+        "AI-assisted documentation",
+        "Human-led service improvement"
+      ]
+    },
+    "pivot": {
+      "title": "Career transition research",
+      "description": "Research different work using your underlying skills; specific destination roles, entry requirements, transferability and lower exposure are not yet validated.",
+      "humanEdge": "Use real work examples to demonstrate underlying skills rather than assuming a job-title match.",
+      "skills": ["Transferable Skill Evidence", "Role Research", "Requirements Comparison"],
+      "firstStep": "List two underlying skills with examples, then research a different role and compare its requirements and exposure evidence.",
+      "options": [
+        "Training pathway research",
+        "Coordination pathway research",
+        "Quality pathway research"
+      ]
+    },
+    "create": {
+      "title": "Owned offer discovery",
+      "description": "Explore an owned service, practice or product based on domain knowledge. Validate customer demand, professional requirements and permitted scope before delivery.",
+      "humanEdge": "Understand customer problems, earn trust and define accountable delivery boundaries.",
+      "skills": ["Customer Discovery", "Offer Design", "Domain Knowledge"],
+      "firstStep": "Ask one potential customer about a domain problem, then outline a small owned offer using synthetic examples.",
+      "options": [
+        "Independent practice discovery",
+        "Owned service validation",
+        "Original toolkit prototype"
+      ]
+    }
+  }
+}

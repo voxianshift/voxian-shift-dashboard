@@ -119,3 +119,13 @@ test("strategy meanings distinguish operating AI, human work, moving roles and o
   expect(navigatorStrategies.pivot.meaning).toContain("validate transferability")
   expect(navigatorStrategies.create.meaning).toContain("you own")
 })
+
+test("family exploration does not inherit unrelated courses or mandatory credentials", () => {
+  const courses = courseList(
+    { ...path, mappingLevel: "family", resources: [navigatorResources.learn], roleResources: [] },
+    null,
+  )
+  expect(courses).toHaveLength(1)
+  expect(courses[0]!.mustHave).toBe(false)
+  expect(courses[0]!.href).toBe(navigatorResources.learn.href)
+})

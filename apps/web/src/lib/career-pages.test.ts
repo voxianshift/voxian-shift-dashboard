@@ -320,3 +320,14 @@ for (const [index, path] of navigatorFixture.paths.entries()) {
     expect(html).toContain('aria-label="Switch strategy"')
   })
 }
+
+test("family-level options are labelled as exploration on canvas and in details", () => {
+  state.data = {
+    ...navigatorFixture,
+    paths: navigatorFixture.paths.map((path) => ({ ...path, mappingLevel: "family" })),
+  }
+  const html = renderToStaticMarkup(
+    createElement(SidebarProvider, null, createElement(NavigatorPage)),
+  )
+  expect(html).toContain("Family exploration · validate fit")
+})

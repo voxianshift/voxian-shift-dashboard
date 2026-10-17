@@ -13,9 +13,10 @@ const developer = {
   baselineId: null,
   reason: "Exact code",
 }
+const familyOnly = { ...developer, code: "29-1141.00", title: "Registered Nurses" }
 const support = { ...developer, code: "15-1232.00", title: "Computer User Support Specialists" }
 const admin = { ...developer, code: "43-6011.00", title: "Executive Assistants" }
-const unknownMapping = { ...developer, code: "11-1011.00", title: "Chief Executives" }
+const unknownMapping = { ...developer, code: "99-9999.00", title: "Unclassified test occupation" }
 const context = navigatorContext({
   ...emptyProfile,
   preferredName: "Private name",
@@ -32,7 +33,7 @@ const context = navigatorContext({
 function catalogue(): OccupationCatalogue {
   return {
     search: vi.fn(async (code) =>
-      [developer, admin, support, unknownMapping].filter((role) => role.code === code),
+      [developer, admin, support, familyOnly, unknownMapping].filter((role) => role.code === code),
     ),
     selections: async () => ({ occupations: [], primaryOccupation: "" }),
     select: async () => {},
@@ -386,6 +387,33 @@ test("computer user support returns fixed coverage for all four strategies witho
       expect(path.destinations).toHaveLength(3)
     }
     expect(result.paths[3]!.title).toBe("Small Business IT Support Practice")
+  } finally {
+    await app.close()
+  }
+})
+
+test("family-only occupation gets transparent fixed exploration options without provider", async () => {
+  vi.stubEnv("ROOTSYS_API_KEY", "")
+  const app = buildApp({ catalogue: catalogue() })
+  try {
+    const response = await app.inject({
+      method: "POST",
+      url: "/navigator/paths",
+      payload: {
+        profile: { ...context, occupations: [familyOnly.code], primaryOccupation: familyOnly.code },
+      },
+    })
+    expect(response.statusCode).toBe(200)
+    const body = navigatorResultSchema.parse(response.json())
+    expect(body.generationStatus).toBe("reviewed_only")
+    for (const path of body.paths) {
+      expect(path.coverage).toBe("available")
+      expect(path.mappingLevel).toBe("family")
+      expect(path.mappingRationale).toContain("Family-level exploration template")
+      expect(path.mappingSource).toContain("SOC major groups")
+      expect(path.destinations).toEqual(lookupPathways(familyOnly.code)[path.id]!.destinations)
+    }
+    expect(body.paths[2]!.description).toContain("not yet validated")
   } finally {
     await app.close()
   }

@@ -304,6 +304,7 @@ export const careerPathSchema = z
     ...pathFields,
     title: text(100),
     coverage: z.enum(["available", "unsupported"]),
+    mappingLevel: z.enum(["occupation", "family"]).optional(),
     mappingVersion: text(80),
     mappingSource: text(200),
     mappingRationale: text(500),
@@ -380,12 +381,14 @@ export function courseList(path: CareerPath, roleIndex: number | null) {
   return [
     ...path.resources,
     ...forRole,
-    ...pathCourseIds[path.id].map((id) => navigatorResources[id]),
+    ...(path.mappingLevel === "family"
+      ? []
+      : pathCourseIds[path.id].map((id) => navigatorResources[id])),
   ]
     .filter((resource) => !seen.has(resource.href) && !!seen.add(resource.href))
     .map((resource) => ({
       ...resource,
-      mustHave: mustHave.has(resource.href),
+      mustHave: path.mappingLevel !== "family" && mustHave.has(resource.href),
       forRole: !mustHave.has(resource.href) && forRole.some((pick) => pick.href === resource.href),
     }))
 }
