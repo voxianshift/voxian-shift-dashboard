@@ -1,6 +1,7 @@
 import { MarkerType, type Edge, type Node } from "@xyflow/react"
 import type { CareerPath } from "@voxian/shared"
 
+export const rolePageSize = 3
 export const cardWidth = 260
 export const cardHeight = 208
 // Desktop zooms out so neighbouring cards stay visible; large screens have room for full size.
@@ -30,19 +31,29 @@ export type RoleNode = Node<
     strategyLabel?: string
     subtitle: string
     color: string
-    kind: "start" | "path" | "role"
+    kind: "start" | "path" | "role" | "more"
     pathId?: string
   },
   "role"
 >
 
-// One direction’s peer roles appear at a time; each visible row keeps 48px clearance.
-export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): RoleNode[] {
+// Reserve one row per role so all four branches remain visible without overlaps.
+export function buildCareerNodes(
+  careerPaths: CareerPath[],
+  roleTitle: string,
+  roleLimits: Record<string, number> = {},
+): RoleNode[] {
+  const rowHeight = cardHeight + 48
+  const branchRows = careerPaths.map((path) =>
+    Math.max(1, Math.min(rolePageSize, path.roles.length)),
+  )
+  const totalRows = branchRows.reduce((sum, rows) => sum + rows, 0)
+  let rowOffset = 0
   return [
     {
       id: "start",
       type: "role",
-      position: { x: 0, y: 256 },
+      position: { x: 0, y: ((totalRows - 1) * rowHeight) / 2 },
       width: cardWidth,
       height: cardHeight,
       selectable: false,
@@ -54,39 +65,71 @@ export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): 
         kind: "start",
       },
     },
-    ...careerPaths.flatMap((path, index): RoleNode[] => [
-      {
-        id: path.id,
-        type: "role",
-        position: { x: 360, y: index * 256 },
-        width: cardWidth,
-        height: cardHeight,
-        ariaLabel: `Explore ${path.title}`,
-        data: {
-          title: path.title,
-          strategyLabel: path.label,
-          subtitle: path.focus,
-          color: path.color,
-          kind: "path",
-          pathId: path.id,
+    ...careerPaths.flatMap((path, index): RoleNode[] => {
+      const firstRow = rowOffset
+      rowOffset += branchRows[index]!
+      const visibleCount = Math.min(path.roles.length, roleLimits[path.id] ?? rolePageSize)
+      const remaining = path.roles.length - visibleCount
+      return [
+        {
+          id: path.id,
+          type: "role",
+          position: { x: 360, y: (firstRow + (branchRows[index]! - 1) / 2) * rowHeight },
+          width: cardWidth,
+          height: cardHeight,
+          ariaLabel: `Explore ${path.title}`,
+          data: {
+            title: path.title,
+            strategyLabel: path.label,
+            subtitle:
+              path.mappingLevel === "family" ? "Family exploration · validate fit" : path.focus,
+            color: path.color,
+            kind: "path",
+            pathId: path.id,
+          },
         },
-      },
-      ...path.roles.map((role, roleIndex): RoleNode => ({
-        id: `${path.id}-role-${roleIndex}`,
-        type: "role",
-        position: { x: 720, y: roleIndex * 256 },
-        width: cardWidth,
-        height: cardHeight,
-        ariaLabel: `Explore ${role}`,
-        data: {
-          title: role,
-          subtitle: "Curated pathway · verify requirements",
-          color: path.color,
-          kind: "role",
-          pathId: path.id,
-        },
-      })),
-    ]),
+        ...path.roles.slice(0, visibleCount).map((role, roleIndex): RoleNode => ({
+          id: `${path.id}-role-${roleIndex}`,
+          type: "role",
+          position: {
+            x: 720 + Math.floor(roleIndex / rolePageSize) * 360,
+            y: (firstRow + (roleIndex % rolePageSize)) * rowHeight,
+          },
+          width: cardWidth,
+          height: cardHeight,
+          ariaLabel: `Explore ${role}`,
+          data: {
+            title: role,
+            subtitle: "Curated pathway · verify requirements",
+            color: path.color,
+            kind: "role",
+            pathId: path.id,
+          },
+        })),
+        ...(remaining > 0
+          ? [
+              {
+                id: `${path.id}-more`,
+                type: "role" as const,
+                position: {
+                  x: 720 + Math.ceil(visibleCount / rolePageSize) * 360,
+                  y: (firstRow + 1) * rowHeight,
+                },
+                width: cardWidth,
+                height: cardHeight,
+                ariaLabel: `Show ${Math.min(rolePageSize, remaining)} more options for ${path.label}; ${remaining} remaining`,
+                data: {
+                  title: `+${remaining} more options`,
+                  subtitle: `Show next ${Math.min(rolePageSize, remaining)} curated options`,
+                  color: path.color,
+                  kind: "more" as const,
+                  pathId: path.id,
+                },
+              },
+            ]
+          : []),
+      ]
+    }),
   ]
 }
 
@@ -98,14 +141,38 @@ export function careerEdges(
   const selected = careerNodes.find((node) => node.id === selectedId)
   return careerPaths.flatMap((path) => {
     const inPath = selected?.data.pathId === path.id
+    const selectedIndex =
+      selected?.data.kind === "role" ? Number(selected.id.split("-role-")[1]) : -1
     return [
       { id: `start-${path.id}`, source: "start", target: path.id, active: inPath },
-      ...path.roles.map((_, index) => ({
-        id: `${path.id}-next-${index}`,
-        source: path.id,
-        target: `${path.id}-role-${index}`,
-        active: inPath && (selectedId === path.id || selectedId === `${path.id}-role-${index}`),
-      })),
+      ...careerNodes
+        .filter((node) => node.data.pathId === path.id && node.data.kind === "role")
+        .map((node) => {
+          const index = Number(node.id.split("-role-")[1])
+          return {
+            id: `${path.id}-next-${index}`,
+            source:
+              index < rolePageSize
+                ? path.id
+                : `${path.id}-role-${Math.floor(index / rolePageSize) * rolePageSize - 1}`,
+            target: node.id,
+            active:
+              inPath &&
+              (selectedId === path.id ||
+                selectedId === node.id ||
+                (index % rolePageSize === rolePageSize - 1 && index < selectedIndex)),
+          }
+        }),
+      ...careerNodes
+        .filter((node) => node.data.pathId === path.id && node.data.kind === "more")
+        .map((node) => ({
+          id: `${path.id}-more-edge`,
+          source: careerNodes
+            .filter((role) => role.data.pathId === path.id && role.data.kind === "role")
+            .at(-1)!.id,
+          target: node.id,
+          active: inPath,
+        })),
     ].map(({ active, ...edge }) => ({
       ...edge,
       type: "smoothstep",
@@ -119,8 +186,4 @@ export function careerEdges(
       markerEnd: { type: MarkerType.ArrowClosed, color: path.color },
     }))
   })
-}
-
-export function visibleCareerNodes(careerNodes: RoleNode[], pathId: string) {
-  return careerNodes.filter((node) => node.data.kind !== "role" || node.data.pathId === pathId)
 }

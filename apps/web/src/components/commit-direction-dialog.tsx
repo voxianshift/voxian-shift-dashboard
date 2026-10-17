@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { planScheduleSchema, weeklyDayMinutes, type PlanScheduleInput } from "@voxian/shared"
+import { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { CalendarCheck, Loader2 } from "lucide-react"
 import { ProfileSheet } from "@/components/profile-sheet"
@@ -54,7 +55,7 @@ export function CommitDirectionDialog({
   /** Weekly hours and constraints come from the profile, not from this dialog. */
   profile: { hours: string; flexibility: string; timeline: string }
   /** Generates the AI plan for this direction; omitted when only the schedule changes. */
-  generate?: () => Promise<GeneratedPlan>
+  generate?: (schedule: PlanScheduleInput) => Promise<GeneratedPlan>
   /** Editing an existing commitment keeps its start date and completed sessions. */
   initial?: Commitment
   onSaved?: (commitment: Commitment) => void
@@ -81,17 +82,60 @@ export function CommitDirectionDialog({
     },
     profile,
   )
-  const slots = commitmentSlots(draft)
+  const defaults: Record<string, number> = { "1–3 hours": 60, "3–5 hours": 180, "5+ hours": 300 }
+  const [minuteOverride, setMinuteOverride] = useState<number | null>(
+    initial?.plan?.plan.schedule?.weeklyMinutes ?? null,
+  )
+  const weeklyMinutes = minuteOverride ?? defaults[profile.hours] ?? 0
+  const [timeZone, setTimeZone] = useState(
+    () =>
+      initial?.plan?.plan.schedule?.timeZone ??
+      Intl.DateTimeFormat().resolvedOptions().timeZone ??
+      "Asia/Kuala_Lumpur",
+  )
+  const schedule = planScheduleSchema.safeParse({
+    startDate,
+    timeZone,
+    weeklyMinutes,
+    studyDays:
+      days === "weekdays" ? [1, 2, 3, 4, 5] : days === "weekends" ? [6, 0] : [1, 2, 3, 4, 5, 6, 0],
+    sessionLimitMinutes: draft.shortSessions ? 45 : days === "weekends" ? 180 : 90,
+  })
+  const slots = commitmentSlots(
+    generate && schedule.success
+      ? {
+          ...draft,
+          plan: {
+            provider: "Preview",
+            plan: { summary: "", firstStep: "", phases: [], schedule: schedule.data },
+          },
+        }
+      : draft,
+  )
+  const fitsClock = slots.every((slot) => slotEnd(slot) > slot.start)
+  const generation = useRef(0)
+  useEffect(
+    () => () => {
+      generation.current++
+    },
+    [],
+  )
   const [busy, setBusy] = useState(false)
   const [editingProfile, setEditingProfile] = useState(false)
   const [error, setError] = useState("")
   async function confirm() {
+    const attempt = ++generation.current
     let plan = initial?.plan
     if (generate) {
       setBusy(true)
       setError("")
       try {
-        plan = await generate()
+        if (!schedule.success || !fitsClock)
+          throw new Error(
+            "Confirm a valid start date, time zone and weekly minute budget (1–1200).",
+          )
+        plan = await generate(schedule.data)
+        if (generation.current !== attempt) return
       } catch (failure) {
         setError(
           failure instanceof Error && failure.message
@@ -126,32 +170,69 @@ export function CommitDirectionDialog({
         <p className="flex flex-wrap items-center justify-between gap-2 rounded-lg border px-3 py-2.5 text-[14px]">
           <span>
             <span className="font-medium">Weekly study time:</span>{" "}
-            {!profile.hours
-              ? "required. Set it in your preferences to continue."
-              : profile.hours === "It varies"
-                ? `varies, so we plan about ${weeklyHours(draft.hours)} hours`
-                : `${profile.hours}, from your profile`}
+            {generate
+              ? `${weeklyMinutes || "Set"} minutes per week, confirmed below`
+              : !profile.hours
+                ? "required. Set it in your preferences to continue."
+                : profile.hours === "It varies"
+                  ? `varies, so we plan about ${weeklyHours(draft.hours)} hours`
+                  : `${profile.hours}, from your profile`}
             {draft.shortSessions ? " · short sessions" : ""}
           </span>
           <Button
             variant="link"
+            disabled={busy}
             className="h-auto p-0 text-[14px]"
             onClick={() => setEditingProfile(true)}
           >
             Edit preferences
           </Button>
         </p>
+        {generate && (
+          <div className="space-y-3 rounded-lg border p-3 text-[14px]">
+            <label className="block">
+              Confirmed study minutes per week
+              <Input
+                disabled={busy}
+                type="number"
+                min={1}
+                max={1200}
+                value={weeklyMinutes || ""}
+                onChange={(event) => setMinuteOverride(Number(event.target.value))}
+              />
+            </label>
+            <p className="text-muted-foreground">
+              Band defaults use the lower bound. Enter an exact budget for unknown or variable
+              availability; clicking Start confirms it.
+            </p>
+            <label className="block">
+              Time zone
+              <Input
+                disabled={busy}
+                value={timeZone}
+                onChange={(event) => setTimeZone(event.target.value)}
+              />
+            </label>
+            <p>
+              Sessions stay within {draft.shortSessions ? 45 : days === "weekends" ? 180 : 90}{" "}
+              minutes; longer daily work is split into sessions.
+            </p>
+          </div>
+        )}
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border px-3 py-2.5 text-[14px]">
           <label htmlFor="plan-start" className="min-w-0">
             <span className="font-medium">Start date</span>
             <span className="block text-[12px] text-muted-foreground">
               {profile.timeline
                 ? `Suggested from your timeline: ${profile.timeline}`
-                : "Timeline is required. Set it in your preferences."}
+                : generate
+                  ? "Choose the start date for this plan."
+                  : "Timeline is required. Set it in your preferences."}
             </span>
           </label>
           <Input
             id="plan-start"
+            disabled={busy}
             type="date"
             className="w-auto"
             value={startDate}
@@ -162,28 +243,42 @@ export function CommitDirectionDialog({
         <Choice
           legend="When do you learn best?"
           value={timeOfDay}
-          onChange={(value) => setTimeOfDay(value as TimeOfDay)}
+          onChange={(value) => !busy && setTimeOfDay(value as TimeOfDay)}
           options={timeOfDayOptions}
         />
         <Choice
           legend="Which days?"
           value={days}
-          onChange={(value) => setDays(value as StudyDays)}
+          onChange={(value) => !busy && setDays(value as StudyDays)}
           options={studyDayOptions}
         />
         <section aria-label="Your weekly schedule" className="rounded-lg bg-muted p-3 text-[14px]">
           <p className="font-medium">Your weekly slots</p>
           <ul className="mt-1.5 space-y-1 text-muted-foreground">
-            {slots.map((slot) => (
-              <li key={slot.day} className="flex justify-between gap-3">
-                <span>{dayNames[slot.day]}</span>
-                <span className="font-mono">
-                  {slot.start}–{slotEnd(slot)} · {slot.minutes} min
-                </span>
-              </li>
-            ))}
+            {generate && schedule.success
+              ? weeklyDayMinutes(schedule.data)
+                  .filter((slot) => slot.minutes > 0)
+                  .map((slot) => (
+                    <li key={slot.day}>
+                      {dayNames[slot.day]} · {slot.minutes} min
+                    </li>
+                  ))
+              : slots.map((slot) => (
+                  <li key={`${slot.day}-${slot.start}`} className="flex justify-between gap-3">
+                    <span>{dayNames[slot.day]}</span>
+                    <span className="font-mono">
+                      {slot.start}–{slotEnd(slot)} · {slot.minutes} min
+                    </span>
+                  </li>
+                ))}
           </ul>
         </section>
+        {generate && !fitsClock && (
+          <p role="alert" className="text-sm text-destructive">
+            Study time crosses midnight. Choose an earlier time, more study days, or a smaller
+            budget.
+          </p>
+        )}
         {error && (
           <p role="alert" className="text-[14px] text-destructive">
             {error}
@@ -198,7 +293,13 @@ export function CommitDirectionDialog({
           <Button variant="outline" disabled={busy} onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button disabled={busy || !profile.hours || !profile.timeline} onClick={confirm}>
+          <Button
+            disabled={
+              busy ||
+              (generate ? !schedule.success || !fitsClock : !profile.hours || !profile.timeline)
+            }
+            onClick={confirm}
+          >
             {busy ? <Loader2 className="animate-spin" /> : <CalendarCheck />}
             {busy
               ? "Generating plan…"

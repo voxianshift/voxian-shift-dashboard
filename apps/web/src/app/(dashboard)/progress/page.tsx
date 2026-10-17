@@ -1,5 +1,6 @@
 "use client"
 
+import { generatedPlanSchema, navigatorContext } from "@voxian/shared"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import {
@@ -69,9 +70,16 @@ function Progress({
 }) {
   const [editing, setEditing] = useState(false)
   const { profile } = useCareerProfile()
-  // Weekly hours and short-session needs follow the profile live.
+  // Legacy slots follow live preferences; validated plans retain their confirmed schedule until replanned.
   const commitment = withProfile(saved, profile)
-  const today = localDate(new Date())
+  const today = commitment.plan?.plan.schedule
+    ? new Intl.DateTimeFormat("en-CA", {
+        timeZone: commitment.plan.plan.schedule.timeZone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).format(new Date())
+    : localDate(new Date())
   const days = planDays(commitment)
   const todayDay = days.find((day) => day.date === today)
   const dayNumber = todayDay?.dayNumber ?? (today < commitment.startDate ? 0 : days.length + 1)
@@ -114,7 +122,7 @@ function Progress({
             <Pencil /> Change schedule
           </Button>
           <Button variant="outline" asChild>
-            <Link href={`/roadmap?path=${commitment.pathId}`}>
+            <Link href={`/roadmap?path=${commitment.pathId}&plan=1`}>
               Open plan <ArrowRight />
             </Link>
           </Button>
@@ -131,11 +139,11 @@ function Progress({
               ? "STARTS SOON"
               : dayNumber > days.length
                 ? "PLAN COMPLETE"
-                : `DAY ${dayNumber} OF ${days.length} · PHASE 0${phase + 1} · ${MILESTONES[phase]!.phase.toUpperCase()}`}
+                : `DAY ${dayNumber} OF ${days.length} · PHASE 0${phase + 1} · ${(commitment.plan?.plan.phases[phase]?.title ?? MILESTONES[Math.min(phase, 2)]!.phase).toUpperCase()}`}
           </p>
           <p className="mt-1.5 text-[16px]">
             {todayDay?.slot
-              ? `Today's session: ${todayDay.slot.start}–${slotEnd(todayDay.slot)} (${todayDay.slot.minutes} min).`
+              ? `Today's sessions: ${(todayDay.slots ?? [todayDay.slot]).map((slot) => `${slot.start}–${slotEnd(slot)} (${slot.minutes} min)`).join(", ")}.`
               : todayDay
                 ? "No session scheduled today. Rest, or log an extra one."
                 : dayNumber > days.length
@@ -177,7 +185,10 @@ function Progress({
           <Legend />
         </section>
         <dl className="grid grid-cols-2 content-start gap-3">
-          <Stat label="Weekly commitment" value={`${weeklyHours(commitment.hours)} h`} />
+          <Stat
+            label="Weekly commitment"
+            value={`${commitment.plan?.plan.schedule ? commitment.plan.plan.schedule.weeklyMinutes / 60 : weeklyHours(commitment.hours)} h`}
+          />
           <Stat label="Sessions logged" value={`${doneCount} / ${due.length} due`} />
           <Stat
             label="Current streak"
@@ -231,7 +242,7 @@ function Progress({
         <ul className="mt-3 grid grid-cols-2 gap-2 max-[700px]:grid-cols-1">
           {slots.map((slot) => (
             <li
-              key={slot.day}
+              key={`${slot.day}-${slot.start}`}
               className="flex justify-between gap-3 rounded-lg bg-muted px-4 py-3 text-[14px]"
             >
               <span className="font-medium">{dayNames[slot.day]}</span>
@@ -254,6 +265,30 @@ function Progress({
           sprint={commitment.sprint}
           profile={profile}
           initial={commitment}
+          generate={
+            commitment.plan?.plan.contractVersion === 3
+              ? async (schedule) => {
+                  const saved = commitment.plan!.plan
+                  const response = await fetch("/api/plan", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    signal: AbortSignal.timeout(65_000),
+                    body: JSON.stringify({
+                      occupationCode: saved.occupationCode,
+                      strategyId: saved.strategyId,
+                      destinationId: saved.destinationId ?? null,
+                      pace: commitment.sprint ? "intensive" : "lean",
+                      profile: navigatorContext(profile),
+                      schedule,
+                    }),
+                  })
+                  const result = await response.json()
+                  if (!response.ok)
+                    throw new Error(result.error || "Your updated plan could not be generated.")
+                  return generatedPlanSchema.parse(result)
+                }
+              : undefined
+          }
           onSaved={onChange}
         />
       )}

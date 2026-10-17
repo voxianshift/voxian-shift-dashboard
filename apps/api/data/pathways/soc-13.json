@@ -1,0 +1,2084 @@
+{
+  "source": "Product-curated from O*NET 31.0 occupation tasks for SOC major group 13 (https://www.onetonline.org/find/family?f=13). Exploration labels, not verified vacancies or transitions.",
+  "occupations": {
+    "13-1011.00": {
+      "role": "talent_agent",
+      "strategies": {
+        "automate": {
+          "description": "Stay in representation and configure booking platforms, contract tracking and royalty reporting with agent sign-off.",
+          "humanEdge": "Judging which opportunities build a client's long-term career.",
+          "skills": ["Booking Platforms", "Contract Management", "Royalty Reporting"],
+          "options": [
+            "Digital Booking Agent",
+            "Contract Tracking Coordinator",
+            "Royalty Reporting Specialist",
+            "Talent Roster Data Manager",
+            "Tour Logistics Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine negotiation and career planning with AI tools for deal research, audience analytics and pitch drafts.",
+          "humanEdge": "Negotiating terms and protecting client relationships.",
+          "skills": ["Deal Negotiation", "Audience Analytics", "AI Output Verification"],
+          "options": [
+            "Athlete Brand Manager",
+            "Creator Partnerships Manager",
+            "Talent Manager",
+            "Brand Deals Manager",
+            "Artist Development Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use representation skill in adjacent partnerships, events or licensing work; verify entry requirements.",
+          "humanEdge": "Persuasion and relationship building.",
+          "skills": ["Partnership Management", "Licensing", "Event Production"],
+          "options": [
+            "Sponsorship Manager",
+            "Licensing Manager",
+            "Event Producer",
+            "Influencer Marketing Manager",
+            "Artist Relations Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned talent representation practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to package talent so buyers say yes.",
+          "skills": ["Deal Structuring", "Pitch Writing", "Client Intake"],
+          "options": [
+            "Creator Representation Practice",
+            "Brand Deal Negotiation Service",
+            "Talent Pitch Kit Toolkit",
+            "Tour Booking Service",
+            "Athlete Sponsorship Advisory Service"
+          ]
+        }
+      }
+    },
+    "13-1021.00": {
+      "role": "farm_products_buyer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in farm buying and configure price feeds, grading data and contract tracking with buyer sign-off.",
+          "humanEdge": "Judging crop quality and grower reliability.",
+          "skills": ["Commodity Price Feeds", "Grading Data Systems", "Contract Tracking"],
+          "options": [
+            "Commodity Price Analytics Buyer",
+            "Grading Data Specialist",
+            "Grower Contract Coordinator",
+            "Procurement Systems Buyer",
+            "Crop Forecast Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine grower relationships with AI tools for price forecasting, quality records and supplier comparison.",
+          "humanEdge": "Negotiating fair deals with growers.",
+          "skills": ["Commodity Markets", "AI Output Verification", "Supplier Negotiation"],
+          "options": [
+            "Grain Merchandiser",
+            "Livestock Procurement Specialist",
+            "Produce Sourcing Manager",
+            "Grower Relations Manager",
+            "Sustainable Sourcing Specialist"
+          ]
+        },
+        "pivot": {
+          "description": "Use farm market knowledge in adjacent procurement, trading or agricultural advisory work; verify entry requirements.",
+          "humanEdge": "Reading supply and quality signals.",
+          "skills": ["Procurement", "Market Analysis", "Farm Advisory"],
+          "options": [
+            "Purchasing Agent",
+            "Commodity Analyst",
+            "Agricultural Extension Agent Track",
+            "Supply Chain Analyst",
+            "Farm Cooperative Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned farm sourcing practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to connect growers with buyers at the right price.",
+          "skills": ["Supplier Scouting", "Quality Assessment", "Market Research"],
+          "options": [
+            "Local Produce Sourcing Service",
+            "Grower Market Access Practice",
+            "Crop Quality Checklist Toolkit",
+            "Farm-to-Restaurant Brokerage Service",
+            "Contract Growing Advisory Service"
+          ]
+        }
+      }
+    },
+    "13-1022.00": {
+      "role": "retail_buyer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in buying and configure demand forecasting, open-to-buy planning and vendor portals with buyer sign-off.",
+          "humanEdge": "Spotting trends and products customers will want.",
+          "skills": ["Demand Forecasting", "Open-to-Buy Planning", "Vendor Portals"],
+          "options": [
+            "Merchandise Planning Analyst",
+            "Demand Forecasting Buyer",
+            "Allocation Analyst",
+            "Vendor Portal Manager",
+            "Assortment Analytics Buyer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine product selection with AI tools for trend analysis, sales data and vendor negotiation prep.",
+          "humanEdge": "Negotiating terms and curating assortments.",
+          "skills": ["Assortment Planning", "Trend Analysis", "AI Output Verification"],
+          "options": [
+            "E-commerce Buyer",
+            "Private Label Developer",
+            "Category Manager",
+            "Product Sourcing Manager",
+            "Trend Forecaster"
+          ]
+        },
+        "pivot": {
+          "description": "Use buying knowledge in adjacent merchandising, sourcing or product work; verify entry requirements.",
+          "humanEdge": "Commercial judgment about products.",
+          "skills": ["Visual Merchandising", "Sourcing", "Product Development"],
+          "options": [
+            "Merchandise Planner",
+            "Sourcing Manager",
+            "Product Manager",
+            "Retail Category Analyst",
+            "Vendor Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned merchandise buying practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to pick products that sell.",
+          "skills": ["Supplier Sourcing", "Trend Research", "Pricing"],
+          "options": [
+            "Boutique Buying Service",
+            "Product Sourcing Practice",
+            "Assortment Planning Toolkit",
+            "Supplier Discovery Service",
+            "Retail Buying Training Service"
+          ]
+        }
+      }
+    },
+    "13-1023.00": {
+      "role": "purchasing_agent",
+      "strategies": {
+        "automate": {
+          "description": "Stay in purchasing and configure e-procurement, catalogue buying and supplier scorecards with agent sign-off.",
+          "humanEdge": "Judging supplier reliability and total cost.",
+          "skills": ["E-Procurement Systems", "Supplier Scorecards", "Spend Analytics"],
+          "options": [
+            "E-Procurement Specialist",
+            "Spend Analytics Analyst",
+            "Supplier Performance Analyst",
+            "Catalogue Management Specialist",
+            "Purchase Order Automation Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine supplier negotiation with AI tools for quote comparison, contract review and market research.",
+          "humanEdge": "Negotiating terms and resolving supplier problems.",
+          "skills": ["Supplier Negotiation", "Contract Review", "AI Output Verification"],
+          "options": [
+            "Strategic Sourcing Specialist",
+            "Category Buyer",
+            "Contract Administrator",
+            "Supplier Relationship Manager",
+            "Indirect Procurement Specialist"
+          ]
+        },
+        "pivot": {
+          "description": "Use procurement skill in adjacent supply chain, contracts or vendor management work; verify entry requirements.",
+          "humanEdge": "Cost discipline and negotiation.",
+          "skills": ["Supply Chain Planning", "Contract Management", "Vendor Management"],
+          "options": [
+            "Supply Chain Analyst",
+            "Contracts Manager",
+            "Vendor Manager",
+            "Inventory Planner",
+            "Procurement Manager Track"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned procurement practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to save organisations money on what they buy.",
+          "skills": ["Spend Analysis", "Supplier Sourcing", "Negotiation"],
+          "options": [
+            "Small Business Procurement Service",
+            "Supplier Sourcing Practice",
+            "Spend Review Service",
+            "Tender Preparation Toolkit",
+            "Supplier Evaluation Toolkit"
+          ]
+        }
+      }
+    },
+    "13-1032.00": {
+      "role": "auto_damage_appraiser",
+      "strategies": {
+        "automate": {
+          "description": "Stay in auto damage appraisal and configure photo estimating, parts pricing and claims workflows with appraiser sign-off.",
+          "humanEdge": "Spotting hidden damage and inflated estimates.",
+          "skills": ["Photo Estimating Tools", "Parts Pricing Databases", "Claims Systems"],
+          "options": [
+            "Photo Estimating Appraiser",
+            "Virtual Claims Appraiser",
+            "Estimate Review Specialist",
+            "Parts Pricing Analyst",
+            "Claims Automation Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine vehicle inspection with AI tools for damage detection, repair cost checks and supplement review.",
+          "humanEdge": "Negotiating repair costs fairly with shops.",
+          "skills": ["Damage Assessment", "AI Output Verification", "Repair Negotiation"],
+          "options": [
+            "Total Loss Specialist",
+            "Heavy Equipment Appraiser",
+            "Supplement Review Specialist",
+            "Field Claims Adjuster",
+            "Diminished Value Appraiser"
+          ]
+        },
+        "pivot": {
+          "description": "Use repair cost knowledge in adjacent claims, auto repair or fleet work; verify entry requirements.",
+          "humanEdge": "Practical vehicle knowledge.",
+          "skills": ["Claims Handling", "Repair Management", "Fleet Operations"],
+          "options": [
+            "Claims Adjuster Track",
+            "Body Shop Estimator",
+            "Fleet Damage Manager",
+            "Auto Auction Inspector",
+            "Warranty Claims Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned vehicle damage assessment practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to read damage and repair costs quickly.",
+          "skills": ["Inspection Reporting", "Estimating", "Client Intake"],
+          "options": [
+            "Independent Damage Appraisal Service",
+            "Pre-Purchase Vehicle Inspection Service",
+            "Fleet Damage Review Service",
+            "Repair Estimate Review Service",
+            "Damage Inspection Checklist Toolkit"
+          ]
+        }
+      }
+    },
+    "13-1041.00": {
+      "role": "compliance_officer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in compliance and configure regulatory monitoring, control testing and case tracking with officer sign-off.",
+          "humanEdge": "Interpreting rules in context and deciding when to escalate.",
+          "skills": ["Regulatory Monitoring Tools", "Control Testing", "Case Management"],
+          "options": [
+            "Compliance Monitoring Analyst",
+            "Regulatory Change Analyst",
+            "Controls Testing Specialist",
+            "Compliance Systems Lead",
+            "Policy Attestation Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine investigations and advice with AI tools for document review, policy drafting and risk scoring.",
+          "humanEdge": "Persuading people to change practices.",
+          "skills": ["Risk Assessment", "AI Output Verification", "Investigation"],
+          "options": [
+            "Compliance Investigator",
+            "AI Governance Specialist",
+            "Third-Party Risk Analyst",
+            "Privacy Compliance Specialist",
+            "Ethics Program Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use regulatory knowledge in adjacent audit, risk or policy work; verify entry requirements.",
+          "humanEdge": "Precise reading of rules.",
+          "skills": ["Internal Audit", "Risk Management", "Policy Writing"],
+          "options": [
+            "Internal Auditor Track",
+            "Risk Analyst",
+            "Policy Advisor",
+            "Quality Assurance Manager",
+            "Regulatory Affairs Specialist"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned compliance practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to make compliance practical for small organisations.",
+          "skills": ["Policy Drafting", "Control Design", "Training"],
+          "options": [
+            "Compliance Readiness Service",
+            "Policy Library Toolkit",
+            "Compliance Training Practice",
+            "Vendor Due Diligence Service",
+            "Controls Checklist Toolkit"
+          ]
+        }
+      }
+    },
+    "13-1041.01": {
+      "role": "environmental_compliance_inspector",
+      "strategies": {
+        "automate": {
+          "description": "Stay in inspection and configure permit databases, sensor data feeds and inspection apps with inspector sign-off.",
+          "humanEdge": "Judging violations in the field.",
+          "skills": ["Permit Databases", "Monitoring Data Feeds", "Mobile Inspection Apps"],
+          "options": [
+            "Environmental Data Compliance Analyst",
+            "Permit Tracking Specialist",
+            "Remote Monitoring Inspector",
+            "Inspection Systems Coordinator",
+            "Emissions Data Reviewer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine site inspections with AI tools for permit review, report drafting and sampling analysis.",
+          "humanEdge": "Explaining requirements to operators.",
+          "skills": ["Environmental Regulations", "Sampling", "AI Output Verification"],
+          "options": [
+            "Stormwater Compliance Specialist",
+            "Air Quality Inspector",
+            "Hazardous Waste Inspector",
+            "Water Quality Compliance Specialist",
+            "Enforcement Case Officer"
+          ]
+        },
+        "pivot": {
+          "description": "Use environmental regulatory knowledge in adjacent EHS, consulting or permitting work; verify entry requirements.",
+          "humanEdge": "Field credibility and regulatory precision.",
+          "skills": ["EHS Management", "Permitting", "Environmental Auditing"],
+          "options": [
+            "EHS Coordinator",
+            "Environmental Permitting Specialist",
+            "Environmental Auditor Track",
+            "Sustainability Specialist",
+            "Environmental Consultant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned environmental compliance practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to help operators pass environmental inspections.",
+          "skills": ["Compliance Auditing", "Training", "Documentation"],
+          "options": [
+            "Environmental Compliance Audit Service",
+            "Permit Preparation Service",
+            "Stormwater Plan Toolkit",
+            "Inspection Readiness Practice",
+            "Environmental Training Service"
+          ]
+        }
+      }
+    },
+    "13-1041.03": {
+      "role": "equal_opportunity_officer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in equal opportunity work and configure complaint intake, workforce analytics and reporting with officer sign-off.",
+          "humanEdge": "Judging fairness in disputed cases.",
+          "skills": ["Case Management Systems", "Workforce Analytics", "Compliance Reporting"],
+          "options": [
+            "EEO Data Analyst",
+            "Complaint Intake Specialist",
+            "Affirmative Action Plan Analyst",
+            "Pay Equity Analyst",
+            "Accessibility Compliance Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine investigation and mediation with AI tools for evidence review, policy drafting and trend analysis.",
+          "humanEdge": "Building trust with complainants and managers.",
+          "skills": ["Investigation", "AI Output Verification", "Mediation"],
+          "options": [
+            "Workplace Investigator",
+            "Inclusion Program Manager",
+            "Employee Relations Specialist",
+            "Accessibility Program Manager",
+            "Title IX Coordinator Track"
+          ]
+        },
+        "pivot": {
+          "description": "Use equity and investigation skill in adjacent HR, compliance or policy work; verify entry requirements.",
+          "humanEdge": "Impartial handling of sensitive issues.",
+          "skills": ["Employee Relations", "Compliance", "Policy Analysis"],
+          "options": [
+            "Employee Relations Manager",
+            "Compliance Officer",
+            "HR Business Partner",
+            "Policy Analyst",
+            "Ombudsperson Track"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned workplace equity practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to help employers prevent discrimination complaints.",
+          "skills": ["Policy Drafting", "Training", "Investigation Planning"],
+          "options": [
+            "Workplace Investigation Service",
+            "Pay Equity Review Service",
+            "Fair Hiring Toolkit",
+            "Respectful Workplace Training Practice",
+            "Accessibility Audit Service"
+          ]
+        }
+      }
+    },
+    "13-1041.04": {
+      "role": "government_property_inspector",
+      "strategies": {
+        "automate": {
+          "description": "Stay in inspection and configure asset registers, inspection apps and contract compliance tracking with inspector sign-off.",
+          "humanEdge": "Spotting misuse or contract non-conformance.",
+          "skills": ["Asset Management Systems", "Mobile Inspection Apps", "Contract Tracking"],
+          "options": [
+            "Asset Register Analyst",
+            "Contract Compliance Analyst",
+            "Inspection Systems Coordinator",
+            "Property Data Specialist",
+            "Audit Analytics Inspector"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine field investigation with AI tools for records analysis, report drafting and anomaly detection.",
+          "humanEdge": "Interviewing and evidence judgment.",
+          "skills": ["Investigation", "AI Output Verification", "Contract Compliance"],
+          "options": [
+            "Contract Compliance Investigator",
+            "Grant Compliance Specialist",
+            "Property Accountability Officer",
+            "Fraud Investigator",
+            "Quality Assurance Inspector"
+          ]
+        },
+        "pivot": {
+          "description": "Use inspection skill in adjacent audit, asset management or quality work; verify entry requirements.",
+          "humanEdge": "Methodical evidence gathering.",
+          "skills": ["Auditing", "Asset Management", "Quality Systems"],
+          "options": [
+            "Internal Auditor Track",
+            "Asset Manager",
+            "Quality Auditor",
+            "Contracts Administrator",
+            "Inspector General Investigator Track"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned property compliance inspection practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to verify that assets and contracts match the paperwork.",
+          "skills": ["Inspection Planning", "Reporting", "Asset Tracking"],
+          "options": [
+            "Asset Verification Service",
+            "Contract Compliance Review Service",
+            "Grant Compliance Toolkit",
+            "Inventory Audit Practice",
+            "Inspection Checklist Toolkit"
+          ]
+        }
+      }
+    },
+    "13-1041.06": {
+      "role": "coroner",
+      "strategies": {
+        "automate": {
+          "description": "Stay in death investigation and configure case management, records retrieval and reporting systems with coroner sign-off.",
+          "humanEdge": "Judging circumstances and cause in sensitive cases.",
+          "skills": ["Case Management Systems", "Records Retrieval", "Reporting Tools"],
+          "options": [
+            "Death Investigation Systems Lead",
+            "Case Records Coordinator",
+            "Mortality Data Analyst",
+            "Investigative Reporting Specialist",
+            "Evidence Tracking Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine scene investigation with AI tools for records review, timelines and report drafting.",
+          "humanEdge": "Compassionate communication with families.",
+          "skills": ["Death Investigation", "AI Output Verification", "Family Liaison"],
+          "options": [
+            "Medicolegal Death Investigator",
+            "Mass Fatality Planner",
+            "Forensic Case Manager",
+            "Mortality Review Coordinator",
+            "Family Liaison Officer"
+          ]
+        },
+        "pivot": {
+          "description": "Use investigation experience in adjacent forensic, emergency planning or public health work; verify entry requirements.",
+          "humanEdge": "Calm, rigorous handling of difficult cases.",
+          "skills": ["Forensic Procedures", "Emergency Planning", "Public Health Surveillance"],
+          "options": [
+            "Forensic Science Technician Track",
+            "Emergency Management Planner",
+            "Public Health Investigator",
+            "Insurance Investigator",
+            "Death Review Program Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned death investigation practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to explain death investigation processes clearly.",
+          "skills": ["Training Design", "Procedure Writing", "Facilitation"],
+          "options": [
+            "Death Investigation Training Service",
+            "Mass Fatality Planning Service",
+            "Family Liaison Guide Toolkit",
+            "Scene Documentation Toolkit",
+            "Mortality Review Facilitation Practice"
+          ]
+        }
+      }
+    },
+    "13-1041.07": {
+      "role": "regulatory_affairs_specialist",
+      "strategies": {
+        "automate": {
+          "description": "Stay in regulatory affairs and configure submission tracking, document management and regulatory intelligence with specialist sign-off.",
+          "humanEdge": "Interpreting what regulators will actually expect.",
+          "skills": [
+            "Submission Management Systems",
+            "Regulatory Intelligence",
+            "Document Control"
+          ],
+          "options": [
+            "Regulatory Operations Specialist",
+            "Submission Publishing Specialist",
+            "Regulatory Intelligence Analyst",
+            "Labelling Compliance Specialist",
+            "Document Control Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine regulatory strategy with AI tools for dossier drafting, gap analysis and change monitoring.",
+          "humanEdge": "Negotiating with agencies and aligning teams.",
+          "skills": ["Regulatory Strategy", "AI Output Verification", "Technical Writing"],
+          "options": [
+            "Regulatory Affairs Manager Track",
+            "Medical Device Regulatory Specialist",
+            "CMC Regulatory Specialist",
+            "Post-Market Compliance Specialist",
+            "Global Registration Specialist"
+          ]
+        },
+        "pivot": {
+          "description": "Use regulatory knowledge in adjacent quality, clinical or compliance work; verify entry requirements.",
+          "humanEdge": "Precision with complex requirements.",
+          "skills": ["Quality Systems", "Clinical Operations", "Compliance"],
+          "options": [
+            "Quality Assurance Specialist",
+            "Clinical Research Associate",
+            "Compliance Officer",
+            "Product Stewardship Specialist",
+            "Technical Writer"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned regulatory submissions practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to prepare products for regulatory approval.",
+          "skills": ["Gap Analysis", "Technical Writing", "Project Planning"],
+          "options": [
+            "Regulatory Gap Assessment Service",
+            "Submission Writing Service",
+            "Labelling Review Practice",
+            "Regulatory Checklist Toolkit",
+            "Market Entry Regulatory Advisory Service"
+          ]
+        }
+      }
+    },
+    "13-1041.08": {
+      "role": "customs_broker",
+      "strategies": {
+        "automate": {
+          "description": "Stay in customs brokerage and configure entry filing, tariff classification tools and shipment tracking with broker sign-off.",
+          "humanEdge": "Judging classification and valuation edge cases.",
+          "skills": ["Customs Filing Systems", "Tariff Classification Tools", "Shipment Tracking"],
+          "options": [
+            "Automated Entry Filing Specialist",
+            "Tariff Classification Specialist",
+            "Trade Data Analyst",
+            "Customs Systems Coordinator",
+            "Shipment Exception Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine client advice with AI tools for classification research, duty calculation and document review.",
+          "humanEdge": "Advising importers on compliance and cost.",
+          "skills": ["Tariff Classification", "AI Output Verification", "Trade Regulations"],
+          "options": [
+            "Trade Compliance Manager",
+            "Duty Drawback Specialist",
+            "Import Compliance Specialist",
+            "Free Trade Agreement Specialist",
+            "Export Compliance Specialist"
+          ]
+        },
+        "pivot": {
+          "description": "Use trade knowledge in adjacent freight, logistics or compliance work; verify entry requirements.",
+          "humanEdge": "Detail control under deadlines.",
+          "skills": ["Freight Forwarding", "Logistics Planning", "Compliance"],
+          "options": [
+            "Freight Forwarder",
+            "Logistics Coordinator",
+            "Trade Compliance Analyst",
+            "Import Manager",
+            "Supply Chain Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned customs clearance practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to help small importers clear goods correctly.",
+          "skills": ["Classification Research", "Client Training", "Documentation"],
+          "options": [
+            "Import Readiness Service",
+            "Tariff Classification Review Service",
+            "Trade Compliance Training Practice",
+            "Landed Cost Toolkit",
+            "Export Documentation Toolkit"
+          ]
+        }
+      }
+    },
+    "13-1051.00": {
+      "role": "cost_estimator",
+      "strategies": {
+        "automate": {
+          "description": "Stay in estimating and configure quantity takeoff, cost databases and bid templates with estimator sign-off.",
+          "humanEdge": "Judging risk, scope gaps and realistic productivity.",
+          "skills": ["Takeoff Software", "Cost Databases", "Bid Templates"],
+          "options": [
+            "Digital Takeoff Estimator",
+            "Cost Database Manager",
+            "Bid Automation Specialist",
+            "Preconstruction Data Analyst",
+            "Model-Based Estimator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine scope review with AI tools for drawing analysis, cost benchmarking and bid comparison.",
+          "humanEdge": "Negotiating with subcontractors and owners.",
+          "skills": ["Quantity Surveying", "Cost Analysis", "AI Output Verification"],
+          "options": [
+            "Preconstruction Manager",
+            "Value Engineering Specialist",
+            "Cost Consultant",
+            "Change Order Analyst",
+            "Manufacturing Cost Analyst"
+          ]
+        },
+        "pivot": {
+          "description": "Use estimating skill in adjacent project controls, procurement or planning work; verify entry requirements.",
+          "humanEdge": "Commercial judgment about cost.",
+          "skills": ["Project Controls", "Procurement", "Scheduling"],
+          "options": [
+            "Project Controls Analyst",
+            "Procurement Specialist",
+            "Project Scheduler",
+            "Construction Project Manager Track",
+            "Cost Engineer"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned cost estimating practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to price work accurately before commitment.",
+          "skills": ["Takeoff", "Bid Preparation", "Cost Benchmarking"],
+          "options": [
+            "Freelance Estimating Service",
+            "Bid Review Service",
+            "Cost Benchmark Toolkit",
+            "Change Order Review Practice",
+            "Estimating Template Toolkit"
+          ]
+        }
+      }
+    },
+    "13-1074.00": {
+      "role": "farm_labor_contractor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in labour contracting and configure crew scheduling, timekeeping and payroll tools with contractor sign-off.",
+          "humanEdge": "Matching crews to the work and treating workers fairly.",
+          "skills": ["Crew Scheduling Tools", "Mobile Timekeeping", "Payroll Systems"],
+          "options": [
+            "Crew Scheduling Coordinator",
+            "Farm Payroll Specialist",
+            "Workforce Compliance Coordinator",
+            "Labour Tracking Specialist",
+            "Harvest Logistics Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine crew leadership with AI tools for labour forecasting, compliance checks and worker communication.",
+          "humanEdge": "Recruiting and keeping reliable crews.",
+          "skills": ["Labour Planning", "AI Output Verification", "Worker Communication"],
+          "options": [
+            "Farm Labour Manager",
+            "Agricultural HR Coordinator",
+            "Seasonal Workforce Manager",
+            "Farm Safety Coordinator",
+            "Harvest Operations Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use workforce management in adjacent agricultural, staffing or HR work; verify entry requirements.",
+          "humanEdge": "Practical people management in the field.",
+          "skills": ["Staffing", "HR Compliance", "Farm Operations"],
+          "options": [
+            "Staffing Coordinator",
+            "HR Generalist",
+            "Farm Manager Track",
+            "Recruitment Coordinator",
+            "Safety Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned farm workforce practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to organise reliable seasonal labour.",
+          "skills": ["Recruitment", "Compliance", "Scheduling"],
+          "options": [
+            "Seasonal Crew Coordination Service",
+            "Farm Labour Compliance Toolkit",
+            "Worker Housing Coordination Service",
+            "Harvest Planning Practice",
+            "Farm Safety Training Service"
+          ]
+        }
+      }
+    },
+    "13-1075.00": {
+      "role": "labor_relations_specialist",
+      "strategies": {
+        "automate": {
+          "description": "Stay in labour relations and configure grievance tracking, contract databases and costing models with specialist sign-off.",
+          "humanEdge": "Reading both sides' real priorities.",
+          "skills": [
+            "Grievance Tracking Systems",
+            "Contract Databases",
+            "Bargaining Costing Models"
+          ],
+          "options": [
+            "Grievance Systems Analyst",
+            "Bargaining Data Analyst",
+            "Contract Administration Specialist",
+            "Labour Analytics Specialist",
+            "Policy Interpretation Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine bargaining and dispute work with AI tools for contract comparison, costing and proposal drafting.",
+          "humanEdge": "Negotiating durable agreements.",
+          "skills": ["Collective Bargaining", "AI Output Verification", "Dispute Resolution"],
+          "options": [
+            "Labour Relations Manager Track",
+            "Employee Relations Manager",
+            "Arbitration Advocate",
+            "Union Representative",
+            "Workplace Investigator"
+          ]
+        },
+        "pivot": {
+          "description": "Use negotiation and employment knowledge in adjacent HR, mediation or policy work; verify entry requirements.",
+          "humanEdge": "Trust across conflicting parties.",
+          "skills": ["Mediation", "HR Policy", "Investigation"],
+          "options": [
+            "Mediator Track",
+            "HR Business Partner",
+            "Employment Policy Analyst",
+            "Ombudsperson Track",
+            "Employee Relations Specialist"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned labour relations practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to prepare parties for productive bargaining.",
+          "skills": ["Costing", "Training", "Facilitation"],
+          "options": [
+            "Bargaining Preparation Service",
+            "Grievance Process Design Service",
+            "Contract Costing Toolkit",
+            "Labour Relations Training Practice",
+            "Workplace Dispute Prevention Service"
+          ]
+        }
+      }
+    },
+    "13-1081.01": {
+      "role": "logistics_engineer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in logistics engineering and configure network simulation, warehouse automation and routing optimisation with engineer sign-off.",
+          "humanEdge": "Judging operational trade-offs that models simplify.",
+          "skills": ["Network Simulation", "Warehouse Automation", "Route Optimisation"],
+          "options": [
+            "Network Optimisation Engineer",
+            "Warehouse Automation Engineer",
+            "Routing Algorithm Specialist",
+            "Logistics Simulation Engineer",
+            "Fulfilment Systems Engineer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine process design with AI tools for demand modelling, layout analysis and cost analysis.",
+          "humanEdge": "Getting operations teams to adopt changes.",
+          "skills": ["Facility Layout", "Demand Modelling", "AI Output Verification"],
+          "options": [
+            "Distribution Design Engineer",
+            "Packaging Logistics Engineer",
+            "Continuous Improvement Engineer",
+            "Supply Chain Design Engineer",
+            "Transportation Engineer"
+          ]
+        },
+        "pivot": {
+          "description": "Use logistics design skill in adjacent supply chain, operations or consulting work; verify entry requirements.",
+          "humanEdge": "Systems thinking about flows.",
+          "skills": ["Supply Chain Planning", "Operations Management", "Consulting"],
+          "options": [
+            "Supply Chain Manager Track",
+            "Operations Manager",
+            "Supply Chain Consultant",
+            "Industrial Engineer",
+            "Project Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned logistics engineering practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to find waste in how goods move.",
+          "skills": ["Process Mapping", "Layout Design", "Cost Modelling"],
+          "options": [
+            "Warehouse Layout Review Service",
+            "Logistics Cost Review Service",
+            "Routing Optimisation Practice",
+            "Fulfilment Process Toolkit",
+            "Distribution Network Study Service"
+          ]
+        }
+      }
+    },
+    "13-1081.02": {
+      "role": "logistics_analyst",
+      "strategies": {
+        "automate": {
+          "description": "Stay in logistics analysis and configure dashboards, shipment tracking and exception alerts with analyst sign-off.",
+          "humanEdge": "Explaining why the numbers moved.",
+          "skills": ["Logistics Dashboards", "Shipment Tracking", "Exception Alerts"],
+          "options": [
+            "Logistics Data Analyst",
+            "Shipment Visibility Analyst",
+            "Freight Audit Analyst",
+            "Inventory Analytics Specialist",
+            "Transport Management Systems Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine operational analysis with AI tools for forecasting, carrier comparison and cost reporting.",
+          "humanEdge": "Turning analysis into decisions people act on.",
+          "skills": ["Data Analysis", "Forecasting", "AI Output Verification"],
+          "options": [
+            "Supply Chain Analyst",
+            "Demand Planner",
+            "Carrier Performance Analyst",
+            "Freight Cost Analyst",
+            "Logistics Project Analyst"
+          ]
+        },
+        "pivot": {
+          "description": "Use logistics data skill in adjacent planning, procurement or operations work; verify entry requirements.",
+          "humanEdge": "Practical numeracy.",
+          "skills": ["Inventory Planning", "Procurement", "Operations"],
+          "options": [
+            "Inventory Planner",
+            "Procurement Analyst",
+            "Operations Analyst",
+            "Business Analyst",
+            "Logistics Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned logistics analysis practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to show businesses where shipping costs leak.",
+          "skills": ["Freight Audit", "Reporting", "Process Mapping"],
+          "options": [
+            "Freight Audit Service",
+            "Logistics Dashboard Toolkit",
+            "Carrier Review Service",
+            "Shipping Cost Analysis Practice",
+            "Inventory Health Check Service"
+          ]
+        }
+      }
+    },
+    "13-1111.00": {
+      "role": "management_analyst",
+      "strategies": {
+        "automate": {
+          "description": "Stay in management analysis and configure process mining, dashboards and survey tools with analyst sign-off.",
+          "humanEdge": "Diagnosing root causes beneath stated problems.",
+          "skills": ["Process Mining", "Dashboards", "Survey Tools"],
+          "options": [
+            "Process Mining Analyst",
+            "Operational Analytics Consultant",
+            "Performance Dashboard Analyst",
+            "Workflow Automation Analyst",
+            "Survey Analytics Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine interviews and organisational analysis with AI tools for research, benchmarking and report drafting.",
+          "humanEdge": "Persuading leaders to act on recommendations.",
+          "skills": ["Organisational Analysis", "AI Output Verification", "Stakeholder Interviews"],
+          "options": [
+            "Operations Improvement Consultant",
+            "Change Management Consultant",
+            "Strategy Analyst",
+            "AI Adoption Consultant",
+            "Organisational Design Consultant"
+          ]
+        },
+        "pivot": {
+          "description": "Use analysis skill in adjacent strategy, project or operations roles; verify entry requirements.",
+          "humanEdge": "Structuring messy problems.",
+          "skills": ["Project Management", "Strategy", "Operations"],
+          "options": [
+            "Business Operations Manager",
+            "Program Manager",
+            "Strategy Manager Track",
+            "Chief of Staff Track",
+            "Product Operations Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned management consulting practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to fix how organisations work.",
+          "skills": ["Diagnostic Design", "Facilitation", "Report Writing"],
+          "options": [
+            "Operations Review Practice",
+            "Process Improvement Service",
+            "Change Management Toolkit",
+            "Small Business Strategy Service",
+            "Workflow Audit Service"
+          ]
+        }
+      }
+    },
+    "13-1121.00": {
+      "role": "event_planner",
+      "strategies": {
+        "automate": {
+          "description": "Stay in event planning and configure registration, venue sourcing and attendee communication platforms with planner sign-off.",
+          "humanEdge": "Reading what makes an event work for its audience.",
+          "skills": ["Registration Platforms", "Venue Sourcing Tools", "Attendee Communications"],
+          "options": [
+            "Event Technology Manager",
+            "Registration Systems Coordinator",
+            "Virtual Event Producer",
+            "Attendee Experience Analyst",
+            "Venue Sourcing Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine supplier management with AI tools for budgets, run-of-show drafts and attendee analytics.",
+          "humanEdge": "Solving problems live on site.",
+          "skills": ["Supplier Negotiation", "Budgeting", "AI Output Verification"],
+          "options": [
+            "Conference Manager",
+            "Incentive Travel Planner",
+            "Hybrid Event Producer",
+            "Trade Show Manager",
+            "Corporate Events Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use event delivery skill in adjacent marketing, hospitality or project roles; verify entry requirements.",
+          "humanEdge": "Coordinating many moving parts.",
+          "skills": ["Project Management", "Hospitality", "Marketing"],
+          "options": [
+            "Project Coordinator",
+            "Experiential Marketing Manager",
+            "Hospitality Sales Manager",
+            "Venue Operations Manager",
+            "Community Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned event planning practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to deliver memorable events on budget.",
+          "skills": ["Event Design", "Budgeting", "Supplier Sourcing"],
+          "options": [
+            "Corporate Retreat Planning Service",
+            "Conference Production Service",
+            "Event Run-of-Show Toolkit",
+            "Wedding Planning Practice",
+            "Venue Sourcing Service"
+          ]
+        }
+      }
+    },
+    "13-1131.00": {
+      "role": "fundraiser",
+      "strategies": {
+        "automate": {
+          "description": "Stay in fundraising and configure donor CRMs, appeals and giving analytics with fundraiser sign-off.",
+          "humanEdge": "Building genuine donor relationships.",
+          "skills": ["Donor CRM", "Email Appeals", "Giving Analytics"],
+          "options": [
+            "Donor Data Analyst",
+            "Digital Fundraising Specialist",
+            "Prospect Research Analyst",
+            "Annual Giving Automation Lead",
+            "Fundraising Systems Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine donor cultivation with AI tools for prospect research, proposal drafts and impact reporting.",
+          "humanEdge": "Asking for gifts with credibility.",
+          "skills": ["Donor Stewardship", "Grant Writing", "AI Output Verification"],
+          "options": [
+            "Major Gifts Officer",
+            "Grant Writer",
+            "Corporate Partnerships Manager",
+            "Planned Giving Officer",
+            "Campaign Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use fundraising skill in adjacent partnerships, communications or nonprofit management work; verify entry requirements.",
+          "humanEdge": "Persuasive storytelling.",
+          "skills": ["Partnership Management", "Communications", "Program Management"],
+          "options": [
+            "Partnerships Manager",
+            "Communications Manager",
+            "Nonprofit Program Manager",
+            "Sponsorship Manager",
+            "Community Engagement Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned fundraising practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to help small nonprofits raise money.",
+          "skills": ["Grant Writing", "Campaign Planning", "Donor Research"],
+          "options": [
+            "Grant Writing Service",
+            "Fundraising Campaign Practice",
+            "Donor Stewardship Toolkit",
+            "Prospect Research Service",
+            "Fundraising Plan Toolkit"
+          ]
+        }
+      }
+    },
+    "13-1141.00": {
+      "role": "compensation_analyst",
+      "strategies": {
+        "automate": {
+          "description": "Stay in compensation and configure salary survey tools, job architecture and pay modelling with specialist sign-off.",
+          "humanEdge": "Judging job worth and fairness.",
+          "skills": ["Salary Survey Platforms", "Job Architecture Tools", "Pay Modelling"],
+          "options": [
+            "Compensation Analytics Specialist",
+            "Job Architecture Analyst",
+            "Pay Equity Analyst",
+            "HRIS Compensation Specialist",
+            "Benefits Data Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine job analysis with AI tools for job descriptions, market pricing and benefits comparison.",
+          "humanEdge": "Explaining pay decisions to managers and staff.",
+          "skills": ["Job Evaluation", "Market Pricing", "AI Output Verification"],
+          "options": [
+            "Total Rewards Specialist",
+            "Benefits Specialist",
+            "Job Evaluation Specialist",
+            "Incentive Plan Analyst",
+            "Workforce Planning Analyst"
+          ]
+        },
+        "pivot": {
+          "description": "Use rewards knowledge in adjacent HR, people analytics or finance work; verify entry requirements.",
+          "humanEdge": "Analytical fairness.",
+          "skills": ["People Analytics", "HR Business Partnering", "Financial Analysis"],
+          "options": [
+            "People Analytics Analyst",
+            "HR Business Partner",
+            "Financial Analyst",
+            "Workforce Planner",
+            "HRIS Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned compensation analysis practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to build fair, defensible pay structures.",
+          "skills": ["Job Evaluation", "Market Research", "Policy Design"],
+          "options": [
+            "Pay Structure Design Service",
+            "Pay Equity Review Service",
+            "Job Description Toolkit",
+            "Benefits Benchmarking Practice",
+            "Salary Banding Toolkit"
+          ]
+        }
+      }
+    },
+    "13-1161.00": {
+      "role": "market_research_analyst",
+      "strategies": {
+        "automate": {
+          "description": "Stay in research and configure survey platforms, social listening and dashboard automation with analyst sign-off.",
+          "humanEdge": "Asking the right questions and spotting bad data.",
+          "skills": ["Survey Platforms", "Social Listening", "Dashboard Automation"],
+          "options": [
+            "Survey Automation Analyst",
+            "Social Listening Analyst",
+            "Marketing Analytics Specialist",
+            "Research Operations Specialist",
+            "Panel Data Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine research design with AI tools for analysis, synthesis and reporting.",
+          "humanEdge": "Translating findings into decisions.",
+          "skills": ["Research Design", "Statistical Analysis", "AI Output Verification"],
+          "options": [
+            "Consumer Insights Manager",
+            "UX Researcher",
+            "Competitive Intelligence Analyst",
+            "Pricing Analyst",
+            "Brand Strategist"
+          ]
+        },
+        "pivot": {
+          "description": "Use research skill in adjacent product, strategy or marketing work; verify entry requirements.",
+          "humanEdge": "Customer understanding.",
+          "skills": ["Product Discovery", "Strategy", "Marketing"],
+          "options": [
+            "Product Marketing Manager",
+            "Product Manager",
+            "Strategy Analyst",
+            "Growth Marketer",
+            "Customer Insights Lead"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned market research practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to tell businesses what customers want.",
+          "skills": ["Survey Design", "Interviewing", "Report Writing"],
+          "options": [
+            "Customer Research Service",
+            "Competitor Analysis Service",
+            "Survey Design Toolkit",
+            "Market Sizing Practice",
+            "Customer Interview Toolkit"
+          ]
+        }
+      }
+    },
+    "13-1199.04": {
+      "role": "business_continuity_planner",
+      "strategies": {
+        "automate": {
+          "description": "Stay in continuity planning and configure risk registers, notification systems and plan management tools with planner sign-off.",
+          "humanEdge": "Judging what really matters in a crisis.",
+          "skills": ["Continuity Planning Software", "Mass Notification", "Risk Registers"],
+          "options": [
+            "Continuity Systems Specialist",
+            "Crisis Notification Coordinator",
+            "Resilience Data Analyst",
+            "Recovery Testing Specialist",
+            "Plan Management Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine impact analysis with AI tools for scenario planning, plan drafting and exercise design.",
+          "humanEdge": "Running exercises that change behaviour.",
+          "skills": ["Business Impact Analysis", "Scenario Planning", "AI Output Verification"],
+          "options": [
+            "Crisis Management Manager",
+            "IT Disaster Recovery Planner",
+            "Operational Resilience Manager",
+            "Supply Chain Resilience Analyst",
+            "Emergency Preparedness Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use resilience planning in adjacent risk, security or emergency management work; verify entry requirements.",
+          "humanEdge": "Calm, structured preparation.",
+          "skills": ["Risk Management", "Security Operations", "Emergency Management"],
+          "options": [
+            "Risk Manager",
+            "Emergency Management Planner",
+            "Security Manager Track",
+            "Compliance Manager",
+            "IT Service Continuity Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned business continuity practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to make organisations ready for disruption.",
+          "skills": ["Exercise Design", "Plan Writing", "Risk Assessment"],
+          "options": [
+            "Continuity Plan Writing Service",
+            "Tabletop Exercise Practice",
+            "Crisis Plan Toolkit",
+            "Supplier Resilience Review Service",
+            "Recovery Checklist Toolkit"
+          ]
+        }
+      }
+    },
+    "13-1199.05": {
+      "role": "sustainability_specialist",
+      "strategies": {
+        "automate": {
+          "description": "Stay in sustainability and configure carbon accounting, ESG reporting and energy data tools with specialist sign-off.",
+          "humanEdge": "Judging which actions deliver real impact.",
+          "skills": ["Carbon Accounting Tools", "ESG Reporting Platforms", "Energy Data"],
+          "options": [
+            "Carbon Accounting Analyst",
+            "ESG Reporting Specialist",
+            "Energy Data Analyst",
+            "Sustainability Data Coordinator",
+            "Supply Chain Emissions Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine stakeholder work with AI tools for disclosure drafting, supplier surveys and impact analysis.",
+          "humanEdge": "Getting teams to change practices.",
+          "skills": ["Sustainability Strategy", "AI Output Verification", "Stakeholder Engagement"],
+          "options": [
+            "Sustainability Program Manager",
+            "Sustainable Procurement Specialist",
+            "Circular Economy Specialist",
+            "Climate Risk Analyst",
+            "Green Building Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use sustainability knowledge in adjacent operations, compliance or consulting work; verify entry requirements.",
+          "humanEdge": "Linking environment to business value.",
+          "skills": ["Environmental Compliance", "Operations", "Consulting"],
+          "options": [
+            "Environmental Compliance Specialist",
+            "Operations Manager",
+            "Sustainability Consultant",
+            "Energy Manager",
+            "ESG Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned sustainability practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to make sustainability practical for small businesses.",
+          "skills": ["Footprint Assessment", "Reporting", "Training"],
+          "options": [
+            "Carbon Footprint Service",
+            "Sustainability Reporting Service",
+            "Green Office Toolkit",
+            "Supplier Sustainability Review Practice",
+            "Waste Reduction Toolkit"
+          ]
+        }
+      }
+    },
+    "13-1199.07": {
+      "role": "security_management_specialist",
+      "strategies": {
+        "automate": {
+          "description": "Stay in security management and configure access control, surveillance analytics and incident tracking with specialist sign-off.",
+          "humanEdge": "Judging real threats versus noise.",
+          "skills": ["Access Control Systems", "Video Analytics", "Incident Tracking"],
+          "options": [
+            "Security Systems Specialist",
+            "Video Analytics Coordinator",
+            "Access Control Administrator",
+            "Security Operations Analyst",
+            "Incident Data Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine risk assessment with AI tools for threat research, policy drafting and incident review.",
+          "humanEdge": "Advising leaders on proportionate protection.",
+          "skills": ["Security Risk Assessment", "AI Output Verification", "Policy Writing"],
+          "options": [
+            "Physical Security Manager Track",
+            "Corporate Security Analyst",
+            "Executive Protection Coordinator",
+            "Travel Security Specialist",
+            "Insider Risk Analyst"
+          ]
+        },
+        "pivot": {
+          "description": "Use security knowledge in adjacent continuity, investigation or facilities work; verify entry requirements.",
+          "humanEdge": "Protective mindset.",
+          "skills": ["Continuity Planning", "Investigation", "Facilities Management"],
+          "options": [
+            "Business Continuity Planner",
+            "Investigator",
+            "Facilities Manager",
+            "Loss Prevention Manager",
+            "Emergency Management Specialist"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned security risk practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to spot security gaps in sites and procedures.",
+          "skills": ["Site Assessment", "Training", "Policy Design"],
+          "options": [
+            "Security Risk Assessment Service",
+            "Event Security Planning Service",
+            "Security Policy Toolkit",
+            "Staff Security Awareness Practice",
+            "Site Security Checklist Toolkit"
+          ]
+        }
+      }
+    },
+    "13-2022.00": {
+      "role": "property_appraiser",
+      "strategies": {
+        "automate": {
+          "description": "Stay in appraisal and configure valuation databases, comparable sales tools and report templates with appraiser sign-off.",
+          "humanEdge": "Judging authenticity, condition and market value.",
+          "skills": ["Valuation Databases", "Comparable Sales Tools", "Report Templates"],
+          "options": [
+            "Valuation Data Analyst",
+            "Auction Data Specialist",
+            "Appraisal Report Automation Lead",
+            "Equipment Valuation Analyst",
+            "Collections Data Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine inspection with AI tools for market research, image analysis and report drafting.",
+          "humanEdge": "Defending values to clients and courts.",
+          "skills": ["Valuation Methods", "AI Output Verification", "Inspection"],
+          "options": [
+            "Business Valuation Analyst",
+            "Fine Art Appraiser Track",
+            "Equipment Appraiser",
+            "Insurance Valuation Specialist",
+            "Estate Valuation Specialist"
+          ]
+        },
+        "pivot": {
+          "description": "Use valuation skill in adjacent auction, insurance or lending work; verify entry requirements.",
+          "humanEdge": "Market sense about assets.",
+          "skills": ["Auction Operations", "Insurance", "Asset Lending"],
+          "options": [
+            "Auction Specialist",
+            "Insurance Claims Specialist",
+            "Asset-Based Lending Analyst",
+            "Collections Manager",
+            "Estate Sale Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned personal and business property valuation practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to tell owners what their assets are worth.",
+          "skills": ["Valuation Research", "Report Writing", "Client Intake"],
+          "options": [
+            "Collection Valuation Service",
+            "Equipment Valuation Service",
+            "Estate Inventory Practice",
+            "Insurance Inventory Toolkit",
+            "Valuation Report Toolkit"
+          ]
+        }
+      }
+    },
+    "13-2023.00": {
+      "role": "real_estate_appraiser",
+      "strategies": {
+        "automate": {
+          "description": "Stay in appraisal and configure automated valuation models, MLS data and report software with appraiser sign-off.",
+          "humanEdge": "Judging property condition and comparable fit.",
+          "skills": ["Automated Valuation Models", "MLS Data", "Appraisal Software"],
+          "options": [
+            "AVM Review Appraiser",
+            "Valuation Data Analyst",
+            "Appraisal Review Specialist",
+            "Mass Appraisal Analyst",
+            "Desktop Appraisal Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine inspection with AI tools for comparable selection, image review and report drafting.",
+          "humanEdge": "Defending values to lenders and owners.",
+          "skills": ["Valuation Methods", "AI Output Verification", "Market Analysis"],
+          "options": [
+            "Commercial Appraiser Track",
+            "Property Tax Assessor",
+            "Appraisal Reviewer",
+            "Right-of-Way Appraiser",
+            "Valuation Consultant"
+          ]
+        },
+        "pivot": {
+          "description": "Use property valuation skill in adjacent lending, assessment or investment work; verify entry requirements.",
+          "humanEdge": "Local market judgment.",
+          "skills": ["Real Estate Finance", "Property Assessment", "Investment Analysis"],
+          "options": [
+            "Mortgage Underwriter",
+            "Real Estate Analyst",
+            "Property Tax Consultant",
+            "Acquisitions Analyst",
+            "Asset Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned real estate valuation practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to explain property value to owners.",
+          "skills": ["Market Analysis", "Report Writing", "Client Intake"],
+          "options": [
+            "Property Tax Appeal Support Service",
+            "Pre-Listing Valuation Service",
+            "Market Analysis Toolkit",
+            "Renovation Value Advisory Practice",
+            "Comparable Sales Toolkit"
+          ]
+        }
+      }
+    },
+    "13-2031.00": {
+      "role": "budget_analyst",
+      "strategies": {
+        "automate": {
+          "description": "Stay in budgeting and configure planning software, variance reports and forecasting models with analyst sign-off.",
+          "humanEdge": "Judging which numbers deserve challenge.",
+          "skills": ["Budget Planning Software", "Variance Reporting", "Forecasting Models"],
+          "options": [
+            "Budget Systems Analyst",
+            "Forecasting Analyst",
+            "Variance Reporting Specialist",
+            "Planning Automation Analyst",
+            "Grants Budget Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine budget review with AI tools for scenario modelling, narrative drafting and spending analysis.",
+          "humanEdge": "Negotiating priorities with managers.",
+          "skills": ["Financial Analysis", "Scenario Modelling", "AI Output Verification"],
+          "options": [
+            "Financial Planning Analyst",
+            "Capital Budget Analyst",
+            "Program Budget Manager",
+            "Cost Analyst",
+            "Grants Financial Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use budgeting skill in adjacent finance, policy or operations roles; verify entry requirements.",
+          "humanEdge": "Fiscal discipline.",
+          "skills": ["Financial Planning", "Policy Analysis", "Operations"],
+          "options": [
+            "Financial Analyst",
+            "Policy Analyst",
+            "Operations Analyst",
+            "Controller Track",
+            "Business Partner Finance"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned budget analysis practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to help organisations plan spending.",
+          "skills": ["Budget Modelling", "Training", "Reporting"],
+          "options": [
+            "Nonprofit Budgeting Service",
+            "Budget Template Toolkit",
+            "Grant Budget Preparation Service",
+            "Forecast Review Practice",
+            "Budget Training Service"
+          ]
+        }
+      }
+    },
+    "13-2041.00": {
+      "role": "credit_analyst",
+      "strategies": {
+        "automate": {
+          "description": "Stay in credit analysis and configure scoring models, financial spreading and monitoring alerts with analyst sign-off.",
+          "humanEdge": "Judging borrower character and qualitative risk.",
+          "skills": ["Credit Scoring Models", "Financial Spreading Tools", "Portfolio Monitoring"],
+          "options": [
+            "Credit Model Analyst",
+            "Automated Spreading Specialist",
+            "Portfolio Monitoring Analyst",
+            "Credit Data Specialist",
+            "Early Warning Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine financial review with AI tools for statement analysis, industry research and memo drafting.",
+          "humanEdge": "Recommending decisions under uncertainty.",
+          "skills": [
+            "Financial Statement Analysis",
+            "AI Output Verification",
+            "Credit Memo Writing"
+          ],
+          "options": [
+            "Commercial Credit Analyst",
+            "Credit Risk Analyst",
+            "Trade Credit Manager",
+            "Underwriting Analyst",
+            "Workout Analyst"
+          ]
+        },
+        "pivot": {
+          "description": "Use credit judgment in adjacent lending, risk or collections work; verify entry requirements.",
+          "humanEdge": "Disciplined risk assessment.",
+          "skills": ["Lending", "Risk Management", "Collections"],
+          "options": [
+            "Loan Officer Track",
+            "Risk Analyst",
+            "Collections Manager",
+            "Relationship Manager Track",
+            "Underwriter"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned credit analysis practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to assess who can pay.",
+          "skills": ["Credit Assessment", "Policy Design", "Reporting"],
+          "options": [
+            "Trade Credit Review Service",
+            "Credit Policy Toolkit",
+            "Customer Credit Check Service",
+            "Receivables Risk Practice",
+            "Credit Memo Toolkit"
+          ]
+        }
+      }
+    },
+    "13-2052.00": {
+      "role": "personal_financial_advisor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in advisory and configure planning software, portfolio rebalancing and client reporting with advisor sign-off.",
+          "humanEdge": "Understanding clients' goals and behaviour.",
+          "skills": ["Financial Planning Software", "Portfolio Rebalancing", "Client Reporting"],
+          "options": [
+            "Digital Advice Specialist",
+            "Planning Software Specialist",
+            "Client Reporting Analyst",
+            "Portfolio Operations Specialist",
+            "Advice Platform Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine client relationships with AI tools for scenario modelling, research and meeting preparation.",
+          "humanEdge": "Coaching clients through emotional money decisions.",
+          "skills": ["Financial Planning", "AI Output Verification", "Client Communication"],
+          "options": [
+            "Retirement Planning Specialist Track",
+            "Estate Planning Coordinator",
+            "Paraplanner",
+            "Financial Coach",
+            "Wealth Management Associate"
+          ]
+        },
+        "pivot": {
+          "description": "Use planning knowledge in adjacent coaching, benefits or education work; verify entry requirements.",
+          "humanEdge": "Trust with money conversations.",
+          "skills": ["Financial Coaching", "Benefits Administration", "Financial Education"],
+          "options": [
+            "Financial Wellness Coach",
+            "Benefits Specialist",
+            "Financial Educator",
+            "Client Service Manager",
+            "Trust Officer Track"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned financial planning education practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to explain money decisions clearly.",
+          "skills": ["Financial Education", "Workshop Design", "Content Writing"],
+          "options": [
+            "Financial Literacy Workshop Service",
+            "Money Coaching Practice",
+            "Budgeting Toolkit",
+            "Workplace Financial Wellness Service",
+            "Retirement Readiness Toolkit"
+          ]
+        }
+      }
+    },
+    "13-2053.00": {
+      "role": "insurance_underwriter",
+      "strategies": {
+        "automate": {
+          "description": "Stay in underwriting and configure rating engines, data enrichment and rules-based approvals with underwriter sign-off.",
+          "humanEdge": "Judging unusual risks that rules miss.",
+          "skills": ["Rating Engines", "Data Enrichment", "Underwriting Rules"],
+          "options": [
+            "Underwriting Automation Specialist",
+            "Rules Engine Analyst",
+            "Pricing Analyst",
+            "Risk Data Analyst",
+            "Underwriting Operations Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine risk evaluation with AI tools for submission review, loss analysis and referrals.",
+          "humanEdge": "Negotiating terms with brokers.",
+          "skills": ["Risk Evaluation", "AI Output Verification", "Broker Relations"],
+          "options": [
+            "Commercial Underwriter",
+            "Specialty Lines Underwriter",
+            "Underwriting Auditor",
+            "Portfolio Underwriter",
+            "Risk Engineer"
+          ]
+        },
+        "pivot": {
+          "description": "Use risk judgment in adjacent claims, actuarial support or broking work; verify entry requirements.",
+          "humanEdge": "Pricing risk carefully.",
+          "skills": ["Claims", "Actuarial Analysis", "Broking"],
+          "options": [
+            "Claims Specialist",
+            "Actuarial Analyst Track",
+            "Insurance Broker Track",
+            "Risk Manager",
+            "Product Manager Insurance"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned underwriting practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to read risk quickly.",
+          "skills": ["Risk Assessment", "Training", "Documentation"],
+          "options": [
+            "Underwriting Training Service",
+            "Risk Survey Service",
+            "Submission Preparation Toolkit",
+            "Underwriting Guidelines Toolkit",
+            "Insurance Readiness Practice"
+          ]
+        }
+      }
+    },
+    "13-2054.00": {
+      "role": "financial_risk_specialist",
+      "strategies": {
+        "automate": {
+          "description": "Stay in risk management and configure risk models, limit monitoring and stress testing tools with specialist sign-off.",
+          "humanEdge": "Questioning model assumptions.",
+          "skills": ["Risk Models", "Limit Monitoring", "Stress Testing"],
+          "options": [
+            "Risk Model Analyst",
+            "Limit Monitoring Analyst",
+            "Stress Testing Analyst",
+            "Risk Data Engineer",
+            "Model Validation Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine risk analysis with AI tools for scenario generation, reporting and exposure analysis.",
+          "humanEdge": "Explaining risk to decision makers.",
+          "skills": ["Scenario Analysis", "Quantitative Methods", "AI Output Verification"],
+          "options": [
+            "Market Risk Analyst",
+            "Credit Risk Manager Track",
+            "Operational Risk Analyst",
+            "Liquidity Risk Analyst",
+            "Climate Risk Analyst"
+          ]
+        },
+        "pivot": {
+          "description": "Use risk expertise in adjacent treasury, compliance or audit work; verify entry requirements.",
+          "humanEdge": "Disciplined scepticism.",
+          "skills": ["Treasury", "Compliance", "Audit"],
+          "options": [
+            "Treasury Analyst",
+            "Compliance Analyst",
+            "Internal Auditor Track",
+            "Financial Analyst",
+            "Insurance Risk Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned financial risk practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to make risk visible.",
+          "skills": ["Risk Framework Design", "Reporting", "Training"],
+          "options": [
+            "Risk Register Toolkit",
+            "Risk Framework Service",
+            "Stress Test Review Service",
+            "Risk Training Practice",
+            "Treasury Risk Review Service"
+          ]
+        }
+      }
+    },
+    "13-2061.00": {
+      "role": "financial_examiner",
+      "strategies": {
+        "automate": {
+          "description": "Stay in examination and configure data analytics, exam workpapers and risk scoring with examiner sign-off.",
+          "humanEdge": "Judging whether controls work in practice.",
+          "skills": ["Supervisory Analytics", "Workpaper Systems", "Risk Scoring"],
+          "options": [
+            "Supervisory Analytics Examiner",
+            "Exam Data Specialist",
+            "Risk Scoring Analyst",
+            "Regulatory Reporting Analyst",
+            "Workpaper Systems Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine on-site review with AI tools for document review, trend analysis and report drafting.",
+          "humanEdge": "Challenging management credibly.",
+          "skills": ["Examination Procedures", "AI Output Verification", "Risk Assessment"],
+          "options": [
+            "Bank Examiner Track",
+            "Compliance Examiner",
+            "Consumer Protection Examiner",
+            "Anti-Money Laundering Examiner",
+            "Capital Adequacy Analyst"
+          ]
+        },
+        "pivot": {
+          "description": "Use examination skill in adjacent compliance, audit or risk roles; verify entry requirements.",
+          "humanEdge": "Rigorous review.",
+          "skills": ["Compliance", "Internal Audit", "Risk Management"],
+          "options": [
+            "Compliance Manager",
+            "Internal Auditor Track",
+            "Risk Manager",
+            "Regulatory Reporting Manager",
+            "AML Investigator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned financial examination practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to prepare institutions for examination.",
+          "skills": ["Gap Assessment", "Training", "Documentation"],
+          "options": [
+            "Exam Readiness Service",
+            "Compliance Review Practice",
+            "Regulatory Reporting Toolkit",
+            "AML Program Review Service",
+            "Control Testing Toolkit"
+          ]
+        }
+      }
+    },
+    "13-2071.00": {
+      "role": "credit_counselor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in credit counselling and configure budgeting tools, debt plans and client portals with counsellor sign-off.",
+          "humanEdge": "Understanding clients' situations without judgment.",
+          "skills": ["Budgeting Software", "Debt Management Plans", "Client Portals"],
+          "options": [
+            "Digital Credit Counselor",
+            "Debt Plan Administrator",
+            "Client Portal Coordinator",
+            "Budget Coaching Specialist",
+            "Housing Counseling Systems Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine counselling with AI tools for budget analysis, creditor letters and education materials.",
+          "humanEdge": "Motivating behaviour change.",
+          "skills": ["Budget Coaching", "AI Output Verification", "Creditor Negotiation"],
+          "options": [
+            "Housing Counselor Track",
+            "Financial Coach",
+            "Student Loan Counselor",
+            "Bankruptcy Education Counselor",
+            "Financial Wellness Coordinator"
+          ]
+        },
+        "pivot": {
+          "description": "Use money coaching skill in adjacent education, benefits or collections roles; verify entry requirements.",
+          "humanEdge": "Patient explanation.",
+          "skills": ["Financial Education", "Benefits Navigation", "Collections"],
+          "options": [
+            "Financial Educator",
+            "Benefits Navigator",
+            "Collections Specialist",
+            "Customer Hardship Specialist",
+            "Community Program Coordinator"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned money management education practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to help people take control of money.",
+          "skills": ["Workshop Design", "Coaching", "Content Writing"],
+          "options": [
+            "Budget Coaching Practice",
+            "Debt Repayment Planning Toolkit",
+            "Financial Literacy Workshop Service",
+            "Workplace Money Education Service",
+            "First Home Readiness Toolkit"
+          ]
+        }
+      }
+    },
+    "13-2072.00": {
+      "role": "loan_officer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in lending and configure loan origination systems, document verification and automated decisioning with officer sign-off.",
+          "humanEdge": "Judging borrower circumstances beyond scores.",
+          "skills": ["Loan Origination Systems", "Document Verification", "Automated Decisioning"],
+          "options": [
+            "Digital Lending Specialist",
+            "Loan Operations Specialist",
+            "Decisioning Rules Analyst",
+            "Document Verification Lead",
+            "Pipeline Analytics Officer"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine borrower advice with AI tools for application review, product comparison and follow-up.",
+          "humanEdge": "Building referral relationships and trust.",
+          "skills": ["Loan Structuring", "AI Output Verification", "Borrower Advice"],
+          "options": [
+            "Commercial Loan Officer",
+            "Small Business Lending Officer",
+            "Mortgage Loan Officer Track",
+            "Community Lending Officer",
+            "Loan Workout Specialist"
+          ]
+        },
+        "pivot": {
+          "description": "Use lending skill in adjacent credit, relationship or underwriting roles; verify entry requirements.",
+          "humanEdge": "Financial judgment and rapport.",
+          "skills": ["Credit Analysis", "Relationship Management", "Underwriting"],
+          "options": [
+            "Credit Analyst",
+            "Relationship Manager Track",
+            "Underwriter",
+            "Business Development Manager",
+            "Financial Coach"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned lending practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to get borrowers application-ready.",
+          "skills": ["Application Preparation", "Financial Education", "Client Intake"],
+          "options": [
+            "Loan Readiness Service",
+            "Business Funding Preparation Practice",
+            "Lender Comparison Toolkit",
+            "First Home Buyer Education Service",
+            "Loan Document Checklist Toolkit"
+          ]
+        }
+      }
+    },
+    "13-2081.00": {
+      "role": "tax_examiner",
+      "strategies": {
+        "automate": {
+          "description": "Stay in tax examination and configure return screening, data matching and case management with examiner sign-off.",
+          "humanEdge": "Judging intent and credibility in disputes.",
+          "skills": ["Return Screening", "Data Matching", "Case Management"],
+          "options": [
+            "Return Screening Analyst",
+            "Data Matching Specialist",
+            "Compliance Analytics Examiner",
+            "Case Systems Coordinator",
+            "Collection Analytics Specialist"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine audits with AI tools for records analysis, issue identification and report drafting.",
+          "humanEdge": "Firm, fair taxpayer communication.",
+          "skills": ["Audit Techniques", "AI Output Verification", "Taxpayer Communication"],
+          "options": [
+            "Revenue Agent Track",
+            "Tax Auditor",
+            "Tax Collection Officer",
+            "Appeals Officer",
+            "Tax Fraud Investigator"
+          ]
+        },
+        "pivot": {
+          "description": "Use tax knowledge in adjacent preparation, compliance or audit work; verify entry requirements.",
+          "humanEdge": "Precise rule application.",
+          "skills": ["Tax Preparation", "Compliance", "Auditing"],
+          "options": [
+            "Tax Analyst",
+            "Compliance Analyst",
+            "Internal Auditor Track",
+            "Tax Preparer",
+            "Payroll Tax Specialist"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned tax compliance practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to explain tax obligations clearly.",
+          "skills": ["Tax Research", "Training", "Documentation"],
+          "options": [
+            "Tax Compliance Review Service",
+            "Small Business Tax Readiness Toolkit",
+            "Tax Notice Response Service",
+            "Tax Training Practice",
+            "Recordkeeping Toolkit"
+          ]
+        }
+      }
+    },
+    "13-2082.00": {
+      "role": "tax_preparer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in tax preparation and configure tax software, document capture and e-filing with preparer sign-off.",
+          "humanEdge": "Catching missing income and deductions clients forget.",
+          "skills": ["Tax Software", "Document Capture", "E-Filing"],
+          "options": [
+            "Tax Software Specialist",
+            "Document Capture Specialist",
+            "E-Filing Coordinator",
+            "Tax Review Specialist",
+            "Practice Systems Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine client interviews with AI tools for document review, deduction checks and notices.",
+          "humanEdge": "Explaining tax outcomes to clients.",
+          "skills": ["Tax Law Basics", "AI Output Verification", "Client Interviewing"],
+          "options": [
+            "Enrolled Agent Track",
+            "Tax Associate",
+            "Payroll Tax Specialist",
+            "Bookkeeper",
+            "Tax Resolution Specialist"
+          ]
+        },
+        "pivot": {
+          "description": "Use tax skill in adjacent bookkeeping, payroll or accounting work; verify entry requirements.",
+          "humanEdge": "Accuracy under deadlines.",
+          "skills": ["Bookkeeping", "Payroll", "Accounting"],
+          "options": [
+            "Bookkeeper",
+            "Payroll Specialist",
+            "Accounting Assistant",
+            "Accounts Payable Specialist",
+            "Tax Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned tax preparation practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to make tax time painless.",
+          "skills": ["Recordkeeping", "Client Intake", "Tax Planning Basics"],
+          "options": [
+            "Bookkeeping and Tax Prep Service",
+            "Freelancer Tax Organiser Toolkit",
+            "Tax Document Checklist Toolkit",
+            "Small Business Tax Prep Practice",
+            "Year-Round Tax Readiness Service"
+          ]
+        }
+      }
+    },
+    "13-2099.01": {
+      "role": "quantitative_analyst",
+      "strategies": {
+        "automate": {
+          "description": "Stay in quantitative analysis and configure model pipelines, backtesting and data feeds with analyst sign-off.",
+          "humanEdge": "Questioning whether a model's assumptions hold.",
+          "skills": ["Model Pipelines", "Backtesting", "Market Data Feeds"],
+          "options": [
+            "Model Pipeline Developer",
+            "Backtesting Specialist",
+            "Market Data Engineer",
+            "Model Monitoring Analyst",
+            "Algorithmic Trading Support Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine model design with AI tools for research, code generation and results review.",
+          "humanEdge": "Explaining models to traders and risk teams.",
+          "skills": ["Statistical Modelling", "Programming", "AI Output Verification"],
+          "options": [
+            "Quant Developer",
+            "Risk Quant",
+            "Model Validation Specialist",
+            "Pricing Quant",
+            "Portfolio Analytics Specialist"
+          ]
+        },
+        "pivot": {
+          "description": "Use quantitative skill in adjacent data science, risk or engineering roles; verify entry requirements.",
+          "humanEdge": "Mathematical rigour.",
+          "skills": ["Data Science", "Risk Management", "Software Engineering"],
+          "options": [
+            "Data Scientist",
+            "Risk Analyst",
+            "Machine Learning Engineer",
+            "Actuarial Analyst Track",
+            "Research Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned quantitative analysis practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to build reliable financial models.",
+          "skills": ["Model Building", "Documentation", "Validation"],
+          "options": [
+            "Model Review Service",
+            "Financial Modelling Toolkit",
+            "Backtesting Practice",
+            "Quant Training Service",
+            "Data Pipeline Service"
+          ]
+        }
+      }
+    },
+    "13-2099.04": {
+      "role": "fraud_examiner",
+      "strategies": {
+        "automate": {
+          "description": "Stay in fraud work and configure detection rules, transaction monitoring and case management with examiner sign-off.",
+          "humanEdge": "Recognising deception and intent.",
+          "skills": ["Fraud Detection Rules", "Transaction Monitoring", "Case Management"],
+          "options": [
+            "Fraud Detection Analyst",
+            "Transaction Monitoring Specialist",
+            "Fraud Rules Analyst",
+            "Case Systems Coordinator",
+            "Fraud Data Analyst"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine investigation with AI tools for document analysis, link analysis and report drafting.",
+          "humanEdge": "Interviewing and building evidence.",
+          "skills": ["Investigation", "AI Output Verification", "Forensic Analysis"],
+          "options": [
+            "Forensic Accountant Track",
+            "AML Investigator",
+            "Insurance Fraud Investigator",
+            "Procurement Fraud Specialist",
+            "Payments Fraud Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use investigation skill in adjacent compliance, audit or security work; verify entry requirements.",
+          "humanEdge": "Sceptical attention to detail.",
+          "skills": ["Compliance", "Auditing", "Security"],
+          "options": [
+            "Compliance Officer",
+            "Internal Auditor Track",
+            "Security Investigator",
+            "Risk Analyst",
+            "Due Diligence Analyst"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned fraud investigation practice, service or toolkit with potential customers.",
+          "humanEdge": "Ability to spot and prevent fraud.",
+          "skills": ["Fraud Risk Assessment", "Training", "Investigation Planning"],
+          "options": [
+            "Fraud Risk Assessment Service",
+            "Fraud Awareness Training Practice",
+            "Expense Review Service",
+            "Fraud Controls Toolkit",
+            "Vendor Due Diligence Service"
+          ]
+        }
+      }
+    }
+  }
+}

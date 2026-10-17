@@ -185,23 +185,25 @@ export type StrategyId = z.infer<typeof pathIdSchema>
 export const navigatorStrategies = {
   automate: {
     label: "Automate",
-    meaning: "Improve current work through automation with human review.",
+    meaning: "Stay in your field and operate, supervise or configure the AI automating your work.",
     colorToken: "chart-3",
   },
   hybrid: {
     label: "Hybrid",
-    meaning: "Combine domain expertise with AI assistance and human judgment.",
+    meaning:
+      "Keep human judgment, relationships and creativity in your field while AI handles automatable tasks.",
     colorToken: "tertiary",
   },
   pivot: {
     label: "Pivot",
-    meaning: "Validate adjacent work using transferable skills.",
+    meaning:
+      "Redirect underlying skills toward a different role with lower exposure; validate transferability before moving.",
     colorToken: "warning",
   },
   create: {
     label: "Create",
     meaning:
-      "Explore emerging responsibilities and new forms of value, including governance and ethics.",
+      "Turn domain knowledge into a service, practice, product or new role you own; validate a market need.",
     colorToken: "success",
   },
 } as const
@@ -259,7 +261,7 @@ const pathFields = {
   project: text(500),
   firstStep: text(300),
 }
-const resourceIdSchema = z.enum(
+export const resourceIdSchema = z.enum(
   Object.keys(navigatorResources) as [
     keyof typeof navigatorResources,
     ...(keyof typeof navigatorResources)[],
@@ -273,12 +275,11 @@ export const navigatorDraftSchema = z
         z.object({
           ...pathFields,
           resourceIds: z.array(resourceIdSchema).min(1).max(3),
-          destinationIds: z.array(text(100)).max(3),
+          destinationIds: z.array(text(100)),
           destinationResources: z
             .array(
               z.object({ destinationId: text(100), resourceIds: z.array(resourceIdSchema).max(3) }),
             )
-            .max(3)
             .default([]),
         }),
       )
@@ -302,25 +303,24 @@ export const careerPathSchema = z
     ...pathFields,
     title: text(100),
     coverage: z.enum(["available", "unsupported"]),
+    mappingLevel: z.enum(["occupation", "family"]).optional(),
     mappingVersion: text(80),
     mappingSource: text(200),
     mappingRationale: text(500),
-    destinations: z
-      .array(
-        z.object({
-          id: text(100),
-          title: text(120),
-          kind: z.literal("curated_pathway"),
-          occupationCode: z.null(),
-        }),
-      )
-      .max(3),
-    roles: z.array(text(120)).max(3),
+    destinations: z.array(
+      z.object({
+        id: text(100),
+        title: text(120),
+        kind: z.literal("curated_pathway"),
+        occupationCode: z.null(),
+      }),
+    ),
+    roles: z.array(text(120)),
     label: z.string().min(1).max(20),
     colorToken: z.enum(["chart-3", "tertiary", "warning", "success"]),
     color: z.string().max(40),
     resources: z.array(resourceSchema).min(1).max(3),
-    roleResources: z.array(z.array(resourceSchema).max(3)).max(3),
+    roleResources: z.array(z.array(resourceSchema).max(3)),
   })
   .refine((path) => {
     const metadata = navigatorStrategies[path.id]
@@ -378,12 +378,14 @@ export function courseList(path: CareerPath, roleIndex: number | null) {
   return [
     ...path.resources,
     ...forRole,
-    ...pathCourseIds[path.id].map((id) => navigatorResources[id]),
+    ...(path.mappingLevel === "family"
+      ? []
+      : pathCourseIds[path.id].map((id) => navigatorResources[id])),
   ]
     .filter((resource) => !seen.has(resource.href) && !!seen.add(resource.href))
     .map((resource) => ({
       ...resource,
-      mustHave: mustHave.has(resource.href),
+      mustHave: path.mappingLevel !== "family" && mustHave.has(resource.href),
       forRole: !mustHave.has(resource.href) && forRole.some((pick) => pick.href === resource.href),
     }))
 }

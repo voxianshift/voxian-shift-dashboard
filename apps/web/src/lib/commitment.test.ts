@@ -95,3 +95,43 @@ test("the profile timeline sets the start date and pace", () => {
   expect(timelineSprint("Next 6 months")).toBe(false)
   expect(timelineSprint("")).toBeNull()
 })
+
+test("validated schedules keep exact budgets, split short sessions and preserve four phase boundaries", () => {
+  const planned: Commitment = {
+    ...commitment,
+    plan: {
+      provider: "Test",
+      plan: {
+        summary: "Plan",
+        firstStep: "Start",
+        contractVersion: 3,
+        schedule: {
+          startDate: commitment.startDate,
+          timeZone: "Asia/Kuala_Lumpur",
+          weeklyMinutes: 301,
+          studyDays: [1, 3, 5],
+          sessionLimitMinutes: 45,
+        },
+        phases: [22, 45, 67, 90].map((endDay, index) => ({
+          title: `Phase ${index + 1}`,
+          days: "",
+          endDay,
+          focus: "",
+          actions: [],
+          deliverable: "",
+          flightPlan: [],
+        })),
+      },
+    },
+  }
+  const slots = commitmentSlots(planned)
+  expect(total(slots)).toBe(301)
+  expect(slots.every((slot) => slot.minutes <= 45)).toBe(true)
+  expect(new Set(slots.map((slot) => `${slot.day}-${slot.start}`)).size).toBe(slots.length)
+  expect(currentPhase(planned, 22)).toBe(0)
+  expect(currentPhase(planned, 23)).toBe(1)
+  expect(currentPhase(planned, 90)).toBe(3)
+  expect(total(commitmentSlots(withProfile(planned, { hours: "5+ hours", flexibility: "" })))).toBe(
+    301,
+  )
+})

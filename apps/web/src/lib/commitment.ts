@@ -1,12 +1,25 @@
-import { phaseRanges, type FlightSegment } from "@/lib/flight-plan"
+import { weeklyDayMinutes, type FlightPlan } from "@voxian/shared"
+import { type FlightSegment } from "@/lib/flight-plan"
 
 export type TimeOfDay = "morning" | "night" | "flexible"
 export type StudyDays = "weekdays" | "weekends" | "flexible"
 export type Slot = { day: number; start: string; minutes: number }
 
 export type Plan = {
+  schedule?: FlightPlan["schedule"]
+  firstMonth?: FlightPlan["firstMonth"]
+  milestones?: FlightPlan["milestones"]
+  goals?: FlightPlan["goals"]
+  profileRevision?: string
+  contractVersion?: 3
+  occupationCode?: string
+  strategyId?: FlightPlan["strategyId"]
+  destinationId?: string | null
   summary: string
   phases: {
+    id?: string
+    startDay?: number
+    endDay?: number
     title: string
     days: string
     focus: string
@@ -94,6 +107,25 @@ export function weeklySlots(
 }
 
 export function commitmentSlots(commitment: Commitment) {
+  const schedule = commitment.plan?.plan.schedule
+  if (schedule)
+    return weeklyDayMinutes(schedule).flatMap(({ day, minutes }) => {
+      const result: Slot[] = []
+      const start = starts[commitment.timeOfDay][day === 0 || day === 6 ? "weekend" : "weekday"]
+      const [hour, minute] = start.split(":").map(Number) as [number, number]
+      let offset = 0
+      for (let remaining = minutes; remaining > 0; remaining -= schedule.sessionLimitMinutes) {
+        const length = Math.min(remaining, schedule.sessionLimitMinutes)
+        const clock = hour * 60 + minute + offset
+        result.push({
+          day,
+          start: `${String(Math.floor(clock / 60) % 24).padStart(2, "0")}:${String(clock % 60).padStart(2, "0")}`,
+          minutes: length,
+        })
+        offset += length
+      }
+      return result
+    })
   return weeklySlots(
     weeklyHours(commitment.hours),
     commitment.timeOfDay,
@@ -156,6 +188,7 @@ export type PlanDay = {
   dayNumber: number
   weekday: number
   slot?: Slot
+  slots?: Slot[]
   done: boolean
 }
 
@@ -172,13 +205,21 @@ export function planDays(commitment: Commitment): PlanDay[] {
       dayNumber: i + 1,
       weekday: day.getDay(),
       slot: slots.find((slot) => slot.day === day.getDay()),
+      slots: slots.filter((slot) => slot.day === day.getDay()),
       done: done.has(date),
     }
   })
 }
 
 export function currentPhase(commitment: Commitment, dayNumber: number) {
-  const index = phaseRanges(commitment.sprint).findIndex(([, end]) => dayNumber <= end)
+  const phases = commitment.plan?.plan.phases
+  if (commitment.plan?.plan.contractVersion === 3 && phases) {
+    const index = phases.findIndex((phase) => dayNumber <= (phase.endDay ?? Infinity))
+    return index === -1 ? phases.length - 1 : index
+  }
+  // Legacy commitments retain their original three-phase boundaries until migration (#11).
+  const ends = commitment.sprint ? [20, 55, 90] : [30, 75, 120]
+  const index = ends.findIndex((end) => dayNumber <= end)
   return index === -1 ? 2 : index
 }
 

@@ -40,3 +40,29 @@ test("one Google link repeats on every slot day sharing a time; others go in the
   )
   expect(mixed.searchParams.get("details")).toContain("Also: Sat 10:00")
 })
+
+test("split sessions have distinct calendar IDs instead of overwriting the same weekday", () => {
+  const planned: Commitment = {
+    ...commitment,
+    plan: {
+      provider: "Test",
+      plan: {
+        summary: "",
+        firstStep: "",
+        phases: [],
+        schedule: {
+          startDate: commitment.startDate,
+          timeZone: "Asia/Kuala_Lumpur",
+          weeklyMinutes: 300,
+          studyDays: [1, 3, 5],
+          sessionLimitMinutes: 45,
+        },
+      },
+    },
+  }
+  const ids = calendarIcs(planned)
+    .split("\r\n")
+    .filter((line) => line.startsWith("UID:"))
+  expect(ids.length).toBeGreaterThan(3)
+  expect(new Set(ids).size).toBe(ids.length)
+})

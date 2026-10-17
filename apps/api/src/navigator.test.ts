@@ -13,8 +13,10 @@ const developer = {
   baselineId: null,
   reason: "Exact code",
 }
+const familyOnly = { ...developer, code: "11-9199.00", title: "Managers, All Other" }
+const support = { ...developer, code: "15-1232.00", title: "Computer User Support Specialists" }
 const admin = { ...developer, code: "43-6011.00", title: "Executive Assistants" }
-const unknownMapping = { ...developer, code: "11-1011.00", title: "Chief Executives" }
+const unknownMapping = { ...developer, code: "99-9999.00", title: "Unclassified test occupation" }
 const context = navigatorContext({
   ...emptyProfile,
   preferredName: "Private name",
@@ -31,7 +33,7 @@ const context = navigatorContext({
 function catalogue(): OccupationCatalogue {
   return {
     search: vi.fn(async (code) =>
-      [developer, admin, unknownMapping].filter((role) => role.code === code),
+      [developer, admin, support, familyOnly, unknownMapping].filter((role) => role.code === code),
     ),
     selections: async () => ({ occupations: [], primaryOccupation: "" }),
     select: async () => {},
@@ -97,7 +99,7 @@ test("destinations and titles are backend lookups while narrative uses confirmed
     expect(body.paths[0]!.title).toBe(lookupPathways(developer.code).automate!.title)
     expect(body.paths[3]).toMatchObject({
       coverage: "available",
-      title: "AI Safety & Red Team Lead",
+      title: "AI Safety Testing Practice",
     })
     expect(body.paths[3]!.roleResources[0]![0]!.href).toBe(
       "https://learn.microsoft.com/en-us/training/",
@@ -272,56 +274,6 @@ test("invalid or foreign requests never call provider", async () => {
     await app.close()
   }
 })
-test("plan generation receives the actual selected target and optional profile answers", async () => {
-  const plan = {
-    summary: "Practical software plan.",
-    phases: [1, 2, 3].map((phase) => ({
-      title: `Phase ${phase}`,
-      days: "Days 1–30",
-      focus: "Practical project",
-      actions: ["Map work", "Review evidence"],
-      deliverable: "A reviewed project",
-      flightPlan: [
-        { days: "D1–D15", focus: "Learn" },
-        { days: "D16–D30", focus: "Apply" },
-      ],
-    })),
-    firstStep: "Map one task.",
-  }
-  const fetch = vi.fn().mockResolvedValue(completion(plan))
-  vi.stubGlobal("fetch", fetch)
-  const app = buildApp()
-  try {
-    const response = await app.inject({
-      method: "POST",
-      url: "/plan",
-      payload: {
-        role: developer.title,
-        occupationCode: developer.code,
-        direction: "Developer Tooling",
-        targetRoles: ["Developer Tools Engineer"],
-        pace: "lean",
-        goals: context.goals,
-        hours: context.hours,
-        profile: context,
-      },
-    })
-    expect(response.statusCode).toBe(200)
-    const input = JSON.parse(
-      JSON.parse(fetch.mock.calls[0]![1]!.body as string).messages[1].content,
-    )
-    expect(input).toMatchObject({
-      role: developer.title,
-      targetRoles: ["Developer Tools Engineer"],
-      profile: context,
-      goals: ["Stability"],
-      hours: "1–2 hours",
-    })
-  } finally {
-    await app.close()
-  }
-})
-
 test("all reviewed source mappings return valid grounded fallback results without provider", async () => {
   vi.stubEnv("ROOTSYS_API_KEY", "")
   const { default: data } = await import("../data/navigator-pathways.json", {
@@ -410,6 +362,58 @@ test("invented destination-specific resource IDs cannot bypass grounded lookup",
     expect(response.json().paths[0].destinations).toEqual(
       lookupPathways(developer.code).automate!.destinations,
     )
+  } finally {
+    await app.close()
+  }
+})
+
+test("computer user support returns fixed coverage for all four strategies without an LLM", async () => {
+  vi.stubEnv("ROOTSYS_API_KEY", "")
+  const app = buildApp({ catalogue: catalogue() })
+  try {
+    const response = await app.inject({
+      method: "POST",
+      url: "/navigator/paths",
+      payload: {
+        profile: { ...context, occupations: [support.code], primaryOccupation: support.code },
+      },
+    })
+    expect(response.statusCode).toBe(200)
+    const result = navigatorResultSchema.parse(response.json())
+    expect(result.occupationCode).toBe(support.code)
+    for (const path of result.paths) {
+      expect(path.coverage).toBe("available")
+      expect(path.destinations).toEqual(lookupPathways(support.code)[path.id]!.destinations)
+      expect(path.destinations.length).toBeGreaterThan(3)
+    }
+    expect(result.paths[3]!.title).toBe("Small Business IT Support Practice")
+  } finally {
+    await app.close()
+  }
+})
+
+test("family-only occupation gets transparent fixed exploration options without provider", async () => {
+  vi.stubEnv("ROOTSYS_API_KEY", "")
+  const app = buildApp({ catalogue: catalogue() })
+  try {
+    const response = await app.inject({
+      method: "POST",
+      url: "/navigator/paths",
+      payload: {
+        profile: { ...context, occupations: [familyOnly.code], primaryOccupation: familyOnly.code },
+      },
+    })
+    expect(response.statusCode).toBe(200)
+    const body = navigatorResultSchema.parse(response.json())
+    expect(body.generationStatus).toBe("reviewed_only")
+    for (const path of body.paths) {
+      expect(path.coverage).toBe("available")
+      expect(path.mappingLevel).toBe("family")
+      expect(path.mappingRationale).toContain("Family-level exploration template")
+      expect(path.mappingSource).toContain("SOC major groups")
+      expect(path.destinations).toEqual(lookupPathways(familyOnly.code)[path.id]!.destinations)
+    }
+    expect(body.paths[2]!.description).toContain("not yet validated")
   } finally {
     await app.close()
   }

@@ -1,6 +1,7 @@
 import { expect, test } from "vite-plus/test"
 import {
   recommendStrategy,
+  navigatorStrategies,
   navigatorDraftSchema,
   pathIdSchema,
   courseList,
@@ -110,4 +111,45 @@ test("draft requires exactly one of each strategy and excludes model recommendat
       paths: draft.paths.map((p) => ({ ...p, id: "quality" })),
     }).success,
   ).toBe(false)
+})
+
+test("strategy meanings distinguish operating AI, human work, moving roles and ownership", () => {
+  expect(navigatorStrategies.automate.meaning).toContain("operate, supervise or configure")
+  expect(navigatorStrategies.hybrid.meaning).toContain("judgment, relationships and creativity")
+  expect(navigatorStrategies.pivot.meaning).toContain("validate transferability")
+  expect(navigatorStrategies.create.meaning).toContain("you own")
+})
+
+test("family exploration does not inherit unrelated courses or mandatory credentials", () => {
+  const courses = courseList(
+    { ...path, mappingLevel: "family", resources: [navigatorResources.learn], roleResources: [] },
+    null,
+  )
+  expect(courses).toHaveLength(1)
+  expect(courses[0]!.mustHave).toBe(false)
+  expect(courses[0]!.href).toBe(navigatorResources.learn.href)
+})
+
+test("model can echo full destination lists and resources beyond three options", () => {
+  const draft = {
+    summary: "Full list",
+    paths: ["automate", "hybrid", "pivot", "create"].map((id) => ({
+      id,
+      focus: "Explore options",
+      description: "Explore supplied options.",
+      why: "Validate requirements.",
+      humanEdge: "Human judgment.",
+      tradeoff: "Requirements unknown.",
+      skills: ["Research", "Review", "Practice"],
+      project: "Review a sample.",
+      firstStep: "Read requirements.",
+      resourceIds: ["learn"],
+      destinationIds: Array.from({ length: 8 }, (_, i) => `${id}-${i}`),
+      destinationResources: Array.from({ length: 8 }, (_, i) => ({
+        destinationId: `${id}-${i}`,
+        resourceIds: ["learn"],
+      })),
+    })),
+  }
+  expect(navigatorDraftSchema.safeParse(draft).success).toBe(true)
 })

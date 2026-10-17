@@ -1,0 +1,429 @@
+{
+  "source": "Product-curated from O*NET 31.0 occupation tasks for SOC major group 37 (https://www.onetonline.org/find/family?f=37). Exploration labels, not verified vacancies or transitions.",
+  "occupations": {
+    "37-1011.00": {
+      "role": "housekeeping_supervisor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in housekeeping supervision and configure AI-assisted room status, scheduling and supply ordering with human sign-off.",
+          "humanEdge": "High standards and attention to detail.",
+          "skills": ["Room Status Systems", "Scheduling Software", "Supply Ordering"],
+          "options": [
+            "Housekeeping Systems Supervisor",
+            "Cleaning Robot Fleet Lead",
+            "Room Status Coordinator",
+            "Supply Automation Lead",
+            "Quality Audit Data Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine cleaning leadership with AI tools for schedules, quality and supplies.",
+          "humanEdge": "Leading and training diverse teams.",
+          "skills": ["Team Leadership", "AI Tool Evaluation", "Quality Inspection"],
+          "options": [
+            "Executive Housekeeper",
+            "Hospital Environmental Services Lead",
+            "Facilities Supervisor",
+            "Training Supervisor",
+            "Contract Cleaning Manager"
+          ]
+        },
+        "pivot": {
+          "description": "Use housekeeping supervision knowledge in adjacent facilities or hospitality operations work; verify entry requirements.",
+          "humanEdge": "Carrying housekeeping supervision judgment into a new setting.",
+          "skills": ["Facilities", "Hospitality Operations", "Training"],
+          "options": [
+            "Facilities Manager",
+            "Hotel Operations Manager",
+            "Infection Control Assistant",
+            "Operations Coordinator",
+            "Property Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned cleaning operations practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what small businesses need for cleaning.",
+          "skills": ["Training Design", "Pricing", "Quality Systems"],
+          "options": [
+            "Cleaning Business Startup Toolkit",
+            "Cleaner Training Practice",
+            "Cleaning Audit Service",
+            "Housekeeping SOP Toolkit",
+            "Holiday Rental Turnover Service"
+          ]
+        }
+      }
+    },
+    "37-1012.00": {
+      "role": "landscape_supervisor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in landscaping supervision and configure AI-assisted crew scheduling, irrigation control and job costing with human sign-off.",
+          "humanEdge": "Judging plant health and site needs.",
+          "skills": ["Crew Scheduling Apps", "Smart Irrigation", "Job Costing"],
+          "options": [
+            "Smart Irrigation Supervisor",
+            "Robotic Mowing Fleet Lead",
+            "Grounds Data Supervisor",
+            "Job Costing Lead",
+            "Drone Site Survey Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine grounds leadership with AI tools for scheduling, irrigation and estimates.",
+          "humanEdge": "Leading crews safely.",
+          "skills": ["Crew Leadership", "AI Tool Evaluation", "Plant Health"],
+          "options": [
+            "Landscape Construction Supervisor",
+            "Sports Turf Manager",
+            "Parks Supervisor",
+            "Estate Gardens Manager",
+            "Arborist Crew Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use landscaping supervision knowledge in adjacent horticulture, facilities or sustainability work; verify entry requirements.",
+          "humanEdge": "Carrying landscaping supervision judgment into a new setting.",
+          "skills": ["Horticulture", "Facilities", "Sustainability"],
+          "options": [
+            "Facilities Manager",
+            "Garden Centre Manager",
+            "Sustainability Coordinator",
+            "Horticultural Trainer",
+            "Property Manager"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned grounds practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what property owners need for grounds.",
+          "skills": ["Pricing", "Design Advice", "Training Design"],
+          "options": [
+            "Garden Maintenance Business Practice",
+            "Lawn Care Plan Toolkit",
+            "Crew Training Service",
+            "Water-Wise Garden Service",
+            "Estimate Template Toolkit"
+          ]
+        }
+      }
+    },
+    "37-2011.00": {
+      "role": "janitor",
+      "strategies": {
+        "automate": {
+          "description": "Stay in janitorial work and configure AI-assisted cleaning schedules, supply tracking and robots with human sign-off.",
+          "humanEdge": "Thorough, reliable cleaning.",
+          "skills": ["Cleaning Robots", "Schedule Apps", "Supply Tracking"],
+          "options": [
+            "Cleaning Robot Operator",
+            "Smart Building Cleaner",
+            "Supply Tracking Coordinator",
+            "Floor Care Equipment Technician",
+            "Sensor-Based Cleaning Lead"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine cleaning with AI tools for schedules, robots and supplies.",
+          "humanEdge": "Noticing hazards and maintenance needs.",
+          "skills": ["Cleaning Technique", "AI Tool Evaluation", "Hazard Spotting"],
+          "options": [
+            "Floor Care Specialist",
+            "Healthcare Cleaner",
+            "School Custodian Lead",
+            "Day Porter",
+            "Waste Recycling Lead"
+          ]
+        },
+        "pivot": {
+          "description": "Use janitorial work knowledge in adjacent facilities or maintenance work; verify entry requirements.",
+          "humanEdge": "Carrying janitorial work judgment into a new setting.",
+          "skills": ["Facilities", "Maintenance", "Infection Control"],
+          "options": [
+            "Maintenance Technician",
+            "Facilities Assistant",
+            "Pest Control Technician",
+            "Groundskeeper",
+            "Infection Control Assistant"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned building cleaning practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what offices and schools need for cleanliness.",
+          "skills": ["Pricing", "Client Communication", "Training"],
+          "options": [
+            "Office Cleaning Service",
+            "Floor Care Service",
+            "Cleaning Checklist Toolkit",
+            "End-of-Tenancy Cleaning Practice",
+            "Cleaner Training Service"
+          ]
+        }
+      }
+    },
+    "37-2012.00": {
+      "role": "housekeeper",
+      "strategies": {
+        "automate": {
+          "description": "Stay in housekeeping and configure AI-assisted room status, schedules and supplies with human sign-off.",
+          "humanEdge": "Attention to detail guests notice.",
+          "skills": ["Room Status Apps", "Route Planning", "Supply Tracking"],
+          "options": [
+            "Room Status Coordinator",
+            "Housekeeping App Specialist",
+            "Laundry Systems Assistant",
+            "Supply Automation Assistant",
+            "Linen Tracking Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine housekeeping with AI tools for room status, routes and supplies.",
+          "humanEdge": "Discretion and trust.",
+          "skills": ["Room Presentation", "AI Tool Evaluation", "Guest Discretion"],
+          "options": [
+            "Housekeeping Supervisor",
+            "Holiday Rental Turnover Lead",
+            "Private Housekeeper",
+            "Hospital Housekeeper",
+            "Hotel Room Inspector"
+          ]
+        },
+        "pivot": {
+          "description": "Use housekeeping knowledge in adjacent hospitality or property care work; verify entry requirements.",
+          "humanEdge": "Carrying housekeeping judgment into a new setting.",
+          "skills": ["Hospitality", "Property Care", "Laundry"],
+          "options": [
+            "Front Desk Agent",
+            "Facilities Assistant",
+            "Care Assistant",
+            "Laundry Supervisor",
+            "Property Caretaker"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned housekeeping practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what holiday rental owners need.",
+          "skills": ["Pricing", "Client Communication", "Training"],
+          "options": [
+            "Holiday Rental Turnover Service",
+            "Home Organising Practice",
+            "Cleaning Checklist Toolkit",
+            "Housekeeping Training Service",
+            "Linen Management Toolkit"
+          ]
+        }
+      }
+    },
+    "37-2021.00": {
+      "role": "pest_control_worker",
+      "strategies": {
+        "automate": {
+          "description": "Stay in pest control and configure AI-assisted smart traps, inspection logs and treatment records with human sign-off.",
+          "humanEdge": "Finding and identifying pests correctly.",
+          "skills": ["Smart Trap Monitoring", "Inspection Apps", "Treatment Records"],
+          "options": [
+            "Smart Trap Monitoring Technician",
+            "Pest Data Analyst",
+            "Digital Inspection Technician",
+            "Treatment Records Coordinator",
+            "Remote Monitoring Technician"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine pest management with AI tools for monitoring, records and planning.",
+          "humanEdge": "Safe, careful use of treatments.",
+          "skills": ["Inspection", "AI Tool Evaluation", "Safe Application"],
+          "options": [
+            "Commercial Pest Specialist",
+            "Integrated Pest Management Lead",
+            "Bird Control Specialist",
+            "Termite Specialist",
+            "Wildlife Exclusion Specialist"
+          ]
+        },
+        "pivot": {
+          "description": "Use pest control knowledge in adjacent environmental health or facilities work; verify entry requirements.",
+          "humanEdge": "Carrying pest control judgment into a new setting.",
+          "skills": ["Environmental Health", "Facilities", "Food Safety"],
+          "options": [
+            "Environmental Health Officer Track",
+            "Food Safety Auditor",
+            "Facilities Coordinator",
+            "Pesticide Applicator",
+            "Training Officer"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned pest management practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what businesses need for pest compliance.",
+          "skills": ["Pricing", "Client Communication", "Compliance Documentation"],
+          "options": [
+            "Pest Prevention Audit Service",
+            "Pest Control Startup Toolkit",
+            "Food Business Pest Compliance Toolkit",
+            "Homeowner Pest Prevention Service",
+            "Technician Training Practice"
+          ]
+        }
+      }
+    },
+    "37-3011.00": {
+      "role": "groundskeeper",
+      "strategies": {
+        "automate": {
+          "description": "Stay in landscaping and grounds work and configure AI-assisted robotic mowing, smart irrigation and job schedules with human sign-off.",
+          "humanEdge": "Practical plant and soil care.",
+          "skills": ["Robotic Mowers", "Smart Irrigation", "Scheduling Apps"],
+          "options": [
+            "Robotic Mower Technician",
+            "Smart Irrigation Technician",
+            "Grounds Equipment Technician",
+            "GPS Turf Marking Operator",
+            "Scheduling Coordinator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine grounds work with AI tools for mowing, irrigation and planning.",
+          "humanEdge": "Working safely with machinery.",
+          "skills": ["Plant Care", "AI Tool Evaluation", "Equipment Safety"],
+          "options": [
+            "Gardener",
+            "Sports Turf Technician",
+            "Parks Gardener",
+            "Hardscape Installer",
+            "Nursery Worker"
+          ]
+        },
+        "pivot": {
+          "description": "Use landscaping and grounds work knowledge in adjacent horticulture or facilities work; verify entry requirements.",
+          "humanEdge": "Carrying landscaping and grounds work judgment into a new setting.",
+          "skills": ["Horticulture", "Facilities", "Sports Turf"],
+          "options": [
+            "Horticultural Technician",
+            "Facilities Assistant",
+            "Garden Centre Assistant",
+            "Tree Surgeon Track",
+            "Irrigation Technician"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned grounds work practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what homeowners need for gardens.",
+          "skills": ["Pricing", "Client Communication", "Design Advice"],
+          "options": [
+            "Garden Maintenance Service",
+            "Lawn Care Practice",
+            "Seasonal Garden Toolkit",
+            "Vegetable Garden Setup Service",
+            "Garden Tidy-Up Service"
+          ]
+        }
+      }
+    },
+    "37-3012.00": {
+      "role": "pesticide_applicator",
+      "strategies": {
+        "automate": {
+          "description": "Stay in vegetation pesticide application and configure AI-assisted spray records, weather checks and drone mapping with human sign-off.",
+          "humanEdge": "Safe, accurate application.",
+          "skills": ["Precision Spraying", "Drone Mapping", "Spray Records"],
+          "options": [
+            "Drone Spray Operator",
+            "Precision Spraying Technician",
+            "Spray Records Coordinator",
+            "Weed Mapping Specialist",
+            "Weather Monitoring Technician"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine application with AI tools for targeting, records and weather.",
+          "humanEdge": "Protecting people, water and wildlife.",
+          "skills": ["Safe Application", "AI Tool Evaluation", "Environmental Protection"],
+          "options": [
+            "Integrated Vegetation Management Lead",
+            "Invasive Species Technician",
+            "Turf Treatment Specialist",
+            "Roadside Vegetation Lead",
+            "Application Trainer"
+          ]
+        },
+        "pivot": {
+          "description": "Use vegetation pesticide application knowledge in adjacent agronomy, compliance or land management work; verify entry requirements.",
+          "humanEdge": "Carrying vegetation pesticide application judgment into a new setting.",
+          "skills": ["Agronomy", "Compliance", "Land Management"],
+          "options": [
+            "Agronomy Assistant",
+            "Environmental Compliance Officer",
+            "Land Management Technician",
+            "Farm Technician",
+            "Pest Control Technician"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned vegetation management practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what landowners need for compliant weed control.",
+          "skills": ["Compliance Documentation", "Client Communication", "Training"],
+          "options": [
+            "Invasive Weed Control Service",
+            "Spray Records Toolkit",
+            "Applicator Training Practice",
+            "Compliance Checklist Toolkit",
+            "Landowner Weed Plan Service"
+          ]
+        }
+      }
+    },
+    "37-3013.00": {
+      "role": "tree_trimmer",
+      "strategies": {
+        "automate": {
+          "description": "Stay in tree trimming and pruning and configure AI-assisted tree inventory apps, risk mapping and job planning with human sign-off.",
+          "humanEdge": "Climbing and cutting safely.",
+          "skills": ["Tree Inventory Apps", "Risk Mapping", "Job Planning"],
+          "options": [
+            "Tree Inventory Technician",
+            "Drone Tree Survey Operator",
+            "Risk Mapping Technician",
+            "Utility Vegetation Data Specialist",
+            "Remote Cutting Equipment Operator"
+          ]
+        },
+        "hybrid": {
+          "description": "Combine tree work with AI tools for inventories, risk and planning.",
+          "humanEdge": "Judging tree health and risk.",
+          "skills": ["Climbing and Rigging", "AI Tool Evaluation", "Tree Assessment"],
+          "options": [
+            "Climbing Arborist",
+            "Utility Line Clearance Arborist",
+            "Tree Health Specialist",
+            "Crew Leader",
+            "Urban Forestry Technician"
+          ]
+        },
+        "pivot": {
+          "description": "Use tree trimming and pruning knowledge in adjacent arboriculture or utility vegetation work; verify entry requirements.",
+          "humanEdge": "Carrying tree trimming and pruning judgment into a new setting.",
+          "skills": ["Arboriculture", "Utility Vegetation", "Urban Forestry"],
+          "options": [
+            "Arborist Track",
+            "Urban Forestry Officer",
+            "Grounds Supervisor",
+            "Utility Vegetation Coordinator",
+            "Safety Trainer"
+          ]
+        },
+        "create": {
+          "description": "Use domain knowledge to validate an owned tree care practice, service or toolkit with potential customers.",
+          "humanEdge": "Knowing what property owners need for tree care.",
+          "skills": ["Pricing", "Client Communication", "Safety Training"],
+          "options": [
+            "Tree Care Service",
+            "Tree Risk Check Service",
+            "Climbing Training Practice",
+            "Storm Cleanup Service",
+            "Firewood Toolkit"
+          ]
+        }
+      }
+    }
+  }
+}

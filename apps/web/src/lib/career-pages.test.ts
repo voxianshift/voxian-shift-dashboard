@@ -8,7 +8,8 @@ import {
   type NavigatorResult,
 } from "@voxian/shared"
 import InsightsPage from "../app/(dashboard)/insights/page"
-import RoadmapPage from "../app/(dashboard)/roadmap/page"
+import RoadmapPage, { Roadmap } from "../components/navigator-plan-view"
+import NavigatorPage from "../app/(dashboard)/roadmap/page"
 import CanvasPage from "../app/(dashboard)/roadmap/canvas/page"
 import { SidebarProvider } from "../components/ui/sidebar"
 import { navigatorFixture } from "./navigator.fixture"
@@ -88,7 +89,7 @@ test("plan view shows a flight plan for the first phase by default", () => {
   expect(html).toContain("D1–D15")
   expect(html).toContain("D16–D30")
   expect(html).toContain("Module:")
-  expect(html.match(/aria-controls="flight-plan"/g)).toHaveLength(3)
+  expect(html.match(/aria-controls="flight-plan"/g)).toHaveLength(4)
   // Committing to a direction generates the plan; there is no separate generate button.
   expect(html).toContain("Choose this direction")
   expect(html).not.toContain("Generate my plan")
@@ -109,7 +110,8 @@ test("canvas uses same profile path and preserves selected role in plan link", (
   expect(html).not.toContain("Profile-based directions")
   expect(html).not.toContain(navigatorFixture.summary)
   expect(html).toContain("Software Quality &amp; AI Evaluation Analyst")
-  expect(html).toContain("/roadmap?path=pivot&amp;role=1")
+  expect(html).toContain("Build this direction into a plan")
+  expect(html).not.toContain("/roadmap?path=pivot&amp;role=1")
   expect(html).toContain("Why this fits your profile")
   expect(html).not.toContain("CUSTOMER SUPPORT")
 })
@@ -236,4 +238,127 @@ test("partial coverage ignores out-of-range role links without exposing internal
   )
   expect(canvas).not.toContain("Test reviewed mapping")
   expect(canvas).not.toContain("test-1")
+})
+
+test("Navigator sidebar route opens canvas with plan drawer action", () => {
+  const html = renderToStaticMarkup(
+    createElement(SidebarProvider, null, createElement(NavigatorPage)),
+  )
+  expect(html).toContain("Interactive career path canvas")
+  expect(html).toContain("View full plan")
+  expect(html).not.toContain("Plan view")
+})
+
+test("saved plan sheet keeps chosen pace and hides exploration controls", () => {
+  const html = renderToStaticMarkup(
+    createElement(Roadmap, {
+      data: navigatorFixture,
+      requestedPath: "pivot",
+      requestedRole: "1",
+      profileKey: "profile",
+      savedCommitment: {
+        version: 1,
+        pathId: "pivot",
+        direction: "Pivot",
+        role: navigatorFixture.paths[2]!.roles[1]!,
+        sprint: true,
+        hours: "1–2 hours",
+        timeOfDay: "night",
+        days: "weekdays",
+        startDate: "2026-10-18",
+        completed: [],
+        plan: {
+          provider: "test",
+          plan: {
+            summary: "Saved generated plan",
+            firstStep: "Start saved task",
+            phases: [
+              {
+                title: "Foundation",
+                days: "Days 1–22",
+                focus: "Saved focus",
+                actions: ["Saved action"],
+                deliverable: "Saved evidence",
+                flightPlan: [],
+              },
+            ],
+          },
+        },
+      },
+    }),
+  )
+  expect(html).toContain("Saved generated plan")
+  expect(html).toContain("Saved action")
+  expect(html).toContain("90 days")
+  expect(html).not.toContain("Paced · 120 days")
+  expect(html).not.toContain("Target role options")
+  expect(html).toContain("View progress")
+})
+
+test("Navigator defaults to Automate even when another strategy is recommended", () => {
+  state.data = { ...navigatorFixture, recommendedPathId: "pivot" }
+  const html = renderToStaticMarkup(
+    createElement(SidebarProvider, null, createElement(NavigatorPage)),
+  )
+  expect(html).toContain('id="role-details-title"')
+  expect(html).toContain(navigatorFixture.paths[0]!.why)
+  expect(html.match(/id="role-details-title"[^>]*>(.*?)<\/h2>/)?.[1]).toBe(
+    navigatorFixture.paths[0]!.title.replaceAll("&", "&amp;"),
+  )
+  expect(html).toContain("Build this direction into a plan")
+})
+
+for (const [index, path] of navigatorFixture.paths.entries()) {
+  test(`strategy navigation from ${path.id} follows all four terms and wraps`, () => {
+    state.query = `path=${path.id}&role=1`
+    const html = renderToStaticMarkup(
+      createElement(SidebarProvider, null, createElement(NavigatorPage)),
+    )
+    const paths = navigatorFixture.paths
+    expect(html).toContain(`aria-label="Previous strategy: ${paths[(index + 3) % 4]!.label}"`)
+    expect(html).toContain(`aria-label="Next strategy: ${paths[(index + 1) % 4]!.label}"`)
+    expect(html).toContain('aria-label="Switch strategy"')
+  })
+}
+
+test("family-level options are labelled as exploration on canvas and in details", () => {
+  state.data = {
+    ...navigatorFixture,
+    paths: navigatorFixture.paths.map((path) => ({ ...path, mappingLevel: "family" })),
+  }
+  const html = renderToStaticMarkup(
+    createElement(SidebarProvider, null, createElement(NavigatorPage)),
+  )
+  expect(html).toContain("Family exploration · validate fit")
+})
+
+test("full destination arrays validate and deep links reveal roles beyond third card", () => {
+  const original = navigatorFixture.paths[0]!
+  const destinations = Array.from({ length: 8 }, (_, index) => ({
+    ...original.destinations[0]!,
+    id: `expanded-${index}`,
+    title: `Expanded option ${index + 1}`,
+  }))
+  state.data = navigatorResultSchema.parse({
+    ...navigatorFixture,
+    paths: navigatorFixture.paths.map((path) =>
+      path.id === "automate"
+        ? {
+            ...path,
+            destinations,
+            roles: destinations.map((item) => item.title),
+            roleResources: destinations.map(() => []),
+          }
+        : path,
+    ),
+  })
+  let html = renderToStaticMarkup(
+    createElement(SidebarProvider, null, createElement(NavigatorPage)),
+  )
+  expect(html).toContain("+5 more options")
+  expect(html).not.toContain("Expanded option 4</h2>")
+  state.query = "path=automate&role=6"
+  html = renderToStaticMarkup(createElement(SidebarProvider, null, createElement(NavigatorPage)))
+  expect(html.match(/id="role-details-title"[^>]*>(.*?)<\/h2>/)?.[1]).toBe("Expanded option 7")
+  expect(html).not.toContain("more options</h2>")
 })
