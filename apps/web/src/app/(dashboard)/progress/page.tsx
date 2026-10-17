@@ -2,7 +2,16 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { ArrowRight, BookOpen, CalendarClock, Check, Flame, Pencil } from "lucide-react"
+import {
+  ArrowRight,
+  ArrowUpRight,
+  CalendarPlus,
+  BookOpen,
+  CalendarClock,
+  Check,
+  Flame,
+  Pencil,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { PanelHeading } from "@/components/radar-panel"
 import { CommitDirectionDialog } from "@/components/commit-direction-dialog"
@@ -25,6 +34,7 @@ import {
   type Commitment,
   type PlanDay,
 } from "@/lib/commitment"
+import { calendarIcs, googleCalendarUrl } from "@/lib/calendar"
 import { cn } from "@/lib/utils"
 import { editorialPage, eyebrow } from "@/lib/styles"
 
@@ -185,9 +195,39 @@ function Progress({
       </div>
 
       <section aria-labelledby="slots-title" className="mt-6 rounded-xl border p-5">
-        <h2 id="slots-title" className="flex items-center gap-2 text-[18px] tracking-[-0.4px]">
-          <CalendarClock className="size-5" strokeWidth={1.5} /> Your weekly slots
-        </h2>
+        <div className="flex flex-wrap items-center gap-2">
+          <h2
+            id="slots-title"
+            className="mr-auto flex items-center gap-2 text-[18px] tracking-[-0.4px]"
+          >
+            <CalendarClock className="size-5" strokeWidth={1.5} /> Your weekly slots
+          </h2>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              const url = URL.createObjectURL(
+                new Blob([calendarIcs(commitment)], { type: "text/calendar" }),
+              )
+              Object.assign(document.createElement("a"), {
+                href: url,
+                download: "voxian-learning-plan.ics",
+              }).click()
+              URL.revokeObjectURL(url)
+            }}
+          >
+            <CalendarPlus /> Apple, Outlook or phone calendar
+          </Button>
+          <Button variant="outline" size="sm" asChild>
+            <a href={googleCalendarUrl(commitment)} target="_blank" rel="noreferrer">
+              <CalendarPlus /> Google Calendar <ArrowUpRight />
+            </a>
+          </Button>
+        </div>
+        <p className="mt-1 text-[13px] text-muted-foreground">
+          Repeating reminders until your plan ends, with an alert 15 minutes before each session.
+          The calendar file opens in Apple Calendar, Outlook and most phone calendars.
+        </p>
         <ul className="mt-3 grid grid-cols-2 gap-2 max-[700px]:grid-cols-1">
           {slots.map((slot) => (
             <li
@@ -195,8 +235,10 @@ function Progress({
               className="flex justify-between gap-3 rounded-lg bg-muted px-4 py-3 text-[14px]"
             >
               <span className="font-medium">{dayNames[slot.day]}</span>
-              <span className="font-mono text-muted-foreground">
-                {slot.start}–{slotEnd(slot)} · {slot.minutes} min
+              <span className="flex flex-wrap items-center justify-end gap-x-3 gap-y-1">
+                <span className="font-mono text-muted-foreground">
+                  {slot.start}–{slotEnd(slot)} · {slot.minutes} min
+                </span>
               </span>
             </li>
           ))}
