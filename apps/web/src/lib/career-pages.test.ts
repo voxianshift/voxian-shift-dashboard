@@ -61,6 +61,7 @@ for (const path of navigatorFixture.paths) {
     expect(html).toContain("Software Developers")
     expect(html).toContain(path.title.replaceAll("&", "&amp;"))
     expect(html).toContain(path.why)
+    expect(html).toContain(path.label.toUpperCase())
     expect(html).toContain(`${path.id}&amp;role=1`)
     expect(html).not.toContain("Customer Support Specialist")
     expect(html).not.toContain("sample path")

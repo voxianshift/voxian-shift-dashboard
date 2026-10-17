@@ -38,6 +38,7 @@ test("all twelve role options are reachable through their own direction", () => 
       (node) => node.data.pathId === path.id && node.data.kind === "role",
     )
     expect(roles.map((node) => node.data.title)).toEqual([...path.roles])
+    expect(careerNodes.find((node) => node.id === path.id)?.data.strategyLabel).toBe(path.label)
     for (const role of roles) {
       expect(
         careerEdges(careerPaths, careerNodes, null).find((edge) => edge.target === role.id)?.source,

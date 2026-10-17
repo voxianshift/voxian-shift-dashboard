@@ -253,7 +253,7 @@ function Roadmap({
                   <GitBranch className="size-5" strokeWidth={1.3} />
                   <span>
                     <span className={eyebrow}>
-                      PATH 0{i + 1} / {b.fit.toUpperCase()}
+                      {b.label.toUpperCase()} / {b.fit.toUpperCase()}
                     </span>
                     <strong className="my-[5px] block text-[16px] font-medium">{b.name}</strong>
                     <small className="text-[14px] text-muted-foreground">{b.roles[0]}</small>
@@ -265,7 +265,7 @@ function Roadmap({
           </div>
           <div className="mt-[30px] flex items-center justify-between gap-5 max-[700px]:flex-col max-[700px]:items-start">
             <div>
-              <p className={eyebrow}>YOUR SELECTED DIRECTION</p>
+              <p className={eyebrow}>{selected.label.toUpperCase()} / SELECTED STRATEGY</p>
               <h2 className="mt-[5px] text-[24px] tracking-[-0.8px]">{selected.name}</h2>
             </div>
             <div className={segmentControl}>

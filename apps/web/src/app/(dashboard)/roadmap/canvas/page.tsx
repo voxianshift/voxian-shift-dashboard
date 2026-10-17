@@ -59,7 +59,7 @@ function RoleCard({ data, selected }: NodeProps<RoleNode>) {
           {data.kind === "start"
             ? "STARTING POINT"
             : data.kind === "path"
-              ? "DIRECTION"
+              ? data.strategyLabel?.toUpperCase()
               : "ROLE TO EXPLORE"}
         </p>
         <h2 className="line-clamp-2 text-[22px] font-medium leading-tight">{data.title}</h2>
@@ -269,7 +269,7 @@ function NavigatorCanvas({
                 className="mb-3 pr-6 text-[12px] tracking-[1.5px]"
                 style={{ color: selected.color }}
               >
-                PATH DETAILS / YOUR PROFILE
+                {selected.label.toUpperCase()} / YOUR PROFILE
               </p>
               <h2
                 id="role-details-title"
