@@ -39,6 +39,7 @@ export async function completeJson(
   input: unknown,
   schema: unknown,
   maxTokens = 2000,
+  timeoutMs = 20_000,
 ): Promise<string> {
   const vertex = config.provider === "vertex"
   const gemini = vertex || config.provider === "gemini"
@@ -59,7 +60,7 @@ export async function completeJson(
         : gemini
           ? { "Content-Type": "application/json", "x-goog-api-key": config.apiKey ?? "" }
           : { "Content-Type": "application/json", Authorization: `Bearer ${config.apiKey}` },
-      signal: AbortSignal.timeout(20_000),
+      signal: AbortSignal.timeout(timeoutMs),
       body: JSON.stringify(
         gemini
           ? {
