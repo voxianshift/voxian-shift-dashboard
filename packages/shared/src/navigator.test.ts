@@ -55,14 +55,14 @@ test("recommendations use explicit canonical preferences, never inferred profile
       recommendStrategy({ occupationResolved: true, movementPreference: preference }),
     ).toMatchObject({ strategyId: null, reasonCode: "insufficient_preferences" })
   for (const [movementPreference, strategyId] of [
-    ["stay", "hybrid"],
-    ["grow", "hybrid"],
-    ["change", "pivot"],
-    ["create", "create"],
+    ["stay", null],
+    ["grow", null],
+    ["change", null],
+    ["create", null],
   ] as const)
     expect(recommendStrategy({ occupationResolved: true, movementPreference })).toMatchObject({
       strategyId,
-      reasonCode: "explicit_direction",
+      reasonCode: "insufficient_preferences",
     })
   expect(
     recommendStrategy({
@@ -77,6 +77,9 @@ test("draft requires exactly one of each strategy and excludes model recommendat
   const path = {
     title: "Practical option",
     focus: "Domain practice",
+    humanEdge: "Judgment",
+    tradeoff: "Practice required",
+    destinationIds: [],
     description: "Build on work.",
     why: "Uses existing skills.",
     skills: ["Review", "Writing", "Testing"],

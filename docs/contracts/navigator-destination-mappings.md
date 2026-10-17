@@ -1,0 +1,45 @@
+# Navigator destination mappings
+
+Contract version 3, recommendation rule version 2. Supersedes the destination-generation and preference-ranking portions of the v2 contract. Implementation: issue #9. Mapping dataset revision: `prototype-2.3.8-review-2`.
+
+## Requirements and decisions
+
+- [Original product concept](https://docs.google.com/document/d/1YVtBO8wHHMvmZcCDJ8eMMU0qm2LxjoqN/edit): deterministic exposure arithmetic; curated task/skill evidence grounds AI explanations, learning activities and personalized plans. It does not name four strategies, require fixed destination lookup or define Create narrowly.
+- Later supplied HTML/changelog: four branches labeled Automate, Hybrid, Pivot and Create. Its fourth branches include emerging governance, ethics and accountability responsibilities. Preserve those curated pathways rather than interpreting Create as exclusively starting a new product or business.
+- Explicit user direction: align Navigator with deterministic prototype mappings; do not let the LLM invent destination roles. Remove internal source filenames/version strings from Navigator UI.
+- Implementation decisions: narrow prototype source groups to 25 explicit O*NET occupation codes, filter executive leaf labels, version mappings, retain stable destination IDs, and report honest missing coverage. These are documented product curation, not externally validated career-transition evidence.
+
+The previous blanket Create exclusion was an implementation mistake. Revision 2 restores the fourth prototype branch for every mapped source occupation. New dataset revision invalidates earlier revision-1 Navigator caches; it does not erase saved commitments.
+
+## Ownership
+
+The source occupation code selects an explicit, versioned mapping. Strategy order, pathway titles, destination IDs, labels and ordering are resolved before any provider call. LLM input contains those destinations; output contains narrative and an exact destination-ID echo only. Changed, missing or reordered destination IDs invalidate narrative output. Model-authored role titles are never consumed.
+
+The current dataset is `apps/api/data/navigator-pathways.json`, adapted from the user-supplied HTML's ROLE_BRANCHES. It covers 25 specific O*NET source occupations, verified to exist in the local catalogue. This is product curation, not an external evaluation of career transferability.
+
+## Grounding and limitations
+
+- Explicit O*NET source codes replace loose title/ISCO inference. Content-moderator and broad office-supervisor mappings are withheld for lack of specificity; no other source is substituted automatically.
+- Data analyst maps specifically to Business Intelligence Analysts, not all Data Scientists; teacher/trainer maps specifically to Training and Development Specialists, not all teachers. Other sources also apply only to the listed code, without automatic taxonomy widening.
+- Destination labels remain prototype pathway labels (`kind: curated_pathway`, `occupationCode: null`). They are not represented as catalogue occupations, vacancies, qualifications or evidence of suitability.
+- Include the branch label and up to two non-executive leaf labels. Chief/head/VP/director/principal/partner/CFO/CTO leaf destinations are excluded. Remaining labels can still describe advanced work: users must validate entry requirements; no promotion timeline is implied.
+- All four prototype branches are available for mapped occupations. Genuinely missing source/strategy data remains unsupported; labels alone never justify inventing destinations.
+- Do not use title-search relevance as proof that a transition is feasible.
+
+Before narrative generation, resolve the selected occupation through the existing versioned O*NET–ISCO crosswalk and occupational task dataset. Supply task descriptions and exposure estimates, available gradient, mapping context and limitations to the LLM. Missing task evidence is explicitly unavailable, never manufactured or inferred from the user title. Do not modify exposure arithmetic or treat occupational estimates as personal skill measurements, job-loss probabilities or regional forecasts.
+
+Supply curated per-strategy skill requirements separately from user-stated strengths, goals, available time and other confirmed constraints. Explain skill gaps as areas to validate, not measured deficiencies. The LLM personalizes human edge, tradeoffs, learning actions, bridge projects and explanations inside the fixed destinations; it never invents underlying labor-market statistics.
+
+## Result and fallback
+
+Four strategy cards remain present. Each has coverage (`available` or `unsupported`), internal mapping version/source/rationale, human edge, tradeoff, destinations and a legacy `roles` title projection. Destination and role-resource arrays can contain zero to three entries and must agree. Unsupported strategies have zero destinations and cannot start a new plan in the UI. Navigator exposes meaningful curation limitations, not internal filenames or revision labels.
+
+Generation status is `personalized`, `reviewed_only` (no provider or no mapped pathways), or `unavailable` (failed/invalid narrative). Reviewed destinations stay identical across these states. Do not silently present fallback prose as generated personalization. Existing committed plans remain legacy until #11 migrates them.
+
+Movement preferences alone no longer choose a recommended strategy: stay/grow→Hybrid and change→Pivot were product heuristics without suitability evidence. Only an explicitly selected strategy with available mappings is echoed as the user's starting option; all other requests have no recommendation. This is selection acknowledgment, not a career-fit ranking.
+
+## Boundaries
+
+Issue #10 must validate grounded destination IDs when committing/generating plans; the legacy Plan API still accepts title strings. Issue #11 handles saved commitments and #13 broader screen integration. Issue #6 remains owned by the chatbot developer and should consume these grounded fields without inventing destinations.
+
+Future catalogue-backed mappings require exact codes and reviewed transition rationale. Widening source coverage is a dataset review, not permission for an LLM fallback. The original concept's actionable 30-day demo does not override the later 90/120-day scheduling baseline; the first month remains actionable.

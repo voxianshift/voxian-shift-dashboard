@@ -1,6 +1,6 @@
 # Navigator and Flight Plan contract v2
 
-Status: implementation baseline for issue #7; runtime implementation follows in #8–#14.
+Status: scheduling baseline for issue #7. Destination ownership and preference recommendations are superseded by [contract v3](navigator-destination-mappings.md) in issue #9; runtime schedule implementation follows in #10–#14.
 Contract version: `2`. Scoring version remains independent.
 
 ## Scope and authority

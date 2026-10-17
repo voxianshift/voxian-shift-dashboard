@@ -120,7 +120,9 @@ function CanvasRoute() {
       data={data}
       initialPathId={initialPathId}
       initialSelectedId={
-        initialPathId && /^[0-2]$/.test(requestedRole ?? "")
+        initialPathId &&
+        /^[0-2]$/.test(requestedRole ?? "") &&
+        data.paths.find((path) => path.id === initialPathId)?.roles[Number(requestedRole)]
           ? `${initialPathId}-role-${requestedRole}`
           : initialPathId
       }
@@ -300,11 +302,15 @@ function NavigatorCanvas({
                 <p className="text-[15px] leading-relaxed text-muted-foreground">
                   {selected.description}
                 </p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {selected.coverage === "unsupported"
+                    ? "No reviewed destinations available."
+                    : "Curated pathways, not verified occupations or job openings."}{" "}
+                  {selected.mappingRationale}
+                </p>
 
                 <section aria-label="Other roles in this direction">
-                  <h3 className="mb-3 text-[15px] font-medium">
-                    Alternative roles in this direction
-                  </h3>
+                  <h3 className="mb-3 text-[15px] font-medium">Curated pathway labels</h3>
                   <div className="flex flex-wrap gap-2">
                     {selected.roles.map((role, index) => (
                       <Button
@@ -403,13 +409,17 @@ function NavigatorCanvas({
               </TabsContent>
             </Tabs>
             <footer className="shrink-0 border-t bg-popover px-6 py-4 max-[650px]:px-4">
-              <Button asChild className="h-auto min-h-11 w-full whitespace-normal">
-                <Link
-                  href={`/roadmap?path=${selected.id}${selectedNode?.data.kind === "role" ? `&role=${selected.roles.indexOf(selectedRole)}` : ""}`}
-                >
-                  Build this direction into a plan <ArrowRight />
-                </Link>
-              </Button>
+              {selected.coverage === "available" ? (
+                <Button asChild className="h-auto min-h-11 w-full whitespace-normal">
+                  <Link
+                    href={`/roadmap?path=${selected.id}${selectedNode?.data.kind === "role" ? `&role=${selected.roles.indexOf(selectedRole)}` : ""}`}
+                  >
+                    Build this direction into a plan <ArrowRight />
+                  </Link>
+                </Button>
+              ) : (
+                <p>No plan available until a destination mapping is reviewed.</p>
+              )}
             </footer>
           </aside>
         )}
