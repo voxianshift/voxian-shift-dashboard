@@ -10,24 +10,36 @@ export const calendarDateSchema = z
     const date = new Date(`${value}T00:00:00Z`)
     return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === value
   }, "Enter a valid calendar date")
-export const planScheduleSchema = z.strictObject({
-  startDate: calendarDateSchema,
-  timeZone: text(100).refine((zone) => {
-    try {
-      new Intl.DateTimeFormat("en", { timeZone: zone })
-      return true
-    } catch {
-      return false
-    }
-  }, "Enter a valid IANA time zone"),
-  weeklyMinutes: z.number().int().min(1).max(1200),
-  studyDays: z
-    .array(z.number().int().min(0).max(6))
-    .min(1)
-    .max(7)
-    .refine((days) => new Set(days).size === days.length),
-  sessionLimitMinutes: z.number().int().min(1).max(180),
-})
+export const planScheduleSchema = z
+  .strictObject({
+    startDate: calendarDateSchema,
+    timeZone: text(100).refine((zone) => {
+      try {
+        new Intl.DateTimeFormat("en", { timeZone: zone })
+        return true
+      } catch {
+        return false
+      }
+    }, "Enter a valid IANA time zone"),
+    weeklyMinutes: z.number().int().min(1).max(1200),
+    studyDays: z
+      .array(z.number().int().min(0).max(6))
+      .min(1)
+      .max(7)
+      .refine((days) => new Set(days).size === days.length),
+    sessionLimitMinutes: z.number().int().min(1).max(180),
+    dayMinutes: z
+      .record(z.string().regex(/^[0-6]$/), z.number().int().min(0).max(1200).multipleOf(30))
+      .optional(),
+  })
+  .refine(
+    (schedule) =>
+      !schedule.dayMinutes ||
+      (Object.keys(schedule.dayMinutes).every((day) => schedule.studyDays.includes(Number(day))) &&
+        Object.values(schedule.dayMinutes).reduce((total, minutes) => total + minutes, 0) ===
+          schedule.weeklyMinutes),
+    "Allocate all weekly minutes across selected study days",
+  )
 export type PlanScheduleInput = z.infer<typeof planScheduleSchema>
 export const planRequestSchema = z
   .strictObject({
@@ -72,11 +84,15 @@ export function addCalendarDays(date: string, days: number) {
 }
 export function weeklyDayMinutes(schedule: PlanScheduleInput) {
   const days = [...schedule.studyDays].sort((a, b) => ((a + 6) % 7) - ((b + 6) % 7))
+  if (schedule.dayMinutes)
+    return days.map((day) => ({ day, minutes: schedule.dayMinutes![day] ?? 0 }))
+  // Preserve saved minute-based schedules; new schedules use half-hour blocks.
+  const block =
+    schedule.weeklyMinutes % 30 === 0 && schedule.sessionLimitMinutes % 30 === 0 ? 30 : 1
+  const blocks = schedule.weeklyMinutes / block
   return days.map((day, index) => ({
     day,
-    minutes:
-      Math.floor(schedule.weeklyMinutes / days.length) +
-      (index < schedule.weeklyMinutes % days.length ? 1 : 0),
+    minutes: (Math.floor(blocks / days.length) + (index < blocks % days.length ? 1 : 0)) * block,
   }))
 }
 export function buildPlanSchedule(input: PlanScheduleInput, horizon: 90 | 120) {

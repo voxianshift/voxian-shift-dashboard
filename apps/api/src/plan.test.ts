@@ -50,11 +50,15 @@ function narrative(input: any) {
   return {
     summary: "A small reviewed project within available time.",
     firstStep: "Review one small sample in your first scheduled session.",
-    phases: input.phases.map((phase: any) => ({
-      id: phase.id,
-      actions: ["Review a small sample.", "Record feedback."],
-      deliverable: "One reviewed sample.",
-    })),
+    phases: Object.fromEntries(
+      input.phases.map((phase: any) => [
+        phase.id,
+        {
+          actions: ["Review a small sample.", "Record feedback."],
+          deliverable: "One reviewed sample.",
+        },
+      ]),
+    ),
     tasks: input.activeDays.map((day: any) => ({
       id: day.id,
       task: "Practice one skill and record feedback.",
@@ -92,7 +96,7 @@ afterEach(() => {
 
 test("all four strategies use grounded destinations and code-owned schedule/content boundaries", async () => {
   const fetch = mockProvider((draft) => {
-    draft.phases.reverse()
+    draft.phases = Object.fromEntries(Object.entries(draft.phases).reverse())
     draft.tasks.reverse()
     draft.milestones.reverse()
     draft.goals.reverse()
@@ -201,7 +205,7 @@ for (const failure of [
       if (failure === "rest-task")
         draft.tasks.push({ id: input.restDayIds[0], task: "Do work on rest day" })
       if (failure === "milestone-gap") draft.milestones.pop()
-      if (failure === "phase-id") draft.phases[1].id = draft.phases[0].id
+      if (failure === "phase-id") delete draft.phases.foundation
       if (failure === "goal-id") draft.goals[1].id = "day-30"
       if (failure === "resource") draft.tasks[0].resourceId = "https://invented.example"
     })
@@ -348,7 +352,7 @@ test("missing configuration and catalogue have explicit service errors", async (
 test("one bounded schema repair can recover an extra phase without weakening coverage checks", async () => {
   let attempts = 0
   const fetch = mockProvider((draft) => {
-    if (++attempts === 1) draft.phases.push({ ...draft.phases[0] })
+    if (++attempts === 1) draft.phases.extra = { ...draft.phases.foundation }
   })
   const app = buildApp({ catalogue })
   try {
@@ -453,6 +457,42 @@ test("family prefix never bypasses verification against actual occupation catalo
     })
     expect(response.statusCode).toBe(400)
     expect(fetch).not.toHaveBeenCalled()
+  } finally {
+    await app.close()
+  }
+})
+
+test("custom daily allocation survives generation with four named phase sections", async () => {
+  const fetch = mockProvider()
+  const app = buildApp({ catalogue })
+  try {
+    const response = await app.inject({
+      method: "POST",
+      url: "/plan",
+      payload: {
+        ...request(),
+        schedule: {
+          ...request().schedule,
+          weeklyMinutes: 240,
+          studyDays: [6, 0],
+          sessionLimitMinutes: 180,
+          dayMinutes: { 6: 90, 0: 150 },
+        },
+      },
+    })
+    expect(response.statusCode).toBe(200)
+    expect(response.json().plan.schedule.dayMinutes).toEqual({ 6: 90, 0: 150 })
+    expect(() => validatePlanSchedule(response.json().plan)).not.toThrow()
+    const provider = JSON.parse(fetch.mock.calls[0]![1]!.body)
+    expect(provider.messages[0].content).toContain(
+      "Return phases as an object with exactly four keys",
+    )
+    expect(response.json().plan.phases.map((phase: any) => phase.id)).toEqual([
+      "foundation",
+      "intermediate",
+      "advanced",
+      "leadership",
+    ])
   } finally {
     await app.close()
   }

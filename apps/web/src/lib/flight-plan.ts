@@ -46,3 +46,12 @@ export function defaultFlightPlan(
     ]
   })
 }
+
+/** Week numbers are relative to the plan start date. */
+export function weekLabel(days: string) {
+  const numbers = days.match(/\d+/g)?.map(Number)
+  if (!numbers?.length) return days
+  const first = Math.ceil(numbers[0]! / 7)
+  const last = Math.ceil(numbers.at(-1)! / 7)
+  return first === last ? `W${first}` : `W${first}–W${last}`
+}

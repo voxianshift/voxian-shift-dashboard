@@ -75,3 +75,49 @@ test("invalid dates, zones, budgets and duplicate study days are rejected", () =
   ])
     expect(planScheduleSchema.safeParse({ ...schedule, ...change }).success).toBe(false)
 })
+
+test("half-hour schedules allocate exact budgets in 30-minute blocks", () => {
+  for (const weeklyMinutes of [30, 60, 90, 120, 240, 360, 1200])
+    for (const studyDays of [
+      [6, 0],
+      [1, 2, 3, 4, 5],
+      [1, 2, 3, 4, 5, 6, 0],
+    ])
+      for (const sessionLimitMinutes of [30, 90, 180]) {
+        const result = buildPlanSchedule(
+          { ...schedule, weeklyMinutes, studyDays, sessionLimitMinutes },
+          90,
+        )
+        expect(result.firstMonth.slice(0, 7).reduce((sum, day) => sum + day.minutes, 0)).toBe(
+          weeklyMinutes,
+        )
+        for (const day of result.firstMonth)
+          expect(
+            day.sessions.every(
+              (minutes) => minutes > 0 && minutes % 30 === 0 && minutes <= sessionLimitMinutes,
+            ),
+          ).toBe(true)
+      }
+})
+
+test("custom daily minutes must use whole half-hours and exhaust weekly budget", () => {
+  const custom = {
+    ...schedule,
+    weeklyMinutes: 240,
+    studyDays: [1, 3, 5],
+    sessionLimitMinutes: 90,
+    dayMinutes: { 1: 30, 3: 90, 5: 120 },
+  }
+  expect(planScheduleSchema.safeParse(custom).success).toBe(true)
+  const result = buildPlanSchedule(custom, 90)
+  expect(result.firstMonth.slice(0, 7).map((day) => day.minutes)).toEqual([30, 0, 90, 0, 120, 0, 0])
+  expect(result.firstMonth[4]!.sessions).toEqual([90, 30])
+  for (const dayMinutes of [
+    { 1: 30 },
+    { 1: 270 },
+    { 1: 240, 6: 0 },
+    { 1: 45, 3: 195 },
+    { 1: -30, 3: 270 },
+  ])
+    expect(planScheduleSchema.safeParse({ ...custom, dayMinutes }).success).toBe(false)
+})

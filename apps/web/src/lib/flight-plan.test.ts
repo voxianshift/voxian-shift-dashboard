@@ -1,5 +1,5 @@
 import { expect, test } from "vite-plus/test"
-import { defaultFlightPlan, phaseRanges } from "./flight-plan"
+import { defaultFlightPlan, phaseRanges, weekLabel } from "./flight-plan"
 import { navigatorFixture } from "./navigator.fixture"
 
 const path = navigatorFixture.paths[2]!
@@ -31,4 +31,12 @@ test("study windows follow course order; the final window is for conversations",
   expect(plan[0]![1]!.focus).toBe(path.firstStep)
   expect(plan[1]![1]!.focus).toBe(path.project)
   expect(plan[2]![1]!.focus).toContain(path.roles[1])
+})
+
+test("week labels count from plan start and preserve unknown legacy labels", () => {
+  expect(weekLabel("Days 1–7")).toBe("W1")
+  expect(weekLabel("D8–D14")).toBe("W2")
+  expect(weekLabel("Days 1–30")).toBe("W1–W5")
+  expect(weekLabel("90")).toBe("W13")
+  expect(weekLabel("Review")).toBe("Review")
 })

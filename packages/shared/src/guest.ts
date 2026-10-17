@@ -52,6 +52,9 @@ export const commitmentSchema = z
     sprint: z.boolean(),
     hours: z.string().max(800),
     timeOfDay: z.enum(["morning", "night", "flexible"]),
+    dayStartTimes: z
+      .record(z.string().regex(/^[0-6]$/), z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/))
+      .optional(),
     days: z.enum(["weekdays", "weekends", "flexible"]),
     startDate: calendarDateSchema,
     completed: z.array(calendarDateSchema).max(1000),
