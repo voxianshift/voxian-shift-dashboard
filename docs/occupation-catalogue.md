@@ -1,6 +1,8 @@
 # Occupation catalogue
 
-Occupation matching uses the O*NET® 31.0 Database: 1,016 occupations, 54,269 job-title rows and 18,838 task statements, grouped into 23 SOC 2018 major categories. These describe US occupations; regional titles and duties may differ. This is broad catalogue coverage, not every occupation worldwide.
+See [architecture](../ARCHITECTURE.md) for the full local-to-production flow and current persistence audit.
+
+Occupation matching uses the O*NET® 31.0 Database: 1,016 occupations, 54,269 job-title rows and 18,838 task statements, grouped into 23 SOC 2018 major categories. These describe US occupations; regional titles and duties may differ. This is imported reference coverage, not every occupation worldwide. Current search and selection queries filter to the 25 occupation codes in `navigator-pathways.json`; imported counts do not mean all roles are enabled in the product.
 
 Sources: [O*NET data files](https://www.onetcenter.org/database.html), [SOC 2018 categories](https://www.bls.gov/soc/2018/major_groups.htm), [O*NET database licence](https://www.onetcenter.org/license_db.html).
 
@@ -29,11 +31,11 @@ Migration `002_occupation_catalogue.sql` creates `occupation_categories`, `occup
 - `GET /onboarding/occupations`: restores this guest's confirmed role choices; initializes the private guest cookie when absent.
 - `PUT /onboarding/occupations`: `{ occupations: ["15-1252.00"], primaryOccupation: "15-1252.00" }`. Saves up to five known catalogue codes; main role must belong to the selection. Parameterized queries, origin validation, owner checks and transactional replacement protect writes.
 
-Each candidate gets a match % (migration `003_match_scoring.sql`): exact title, code or alternate title = 100; otherwise 80% best title score (F0.5 word overlap between the user's words and the official or alternate title, plural-normalised and unstemmed so "customer" ≠ "customs"; one-word titles count half) + 20% full-text relevance over description and tasks. It is a relevance score, not a calibrated probability, and the UI says so. `GET /occupations/:code/tasks` returns up to 12 O*NET task statements for the Meter breakdown. No vector service or scraping of job boards is required.
+Each candidate gets a match % (migration `003_match_scoring.sql`): exact title, code or alternate title = 100; otherwise 80% best title score (F0.5 word overlap between the user's words and the official or alternate title, plural-normalised and unstemmed so "customer" ≠ "customs"; one-word titles count half) + 20% full-text relevance over description and tasks. It is a relevance score, not a calibrated probability, and the UI says so. `GET /occupations/:code/meter` returns the mapped ISCO unit and its ILO task scores; there is no current `/occupations/:code/tasks` route. No vector service or scraping of job boards is required.
 
 Lumi extracts work descriptions and preferences, then server search supplies occupation candidates. Provider output cannot assign occupation IDs or mark a match confirmed. User chooses the roles and saves them explicitly. Home provides one search → select main role → confirm and open Meter flow. Profile Sheet changes stay local until Save. Stored chat data and backend routes remain available, but Home no longer shows chat or questionnaires. `/explore` uses the same live catalogue.
 
-Role IDs, primary role and authoritative titles are saved in Postgres under the existing hashed guest identity. Other profile answers and Meter confirmation remain in tab storage. On a new tab, persisted role choices restore without automatically confirming an exposure score. Clear profile deletes this guest's occupation selections and conversation. Guest identity is browser-based, not cross-device authentication.
+Full profile answers, role IDs, authoritative titles, confirmation and onboarding completion now persist in `guest_profiles` under the hashed guest identity. The guest-profile endpoint updates its profile document and `career_occupation_selections` in one transaction. The older role-only endpoint remains available, but independent writes there do not synchronize the full profile document. Restart profile clears profile/roles while keeping plan/progress/chats; Reset everything clears those additional records too. Guest identity is browser-based, not cross-device authentication.
 
 ## Meter coverage
 
