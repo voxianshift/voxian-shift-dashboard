@@ -5,6 +5,7 @@ import { LumiMascot } from "./lumi-mascot"
 import { LumiActionCard } from "./lumi-action-card"
 import { LumiSidebar } from "./lumi-sidebar"
 import { LumiChatProvider } from "./lumi-chat-provider"
+import { LumiFormattedText } from "./lumi-formatted-text"
 
 const state = vi.hoisted(() => ({
   profile: {
@@ -87,4 +88,24 @@ test("renders LumiSidebar empty state with starter questions", () => {
   expect(html).toContain("Hi, I&#x27;m Lumi")
   expect(html).toContain("Suggested Questions")
   expect(html).toContain("What does my exposure score mean?")
+})
+
+test("renders LumiFormattedText with rich markdown headings, lists, code, and links", () => {
+  const markdownSample = `
+### Core Overview
+Analisis **AI Exposure** untuk peran Anda:
+- Prioritas **Tinggi**
+- Kategori [Roadmap](/roadmap)
+
+\`\`\`typescript
+const score = 75
+\`\`\`
+`
+  const html = renderToStaticMarkup(createElement(LumiFormattedText, { text: markdownSample }))
+  expect(html).toContain("Core Overview")
+  expect(html).toContain(">AI Exposure</strong>")
+  expect(html).toContain("Prioritas")
+  expect(html).toContain('href="/roadmap"')
+  expect(html).toContain("const score = 75")
+  expect(html).toContain("Copy")
 })

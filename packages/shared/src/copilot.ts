@@ -21,13 +21,15 @@ export const copilotActionSchema = z.discriminatedUnion("type", [
 ])
 export type CopilotAction = z.infer<typeof copilotActionSchema>
 
-export const copilotChatRequestSchema = z.strictObject({
-  message: z.string().trim().min(1).max(2000),
-  route: z.string().max(100).default("/home"),
-  profile: profileSchema,
+export const copilotProfileSchema = profileSchema.partial().strip().default({})
+
+export const copilotChatRequestSchema = z.object({
+  message: z.string().trim().min(1).max(3000),
+  route: z.string().max(200).default("/home"),
+  profile: copilotProfileSchema,
   history: z
-    .array(z.strictObject({ role: z.enum(["user", "assistant"]), text: z.string().max(2000) }))
-    .max(12)
+    .array(z.object({ role: z.enum(["user", "assistant"]), text: z.string().max(5000) }))
+    .max(16)
     .default([]),
 })
 export type CopilotChatRequest = z.infer<typeof copilotChatRequestSchema>

@@ -21,7 +21,11 @@ export function registerCopilot(
 
     const parsed = copilotChatRequestSchema.safeParse(request.body)
     if (!parsed.success) {
-      return reply.code(400).send({ error: "Check your message and try again." })
+      request.log.warn({ issues: parsed.error.issues }, "Copilot invalid request body")
+      return reply.code(400).send({
+        error: "Check your message and try again.",
+        details: parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`),
+      })
     }
     const input = parsed.data
 
@@ -64,7 +68,8 @@ Use these historical memories to provide smart, context-aware continuity if the 
           : ""
 
       const currentRole = input.profile.primaryOccupation
-        ? input.profile.occupationNames[input.profile.primaryOccupation] ||
+        ? (input.profile.occupationNames &&
+            input.profile.occupationNames[input.profile.primaryOccupation]) ||
           input.profile.primaryOccupation
         : input.profile.currentWork || "Not set"
 
@@ -75,7 +80,7 @@ The user's career profile is:
 - Preferred Name: ${input.profile.preferredName || "User"}
 - Current Work: ${input.profile.currentWork || "Not specified"}
 - Primary Role: ${currentRole}
-- Goals: ${input.profile.goals.join(", ") || "None specified"}
+- Goals: ${input.profile.goals?.join(", ") || "None specified"}
 - Target Direction: ${input.profile.direction || "Exploring"}
 - Weekly Study Hours: ${input.profile.hours || "Not set"}
 

@@ -144,10 +144,13 @@ export function LumiChatProvider({ children }: { children: ReactNode }) {
       setMessages((prev) => [...prev, userMsg])
       setIsLoading(true)
 
-      const historyPayload = messages.slice(-10).map((m) => ({
-        role: m.role,
-        text: m.text,
-      }))
+      const historyPayload = messages
+        .filter((m) => !m.id.startsWith("err-"))
+        .slice(-10)
+        .map((m) => ({
+          role: m.role,
+          text: m.text.slice(0, 4000),
+        }))
 
       try {
         const response = await fetch("/api/copilot/chat", {
@@ -156,15 +159,16 @@ export function LumiChatProvider({ children }: { children: ReactNode }) {
           signal: AbortSignal.timeout(30_000),
           body: JSON.stringify({
             message: trimmed,
-            route: pathname,
-            profile,
+            route: pathname || "/home",
+            profile: profile || {},
             history: historyPayload,
           }),
         })
 
         if (!response.ok) {
           const errData = await response.json().catch(() => ({}))
-          throw new Error(errData.error || `Server responded with ${response.status}`)
+          const detailStr = Array.isArray(errData.details) ? `: ${errData.details.join(", ")}` : ""
+          throw new Error((errData.error || `Server responded with ${response.status}`) + detailStr)
         }
 
         const data: CopilotChatResult = await response.json()
