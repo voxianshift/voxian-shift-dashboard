@@ -129,3 +129,73 @@ export async function completeJson(
         .parse(raw).choices[0]?.message.content
   return text || ""
 }
+
+// Generate vector embedding using Gemini Embedding (text-embedding-004) or provider fallback
+export async function generateEmbedding(
+  config: ChatConfig,
+  text: string,
+  timeoutMs = 10_000,
+): Promise<number[]> {
+  if (!text || !config?.apiKey) return []
+  const gemini = config.provider === "gemini" || config.provider === "vertex"
+  const vertex = config.provider === "vertex"
+  const project = process.env.GOOGLE_CLOUD_PROJECT || "voxian-shift-app"
+
+  try {
+    const url = vertex
+      ? `https://aiplatform.googleapis.com/v1/projects/${project}/locations/global/publishers/google/models/gemini-embedding-2:predict`
+      : gemini
+        ? `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-2:embedContent`
+        : "https://rootsys.cloud/v1/embeddings"
+
+    const headers: Record<string, string> = { "Content-Type": "application/json" }
+    if (vertex) {
+      headers.Authorization = `Bearer ${(await applicationDefault().getAccessToken()).access_token}`
+    } else if (gemini) {
+      headers["x-goog-api-key"] = config.apiKey ?? ""
+    } else {
+      headers.Authorization = `Bearer ${config.apiKey}`
+    }
+
+    const body = gemini
+      ? JSON.stringify({
+          model: "models/gemini-embedding-2",
+          content: { parts: [{ text }] },
+          outputDimensionality: 768,
+        })
+      : JSON.stringify({
+          model: "text-embedding-3-small",
+          input: text,
+        })
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers,
+      signal: AbortSignal.timeout(timeoutMs),
+      body,
+    })
+
+    if (!response.ok) return []
+    const json = await response.json()
+
+    if (gemini) {
+      const parsed = z
+        .object({
+          embedding: z.object({
+            values: z.array(z.number()),
+          }),
+        })
+        .safeParse(json)
+      return parsed.success ? parsed.data.embedding.values : []
+    }
+
+    const parsed = z
+      .object({
+        data: z.array(z.object({ embedding: z.array(z.number()) })),
+      })
+      .safeParse(json)
+    return parsed.success && parsed.data.data[0] ? parsed.data.data[0].embedding : []
+  } catch {
+    return []
+  }
+}

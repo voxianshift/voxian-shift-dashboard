@@ -36,7 +36,7 @@ export function buildApp(options: { chatStore?: ChatStore; catalogue?: Occupatio
   registerOnboarding(app, store, catalogue)
   registerPlan(app, catalogue)
   registerNavigator(app, catalogue)
-  registerCopilot(app, catalogue)
+  registerCopilot(app, catalogue, store)
 
   return app
 }
