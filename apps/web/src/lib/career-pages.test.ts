@@ -64,6 +64,27 @@ for (const path of navigatorFixture.paths) {
   })
 }
 
+test("plan view lists at least five courses with must-have and cost badges", () => {
+  state.query = "path=quality&role=1"
+  const html = renderToStaticMarkup(createElement(RoadmapPage))
+  expect(html).toContain("LEARNING COURSES")
+  expect(html.match(/rel="noreferrer"/g)!.length).toBeGreaterThanOrEqual(5)
+  expect(html).toContain("Must have")
+  expect(html).toContain(">Free<")
+  expect(html).toContain(">Paid<")
+  expect(html).toContain("Kaggle Learn")
+})
+
+test("plan view shows a flight plan for the first phase by default", () => {
+  state.query = "path=quality"
+  const html = renderToStaticMarkup(createElement(RoadmapPage))
+  expect(html).toContain("FLIGHT PLAN · PHASE 01 · DAYS 1–30")
+  expect(html).toContain("D1–D15")
+  expect(html).toContain("D16–D30")
+  expect(html).toContain("Module:")
+  expect(html.match(/aria-controls="flight-plan"/g)).toHaveLength(3)
+})
+
 test("unknown path falls back to profile recommendation", () => {
   state.query = "path=unknown&role=anything"
   const html = renderToStaticMarkup(createElement(RoadmapPage))

@@ -24,5 +24,10 @@ export const navigatorFixture: NavigatorResult = {
     project: "Build a small reviewable software tool using synthetic data.",
     firstStep: "Map one recurring development task and its review checkpoints.",
     resources: [navigatorResources.web, navigatorResources.learn],
+    roleResources: [
+      [navigatorResources.istqb],
+      [navigatorResources.kaggle, navigatorResources.web],
+      [navigatorResources.sre],
+    ],
   })),
 }

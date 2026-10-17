@@ -22,7 +22,7 @@ const prompt = `You are Voxian Shift Navigator. Suggest exactly three practical 
 Use these stable IDs, each once: advocate = people/domain expertise, operations = systems/workflow improvement, quality = evaluation/quality/accountability. Give each a specific occupation-appropriate title, not generic customer-support paths.
 Use strengths, goals, direction, available hours, flexibility, timeline, risk appetite and anxieties when supplied. Respect low bandwidth and conservative risk. Missing preferences are unknown, not consent to a career change. Explain each path's fit in 'why' using plain language, without numeric task scores or classification codes. Keep titles concise and focus labels to 2–4 words. Select a recommendedPathId consistent with the profile.
 Each direction needs three DISTINCT plausible alternative job titles at the SAME exploration level, not a promotion ladder. Include transferable skills, one achievable bridge project using synthetic/anonymised data, and a small first-week action. State training or experience gaps where relevant. Never invent salaries, match percentages, credentials, job openings or guaranteed outcomes.
-resourceIds must come only from supplied resource catalogue. Choose relevant resources; use the general learning catalogue when no specific course fits. Do not invent URLs. Do not imply a reference or learning module is a certification. Occupational task exposure is context, not a job-loss forecast.`
+resourceIds and roleResourceIds must come only from supplied resource catalogue. resourceIds are the 1–3 most valuable courses for this person in that direction (shown as must-have). roleResourceIds gives, for each of the three roles in order, 1–3 courses specific to that role that are NOT already in that direction's resourceIds; prefer different courses per role when the catalogue allows. Each catalogue entry states whether it is Free or Paid; balance cost with the person's constraints. Use the general learning catalogue when no specific course fits. Do not invent URLs. Do not imply a reference or learning module is a certification. Occupational task exposure is context, not a job-loss forecast.`
 
 export function registerNavigator(app: FastifyInstance, catalogue?: OccupationCatalogue) {
   // shortcut: per-instance quota; use a shared limiter before scaling public traffic.
@@ -87,10 +87,13 @@ export function registerNavigator(app: FastifyInstance, catalogue?: OccupationCa
         roleTitle: primary.title,
         occupationCode: primary.code,
         provider: config.label,
-        paths: draft.paths.map(({ resourceIds, ...path }) => ({
+        paths: draft.paths.map(({ resourceIds, roleResourceIds, ...path }) => ({
           ...path,
           color: colors[path.id],
           resources: [...new Set(resourceIds)].map((id) => navigatorResources[id]),
+          roleResources: roleResourceIds.map((ids) =>
+            [...new Set(ids)].map((id) => navigatorResources[id]),
+          ),
         })),
       })
     } catch (error) {

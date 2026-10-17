@@ -45,6 +45,7 @@ const draft = () => ({
     project: "Build a small tool using synthetic data.",
     firstStep: "Map a recurring workflow.",
     resourceIds: ["web"],
+    roleResourceIds: [["istqb"], ["kaggle", "web"], ["sre"]],
   })),
 })
 function catalogue(): OccupationCatalogue {
@@ -194,6 +195,10 @@ test("plan generation receives the actual selected target and optional profile a
       focus: "Practical project",
       actions: ["Map work", "Review evidence"],
       deliverable: "A reviewed project",
+      flightPlan: [
+        { days: "D1–D15", focus: "Learn" },
+        { days: "D16–D30", focus: "Apply" },
+      ],
     })),
     firstStep: "Map one task.",
   }
