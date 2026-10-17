@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useTheme } from "next-themes"
 import { useSearchParams } from "next/navigation"
-import { ArrowRight, ArrowUpRight, BookOpen, GitBranch, MapPin, X } from "lucide-react"
+import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, GitBranch, MapPin, X } from "lucide-react"
 import {
   ReactFlow,
   Background,
@@ -182,6 +182,11 @@ function NavigatorCanvas({
   const selectedNode = careerNodes.find((node) => node.id === selectedId)
   const selected = careerPaths.find((path) => path.id === selectedNode?.data.pathId) ?? null
   const selectedRole = selectedNode?.data.title ?? ""
+  const strategyIndex = careerPaths.findIndex((path) => path.id === selected?.id)
+  const previousStrategy =
+    careerPaths[(strategyIndex - 1 + careerPaths.length) % careerPaths.length]!
+  const nextStrategy = careerPaths[(strategyIndex + 1) % careerPaths.length]!
+
   const returnFocus = useRef<HTMLElement | null>(null)
   useLayoutEffect(() => {
     const canvas = canvasRef.current
@@ -327,6 +332,30 @@ function NavigatorCanvas({
               >
                 {selectedRole}
               </h2>
+              <nav
+                aria-label="Switch strategy"
+                className="mt-4 flex items-center justify-between gap-2"
+              >
+                <Button
+                  variant="outline"
+                  size="sm"
+                  aria-label={`Previous strategy: ${previousStrategy.label}`}
+                  onClick={() => selectNode(previousStrategy.id)}
+                >
+                  <ArrowLeft /> Previous
+                </Button>
+                <span aria-live="polite" className="text-xs text-muted-foreground">
+                  {selected.label} · {strategyIndex + 1}/{careerPaths.length}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  aria-label={`Next strategy: ${nextStrategy.label}`}
+                  onClick={() => selectNode(nextStrategy.id)}
+                >
+                  Next <ArrowRight />
+                </Button>
+              </nav>
             </header>
             <Tabs defaultValue="overview" className="min-h-0 flex-1 gap-0">
               <TabsList

@@ -307,3 +307,16 @@ test("Navigator defaults to Automate even when another strategy is recommended",
   )
   expect(html).toContain("Build this direction into a plan")
 })
+
+for (const [index, path] of navigatorFixture.paths.entries()) {
+  test(`strategy navigation from ${path.id} follows all four terms and wraps`, () => {
+    state.query = `path=${path.id}&role=1`
+    const html = renderToStaticMarkup(
+      createElement(SidebarProvider, null, createElement(NavigatorPage)),
+    )
+    const paths = navigatorFixture.paths
+    expect(html).toContain(`aria-label="Previous strategy: ${paths[(index + 3) % 4]!.label}"`)
+    expect(html).toContain(`aria-label="Next strategy: ${paths[(index + 1) % 4]!.label}"`)
+    expect(html).toContain('aria-label="Switch strategy"')
+  })
+}
