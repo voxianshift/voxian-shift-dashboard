@@ -27,6 +27,7 @@ export function selectedCardViewport(
 export type RoleNode = Node<
   {
     title: string
+    strategyLabel?: string
     subtitle: string
     color: string
     kind: "start" | "path" | "role"
@@ -63,6 +64,7 @@ export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): 
         ariaLabel: `Explore ${path.title}`,
         data: {
           title: path.title,
+          strategyLabel: path.label,
           subtitle: path.focus,
           color: path.color,
           kind: "path",
