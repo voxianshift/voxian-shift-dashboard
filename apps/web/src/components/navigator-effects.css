@@ -1,0 +1,74 @@
+.navigator-canvas {
+  --navigator-focus-fill: 8%;
+  --navigator-glow: 20%;
+  --navigator-glow-strong: 20%;
+  --navigator-glow-soft: 10%;
+  --navigator-halo: 0.04;
+  --navigator-line-glow: 0.1;
+  --navigator-line-glow-idle: 0.03;
+}
+.dark .navigator-canvas {
+  --navigator-focus-fill: 14%;
+  --navigator-glow: 100%;
+  --navigator-glow-strong: 65%;
+  --navigator-glow-soft: 40%;
+  --navigator-halo: 0.15;
+  --navigator-line-glow: 0.35;
+  --navigator-line-glow-idle: 0.12;
+}
+.navigator-orbit,
+.navigator-orbit-reverse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: navigator-orbit 24s linear infinite;
+}
+.navigator-orbit-reverse {
+  animation-duration: 34s;
+  animation-direction: reverse;
+}
+.navigator-pulse {
+  animation: navigator-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+.navigator-energy {
+  stroke-dasharray: 20 28;
+  animation: navigator-energy 2.4s linear infinite;
+}
+.navigator-spark {
+  stroke-dasharray: 3 48;
+  animation: navigator-spark 1.7s linear infinite;
+}
+@keyframes navigator-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes navigator-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+@keyframes navigator-energy {
+  from {
+    stroke-dashoffset: 400;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes navigator-spark {
+  from {
+    stroke-dashoffset: 560;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .navigator-orbit,
+  .navigator-orbit-reverse,
+  .navigator-pulse,
+  .navigator-energy,
+  .navigator-spark {
+    animation: none;
+  }
+}

@@ -1,28 +1,37 @@
-import { MarkerType, type Edge, type Node } from "@xyflow/react"
-import { routeCareerEdge, curvedCareerPath } from "./career-routing"
+import { type Edge, type Node } from "@xyflow/react"
+import { referenceCareerPath } from "./career-routing"
 import type { CareerPath } from "@voxian/shared"
 
-export const rolePageSize = 3
+const roleGridColumns = 3
 export const cardWidth = 260
 export const cardHeight = 152
 // Desktop zooms out so neighbouring cards stay visible; large screens have room for full size.
 export const defaultZoom = 0.7
 export const largeScreenZoom = 1
+export const focusedZoom = 1.25
+export const largeScreenFocusedZoom = 1.5
+export const strategyColors: Record<string, string> = {
+  automate: "#00f2fe",
+  hybrid: "#b000ff",
+  pivot: "#f59e0b",
+  create: "#f72585",
+}
 export const largeScreenQuery = "(min-width: 1536px)"
 
 export function selectedCardViewport(
   position: { x: number; y: number },
   width: number,
   height: number,
-  maxZoom = defaultZoom,
+  maxZoom = focusedZoom,
+  size = { width: cardWidth, height: cardHeight },
 ) {
   const zoom = Math.max(
     0.25,
-    Math.min(maxZoom, (width - 32) / cardWidth, (height - 32) / cardHeight),
+    Math.min(maxZoom, (width - 32) / size.width, (height - 32) / size.height),
   )
   return {
-    x: width / 2 - (position.x + cardWidth / 2) * zoom,
-    y: height / 2 - (position.y + cardHeight / 2) * zoom,
+    x: width / 2 - (position.x + size.width / 2) * zoom,
+    y: height / 2 - (position.y + size.height / 2) * zoom,
     zoom,
   }
 }
@@ -38,43 +47,41 @@ export type RoleNode = Node<
   "role"
 >
 
-// Fixed rows and columns reserve separate space for every card.
+// Fixed branch bands match the reference, with compact pills and room for labels.
 export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): RoleNode[] {
-  const rowHeight = cardHeight + 56
+  const rowHeight = 100
   const branchRows = careerPaths.map((path) =>
-    Math.max(1, Math.min(rolePageSize, path.roles.length)),
+    Math.max(
+      2,
+      path.roles.length <= 4 ? path.roles.length : Math.ceil(path.roles.length / roleGridColumns),
+    ),
   )
-  const totalRows = branchRows.reduce((sum, rows) => sum + rows, 0)
-  let rowOffset = 0
+  const totalHeight = branchRows.reduce((sum, rows) => sum + rows * rowHeight + 64, 0)
+  let offset = 0
   return [
     {
       id: "start",
       type: "role",
-      position: { x: 0, y: ((totalRows - 1) * rowHeight) / 2 },
-      width: cardWidth,
-      height: cardHeight,
+      position: { x: 0, y: totalHeight / 2 - 120 },
+      width: 220,
+      height: 240,
       selectable: false,
       focusable: false,
-      data: {
-        title: roleTitle,
-        subtitle: "Day 0 Baseline",
-        color: "var(--ring)",
-        kind: "start",
-      },
+      data: { title: roleTitle, subtitle: "Day 0 Baseline", color: "#00f2fe", kind: "start" },
     },
-    ...careerPaths.flatMap((path, index): RoleNode[] => {
-      const firstRow = rowOffset
-      rowOffset += branchRows[index]!
+    ...careerPaths.flatMap((path): RoleNode[] => {
+      const rows = branchRows[careerPaths.indexOf(path)]!
+      const center = offset + ((rows - 1) * rowHeight) / 2 + 32
+      const firstRow = offset
+      offset += rows * rowHeight + 64
+      const color = strategyColors[path.id] ?? path.color
       return [
         {
           id: path.id,
           type: "role",
-          position: {
-            x: 380,
-            y: (firstRow + (branchRows[index]! - 1) / 2) * rowHeight,
-          },
-          width: cardWidth,
-          height: cardHeight,
+          position: { x: 420, y: center - 90 },
+          width: 260,
+          height: 180,
           ariaLabel: `Explore ${path.title}`,
           data: {
             title: path.title,
@@ -85,28 +92,23 @@ export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): 
                 : path.coverage === "available"
                   ? ""
                   : path.focus,
-            color: path.color,
+            color,
             kind: "path",
             pathId: path.id,
           },
         },
-        ...path.roles.map((role, roleIndex): RoleNode => ({
-          id: `${path.id}-role-${roleIndex}`,
+        ...path.roles.map((role, i): RoleNode => ({
+          id: `${path.id}-role-${i}`,
           type: "role",
           position: {
-            x: 920 + Math.floor(roleIndex / rolePageSize) * 420,
-            y: (firstRow + (roleIndex % rolePageSize)) * rowHeight,
+            x: 880 + (path.roles.length <= 4 ? 0 : i % roleGridColumns) * 440,
+            y:
+              firstRow + (path.roles.length <= 4 ? i : Math.floor(i / roleGridColumns)) * rowHeight,
           },
-          width: cardWidth,
-          height: cardHeight,
+          width: 320,
+          height: 64,
           ariaLabel: `Explore ${role}`,
-          data: {
-            title: role,
-            subtitle: "",
-            color: path.color,
-            kind: "role",
-            pathId: path.id,
-          },
+          data: { title: role, subtitle: "", color, kind: "role", pathId: path.id },
         })),
       ]
     }),
@@ -135,22 +137,20 @@ export function careerEdges(
       ...edge,
       type: "obstacle",
       data: {
-        path: curvedCareerPath(
-          routeCareerEdge(
-            careerNodes.find((node) => node.id === edge.source)!,
-            careerNodes.find((node) => node.id === edge.target)!,
-            careerNodes,
-          ),
+        active,
+        path: referenceCareerPath(
+          careerNodes.find((node) => node.id === edge.source)!,
+          careerNodes.find((node) => node.id === edge.target)!,
+          careerNodes,
         ),
       },
       animated: active,
       style: {
-        stroke: path.color,
+        stroke: strategyColors[path.id] ?? path.color,
         strokeWidth: active ? 2.5 : 1.3,
         filter: active ? `drop-shadow(0 0 2px ${path.color})` : undefined,
         opacity: selectedId && !active ? 0.5 : 0.9,
       },
-      markerEnd: { type: MarkerType.ArrowClosed, color: path.color },
     }))
   })
 }

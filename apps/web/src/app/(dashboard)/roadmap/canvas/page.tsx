@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useTheme } from "next-themes"
 import { useSearchParams } from "next/navigation"
-import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, GitBranch, MapPin, X } from "lucide-react"
+import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, X } from "lucide-react"
 import {
   ReactFlow,
   BaseEdge,
@@ -17,6 +17,7 @@ import {
   type ReactFlowInstance,
 } from "@xyflow/react"
 import "@xyflow/react/dist/style.css"
+import "@/components/navigator-effects.css"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
@@ -52,6 +53,8 @@ import {
   careerEdges,
   selectedCardViewport,
   defaultZoom,
+  focusedZoom,
+  largeScreenFocusedZoom,
   largeScreenQuery,
   largeScreenZoom,
   type RoleNode,
@@ -65,86 +68,222 @@ const strategyHelp: Record<string, string> = {
 }
 
 function RoleCard({ data, selected }: NodeProps<RoleNode>) {
-  return (
-    <div
-      className="relative flex h-[152px] w-[260px] flex-col overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm transition-shadow"
-      style={{
-        borderColor: selected ? data.color : "var(--border)",
-        boxShadow:
-          data.kind === "start"
-            ? "0 8px 28px #0002"
-            : selected
-              ? `0 0 0 1px ${data.color}, 0 0 32px color-mix(in srgb, ${data.color} 30%, transparent)`
-              : `0 8px 24px color-mix(in srgb, ${data.color} 16%, transparent)`,
-        background:
-          data.kind === "start"
-            ? "var(--card)"
-            : `linear-gradient(135deg, color-mix(in srgb, ${data.color} 10%, var(--card)), var(--card))`,
-      }}
-    >
-      {data.kind !== "start" && (
+  const color = data.color
+  if (data.kind === "start")
+    return (
+      <div className="relative h-[240px] w-[220px] text-cyan-700 dark:text-cyan-300">
+        <svg viewBox="0 0 220 240" className="size-full overflow-visible" aria-hidden="true">
+          <ellipse
+            cx="110"
+            cy="96"
+            rx="90"
+            ry="86"
+            fill="none"
+            stroke="#38bdf8"
+            strokeWidth="1.2"
+            strokeDasharray="4 8"
+            opacity=".5"
+            className="navigator-orbit"
+          />
+          <ellipse
+            cx="110"
+            cy="96"
+            rx="96"
+            ry="92"
+            fill="none"
+            stroke="#f59e0b"
+            strokeWidth="1"
+            strokeDasharray="6 12"
+            opacity=".4"
+            className="navigator-orbit-reverse"
+          />
+          <polygon
+            points="110,28 170,62 170,130 110,164 50,130 50,62"
+            fill="var(--card)"
+            stroke="#00f2fe"
+            strokeWidth="3"
+            style={{
+              filter:
+                "drop-shadow(0 0 12px color-mix(in srgb, #00f2fe var(--navigator-glow), transparent))",
+            }}
+          />
+          <polygon
+            points="110,40 160,68 160,124 110,152 60,124 60,68"
+            fill="var(--muted)"
+            stroke="#38bdf8"
+            strokeWidth="1.5"
+            opacity=".7"
+          />
+          <circle cx="110" cy="96" r="23" fill="#0284c7" opacity=".3" />
+          <circle cx="110" cy="96" r="11" fill="#00f2fe" className="navigator-pulse" />
+        </svg>
+        <div className="absolute inset-x-0 top-[190px] text-center">
+          <p className="text-[13px] font-bold tracking-widest text-foreground">THE PRESENT</p>
+          <p className="mt-1 font-mono text-[11px] uppercase">{data.subtitle}</p>
+          <h2 className="mt-2 text-[13px] text-muted-foreground">{data.title}</h2>
+        </div>
         <Handle
-          type="target"
-          position={Position.Left}
-          className="!border-background !bg-muted-foreground"
+          type="source"
+          position={Position.Right}
+          style={{ top: 96, right: 46 }}
+          className="!border-0 !bg-transparent !opacity-0"
         />
-      )}
-      <div className="min-h-0 flex-1 px-4 py-4">
-        <p className="mb-3 flex items-center gap-2 text-[12px] tracking-[1px] text-muted-foreground">
-          {data.kind === "start" ? (
-            <MapPin className="size-4" />
-          ) : (
-            <GitBranch className="size-4" style={{ color: data.color }} />
+      </div>
+    )
+  if (data.kind === "path")
+    return (
+      <div className="relative h-[180px] w-[260px]" style={{ color }}>
+        <h2
+          className="absolute inset-x-0 top-0 line-clamp-2 text-center text-[14px] font-semibold leading-tight text-muted-foreground"
+          title={data.title}
+        >
+          {data.title}
+        </h2>
+        <svg
+          viewBox="0 0 260 180"
+          className="absolute inset-0 size-full overflow-visible"
+          aria-hidden="true"
+        >
+          {selected && (
+            <polygon
+              points="130,30 182,60 182,120 130,150 78,120 78,60"
+              fill="none"
+              stroke={color}
+              strokeWidth="18"
+              strokeLinejoin="round"
+              opacity="var(--navigator-halo)"
+            />
           )}
-          {data.kind === "start" ? (
-            "STARTING POINT"
-          ) : data.kind === "path" ? (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  type="button"
-                  className="nodrag text-left underline decoration-dotted underline-offset-4"
-                  aria-label={`About ${data.strategyLabel}`}
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  {data.strategyLabel?.toUpperCase()}
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>{strategyHelp[data.pathId ?? ""]}</TooltipContent>
-            </Tooltip>
-          ) : (
-            "ROLE TO EXPLORE"
-          )}
-        </p>
-        <h2 className="line-clamp-2 text-[22px] font-medium leading-tight">{data.title}</h2>
+          <polygon
+            points="130,30 182,60 182,120 130,150 78,120 78,60"
+            fill={
+              selected
+                ? `color-mix(in srgb, ${color} var(--navigator-focus-fill), var(--card))`
+                : "var(--card)"
+            }
+            stroke={color}
+            strokeWidth={selected ? 3 : 2}
+            style={{
+              filter: `drop-shadow(0 0 ${selected ? 14 : 7}px color-mix(in srgb, ${color} var(--navigator-glow), transparent))`,
+            }}
+          />
+        </svg>
+        <div className="absolute inset-x-0 top-[70px] flex justify-center">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                className="nodrag rounded px-2 py-2 font-mono text-[13px] font-bold focus-visible:outline-2 focus-visible:outline-ring"
+                style={{
+                  color: selected
+                    ? "var(--foreground)"
+                    : `color-mix(in srgb, var(--foreground) 65%, ${color})`,
+                }}
+                aria-label={`About ${data.strategyLabel}`}
+              >
+                {data.strategyLabel?.toUpperCase()}
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>{strategyHelp[data.pathId ?? ""]}</TooltipContent>
+          </Tooltip>
+        </div>
         {data.subtitle && (
-          <p className="mt-2 line-clamp-1 text-[14px] leading-relaxed text-muted-foreground">
+          <p className="absolute inset-x-0 top-[160px] text-center text-[11px] text-muted-foreground">
             {data.subtitle}
           </p>
         )}
+        <Handle
+          type="target"
+          position={Position.Left}
+          style={{ top: 90, left: 78 }}
+          className="!border-0 !bg-transparent !opacity-0"
+        />
+        <Handle
+          type="source"
+          position={Position.Right}
+          style={{ top: 90, right: 78 }}
+          className="!border-0 !bg-transparent !opacity-0"
+        />
       </div>
+    )
+  return (
+    <div
+      className="flex h-16 w-80 items-center gap-3 rounded-[18px] border-2 bg-card px-4 text-card-foreground"
+      style={{
+        borderColor: color,
+        background: selected
+          ? `color-mix(in srgb, ${color} var(--navigator-focus-fill), var(--card))`
+          : "var(--card)",
+        boxShadow: `0 0 ${selected ? 22 : 12}px color-mix(in srgb, ${color} ${selected ? "var(--navigator-glow-strong)" : "var(--navigator-glow-soft)"}, transparent)`,
+      }}
+    >
+      <span className="size-3 shrink-0 rounded-full" style={{ background: color }} />
+      <h2 className="line-clamp-2 text-[14px] font-semibold leading-tight" title={data.title}>
+        {data.title}
+      </h2>
       <Handle
-        type="source"
-        position={Position.Right}
-        className="!border-background !bg-muted-foreground"
+        type="target"
+        position={Position.Left}
+        className="!border-0 !bg-transparent !opacity-0"
       />
     </div>
   )
 }
 
 function ObstacleEdge({ id, data, style, markerEnd }: EdgeProps) {
+  const path = typeof data?.path === "string" ? data.path : ""
+  const active = data?.active === true
   return (
-    <BaseEdge
-      id={id}
-      path={typeof data?.path === "string" ? data.path : ""}
-      style={style}
-      markerEnd={markerEnd}
-    />
+    <>
+      <path
+        d={path}
+        fill="none"
+        stroke={style?.stroke}
+        strokeWidth={active ? 10 : 5}
+        opacity={active ? "var(--navigator-line-glow)" : "var(--navigator-line-glow-idle)"}
+        strokeLinecap="round"
+        pointerEvents="none"
+        aria-hidden="true"
+      />
+      <BaseEdge
+        id={id}
+        path={path}
+        style={{ ...style, strokeDasharray: "none", strokeLinecap: "round" }}
+        markerEnd={markerEnd}
+      />
+      {active && (
+        <>
+          <path
+            d={path}
+            fill="none"
+            stroke={style?.stroke}
+            strokeWidth="3.5"
+            opacity=".85"
+            strokeLinecap="round"
+            className="navigator-energy"
+            pointerEvents="none"
+            aria-hidden="true"
+          />
+          <path
+            d={path}
+            fill="none"
+            className="stroke-foreground navigator-spark"
+            strokeWidth="1.5"
+            opacity=".6"
+            strokeLinecap="round"
+            pointerEvents="none"
+            aria-hidden="true"
+          />
+        </>
+      )}
+    </>
   )
 }
 const edgeTypes = { obstacle: ObstacleEdge }
 const nodeTypes = { role: RoleCard }
 const maxZoom = () => (window.matchMedia(largeScreenQuery).matches ? largeScreenZoom : defaultZoom)
+const viewportDuration = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 320
 export default function NavigatorCanvasPage() {
   const { setOpen } = useSidebar()
   // Collapse once on entry for canvas space; later toggles are the user's and persist via cookie.
@@ -206,9 +345,9 @@ function NavigatorCanvas({
     if (saved?.plan && params.get("plan") === "1") setPlanOpen(true)
   }, [data.occupationCode, params])
   const sprint = timelineSprint(profile.timeline) ?? profile.hours === "5+ hours"
+  const { resolvedTheme } = useTheme()
   const careerPaths = data.paths
   const careerNodes = buildCareerNodes(careerPaths, data.roleTitle)
-  const { resolvedTheme } = useTheme()
   const [selectedId, setSelectedId] = useState<string | null>(initialSelectedId)
   const [focusRequest, setFocusRequest] = useState(0)
   const [flow, setFlow] = useState<ReactFlowInstance<RoleNode> | null>(null)
@@ -234,7 +373,19 @@ function NavigatorCanvas({
       const bottomSheet = window.matchMedia("(max-width: 650px)").matches
       const width = bottomSheet ? bounds.width : Math.max(0, panel.left - bounds.left - 12)
       const height = bottomSheet ? Math.max(0, panel.top - bounds.top - 12) : bounds.height
-      void flow.setViewport(selectedCardViewport(node.position, width, height, maxZoom()))
+      void flow.setViewport(
+        selectedCardViewport(
+          node.position,
+          width,
+          height,
+          window.matchMedia(largeScreenQuery).matches ? largeScreenFocusedZoom : focusedZoom,
+          {
+            width: node.width!,
+            height: node.height!,
+          },
+        ),
+        { duration: viewportDuration() },
+      )
     }
     centerSelection()
     const observer = new ResizeObserver(centerSelection)
@@ -277,10 +428,16 @@ function NavigatorCanvas({
   }
   function closeDetails() {
     setSelectedId(null)
-    if (returnFocus.current?.isConnected) returnFocus.current.focus()
+    void flow?.fitView({
+      padding: 0.18,
+      minZoom: 0.25,
+      maxZoom: defaultZoom,
+      duration: viewportDuration(),
+    })
+    if (returnFocus.current?.isConnected) returnFocus.current.focus({ preventScroll: true })
   }
   return (
-    <div className="flex min-h-[660px] h-full flex-col bg-background text-foreground">
+    <div className="navigator-canvas flex min-h-[660px] h-full flex-col bg-background text-foreground">
       <h1 className="sr-only">Explore your career multiverse</h1>
       <div
         ref={canvasRef}
@@ -300,13 +457,19 @@ function NavigatorCanvas({
             ...node,
             selected: node.id === selectedId,
           }))}
-          edges={careerEdges(careerPaths, careerNodes, selectedId)}
+          // Custom glow and spark layers own animation timing, not React Flow's dash animation.
+          edges={careerEdges(
+            careerPaths,
+            careerNodes,
+            selectedId ?? data.recommendedPathId ?? careerPaths[0]?.id ?? null,
+          ).map((edge) => ({ ...edge, animated: false }))}
           nodesDraggable={false}
           fitView={!initialSelectedId}
           fitViewOptions={{ padding: 0.18, minZoom: 0.25, maxZoom: defaultZoom }}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
           colorMode={resolvedTheme === "dark" ? "dark" : "light"}
+          style={{ background: "var(--background)" }}
           onInit={(instance) => {
             setFlow(instance)
             if (!initialSelectedId)
@@ -333,7 +496,7 @@ function NavigatorCanvas({
           className="!bg-background motion-reduce:[&_path]:!animate-none"
           aria-label="Career paths: drag canvas to pan, scroll to zoom, select a role to see details"
         >
-          <Background variant={BackgroundVariant.Dots} gap={24} size={1.6} color="var(--input)" />
+          <Background variant={BackgroundVariant.Dots} gap={32} size={0.6} color="var(--border)" />
           <Controls showInteractive={false} position="bottom-left" className="[&_button]:!size-9" />
         </ReactFlow>
         {selected && (

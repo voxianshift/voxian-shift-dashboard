@@ -5,7 +5,7 @@ import {
   buildCareerNodes,
   careerEdges,
   selectedCardViewport,
-  defaultZoom,
+  focusedZoom,
   largeScreenZoom,
 } from "./career-canvas"
 import actualMappings from "../../../api/data/navigator-pathways.json"
@@ -24,9 +24,9 @@ test("selection resets zoom and centers the card in unobscured canvas space", ()
     expect(viewport.x + (position.x + cardWidth / 2) * viewport.zoom).toBeCloseTo(width / 2)
     expect(viewport.y + (position.y + cardHeight / 2) * viewport.zoom).toBeCloseTo(height / 2)
     expect(viewport.zoom).toBeGreaterThanOrEqual(0.25)
-    expect(viewport.zoom).toBeLessThanOrEqual(defaultZoom)
+    expect(viewport.zoom).toBeLessThanOrEqual(focusedZoom)
   }
-  expect(selectedCardViewport(position, 800, 700).zoom).toBe(defaultZoom)
+  expect(selectedCardViewport(position, 800, 700).zoom).toBe(focusedZoom)
   expect(selectedCardViewport(position, 180, 400).zoom).toBeCloseTo(148 / cardWidth)
   expect(selectedCardViewport(position, 800, 700, largeScreenZoom).zoom).toBe(largeScreenZoom)
 })
@@ -66,17 +66,24 @@ test("all branches and roles occupy separate rows without overlapping cards", ()
     const roles = nodes.filter((node) => node.data.kind === "role" && node.data.pathId === path.id)
     expect(roles.map((node) => node.data.title)).toEqual([...path.roles])
     const parent = nodes.find((node) => node.id === path.id)!
-    expect(
-      Math.abs(parent.position.y - (roles[0]!.position.y + roles.at(-1)!.position.y) / 2),
-    ).toBeLessThanOrEqual(24)
+    expect(parent.position.y + parent.height! / 2).toBe(
+      (roles[0]!.position.y + roles.at(-1)!.position.y) / 2 + roles[0]!.height! / 2,
+    )
   }
   for (const [index, node] of nodes.entries()) {
-    expect(node.width).toBe(cardWidth)
-    expect(node.height).toBe(cardHeight)
+    expect(node.width).toBe(
+      node.data.kind === "role" ? 320 : node.data.kind === "start" ? 220 : 260,
+    )
+    expect(node.height).toBe(
+      node.data.kind === "role" ? 64 : node.data.kind === "start" ? 240 : 180,
+    )
     for (const other of nodes.slice(index + 1)) {
-      const horizontalGap = Math.abs(node.position.x - other.position.x) - cardWidth
-      const verticalGap = Math.abs(node.position.y - other.position.y) - cardHeight
-      expect(horizontalGap >= 60 || verticalGap >= 48).toBe(true)
+      const separated =
+        node.position.x + node.width! + 32 <= other.position.x ||
+        other.position.x + other.width! + 32 <= node.position.x ||
+        node.position.y + node.height! + 32 <= other.position.y ||
+        other.position.y + other.height! + 32 <= node.position.y
+      expect(separated).toBe(true)
     }
   }
 })
@@ -124,7 +131,7 @@ test("canvas starting point uses the supplied profile occupation", () => {
   expect(renamed.find((node) => node.id === "start")?.data.title).toBe("Architects")
 })
 
-test("all roles show in columns of three with no overlaps and edges from the strategy", () => {
+test("five or more roles use three columns with no overlaps and edges from the strategy", () => {
   const path = {
     ...careerPaths[0]!,
     roles: Array.from({ length: 8 }, (_, index) => `Curated option ${index + 1}`),
@@ -132,13 +139,15 @@ test("all roles show in columns of three with no overlaps and edges from the str
   const nodes = buildCareerNodes([path], "Starting occupation")
   const roles = nodes.filter((node) => node.data.kind === "role")
   expect(roles).toHaveLength(8)
-  expect(new Set(roles.map((node) => Math.round((node.position.x - 920) / 420))).size).toBe(3)
-  expect(new Set(roles.map((node) => Math.round(node.position.y / (cardHeight + 56)))).size).toBe(3)
+  expect(new Set(roles.map((node) => Math.round((node.position.x - 880) / 440))).size).toBe(3)
+  expect(new Set(roles.map((node) => Math.round(node.position.y / 100))).size).toBe(3)
   for (const [index, node] of nodes.entries())
     for (const other of nodes.slice(index + 1))
       expect(
-        Math.abs(node.position.x - other.position.x) >= cardWidth + 60 ||
-          Math.abs(node.position.y - other.position.y) >= cardHeight + 48,
+        node.position.x + node.width! + 32 <= other.position.x ||
+          other.position.x + other.width! + 32 <= node.position.x ||
+          node.position.y + node.height! + 32 <= other.position.y ||
+          other.position.y + other.height! + 32 <= node.position.y,
       ).toBe(true)
   const edges = careerEdges([path], nodes, "automate-role-7")
   expect(
@@ -165,5 +174,22 @@ test("fixed card grid stays aligned across renders", () => {
   expect(buildCareerNodes(careerPaths, navigatorFixture.roleTitle)).toEqual(careerNodes)
   const roles = careerNodes.filter((node) => node.data.kind === "role")
   expect(new Set(roles.map((node) => node.position.x)).size).toBe(1)
-  expect(roles.every((node) => node.position.y % (cardHeight + 56) === 0)).toBe(true)
+  for (const path of careerPaths) {
+    const branch = roles.filter((node) => node.data.pathId === path.id)
+    expect(branch.every((node, i) => node.position.y === branch[0]!.position.y + i * 100)).toBe(
+      true,
+    )
+  }
 })
+
+test.each([1, 2, 3, 4, 5, 6, 7, 10])(
+  "%i roles choose single column or three-column grid",
+  (count) => {
+    const path = { ...careerPaths[0]!, roles: Array.from({ length: count }, (_, i) => `Role ${i}`) }
+    const roles = buildCareerNodes([path], "Present").filter((node) => node.data.kind === "role")
+    expect(new Set(roles.map((node) => node.position.x)).size).toBe(count <= 4 ? 1 : 3)
+    expect(new Set(roles.map((node) => node.position.y)).size).toBe(
+      count <= 4 ? count : Math.ceil(count / 3),
+    )
+  },
+)
