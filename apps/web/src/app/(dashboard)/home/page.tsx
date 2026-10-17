@@ -189,8 +189,7 @@ export default function HomePage() {
       )}
       {!storageAvailable && (
         <p role="status" className="mt-5 text-[14px] text-muted-foreground">
-          Browser storage is blocked. Role choices are saved, but other preferences will be lost on
-          reload.
+          Changes aren’t saved yet. Use Retry to save your preferences.
         </p>
       )}
       <Dialog
@@ -210,8 +209,8 @@ export default function HomePage() {
             <div className="space-y-2 rounded-lg border p-4">
               <h3 className="text-[16px] font-medium">Restart profile</h3>
               <p className="text-[14px] leading-relaxed text-muted-foreground">
-                Remove saved roles and this tab’s profile answers, then choose your role again. Keep
-                saved chats.
+                Remove your saved profile and roles, then choose your role again. Keep your plan,
+                progress and saved chats.
               </p>
               <Button variant="outline" disabled={clearing} onClick={() => resetProfile("profile")}>
                 Restart profile
@@ -220,8 +219,7 @@ export default function HomePage() {
             <div className="space-y-2 rounded-lg border p-4">
               <h3 className="text-[16px] font-medium">Reset everything</h3>
               <p className="text-[14px] leading-relaxed text-muted-foreground">
-                Remove saved roles, this tab’s profile answers, and all saved Lumi chats for this
-                browser.
+                Remove this browser’s saved profile, roles, plan, progress and saved chats.
               </p>
               <Button variant="destructive" disabled={clearing} onClick={() => resetProfile("all")}>
                 Reset everything

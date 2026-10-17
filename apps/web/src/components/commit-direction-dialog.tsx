@@ -124,38 +124,37 @@ export function CommitDirectionDialog({
   const [editingProfile, setEditingProfile] = useState(false)
   const [error, setError] = useState("")
   async function confirm() {
+    if (busy) return
     const attempt = ++generation.current
     let plan = initial?.plan
-    if (generate) {
-      setBusy(true)
-      setError("")
-      try {
+    setBusy(true)
+    setError("")
+    try {
+      if (generate) {
         if (!schedule.success || !fitsClock)
           throw new Error(
             "Confirm a valid start date, time zone and weekly minute budget (1–1200).",
           )
         plan = await generate(schedule.data)
         if (generation.current !== attempt) return
-      } catch (failure) {
-        setError(
-          failure instanceof Error && failure.message
-            ? failure.message
-            : "Your plan could not be generated. Try again.",
-        )
-        return
-      } finally {
-        setBusy(false)
       }
+      const commitment: Commitment = {
+        ...draft,
+        flightPlan: plan?.plan.phases.flatMap((phase) => phase.flightPlan) ?? initial?.flightPlan,
+        plan,
+      }
+      await saveCommitment(commitment)
+      if (generation.current !== attempt) return
+      onOpenChange(false)
+      if (onSaved) onSaved(commitment)
+      else router.push("/progress")
+    } catch (failure) {
+      setError(
+        failure instanceof Error ? failure.message : "Your plan could not be saved. Try again.",
+      )
+    } finally {
+      setBusy(false)
     }
-    const commitment: Commitment = {
-      ...draft,
-      flightPlan: plan?.plan.phases.flatMap((phase) => phase.flightPlan) ?? initial?.flightPlan,
-      plan,
-    }
-    saveCommitment(commitment)
-    onOpenChange(false)
-    if (onSaved) onSaved(commitment)
-    else router.push("/progress")
   }
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

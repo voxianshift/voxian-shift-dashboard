@@ -1,4 +1,5 @@
-import { weeklyDayMinutes, type FlightPlan } from "@voxian/shared"
+import { commitmentSchema, weeklyDayMinutes, type FlightPlan } from "@voxian/shared"
+import { guestRequest } from "@/lib/guest-data"
 import { type FlightSegment } from "@/lib/flight-plan"
 
 export type TimeOfDay = "morning" | "night" | "flexible"
@@ -236,20 +237,26 @@ export function streak(days: PlanDay[], today: string) {
 }
 
 const storageKey = "voxian-commitment-v1"
-// ponytail: guest commitment lives in this browser only; move to the account store once sign-in exists.
-export function loadCommitment(): Commitment | null {
+export async function loadCommitment(): Promise<Commitment | null> {
+  const result = await guestRequest("commitment")
+  if (result.commitment !== null) return commitmentSchema.parse(result.commitment)
+  let legacy: Commitment | null = null
   try {
     const value = JSON.parse(localStorage.getItem(storageKey) ?? "null")
-    return value?.version === 1 ? (value as Commitment) : null
+    const parsed = commitmentSchema.safeParse(value)
+    if (parsed.success) legacy = parsed.data
   } catch {
-    return null
+    /* Browser cache is optional. */
   }
+  if (legacy) await saveCommitment(legacy)
+  return legacy
 }
-export function saveCommitment(commitment: Commitment | null) {
+export async function saveCommitment(commitment: Commitment | null) {
+  const parsed = commitmentSchema.nullable().parse(commitment)
+  await guestRequest("commitment", "PUT", parsed)
   try {
-    if (commitment) localStorage.setItem(storageKey, JSON.stringify(commitment))
-    else localStorage.removeItem(storageKey)
+    localStorage.removeItem(storageKey)
   } catch {
-    /* Storage blocked; the commitment lasts for this visit only. */
+    /* Legacy cache only. */
   }
 }

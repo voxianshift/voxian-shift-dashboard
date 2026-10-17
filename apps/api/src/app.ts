@@ -12,8 +12,11 @@ import { registerCopilot } from "./copilot.ts"
 import { registerRateLimit } from "./rate-limit.ts"
 import { createChatStore, type ChatStore } from "./chat-store.ts"
 import { SCORING_VERSION } from "@voxian/shared"
+import { createGuestStore, registerGuest, type GuestStore } from "./guest-store.ts"
 
-export function buildApp(options: { chatStore?: ChatStore; catalogue?: OccupationCatalogue } = {}) {
+export function buildApp(
+  options: { chatStore?: ChatStore; catalogue?: OccupationCatalogue; guestStore?: GuestStore } = {},
+) {
   const app = Fastify({
     logger: process.env.NODE_ENV !== "test",
     // On Cloud Run (K_SERVICE set) traffic arrives via the web app's Next rewrite, so
@@ -39,6 +42,11 @@ export function buildApp(options: { chatStore?: ChatStore; catalogue?: Occupatio
   registerPlan(app, catalogue)
   registerNavigator(app, catalogue)
   registerCopilot(app, catalogue, store)
+  const guestStore =
+    options.guestStore ??
+    (process.env.DATABASE_URL ? createGuestStore(process.env.DATABASE_URL) : undefined)
+  if (guestStore) app.addHook("onClose", () => guestStore.close())
+  registerGuest(app, guestStore)
 
   return app
 }

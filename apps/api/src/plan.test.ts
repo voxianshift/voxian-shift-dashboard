@@ -4,6 +4,7 @@ import {
   navigatorContext,
   flightPlanSchema,
   validatePlanSchedule,
+  commitmentSchema,
 } from "@voxian/shared"
 import { buildApp } from "./app.ts"
 import type { OccupationCatalogue } from "./occupation-catalogue.ts"
@@ -109,6 +110,20 @@ test("all four strategies use grounded destinations and code-owned schedule/cont
       })
       expect(response.statusCode).toBe(200)
       const plan = flightPlanSchema.parse(response.json().plan)
+      const saved = commitmentSchema.parse({
+        version: 1,
+        pathId: strategyId,
+        direction: "Selected path",
+        role: plan.selectedRole,
+        sprint: false,
+        hours: "1–3 hours",
+        timeOfDay: "morning",
+        days: "weekdays",
+        startDate: plan.schedule.startDate,
+        completed: [],
+        plan: response.json(),
+      })
+      expect(saved.plan?.plan).toEqual(plan)
       expect(() => validatePlanSchedule(plan)).not.toThrow()
       expect(plan.strategyId).toBe(strategyId)
       expect(plan.horizonDays).toBe(120)

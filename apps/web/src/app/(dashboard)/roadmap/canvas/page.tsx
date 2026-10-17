@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useTheme } from "next-themes"
+import { toast } from "sonner"
 import { useSearchParams } from "next/navigation"
 import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, X } from "lucide-react"
 import {
@@ -338,11 +339,24 @@ function NavigatorCanvas({
   const [planOpen, setPlanOpen] = useState(false)
   const [commitment, setCommitment] = useState<Commitment | null>(null)
   useEffect(() => {
-    const saved = loadCommitment()
-    if (saved?.plan?.plan.occupationCode && saved.plan.plan.occupationCode !== data.occupationCode)
-      return
-    setCommitment(saved)
-    if (saved?.plan && params.get("plan") === "1") setPlanOpen(true)
+    let active = true
+    void loadCommitment()
+      .then((saved) => {
+        if (
+          !active ||
+          (saved?.plan?.plan.occupationCode &&
+            saved.plan.plan.occupationCode !== data.occupationCode)
+        )
+          return
+        setCommitment(saved)
+        if (saved?.plan && params.get("plan") === "1") setPlanOpen(true)
+      })
+      .catch(() => {
+        if (active) toast.error("Saved plan couldn’t load. Reload to retry.")
+      })
+    return () => {
+      active = false
+    }
   }, [data.occupationCode, params])
   const sprint = timelineSprint(profile.timeline) ?? profile.hours === "5+ hours"
   const { resolvedTheme } = useTheme()

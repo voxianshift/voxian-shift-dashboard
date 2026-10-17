@@ -40,10 +40,38 @@ import { cn } from "@/lib/utils"
 import { editorialPage, eyebrow } from "@/lib/styles"
 
 export default function ProgressPage() {
-  // undefined = not read yet; null = no commitment saved in this browser.
   const [commitment, setCommitment] = useState<Commitment | null | undefined>(undefined)
-  useEffect(() => setCommitment(loadCommitment()), [])
-  if (commitment === undefined) return null
+  const [error, setError] = useState("")
+  const [attempt, setAttempt] = useState(0)
+  useEffect(() => {
+    let active = true
+    setError("")
+    void loadCommitment()
+      .then((saved) => {
+        if (active) setCommitment(saved)
+      })
+      .catch(() => {
+        if (active) setError("Your saved plan couldn’t load.")
+      })
+    return () => {
+      active = false
+    }
+  }, [attempt])
+  if (error)
+    return (
+      <div role="alert" className={editorialPage}>
+        {error}{" "}
+        <Button variant="outline" onClick={() => setAttempt((n) => n + 1)}>
+          Retry
+        </Button>
+      </div>
+    )
+  if (commitment === undefined)
+    return (
+      <p role="status" className="p-8 text-muted-foreground">
+        Loading your plan…
+      </p>
+    )
   if (!commitment)
     return (
       <div className={editorialPage}>
@@ -69,6 +97,8 @@ function Progress({
   onChange: (commitment: Commitment) => void
 }) {
   const [editing, setEditing] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [saveError, setSaveError] = useState("")
   const { profile } = useCareerProfile()
   // Legacy slots follow live preferences; validated plans retain their confirmed schedule until replanned.
   const commitment = withProfile(saved, profile)
@@ -91,13 +121,22 @@ function Progress({
     const [start, end] = segment.days.replace(/D/g, "").split("–").map(Number)
     return dayNumber >= start! && dayNumber <= end!
   })
-  function toggle(date: string) {
+  async function toggle(date: string) {
+    if (saving) return
     const completed = commitment.completed.includes(date)
       ? commitment.completed.filter((item) => item !== date)
       : [...commitment.completed, date]
     const next = { ...commitment, completed }
-    saveCommitment(next)
-    onChange(next)
+    setSaving(true)
+    setSaveError("")
+    try {
+      await saveCommitment(next)
+      onChange(next)
+    } catch {
+      setSaveError("Session couldn’t be saved. Try logging it again.")
+    } finally {
+      setSaving(false)
+    }
   }
   const label = (value: string, options: readonly { value: string; label: string }[]) =>
     options.find((option) => option.value === value)?.label ?? value
@@ -118,7 +157,7 @@ function Progress({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button variant="outline" onClick={() => setEditing(true)}>
+          <Button variant="outline" disabled={saving} onClick={() => setEditing(true)}>
             <Pencil /> Change schedule
           </Button>
           <Button variant="outline" asChild>
@@ -166,12 +205,20 @@ function Progress({
           <Button
             variant={todayDay.done ? "outline" : "default"}
             aria-pressed={todayDay.done}
+            disabled={saving}
             onClick={() => toggle(today)}
           >
-            <Check /> {todayDay.done ? "Logged today · undo" : "Log today's session"}
+            <Check />{" "}
+            {saving ? "Saving…" : todayDay.done ? "Logged today · undo" : "Log today's session"}
           </Button>
         )}
       </section>
+
+      {saveError && (
+        <p role="alert" className="mt-3 text-sm text-destructive">
+          {saveError}
+        </p>
+      )}
 
       <div className="mt-4 grid grid-cols-[auto_1fr] gap-4 max-[900px]:grid-cols-1">
         <section aria-labelledby="activity-title" className="min-w-0 rounded-xl border p-5">
@@ -181,7 +228,9 @@ function Progress({
           <p className="mt-0.5 text-[13px] text-muted-foreground">
             Select a past day to log or undo a session.
           </p>
-          <Heatmap days={days} today={today} onToggle={toggle} />
+          <fieldset disabled={saving}>
+            <Heatmap days={days} today={today} onToggle={toggle} />
+          </fieldset>
           <Legend />
         </section>
         <dl className="grid grid-cols-2 content-start gap-3">

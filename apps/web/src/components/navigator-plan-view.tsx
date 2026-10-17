@@ -104,9 +104,20 @@ export function Roadmap({
     timelineSprint(profile.timeline) ??
     profile.hours === "5+ hours"
   const [commitOpen, setCommitOpen] = useState(false)
-  // Read after mount: the commitment lives in localStorage, which the server render cannot see.
   const [commitment, setCommitment] = useState<Commitment | null>(savedCommitment ?? null)
-  useEffect(() => setCommitment(loadCommitment()), [])
+  useEffect(() => {
+    let active = true
+    void loadCommitment()
+      .then((saved) => {
+        if (active) setCommitment(saved)
+      })
+      .catch(() => {
+        if (active) toast.error("Saved plan couldn’t load. Reload to retry.")
+      })
+    return () => {
+      active = false
+    }
+  }, [])
   const selected = branches[branch]!
   const planKey = `${profileKey}-${selected.id}-${targetRole}-${sprint}`
   const [generated, setGenerated] = useState<(GeneratedPlan & { key: string }) | null>(null)

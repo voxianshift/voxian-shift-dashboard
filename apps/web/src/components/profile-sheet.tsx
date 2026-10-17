@@ -47,7 +47,7 @@ export function ProfileSheet({
   onOpenChange: (open: boolean) => void
   onSaved?: (profile: CareerProfile) => void
 }) {
-  const { profile, update, storageAvailable, saveOccupations } = useCareerProfile()
+  const { profile, update, saveOccupations } = useCareerProfile()
   const [saving, setSaving] = useState(false)
   const [draft, setDraft] = useState(profile)
   const returnFocus = useRef<HTMLElement | null>(null)
@@ -62,7 +62,7 @@ export function ProfileSheet({
       if (JSON.stringify(saved) !== JSON.stringify(profile)) update(saved)
       onOpenChange(false)
       onSaved?.(saved)
-      toast.success(storageAvailable ? "Profile saved" : "Profile updated for this visit", {
+      toast.success("Profile saved", {
         description: "Your changes are saved. Open your Meter whenever you’re ready.",
       })
     } catch {

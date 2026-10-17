@@ -109,7 +109,7 @@ export default function OnboardingPage() {
     setSaving(true)
     try {
       const saved = await saveOccupations(profile)
-      if (!completeOnboarding(saved))
+      if (!(await completeOnboarding(saved)))
         throw new Error("Complete your role and learning preferences first.")
       router.replace("/home")
     } catch {
@@ -389,8 +389,8 @@ export default function OnboardingPage() {
           </div>
           <p className="mt-5 text-xs text-muted-foreground">
             {storageAvailable
-              ? "Your answers stay in this browser tab. You can edit them later."
-              : "Browser storage unavailable. Keep this page open until setup is complete."}
+              ? "Your answers are saved for this browser. You can edit them later."
+              : "Changes aren’t saved yet. Retry before leaving this page."}
           </p>
         </form>
       </div>
