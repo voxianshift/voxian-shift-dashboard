@@ -31,18 +31,14 @@ export type RoleNode = Node<
     strategyLabel?: string
     subtitle: string
     color: string
-    kind: "start" | "path" | "role" | "more"
+    kind: "start" | "path" | "role"
     pathId?: string
   },
   "role"
 >
 
-// Reserve one row per role so all four branches remain visible without overlaps.
-export function buildCareerNodes(
-  careerPaths: CareerPath[],
-  roleTitle: string,
-  roleLimits: Record<string, number> = {},
-): RoleNode[] {
+// Every curated role is shown, filling columns of `rolePageSize` rows to keep branches short.
+export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): RoleNode[] {
   const rowHeight = cardHeight + 48
   const branchRows = careerPaths.map((path) =>
     Math.max(1, Math.min(rolePageSize, path.roles.length)),
@@ -68,8 +64,6 @@ export function buildCareerNodes(
     ...careerPaths.flatMap((path, index): RoleNode[] => {
       const firstRow = rowOffset
       rowOffset += branchRows[index]!
-      const visibleCount = Math.min(path.roles.length, roleLimits[path.id] ?? rolePageSize)
-      const remaining = path.roles.length - visibleCount
       return [
         {
           id: path.id,
@@ -92,7 +86,7 @@ export function buildCareerNodes(
             pathId: path.id,
           },
         },
-        ...path.roles.slice(0, visibleCount).map((role, roleIndex): RoleNode => ({
+        ...path.roles.map((role, roleIndex): RoleNode => ({
           id: `${path.id}-role-${roleIndex}`,
           type: "role",
           position: {
@@ -110,28 +104,6 @@ export function buildCareerNodes(
             pathId: path.id,
           },
         })),
-        ...(remaining > 0
-          ? [
-              {
-                id: `${path.id}-more`,
-                type: "role" as const,
-                position: {
-                  x: 720 + Math.ceil(visibleCount / rolePageSize) * 360,
-                  y: (firstRow + 1) * rowHeight,
-                },
-                width: cardWidth,
-                height: cardHeight,
-                ariaLabel: `Show ${Math.min(rolePageSize, remaining)} more options for ${path.label}; ${remaining} remaining`,
-                data: {
-                  title: `+${remaining} more options`,
-                  subtitle: "",
-                  color: path.color,
-                  kind: "more" as const,
-                  pathId: path.id,
-                },
-              },
-            ]
-          : []),
       ]
     }),
   ]
@@ -145,41 +117,19 @@ export function careerEdges(
   const selected = careerNodes.find((node) => node.id === selectedId)
   return careerPaths.flatMap((path) => {
     const inPath = selected?.data.pathId === path.id
-    const selectedIndex =
-      selected?.data.kind === "role" ? Number(selected.id.split("-role-")[1]) : -1
     return [
       { id: `start-${path.id}`, source: "start", target: path.id, active: inPath },
       ...careerNodes
-        .filter((node) => node.data.pathId === path.id && node.data.kind === "role")
-        .map((node) => {
-          const index = Number(node.id.split("-role-")[1])
-          return {
-            id: `${path.id}-next-${index}`,
-            source:
-              index < rolePageSize
-                ? path.id
-                : `${path.id}-role-${Math.floor(index / rolePageSize) * rolePageSize - 1}`,
-            target: node.id,
-            active:
-              inPath &&
-              (selectedId === path.id ||
-                selectedId === node.id ||
-                (index % rolePageSize === rolePageSize - 1 && index < selectedIndex)),
-          }
-        }),
-      ...careerNodes
-        .filter((node) => node.data.pathId === path.id && node.data.kind === "more")
+        .filter((node) => node.data.pathId === path.id && node.data.kind !== "path")
         .map((node) => ({
-          id: `${path.id}-more-edge`,
-          source: careerNodes
-            .filter((role) => role.data.pathId === path.id && role.data.kind === "role")
-            .at(-1)!.id,
+          id: `${path.id}-next-${node.id.split("-role-")[1]}`,
+          source: path.id,
           target: node.id,
-          active: inPath,
+          active: inPath && (selectedId === path.id || selectedId === node.id),
         })),
     ].map(({ active, ...edge }) => ({
       ...edge,
-      type: "smoothstep",
+      type: "default",
       animated: active,
       style: {
         stroke: path.color,

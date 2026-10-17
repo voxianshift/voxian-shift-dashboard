@@ -122,55 +122,39 @@ test("canvas starting point uses the supplied profile occupation", () => {
   expect(renamed.find((node) => node.id === "start")?.data.title).toBe("Architects")
 })
 
-test("more-options card reveals batches outward with exact remaining counts and no overlaps", () => {
+test("all roles show in columns of three with no overlaps and edges from the strategy", () => {
   const path = {
     ...careerPaths[0]!,
     roles: Array.from({ length: 8 }, (_, index) => `Curated option ${index + 1}`),
   }
-  for (const [limit, visible, remaining] of [
-    [3, 3, 5],
-    [6, 6, 2],
-    [9, 8, 0],
-  ]) {
-    const nodes = buildCareerNodes([path], "Starting occupation", { automate: limit! })
-    const roles = nodes.filter((node) => node.data.kind === "role")
-    const more = nodes.find((node) => node.data.kind === "more")
-    expect(roles).toHaveLength(visible!)
-    if (remaining) {
-      expect(more!.data.title).toBe(`+${remaining} more options`)
-      expect(more!.position.x).toBeGreaterThan(roles.at(-1)!.position.x)
-    } else expect(more).toBeUndefined()
-    const edges = careerEdges([path], nodes, roles.at(-1)!.id)
-    for (const edge of edges) {
-      expect(nodes.some((node) => node.id === edge.source)).toBe(true)
-      expect(nodes.some((node) => node.id === edge.target)).toBe(true)
-    }
-    for (const [index, node] of nodes.entries())
-      for (const other of nodes.slice(index + 1))
-        expect(
-          Math.abs(node.position.x - other.position.x) >= cardWidth + 60 ||
-            Math.abs(node.position.y - other.position.y) >= cardHeight + 48,
-        ).toBe(true)
-  }
-  const nodes = buildCareerNodes([path], "Starting occupation", { automate: 9 })
+  const nodes = buildCareerNodes([path], "Starting occupation")
+  const roles = nodes.filter((node) => node.data.kind === "role")
+  expect(roles).toHaveLength(8)
+  expect(new Set(roles.map((node) => node.position.x)).size).toBe(3)
+  expect(new Set(roles.map((node) => node.position.y)).size).toBe(3)
+  for (const [index, node] of nodes.entries())
+    for (const other of nodes.slice(index + 1))
+      expect(
+        Math.abs(node.position.x - other.position.x) >= cardWidth + 60 ||
+          Math.abs(node.position.y - other.position.y) >= cardHeight + 48,
+      ).toBe(true)
   const edges = careerEdges([path], nodes, "automate-role-7")
-  expect(edges.find((edge) => edge.target === "automate-role-6")!.source).toBe("automate-role-5")
+  expect(
+    edges.filter((edge) => edge.target !== "automate").every((edge) => edge.source === "automate"),
+  ).toBe(true)
 })
 
-test("real support mappings show accurate overflow counts and exhaust independently", () => {
+test("real support mappings show every curated role", () => {
   const actual = actualMappings.occupations["15-1232.00"].strategies
   const paths = careerPaths.map((path) => ({
     ...path,
     roles: actual[path.id].destinations.map((destination) => destination.title),
   }))
-  const initial = buildCareerNodes(paths, "Computer User Support Specialists")
+  const nodes = buildCareerNodes(paths, "Computer User Support Specialists")
   expect(
-    initial.filter((node) => node.data.kind === "more").map((node) => node.data.title),
-  ).toEqual(["+5 more options", "+3 more options", "+2 more options", "+4 more options"])
-  const expanded = buildCareerNodes(paths, "Computer User Support Specialists", { automate: 9 })
-  expect(
-    expanded.filter((node) => node.data.kind === "role" && node.data.pathId === "automate"),
-  ).toHaveLength(8)
-  expect(expanded.some((node) => node.id === "automate-more")).toBe(false)
-  expect(expanded.find((node) => node.id === "create-more")!.data.title).toBe("+4 more options")
+    paths.map(
+      (path) =>
+        nodes.filter((node) => node.data.kind === "role" && node.data.pathId === path.id).length,
+    ),
+  ).toEqual([8, 6, 5, 7])
 })
