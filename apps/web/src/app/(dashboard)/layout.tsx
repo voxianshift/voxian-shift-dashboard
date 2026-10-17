@@ -4,14 +4,20 @@ import { CareerProfileProvider } from "@/components/career-profile-provider"
 import { AppSidebar } from "@/components/app-sidebar"
 import { DashboardHeader } from "@/components/dashboard-header"
 import { SidebarProvider } from "@/components/ui/sidebar"
+import { LumiChatProvider } from "@/components/lumi-chat-provider"
+import { LumiSidebar } from "@/components/lumi-sidebar"
+import { LumiMobileTrigger } from "@/components/lumi-mobile-trigger"
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <CareerProfileProvider>
-      {/* Cookie read is request-time data, so it must sit inside Suspense under Cache Components. */}
-      <Suspense fallback={null}>
-        <DashboardShell>{children}</DashboardShell>
-      </Suspense>
+      <LumiChatProvider>
+        {/* Cookie read is request-time data, so it must sit inside Suspense under Cache Components. */}
+        <Suspense fallback={null}>
+          <DashboardShell>{children}</DashboardShell>
+        </Suspense>
+        <LumiMobileTrigger />
+      </LumiChatProvider>
     </CareerProfileProvider>
   )
 }
@@ -25,9 +31,12 @@ async function DashboardShell({ children }: { children: ReactNode }) {
         <AppSidebar />
         <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
           <DashboardHeader />
-          <main id="main-content" className="min-h-0 flex-1 overflow-y-auto">
-            {children}
-          </main>
+          <div className="flex min-h-0 flex-1 overflow-hidden">
+            <main id="main-content" className="min-h-0 flex-1 overflow-y-auto">
+              {children}
+            </main>
+            <LumiSidebar />
+          </div>
         </div>
       </div>
     </SidebarProvider>
