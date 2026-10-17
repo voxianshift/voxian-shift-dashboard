@@ -3,7 +3,7 @@ import type { CareerPath } from "@voxian/shared"
 
 export const rolePageSize = 3
 export const cardWidth = 260
-export const cardHeight = 208
+export const cardHeight = 152
 // Desktop zooms out so neighbouring cards stay visible; large screens have room for full size.
 export const defaultZoom = 0.7
 export const largeScreenZoom = 1
@@ -82,7 +82,11 @@ export function buildCareerNodes(
             title: path.title,
             strategyLabel: path.label,
             subtitle:
-              path.mappingLevel === "family" ? "Family exploration · validate fit" : path.focus,
+              path.mappingLevel === "family"
+                ? "Family exploration · validate fit"
+                : path.coverage === "available"
+                  ? ""
+                  : path.focus,
             color: path.color,
             kind: "path",
             pathId: path.id,
@@ -100,7 +104,7 @@ export function buildCareerNodes(
           ariaLabel: `Explore ${role}`,
           data: {
             title: role,
-            subtitle: "Curated pathway · verify requirements",
+            subtitle: "",
             color: path.color,
             kind: "role",
             pathId: path.id,
@@ -120,7 +124,7 @@ export function buildCareerNodes(
                 ariaLabel: `Show ${Math.min(rolePageSize, remaining)} more options for ${path.label}; ${remaining} remaining`,
                 data: {
                   title: `+${remaining} more options`,
-                  subtitle: `Show next ${Math.min(rolePageSize, remaining)} curated options`,
+                  subtitle: "",
                   color: path.color,
                   kind: "more" as const,
                   pathId: path.id,

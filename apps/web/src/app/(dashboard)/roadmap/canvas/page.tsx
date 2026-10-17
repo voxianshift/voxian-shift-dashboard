@@ -58,7 +58,7 @@ import {
 function RoleCard({ data, selected }: NodeProps<RoleNode>) {
   return (
     <div
-      className="relative flex h-[208px] w-[260px] flex-col overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm transition-shadow"
+      className="relative flex h-[152px] w-[260px] flex-col overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm transition-shadow"
       style={{
         borderColor: selected ? data.color : "var(--border)",
         boxShadow: selected ? `0 0 0 1px ${data.color}, 0 8px 24px #0001` : undefined,
@@ -87,23 +87,21 @@ function RoleCard({ data, selected }: NodeProps<RoleNode>) {
                 : "ROLE TO EXPLORE"}
         </p>
         <h2 className="line-clamp-2 text-[22px] font-medium leading-tight">{data.title}</h2>
-        <p className="mt-2 line-clamp-2 text-[14px] leading-relaxed text-muted-foreground">
-          {data.subtitle}
-        </p>
+        {data.subtitle && (
+          <p className="mt-2 line-clamp-1 text-[14px] leading-relaxed text-muted-foreground">
+            {data.subtitle}
+          </p>
+        )}
       </div>
-      <div
-        className="flex shrink-0 items-center justify-between border-t px-4 py-3 text-[13px]"
-        style={{ color: data.color }}
-      >
-        <span>
-          {data.kind === "start"
-            ? "Your saved occupation"
-            : data.kind === "more"
-              ? "Reveal next options"
-              : "Skills, learning & next steps"}
-        </span>
-        {data.kind !== "start" && <ArrowUpRight className="size-4" />}
-      </div>
+      {data.kind === "more" && (
+        <div
+          className="flex shrink-0 items-center justify-between border-t px-4 py-3 text-[13px]"
+          style={{ color: data.color }}
+        >
+          <span>Reveal next options</span>
+          <ArrowUpRight className="size-4" />
+        </div>
+      )}
       {data.kind !== "more" && (
         <Handle
           type="source"
