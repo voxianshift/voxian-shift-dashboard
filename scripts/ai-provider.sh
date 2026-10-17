@@ -3,7 +3,7 @@
 #   gemini  Gemini on AI Studio with the free-tier key (default, RM 0)
 #   vertex  Gemini on Vertex AI via the Cloud Run service account (paid; demo and judging only)
 #   status  show the current provider settings
-# Vertex costs count against the RM 4 budget kill switch; switch back with `gemini` after the demo.
+# Vertex costs count against the RM21 monthly budget kill switch; switch back with `gemini` after the demo.
 set -euo pipefail
 
 PROJECT=voxian-shift-app
