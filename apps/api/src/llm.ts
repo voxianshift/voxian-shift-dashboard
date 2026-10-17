@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { applicationDefault } from "firebase-admin/app"
 
 export type ChatConfig = { provider: string; label: string; apiKey?: string; model: string }
 
@@ -10,6 +11,14 @@ export function chatConfig(): ChatConfig | null {
       label: "Rootsys",
       apiKey: process.env.ROOTSYS_API_KEY,
       model: process.env.ROOTSYS_MODEL || "glm-5.3-flashx",
+    }
+  // Gemini on Vertex AI: service-account auth (Cloud Run) or local ADC, no API key
+  if (provider === "vertex")
+    return {
+      provider,
+      label: "Gemini",
+      apiKey: "adc",
+      model: process.env.VERTEX_MODEL || "gemini-2.5-flash",
     }
   if (provider === "gemini")
     return {
@@ -31,16 +40,25 @@ export async function completeJson(
   schema: unknown,
   maxTokens = 2000,
 ): Promise<string> {
-  const gemini = config.provider === "gemini"
+  const vertex = config.provider === "vertex"
+  const gemini = vertex || config.provider === "gemini"
+  const project = process.env.GOOGLE_CLOUD_PROJECT || "voxian-shift-app"
   const response = await fetch(
-    gemini
-      ? `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(config.model)}:generateContent`
-      : "https://rootsys.cloud/v1/chat/completions",
+    vertex
+      ? `https://aiplatform.googleapis.com/v1/projects/${project}/locations/global/publishers/google/models/${encodeURIComponent(config.model)}:generateContent`
+      : gemini
+        ? `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(config.model)}:generateContent`
+        : "https://rootsys.cloud/v1/chat/completions",
     {
       method: "POST",
-      headers: gemini
-        ? { "Content-Type": "application/json", "x-goog-api-key": config.apiKey ?? "" }
-        : { "Content-Type": "application/json", Authorization: `Bearer ${config.apiKey}` },
+      headers: vertex
+        ? {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${(await applicationDefault().getAccessToken()).access_token}`,
+          }
+        : gemini
+          ? { "Content-Type": "application/json", "x-goog-api-key": config.apiKey ?? "" }
+          : { "Content-Type": "application/json", Authorization: `Bearer ${config.apiKey}` },
       signal: AbortSignal.timeout(20_000),
       body: JSON.stringify(
         gemini

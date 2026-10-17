@@ -205,9 +205,9 @@ export function registerOccupations(app: FastifyInstance, catalogue?: Occupation
     try {
       await catalogue.select(owner, parsed.data.occupations, parsed.data.primaryOccupation)
       return await catalogue.selections(owner)
-    } catch {
+    } catch (error) {
       return reply
-        .code(503)
+        .code(error instanceof UnknownOccupationError ? 400 : 503)
         .send({ error: "Occupations could not be saved. Check your selections and try again." })
     }
   })
