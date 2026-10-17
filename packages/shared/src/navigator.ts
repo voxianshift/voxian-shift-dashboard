@@ -210,7 +210,9 @@ export const navigatorDraftSchema = z
           ...pathFields,
           resourceIds: z.array(resourceIdSchema).min(1).max(3),
           // One list per role, in the same order as `roles`.
-          roleResourceIds: z.array(z.array(resourceIdSchema).min(1).max(3)).length(3),
+          // Plain strings: Gemini rejects nested arrays of this enum (400 INVALID_ARGUMENT).
+          // The API keeps only IDs found in the catalogue.
+          roleResourceIds: z.array(z.array(z.string().max(40)).max(3)).length(3),
         }),
       )
       .length(3),
@@ -232,7 +234,7 @@ export const careerPathSchema = z.object({
   ...pathFields,
   color: z.string().max(40),
   resources: z.array(resourceSchema).min(1).max(3),
-  roleResources: z.array(z.array(resourceSchema).min(1).max(3)).length(3),
+  roleResources: z.array(z.array(resourceSchema).max(3)).length(3),
 })
 export const navigatorResultSchema = z
   .object({

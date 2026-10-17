@@ -91,8 +91,13 @@ export function registerNavigator(app: FastifyInstance, catalogue?: OccupationCa
           ...path,
           color: colors[path.id],
           resources: [...new Set(resourceIds)].map((id) => navigatorResources[id]),
+          // Unknown IDs are dropped rather than failing the whole request.
           roleResources: roleResourceIds.map((ids) =>
-            [...new Set(ids)].map((id) => navigatorResources[id]),
+            [...new Set(ids)]
+              .filter((id): id is keyof typeof navigatorResources =>
+                Object.hasOwn(navigatorResources, id),
+              )
+              .map((id) => navigatorResources[id]),
           ),
         })),
       })

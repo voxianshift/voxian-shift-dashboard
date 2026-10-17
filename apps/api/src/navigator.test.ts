@@ -45,7 +45,7 @@ const draft = () => ({
     project: "Build a small tool using synthetic data.",
     firstStep: "Map a recurring workflow.",
     resourceIds: ["web"],
-    roleResourceIds: [["istqb"], ["kaggle", "web"], ["sre"]],
+    roleResourceIds: [["istqb"], ["kaggle", "web", "https://invented.example"], ["sre"]],
   })),
 })
 function catalogue(): OccupationCatalogue {
@@ -87,6 +87,11 @@ test("Navigator uses authoritative occupations and complete profile constraints,
       recommendedPathId: "operations",
     })
     expect(result.paths[0]!.resources[0]!.href).toBe(navigatorResources.web.href)
+    // Role picks keep catalogue IDs only; the invented one is dropped.
+    expect(result.paths[0]!.roleResources[1]!.map((r) => r.href)).toEqual([
+      navigatorResources.kaggle.href,
+      navigatorResources.web.href,
+    ])
     const request = JSON.parse(fetch.mock.calls[0]![1]!.body as string)
     const input = JSON.parse(request.messages[1].content)
     expect(input.profile).toEqual(context)
