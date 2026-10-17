@@ -1,7 +1,13 @@
+import { createElement } from "react"
+import { renderToStaticMarkup } from "react-dom/server"
 import { expect, test } from "vite-plus/test"
+import { ProfileEditor } from "../components/profile-editor"
+import { TooltipProvider } from "../components/ui/tooltip"
 import { computeExposure } from "@voxian/shared"
 import {
+  askedQuestions,
   canConfirmProfile,
+  hasScheduleAnswers,
   hasMeterInputs,
   chatResultSchema,
   emptyProfile,
@@ -18,7 +24,9 @@ test("skips optional questions and never repeats supplied answers", () => {
     hours: "1–3 hours",
   })
   expect(nextQuestion(profile, [])?.field).toBe("taskFocus")
-  expect(nextQuestion(profile, ["taskFocus"])).toBeUndefined()
+  // Quick mode still asks the required timeline after the first four questions.
+  expect(nextQuestion(profile, ["taskFocus"])?.field).toBe("timeline")
+  expect(nextQuestion({ ...profile, timeline: "No deadline" }, ["taskFocus"])).toBeUndefined()
   expect(nextQuestion(profile, ["taskFocus"], true)?.field).toBe("preferredName")
   expect(nextQuestion({ ...emptyProfile, currentWork: "  " }, [])?.field).toBe("currentWork")
 })
@@ -154,4 +162,37 @@ test("Meter review requires a selected main occupation, not optional planning an
   expect(matched.hours).toBe("")
   expect(matched.taskFocus).toBe("")
   expect(canConfirmProfile(matched)).toBe(false)
+})
+
+test("weekly time and timeline are asked even in quick mode and are required for scheduling", () => {
+  const quick = askedQuestions().map((q) => q.field)
+  expect(quick).toContain("hours")
+  expect(quick).toContain("timeline")
+  const answered = mergeProfile(emptyProfile, {
+    currentWork: "I teach",
+    taskFocus: "mixed",
+    goals: ["Stability"],
+    hours: "1–3 hours",
+  })
+  // Optional detail questions are skipped in quick mode; the required timeline is not.
+  expect(nextQuestion(answered, [])?.field).toBe("timeline")
+  expect(hasScheduleAnswers(answered)).toBe(false)
+  expect(hasScheduleAnswers(mergeProfile(answered, { timeline: "Next 3 months" }))).toBe(true)
+})
+
+test("option questions render answer chips only; free text stays for name and work", () => {
+  const html = renderToStaticMarkup(
+    createElement(
+      TooltipProvider,
+      null,
+      createElement(ProfileEditor, {
+        profile: mergeProfile(emptyProfile, { hours: "About 2 hours from chat" }),
+        onChange: () => {},
+        fields: ["hours", "timeline", "goals", "preferredName"],
+      }),
+    ),
+  )
+  expect(html.match(/<input/g)).toHaveLength(1) // preferredName only
+  expect(html).toContain("About 2 hours from chat") // earlier custom answer kept as a chip
+  expect(html.match(/Required · used to schedule your learning/g)).toHaveLength(2)
 })

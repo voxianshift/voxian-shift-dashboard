@@ -4,6 +4,20 @@ export type TimeOfDay = "morning" | "night" | "flexible"
 export type StudyDays = "weekdays" | "weekends" | "flexible"
 export type Slot = { day: number; start: string; minutes: number }
 
+export type Plan = {
+  summary: string
+  phases: {
+    title: string
+    days: string
+    focus: string
+    actions: string[]
+    deliverable: string
+    flightPlan: FlightSegment[]
+  }[]
+  firstStep: string
+}
+export type GeneratedPlan = { plan: Plan; provider: string }
+
 export type Commitment = {
   version: 1
   pathId: string
@@ -17,8 +31,12 @@ export type Commitment = {
   startDate: string
   /** Local dates with a completed session. */
   completed: string[]
+  /** From the profile's "Short sessions only"; keeps each session to 45 minutes or less. */
+  shortSessions?: boolean
   /** Flight plan windows (D1–D15 …) saved when committing, so Progress needs no plan request. */
   flightPlan?: FlightSegment[]
+  /** The AI plan generated when committing; the Plan view shows it again on return. */
+  plan?: GeneratedPlan
 }
 
 export const timeOfDayOptions = [
@@ -31,7 +49,6 @@ export const studyDayOptions = [
   { value: "weekends", label: "Weekends", hint: "Longer sessions on Saturday and Sunday" },
   { value: "flexible", label: "Flexible", hint: "Spread across the whole week" },
 ] as const
-export const hourOptions = ["Under 1 hour", "1–3 hours", "3–5 hours", "5+ hours"] as const
 
 export const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
@@ -53,11 +70,17 @@ const starts: Record<TimeOfDay, { weekday: string; weekend: string }> = {
 }
 
 /** Weekly slots that add up to the committed hours, placed in the learner's preferred times. */
-export function weeklySlots(hours: number, timeOfDay: TimeOfDay, days: StudyDays): Slot[] {
+export function weeklySlots(
+  hours: number,
+  timeOfDay: TimeOfDay,
+  days: StudyDays,
+  shortSessions = false,
+): Slot[] {
   const total = hours * 60
   const pool = dayPools[days]
   // Weekend sessions can run long; weekday ones stay short enough to fit around work.
-  const longest = days === "weekends" ? 180 : 90
+  // Short sessions win when the week has room; many hours on few days still means longer ones.
+  const longest = shortSessions ? 45 : days === "weekends" ? 180 : 90
   const count = Math.min(pool.length, Math.max(1, Math.ceil(total / longest)))
   const minutes = Math.ceil(total / count / 15) * 15
   return pool
@@ -68,6 +91,49 @@ export function weeklySlots(hours: number, timeOfDay: TimeOfDay, days: StudyDays
       start: starts[timeOfDay][day === 0 || day === 6 ? "weekend" : "weekday"],
       minutes,
     }))
+}
+
+export function commitmentSlots(commitment: Commitment) {
+  return weeklySlots(
+    weeklyHours(commitment.hours),
+    commitment.timeOfDay,
+    commitment.days,
+    commitment.shortSessions,
+  )
+}
+
+type SchedulePrefs = { hours: string; flexibility: string }
+/** The profile already holds weekly hours and constraints; those answers stay the source of truth. */
+export function withProfile(commitment: Commitment, profile: SchedulePrefs): Commitment {
+  return {
+    ...commitment,
+    hours: profile.hours || commitment.hours,
+    shortSessions: profile.flexibility
+      ? profile.flexibility.includes("Short sessions only")
+      : commitment.shortSessions,
+  }
+}
+export function defaultStudyDays(flexibility: string): StudyDays {
+  return flexibility.includes("Learning on weekends") ? "weekends" : "flexible"
+}
+
+/** Day 1 of the plan, from the profile's "When would you like to make progress?" answer. */
+export function planStartDate(timeline: string, today = new Date()) {
+  const y = today.getFullYear()
+  const m = today.getMonth()
+  const d = today.getDate()
+  if (timeline === "This month") return localDate(today)
+  // Six months out: a calm start on the first of next month.
+  if (timeline === "Next 6 months") return localDate(new Date(y, m + 1, 1))
+  // Next 3 months, no deadline, or unknown: start the coming Monday (today if it is Monday).
+  return localDate(new Date(y, m, d + ((8 - today.getDay()) % 7)))
+}
+
+/** Sprint (90 days) fits a goal within three months; anything longer gets the paced 120 days. */
+export function timelineSprint(timeline: string) {
+  if (timeline === "This month" || timeline === "Next 3 months") return true
+  if (timeline === "Next 6 months" || timeline === "No deadline") return false
+  return null
 }
 
 export function slotEnd(slot: Slot) {
@@ -96,7 +162,7 @@ export type PlanDay = {
 /** Every day of the plan with its scheduled slot (if any) and completion. */
 export function planDays(commitment: Commitment): PlanDay[] {
   const length = commitment.sprint ? 90 : 120
-  const slots = weeklySlots(weeklyHours(commitment.hours), commitment.timeOfDay, commitment.days)
+  const slots = commitmentSlots(commitment)
   const done = new Set(commitment.completed)
   return Array.from({ length }, (_, i) => {
     const day = addDays(commitment.startDate, i)

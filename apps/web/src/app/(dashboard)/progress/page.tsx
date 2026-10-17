@@ -6,6 +6,7 @@ import { ArrowRight, BookOpen, CalendarClock, Check, Flame, Pencil } from "lucid
 import { Button } from "@/components/ui/button"
 import { PanelHeading } from "@/components/radar-panel"
 import { CommitDirectionDialog } from "@/components/commit-direction-dialog"
+import { useCareerProfile } from "@/components/career-profile-provider"
 import { MILESTONES } from "@/lib/mock"
 import {
   currentPhase,
@@ -19,7 +20,8 @@ import {
   studyDayOptions,
   timeOfDayOptions,
   weeklyHours,
-  weeklySlots,
+  withProfile,
+  commitmentSlots,
   type Commitment,
   type PlanDay,
 } from "@/lib/commitment"
@@ -49,13 +51,16 @@ export default function ProgressPage() {
 }
 
 function Progress({
-  commitment,
+  commitment: saved,
   onChange,
 }: {
   commitment: Commitment
   onChange: (commitment: Commitment) => void
 }) {
   const [editing, setEditing] = useState(false)
+  const { profile } = useCareerProfile()
+  // Weekly hours and short-session needs follow the profile live.
+  const commitment = withProfile(saved, profile)
   const today = localDate(new Date())
   const days = planDays(commitment)
   const todayDay = days.find((day) => day.date === today)
@@ -63,7 +68,7 @@ function Progress({
   const phase = currentPhase(commitment, Math.max(1, dayNumber))
   const due = days.filter((day) => day.slot && day.date <= today)
   const doneCount = days.filter((day) => day.done).length
-  const slots = weeklySlots(weeklyHours(commitment.hours), commitment.timeOfDay, commitment.days)
+  const slots = commitmentSlots(commitment)
   const todayFocus = commitment.flightPlan?.find((segment) => {
     const [start, end] = segment.days.replace(/D/g, "").split("–").map(Number)
     return dayNumber >= start! && dayNumber <= end!
@@ -205,7 +210,7 @@ function Progress({
           direction={commitment.direction}
           role={commitment.role}
           sprint={commitment.sprint}
-          profileHours={commitment.hours}
+          profile={profile}
           initial={commitment}
           onSaved={onChange}
         />

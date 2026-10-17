@@ -13,7 +13,12 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
-import { questions, type CareerProfile, type ProfileField } from "@/lib/onboarding"
+import {
+  questions,
+  requiredProfileFields,
+  type CareerProfile,
+  type ProfileField,
+} from "@/lib/onboarding"
 import { answerChips } from "@/lib/styles"
 import { cn } from "@/lib/utils"
 
@@ -48,10 +53,14 @@ export function ProfileEditor({
               key={field}
             >
               <div className="mb-2.5 flex items-start justify-between gap-2 [&_label]:text-[15px] [&_label]:leading-[1.6] [&_label>span]:block [&_label>span]:text-[12px] [&_label>span]:text-muted-foreground">
-                <label htmlFor={`profile-${field}`}>
+                <label id={`profile-${field}-label`} htmlFor={`profile-${field}`}>
                   {question.title}{" "}
                   <span>
-                    {field === "currentWork" ? "Choose a role that matches your work" : "Optional"}
+                    {field === "currentWork"
+                      ? "Choose a role that matches your work"
+                      : requiredProfileFields.includes(field)
+                        ? "Required · used to schedule your learning"
+                        : "Optional"}
                   </span>
                 </label>
                 <Tooltip>
@@ -101,72 +110,53 @@ export function ProfileEditor({
                   </SelectContent>
                 </Select>
               ) : Array.isArray(value) ? (
-                <>
-                  <div className={fieldChips}>
-                    {question.options.map((option) => (
-                      <Button
-                        type="button"
-                        variant="outline"
-                        key={option}
-                        aria-pressed={value.includes(option)}
-                        onClick={() =>
-                          update({
-                            [field]: value.includes(option)
-                              ? value.filter((v) => v !== option)
-                              : [...value, option].slice(0, 8),
-                          })
-                        }
-                      >
-                        {option}
-                      </Button>
-                    ))}
-                  </div>
-                  <Input
-                    id={`profile-${field}`}
-                    key={value.join("; ")}
-                    defaultValue={value.join("; ")}
-                    placeholder="Or add your own; separate with semicolons"
-                    maxLength={800}
-                    onBlur={(e) =>
-                      update({
-                        [field]: e.target.value
-                          .split(";")
-                          .map((v) => v.trim())
-                          .filter(Boolean)
-                          .slice(0, 8),
-                      })
-                    }
-                  />
-                </>
+                // Answer options only; an earlier custom answer (e.g. from Lumi chat) stays as a chip.
+                <div className={fieldChips} role="group" aria-labelledby={`profile-${field}-label`}>
+                  {[...new Set([...question.options, ...value.filter(Boolean)])].map((option) => (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      key={option}
+                      aria-pressed={value.includes(option)}
+                      onClick={() =>
+                        update({
+                          [field]: value.includes(option)
+                            ? value.filter((v) => v !== option)
+                            : [...value, option].slice(0, 8),
+                        })
+                      }
+                    >
+                      {option}
+                    </Button>
+                  ))}
+                </div>
+              ) : question.options.length === 0 ? (
+                // Free text only where there is no sensible option list (name, concerns).
+                <Input
+                  id={`profile-${field}`}
+                  maxLength={field === "preferredName" ? 80 : 800}
+                  value={value}
+                  placeholder={
+                    field === "anxieties"
+                      ? "Only share what you feel comfortable sharing"
+                      : "Leave blank to skip"
+                  }
+                  onChange={(e) => update({ [field]: e.target.value })}
+                />
               ) : (
-                <>
-                  <Input
-                    id={`profile-${field}`}
-                    maxLength={field === "preferredName" ? 80 : 800}
-                    value={value}
-                    placeholder={
-                      field === "anxieties"
-                        ? "Only share what you feel comfortable sharing"
-                        : "Leave blank to skip"
-                    }
-                    onChange={(e) => update({ [field]: e.target.value })}
-                  />
-                  {question.options.length > 0 && (
-                    <div className={cn(fieldChips, "mt-2")}>
-                      {question.options.map((option) => (
-                        <Button
-                          type="button"
-                          key={option}
-                          variant="outline"
-                          aria-pressed={value === option}
-                          onClick={() => update({ [field]: value === option ? "" : option })}
-                        >
-                          {option}
-                        </Button>
-                      ))}
-                    </div>
-                  )}
-                </>
+                <div className={fieldChips} role="group" aria-labelledby={`profile-${field}-label`}>
+                  {[...new Set([...question.options, ...(value ? [value] : [])])].map((option) => (
+                    <Button
+                      type="button"
+                      key={option}
+                      variant="outline"
+                      aria-pressed={value === option}
+                      onClick={() => update({ [field]: value === option ? "" : option })}
+                    >
+                      {option}
+                    </Button>
+                  ))}
+                </div>
               )}
             </section>
           )

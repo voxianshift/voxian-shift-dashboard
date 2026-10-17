@@ -117,10 +117,15 @@ export function hasAnswer(profile: CareerProfile, field: ProfileField) {
     : typeof value === "string" && value.trim().length > 0
 }
 
+/** Quick mode asks the first four questions plus anything required. */
+export function askedQuestions(detailed = false) {
+  return questions.filter((q, i) => detailed || i < 4 || requiredProfileFields.includes(q.field))
+}
+
 export function nextQuestion(profile: CareerProfile, skipped: string[], detailed = false) {
-  return questions
-    .slice(0, detailed ? questions.length : 4)
-    .find((q) => !hasAnswer(profile, q.field) && !skipped.includes(q.field))
+  return askedQuestions(detailed).find(
+    (q) => !hasAnswer(profile, q.field) && !skipped.includes(q.field),
+  )
 }
 
 export function mergeProfile(profile: CareerProfile, patch: Partial<CareerProfile>): CareerProfile {
@@ -134,6 +139,12 @@ export function mergeProfile(profile: CareerProfile, patch: Partial<CareerProfil
 
 export function hasMeterInputs(profile: CareerProfile) {
   return profile.primaryOccupation !== "" && profile.occupations.includes(profile.primaryOccupation)
+}
+
+// Weekly time and timeline drive the learning schedule, so they cannot be skipped.
+export const requiredProfileFields: ProfileField[] = ["hours", "timeline"]
+export function hasScheduleAnswers(profile: CareerProfile) {
+  return requiredProfileFields.every((field) => hasAnswer(profile, field))
 }
 
 export function canConfirmProfile(profile: CareerProfile) {

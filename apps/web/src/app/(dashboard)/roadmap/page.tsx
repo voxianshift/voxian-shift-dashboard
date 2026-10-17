@@ -12,7 +12,6 @@ import {
   Copy,
   Download,
   GitBranch,
-  Sparkles,
   Star,
 } from "lucide-react"
 import { toast } from "sonner"
@@ -20,9 +19,14 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { PanelHeading } from "@/components/radar-panel"
 import { MILESTONES } from "@/lib/mock"
-import { loadCommitment, type Commitment } from "@/lib/commitment"
+import {
+  loadCommitment,
+  timelineSprint,
+  type Commitment,
+  type GeneratedPlan,
+} from "@/lib/commitment"
 import { CommitDirectionDialog } from "@/components/commit-direction-dialog"
-import { defaultFlightPlan, phaseRanges, type FlightSegment } from "@/lib/flight-plan"
+import { defaultFlightPlan, phaseRanges } from "@/lib/flight-plan"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
@@ -30,19 +34,6 @@ import { useNavigator } from "@/components/navigator-provider"
 import { NavigatorStatus } from "@/components/navigator-status"
 import { cn } from "@/lib/utils"
 import { editorialPage, eyebrow, segmentButton, segmentControl, smallTag } from "@/lib/styles"
-
-type Plan = {
-  summary: string
-  phases: {
-    title: string
-    days: string
-    focus: string
-    actions: string[]
-    deliverable: string
-    flightPlan: FlightSegment[]
-  }[]
-  firstStep: string
-}
 
 export default function RoadmapPage() {
   return (
@@ -94,19 +85,23 @@ function Roadmap({
     requested >= 0 && /^[0-2]$/.test(requestedRole ?? "") ? Number(requestedRole) : null,
   )
   const [paceOverride, setSprint] = useState<boolean | null>(null)
-  const sprint = paceOverride ?? profile.hours === "5+ hours"
+  const sprint = paceOverride ?? timelineSprint(profile.timeline) ?? profile.hours === "5+ hours"
   const [commitOpen, setCommitOpen] = useState(false)
   // Read after mount: the commitment lives in localStorage, which the server render cannot see.
   const [commitment, setCommitment] = useState<Commitment | null>(null)
   useEffect(() => setCommitment(loadCommitment()), [])
   const selected = branches[branch]!
   const planKey = `${profileKey}-${selected.id}-${targetRole}-${sprint}`
-  const [generated, setGenerated] = useState<{ key: string; plan: Plan; provider: string } | null>(
-    null,
-  )
-  const [generating, setGenerating] = useState(false)
-  // A plan only applies to the direction and pace it was generated for
-  const plan = generated?.key === planKey ? generated : null
+  const [generated, setGenerated] = useState<(GeneratedPlan & { key: string }) | null>(null)
+  const roleName = targetRole === null ? null : selected.roles[targetRole]!
+  // A plan only applies to the direction, role and pace it was generated for
+  const committedPlan =
+    commitment?.pathId === selected.id &&
+    commitment.role === roleName &&
+    commitment.sprint === sprint
+      ? commitment.plan
+      : undefined
+  const plan = generated?.key === planKey ? generated : (committedPlan ?? null)
   const courses = courseList(selected, targetRole)
   const [activePhase, setActivePhase] = useState(0)
   const roleTargets = targetRole === null ? selected.roles : [selected.roles[targetRole]!]
@@ -124,37 +119,28 @@ function Roadmap({
         const [start, end] = phaseRanges(sprint)[i]!
         return { title: m.phase, days: `Days ${start}–${end}` }
       })
-  async function generatePlan() {
-    setGenerating(true)
-    try {
-      const response = await fetch("/api/plan", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        signal: AbortSignal.timeout(65_000),
-        body: JSON.stringify({
-          role: data.roleTitle,
-          occupationCode: data.occupationCode,
-          profile: navigatorContext(profile),
-          direction: selected.name,
-          targetRoles: targetRole === null ? selected.roles : [selected.roles[targetRole]],
-          pace: sprint ? "intensive" : "lean",
-          goals: profile.goals,
-          courses: courses.map((course) => course.title),
-          hours: profile.hours || undefined,
-        }),
-      })
-      const result = await response.json()
-      if (!response.ok) throw new Error(result.error)
-      setGenerated({ key: planKey, plan: result.plan, provider: result.provider })
-    } catch (error) {
-      toast.error(
-        error instanceof Error && error.message
-          ? error.message
-          : "The plan could not be generated.",
-      )
-    } finally {
-      setGenerating(false)
-    }
+  async function generatePlan(): Promise<GeneratedPlan> {
+    const response = await fetch("/api/plan", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      signal: AbortSignal.timeout(65_000),
+      body: JSON.stringify({
+        role: data.roleTitle,
+        occupationCode: data.occupationCode,
+        profile: navigatorContext(profile),
+        direction: selected.name,
+        targetRoles: targetRole === null ? selected.roles : [selected.roles[targetRole]],
+        pace: sprint ? "intensive" : "lean",
+        goals: profile.goals,
+        courses: courses.map((course) => course.title),
+        hours: profile.hours || undefined,
+      }),
+    })
+    const result = await response.json()
+    if (!response.ok) throw new Error(result.error || "Your plan could not be generated.")
+    const generatedPlan = { plan: result.plan, provider: result.provider }
+    setGenerated({ key: planKey, ...generatedPlan })
+    return generatedPlan
   }
   const planText = plan
     ? [
@@ -533,10 +519,6 @@ function Roadmap({
               </span>
             </p>
             <div className="flex flex-wrap gap-2">
-              <Button variant="outline" disabled={generating} onClick={generatePlan}>
-                <Sparkles />{" "}
-                {generating ? "Generating…" : plan ? "Regenerate plan" : "Generate my plan"}
-              </Button>
               {commitment?.pathId === selected.id ? (
                 <Button asChild>
                   <Link href="/progress">
@@ -561,10 +543,10 @@ function Roadmap({
               onOpenChange={setCommitOpen}
               pathId={selected.id}
               direction={selected.name}
-              role={targetRole === null ? null : selected.roles[targetRole]!}
+              role={roleName}
               sprint={sprint}
-              profileHours={profile.hours}
-              flightPlan={flightPlans.flat()}
+              profile={profile}
+              generate={generatePlan}
             />
           )}
         </div>

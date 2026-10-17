@@ -23,7 +23,11 @@ const storageKey = "voxian-navigator-v1"
 export function NavigatorProvider({ children }: { children: ReactNode }) {
   const { profile, ready } = useCareerProfile()
   const valid = hasMeterInputs(profile)
-  const key = JSON.stringify(navigatorContext(profile))
+  const context = navigatorContext(profile)
+  const latest = JSON.stringify(context)
+  // Weekly hours, flexibility and timeline shape the schedule and plan, not which directions fit,
+  // so editing them (e.g. from the commit dialog) must not regenerate paths or remount the page.
+  const key = JSON.stringify({ ...context, hours: "", flexibility: "", timeline: "" })
   const [attempt, setAttempt] = useState(0)
   const [state, setState] = useState<NavigatorState>({ key: "", status: "loading" })
   useEffect(() => {
@@ -50,7 +54,7 @@ export function NavigatorProvider({ children }: { children: ReactNode }) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           signal: AbortSignal.any([controller.signal, AbortSignal.timeout(65_000)]),
-          body: JSON.stringify({ profile: JSON.parse(key) }),
+          body: JSON.stringify({ profile: JSON.parse(latest) }),
         })
         const body = await response.json()
         if (!response.ok)

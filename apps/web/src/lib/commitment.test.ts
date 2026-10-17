@@ -1,11 +1,16 @@
 import { expect, test } from "vite-plus/test"
 import {
+  commitmentSlots,
   currentPhase,
+  defaultStudyDays,
+  planStartDate,
+  timelineSprint,
   planDays,
   slotEnd,
   streak,
   weeklyHours,
   weeklySlots,
+  withProfile,
   type Commitment,
 } from "./commitment"
 
@@ -63,4 +68,30 @@ test("streak counts back from the last due session and ignores today's pending o
   expect(streak(planDays({ ...commitment, completed: ["2026-10-19"] }), "2026-10-21")).toBe(1)
   // A missed Wednesday breaks it by Friday.
   expect(streak(planDays({ ...commitment, completed: ["2026-10-19"] }), "2026-10-23")).toBe(0)
+})
+
+test("weekly hours and short-session needs come from the live profile", () => {
+  const live = withProfile(commitment, {
+    hours: "5+ hours",
+    flexibility: "Short sessions only",
+  })
+  expect(live.hours).toBe("5+ hours")
+  const slots = commitmentSlots(live)
+  expect(slots.every((slot) => slot.minutes <= 75)).toBe(true)
+  expect(total(slots)).toBeGreaterThanOrEqual(360)
+  // An empty profile answer keeps the saved snapshot.
+  expect(withProfile(commitment, { hours: "", flexibility: "" }).hours).toBe("1–3 hours")
+  expect(defaultStudyDays("Learning on weekends")).toBe("weekends")
+  expect(defaultStudyDays("")).toBe("flexible")
+})
+
+test("the profile timeline sets the start date and pace", () => {
+  const saturday = new Date(2026, 9, 17)
+  expect(planStartDate("This month", saturday)).toBe("2026-10-17")
+  expect(planStartDate("Next 3 months", saturday)).toBe("2026-10-19")
+  expect(planStartDate("No deadline", new Date(2026, 9, 19))).toBe("2026-10-19")
+  expect(planStartDate("Next 6 months", saturday)).toBe("2026-11-01")
+  expect(timelineSprint("Next 3 months")).toBe(true)
+  expect(timelineSprint("Next 6 months")).toBe(false)
+  expect(timelineSprint("")).toBeNull()
 })

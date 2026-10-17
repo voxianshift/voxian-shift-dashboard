@@ -189,7 +189,7 @@ export default function HomePage() {
             </Button>
           )}
           <Button variant="ghost" disabled={busy} onClick={() => setEditing(true)}>
-            Edit preferences <span className="text-muted-foreground">(optional)</span>
+            Edit preferences
           </Button>
         </div>
       )}

@@ -2,8 +2,10 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { CalendarCheck } from "lucide-react"
+import { CalendarCheck, Loader2 } from "lucide-react"
+import { ProfileSheet } from "@/components/profile-sheet"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import {
   Dialog,
   DialogContent,
@@ -13,18 +15,20 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import type { FlightSegment } from "@/lib/flight-plan"
 import {
   dayNames,
-  hourOptions,
+  commitmentSlots,
+  defaultStudyDays,
   localDate,
+  planStartDate,
   saveCommitment,
   slotEnd,
   studyDayOptions,
   timeOfDayOptions,
   weeklyHours,
-  weeklySlots,
+  withProfile,
   type Commitment,
+  type GeneratedPlan,
   type StudyDays,
   type TimeOfDay,
 } from "@/lib/commitment"
@@ -36,8 +40,8 @@ export function CommitDirectionDialog({
   direction,
   role,
   sprint,
-  profileHours,
-  flightPlan,
+  profile,
+  generate,
   initial,
   onSaved,
 }: {
@@ -47,33 +51,62 @@ export function CommitDirectionDialog({
   direction: string
   role: string | null
   sprint: boolean
-  profileHours: string
-  flightPlan?: FlightSegment[]
+  /** Weekly hours and constraints come from the profile, not from this dialog. */
+  profile: { hours: string; flexibility: string; timeline: string }
+  /** Generates the AI plan for this direction; omitted when only the schedule changes. */
+  generate?: () => Promise<GeneratedPlan>
   /** Editing an existing commitment keeps its start date and completed sessions. */
   initial?: Commitment
   onSaved?: (commitment: Commitment) => void
 }) {
   const router = useRouter()
-  const [hours, setHours] = useState<string>(
-    initial?.hours ??
-      ((hourOptions as readonly string[]).includes(profileHours) ? profileHours : "1–3 hours"),
-  )
   const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>(initial?.timeOfDay ?? "flexible")
-  const [days, setDays] = useState<StudyDays>(initial?.days ?? "flexible")
-  const slots = weeklySlots(weeklyHours(hours), timeOfDay, days)
-  function confirm() {
-    const commitment: Commitment = {
+  const today = localDate(new Date())
+  const [startDate, setStartDate] = useState(initial?.startDate ?? planStartDate(profile.timeline))
+  const [days, setDays] = useState<StudyDays>(
+    initial?.days ?? defaultStudyDays(profile.flexibility),
+  )
+  const draft = withProfile(
+    {
       version: 1,
       pathId,
       direction,
       role,
       sprint,
-      hours,
+      hours: initial?.hours ?? "",
       timeOfDay,
       days,
-      startDate: initial?.startDate ?? localDate(new Date()),
+      startDate,
       completed: initial?.completed ?? [],
-      flightPlan: flightPlan ?? initial?.flightPlan,
+    },
+    profile,
+  )
+  const slots = commitmentSlots(draft)
+  const [busy, setBusy] = useState(false)
+  const [editingProfile, setEditingProfile] = useState(false)
+  const [error, setError] = useState("")
+  async function confirm() {
+    let plan = initial?.plan
+    if (generate) {
+      setBusy(true)
+      setError("")
+      try {
+        plan = await generate()
+      } catch (failure) {
+        setError(
+          failure instanceof Error && failure.message
+            ? failure.message
+            : "Your plan could not be generated. Try again.",
+        )
+        return
+      } finally {
+        setBusy(false)
+      }
+    }
+    const commitment: Commitment = {
+      ...draft,
+      flightPlan: plan?.plan.phases.flatMap((phase) => phase.flightPlan) ?? initial?.flightPlan,
+      plan,
     }
     saveCommitment(commitment)
     onOpenChange(false)
@@ -90,13 +123,42 @@ export function CommitDirectionDialog({
             {sprint ? "90" : "120"}-day plan into your week.
           </DialogDescription>
         </DialogHeader>
-        <Choice
-          legend="Weekly study time"
-          value={hours}
-          onChange={setHours}
-          options={hourOptions.map((value) => ({ value, label: value }))}
-          columns="grid-cols-2 sm:grid-cols-4"
-        />
+        <p className="flex flex-wrap items-center justify-between gap-2 rounded-lg border px-3 py-2.5 text-[14px]">
+          <span>
+            <span className="font-medium">Weekly study time:</span>{" "}
+            {!profile.hours
+              ? "required. Set it in your preferences to continue."
+              : profile.hours === "It varies"
+                ? `varies, so we plan about ${weeklyHours(draft.hours)} hours`
+                : `${profile.hours}, from your profile`}
+            {draft.shortSessions ? " · short sessions" : ""}
+          </span>
+          <Button
+            variant="link"
+            className="h-auto p-0 text-[14px]"
+            onClick={() => setEditingProfile(true)}
+          >
+            Edit preferences
+          </Button>
+        </p>
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border px-3 py-2.5 text-[14px]">
+          <label htmlFor="plan-start" className="min-w-0">
+            <span className="font-medium">Start date</span>
+            <span className="block text-[12px] text-muted-foreground">
+              {profile.timeline
+                ? `Suggested from your timeline: ${profile.timeline}`
+                : "Timeline is required. Set it in your preferences."}
+            </span>
+          </label>
+          <Input
+            id="plan-start"
+            type="date"
+            className="w-auto"
+            value={startDate}
+            min={initial ? undefined : today}
+            onChange={(event) => event.target.value && setStartDate(event.target.value)}
+          />
+        </div>
         <Choice
           legend="When do you learn best?"
           value={timeOfDay}
@@ -122,14 +184,37 @@ export function CommitDirectionDialog({
             ))}
           </ul>
         </section>
+        {error && (
+          <p role="alert" className="text-[14px] text-destructive">
+            {error}
+          </p>
+        )}
+        {busy && (
+          <p role="status" className="text-[14px] text-muted-foreground">
+            Generating your personal plan and flight plan. This can take up to a minute.
+          </p>
+        )}
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" disabled={busy} onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button onClick={confirm}>
-            <CalendarCheck /> {initial ? "Save schedule" : "Start my plan"}
+          <Button disabled={busy || !profile.hours || !profile.timeline} onClick={confirm}>
+            {busy ? <Loader2 className="animate-spin" /> : <CalendarCheck />}
+            {busy
+              ? "Generating plan…"
+              : initial
+                ? "Save schedule"
+                : error
+                  ? "Try again"
+                  : "Start my plan"}
           </Button>
         </DialogFooter>
+        {/* Rendered inside the dialog so it stacks on top; Escape closes only the sheet. */}
+        <ProfileSheet
+          open={editingProfile}
+          onOpenChange={setEditingProfile}
+          defaultTab="preferences"
+        />
       </DialogContent>
     </Dialog>
   )

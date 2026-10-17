@@ -16,7 +16,7 @@ export function chatConfig(): ChatConfig | null {
   if (provider === "vertex")
     return {
       provider,
-      label: "Gemini",
+      label: "Gemini on Vertex AI",
       apiKey: "adc",
       model: process.env.VERTEX_MODEL || "gemini-2.5-flash",
     }

@@ -14,7 +14,12 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { mergeProfile, type ProfileField, type CareerProfile } from "@/lib/onboarding"
+import {
+  hasScheduleAnswers,
+  mergeProfile,
+  type ProfileField,
+  type CareerProfile,
+} from "@/lib/onboarding"
 
 const groups: { id: string; title: string; fields: ProfileField[] }[] = [
   {
@@ -34,7 +39,10 @@ export function ProfileSheet({
   open,
   onOpenChange,
   onSaved,
+  defaultTab = "work",
 }: {
+  /** Tab shown on open, e.g. "preferences" for availability. */
+  defaultTab?: string
   open: boolean
   onOpenChange: (open: boolean) => void
   onSaved?: (profile: CareerProfile) => void
@@ -92,7 +100,11 @@ export function ProfileSheet({
             Share what feels useful. Changes apply only when you save.
           </SheetDescription>
         </SheetHeader>
-        <Tabs defaultValue="work" key={open ? "open" : "closed"} className="min-h-0 flex-1 gap-0">
+        <Tabs
+          defaultValue={defaultTab}
+          key={open ? "open" : "closed"}
+          className="min-h-0 flex-1 gap-0"
+        >
           <TabsList
             className="mx-6 mt-5 flex min-h-[42px] w-auto shrink-0 max-[650px]:mx-4 [&_button]:min-h-9 [&_button]:text-[14px] max-[650px]:[&_button]:text-[13px]"
             aria-label="Profile sections"
@@ -117,11 +129,16 @@ export function ProfileSheet({
             </TabsContent>
           ))}
         </Tabs>
-        <SheetFooter className="shrink-0 flex-row justify-end border-t bg-popover px-6 py-[18px] max-[650px]:px-5 [&_button]:min-h-[42px] [&_button]:text-[15px]">
+        <SheetFooter className="shrink-0 flex-row flex-wrap items-center justify-end border-t bg-popover px-6 py-[18px] max-[650px]:px-5 [&_button]:min-h-[42px] [&_button]:text-[15px]">
+          {!hasScheduleAnswers(draft) && (
+            <p role="status" className="mr-auto text-[13px] text-muted-foreground">
+              Add your weekly study time and timeline in Preferences to save.
+            </p>
+          )}
           <Button variant="outline" disabled={saving} onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button disabled={saving} onClick={save}>
+          <Button disabled={saving || !hasScheduleAnswers(draft)} onClick={save}>
             {saving ? "Saving…" : "Save changes"}
           </Button>
         </SheetFooter>

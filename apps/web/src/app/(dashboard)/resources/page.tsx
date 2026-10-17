@@ -11,6 +11,7 @@ import {
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { useIscoMeter } from "@/hooks/use-isco-meter"
 import { PanelHeading } from "@/components/radar-panel"
+import { ArchitectureDiagram } from "@/components/architecture-diagram"
 import { Button } from "@/components/ui/button"
 import { hasMeterInputs } from "@/lib/onboarding"
 import { occupationModels, taskWeights } from "@/lib/occupations"
@@ -223,8 +224,17 @@ export default function ResourcesPage() {
           guidance, not research-backed job matches or verified vacancies.
         </p>
       </section>
+      <section className={editorialSection} aria-labelledby="architecture-title">
+        <p className={eyebrow}>03 / SYSTEM ARCHITECTURE</p>
+        <h2 id="architecture-title">How this MVP works.</h2>
+        <p>
+          Five layers, all on Google Cloud. The AI writes guidance; it never calculates your
+          exposure score.
+        </p>
+        <ArchitectureDiagram />
+      </section>
       <section className={editorialSection}>
-        <p className={eyebrow}>03 / INSPECT THE SOURCES</p>
+        <p className={eyebrow}>04 / INSPECT THE SOURCES</p>
         {sourceLinks.map((source) => (
           <a
             key={source.href}
