@@ -30,6 +30,10 @@ const state = vi.hoisted(() => ({
 
 vi.mock("next/navigation", () => ({
   usePathname: () => state.pathname,
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+  }),
 }))
 
 vi.mock("@/components/career-profile-provider", () => ({
@@ -78,6 +82,35 @@ test("renders LumiActionCard with NAVIGATE link", () => {
   )
   expect(html).toContain("Go to Roadmap")
   expect(html).toContain('href="/roadmap"')
+})
+
+test("renders LumiActionCard with SELECT_STRATEGY and UPDATE_STUDY_HOURS", () => {
+  const strategyHtml = renderToStaticMarkup(
+    createElement(LumiActionCard, {
+      action: {
+        type: "SELECT_STRATEGY",
+        strategy: "leap",
+        label: "AI Systems Engineering Pathway",
+        explanation: "High upside career leap",
+      },
+    }),
+  )
+  expect(strategyHtml).toContain("CAREER PATHWAY STRATEGY")
+  expect(strategyHtml).toContain("AI Systems Engineering Pathway")
+  expect(strategyHtml).toContain("Activate Pathway")
+
+  const hoursHtml = renderToStaticMarkup(
+    createElement(LumiActionCard, {
+      action: {
+        type: "UPDATE_STUDY_HOURS",
+        hours: "5–10 hours",
+        explanation: "Accelerated timeline",
+      },
+    }),
+  )
+  expect(hoursHtml).toContain("STUDY COMMITMENT")
+  expect(hoursHtml).toContain("5–10 hours per week")
+  expect(hoursHtml).toContain("Apply Commitment")
 })
 
 test("renders LumiSidebar empty state with starter questions", () => {

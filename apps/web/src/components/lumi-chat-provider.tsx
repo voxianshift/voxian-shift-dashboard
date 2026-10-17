@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { toast } from "sonner"
 import type { CopilotAction, CopilotChatResult } from "@voxian/shared"
 import { useCareerProfile } from "@/components/career-profile-provider"
+import { EXPOSURE, TASKS } from "@/lib/mock"
 
 export type ChatMessage = {
   id: string
@@ -126,6 +127,11 @@ export function LumiChatProvider({ children }: { children: ReactNode }) {
     }
   }, [messages])
 
+  // Reset dynamic questions on route change so page-specific prompts appear immediately
+  useEffect(() => {
+    setDynamicSuggestions([])
+  }, [pathname])
+
   const suggestedQuestions =
     dynamicSuggestions.length > 0 ? dynamicSuggestions : getRouteSuggestions(pathname)
 
@@ -152,6 +158,16 @@ export function LumiChatProvider({ children }: { children: ReactNode }) {
           text: m.text.slice(0, 4000),
         }))
 
+      const pageContext = {
+        exposureScore: Math.round(EXPOSURE),
+        topVulnerableTask: TASKS.find((t) => !t.moat)?.name || "Routine drafting & triage",
+        topMoatTask: TASKS.find((t) => t.moat)?.name || "Complex high-stakes de-escalation",
+        activeStrategy:
+          typeof window !== "undefined"
+            ? new URLSearchParams(window.location.search).get("strategy") || undefined
+            : undefined,
+      }
+
       try {
         const response = await fetch("/api/copilot/chat", {
           method: "POST",
@@ -161,6 +177,7 @@ export function LumiChatProvider({ children }: { children: ReactNode }) {
             message: trimmed,
             route: pathname || "/home",
             profile: profile || {},
+            pageContext,
             history: historyPayload,
           }),
         })

@@ -2,13 +2,15 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowRight, Check, Compass, Sparkles } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { ArrowRight, Check, Clock, Compass, Route, Sparkles } from "lucide-react"
 import { toast } from "sonner"
 import type { CopilotAction } from "@voxian/shared"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { Button } from "@/components/ui/button"
 
 export function LumiActionCard({ action }: { action: CopilotAction }) {
+  const router = useRouter()
   const { profile, update } = useCareerProfile()
   const [applied, setApplied] = useState(false)
 
@@ -55,6 +57,93 @@ export function LumiActionCard({ action }: { action: CopilotAction }) {
               </>
             ) : (
               "Set as Target"
+            )}
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  if (action.type === "SELECT_STRATEGY") {
+    const handleSelectStrategy = () => {
+      setApplied(true)
+      toast.success(`Strategy ${action.strategy.toUpperCase()} activated`)
+      router.push(`/roadmap?strategy=${action.strategy}`)
+    }
+
+    return (
+      <div className="mt-2.5 rounded-lg border border-cyan-500/40 bg-card p-3 shadow-xs">
+        <div className="flex items-center gap-1.5 text-[11px] font-medium tracking-wide text-cyan-600 dark:text-cyan-400">
+          <Route className="size-3" />
+          <span>CAREER PATHWAY STRATEGY</span>
+        </div>
+        <div className="mt-1 font-semibold text-[14px] text-foreground">{action.label}</div>
+        {action.explanation && (
+          <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground">
+            {action.explanation}
+          </p>
+        )}
+        <div className="mt-2.5 flex items-center justify-between">
+          <span className="font-mono uppercase text-[11px] text-cyan-600 dark:text-cyan-400 font-semibold">
+            {action.strategy}
+          </span>
+          <Button
+            size="sm"
+            variant={applied ? "secondary" : "default"}
+            disabled={applied}
+            onClick={handleSelectStrategy}
+            className="h-7 gap-1 px-2.5 text-[12px]"
+          >
+            {applied ? (
+              <>
+                <Check className="size-3" /> Activated
+              </>
+            ) : (
+              "Activate Pathway"
+            )}
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  if (action.type === "UPDATE_STUDY_HOURS") {
+    const isCurrentHours = profile.hours === action.hours || applied
+
+    const handleApplyHours = () => {
+      update({ hours: action.hours })
+      setApplied(true)
+      toast.success(`Study commitment set to ${action.hours}/week`)
+    }
+
+    return (
+      <div className="mt-2.5 rounded-lg border border-border/80 bg-card p-3 shadow-xs">
+        <div className="flex items-center gap-1.5 text-[11px] font-medium tracking-wide text-primary">
+          <Clock className="size-3" />
+          <span>STUDY COMMITMENT</span>
+        </div>
+        <div className="mt-1 font-semibold text-[14px] text-foreground">
+          {action.hours} per week
+        </div>
+        {action.explanation && (
+          <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground">
+            {action.explanation}
+          </p>
+        )}
+        <div className="mt-2.5 flex justify-end">
+          <Button
+            size="sm"
+            variant={isCurrentHours ? "secondary" : "default"}
+            disabled={isCurrentHours}
+            onClick={handleApplyHours}
+            className="h-7 gap-1 px-2.5 text-[12px]"
+          >
+            {isCurrentHours ? (
+              <>
+                <Check className="size-3" /> Applied
+              </>
+            ) : (
+              "Apply Commitment"
             )}
           </Button>
         </div>

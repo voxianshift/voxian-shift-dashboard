@@ -15,11 +15,36 @@ export const copilotNavigateActionSchema = z.strictObject({
   label: z.string().min(1).max(100),
 })
 
+export const copilotSelectStrategyActionSchema = z.strictObject({
+  type: z.literal("SELECT_STRATEGY"),
+  strategy: z.enum(["shift", "grow", "leap", "create"]),
+  label: z.string().min(1).max(100),
+  explanation: z.string().max(400).optional(),
+})
+
+export const copilotUpdateHoursActionSchema = z.strictObject({
+  type: z.literal("UPDATE_STUDY_HOURS"),
+  hours: z.string().min(1).max(100),
+  explanation: z.string().max(400).optional(),
+})
+
 export const copilotActionSchema = z.discriminatedUnion("type", [
   copilotPickRoleActionSchema,
   copilotNavigateActionSchema,
+  copilotSelectStrategyActionSchema,
+  copilotUpdateHoursActionSchema,
 ])
 export type CopilotAction = z.infer<typeof copilotActionSchema>
+
+export const copilotPageContextSchema = z
+  .object({
+    exposureScore: z.number().optional(),
+    topVulnerableTask: z.string().max(200).optional(),
+    topMoatTask: z.string().max(200).optional(),
+    activeStrategy: z.string().max(100).optional(),
+  })
+  .optional()
+export type CopilotPageContext = z.infer<typeof copilotPageContextSchema>
 
 export const copilotProfileSchema = profileSchema.partial().strip().default({})
 
@@ -27,6 +52,7 @@ export const copilotChatRequestSchema = z.object({
   message: z.string().trim().min(1).max(3000),
   route: z.string().max(200).default("/home"),
   profile: copilotProfileSchema,
+  pageContext: copilotPageContextSchema,
   history: z
     .array(z.object({ role: z.enum(["user", "assistant"]), text: z.string().max(5000) }))
     .max(16)
