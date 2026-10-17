@@ -14,6 +14,15 @@ const nextConfig: NextConfig = {
       },
     ]
   },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/home",
+        permanent: false,
+      },
+    ]
+  },
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {
