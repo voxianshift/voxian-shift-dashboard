@@ -144,17 +144,17 @@ test("all roles show in columns of three with no overlaps and edges from the str
   ).toBe(true)
 })
 
-test("real support mappings show every curated role", () => {
-  const actual = actualMappings.occupations["15-1232.00"].strategies
+test("real prototype mappings show every curated role", () => {
+  const actual = actualMappings.occupations["43-4051.00"].strategies
   const paths = careerPaths.map((path) => ({
     ...path,
     roles: actual[path.id].destinations.map((destination) => destination.title),
   }))
-  const nodes = buildCareerNodes(paths, "Computer User Support Specialists")
+  const nodes = buildCareerNodes(paths, "Customer Service Representatives")
   expect(
     paths.map(
       (path) =>
         nodes.filter((node) => node.data.kind === "role" && node.data.pathId === path.id).length,
     ),
-  ).toEqual([8, 6, 5, 7])
+  ).toEqual([4, 3, 3, 3])
 })

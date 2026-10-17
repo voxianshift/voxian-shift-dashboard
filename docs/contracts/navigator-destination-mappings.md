@@ -79,3 +79,9 @@ Browser test occupation: Computer User Support Specialists shows 8, 6, 5 and 7 o
 ## Revision 6: all mapped occupations
 
 Revision 6 appends three product-curated exploration options to every strategy of all other 25 mapped occupations, so each strategy now has 4–6 options. Existing destination IDs are unchanged; new IDs continue each strategy's sequence. Create additions keep the Practice/Service/Toolkit ownership form and still require customer validation. As with earlier labels, these are exploration labels, not verified vacancies, entry requirements or measured lower-exposure transitions; semantic review per occupation remains pending. Navigator cache key bumped to refresh earlier results.
+
+## Prototype v2.3.8 branches (supersedes revisions 4–6)
+
+Following team-lead direction, Navigator branches now come verbatim from the prototype `ROLE_BRANCHES` in `voxian-shift-v2.3.8.html` (extract: `docs/legacy/voxian-shift-v2.3.8-navigator.js`). Each strategy is one prototype branch: title = branch name, description/humanEdge/skills = branch foundation, destinations = branch name followed by its leaf roles (3–4 options). Branch order maps to Automate, Hybrid, Pivot, Create; Create now means roles that generate new value AI can't replicate, using the prototype's governance and ethics branches.
+
+Only the 25 prototype occupations with O*NET codes are supported: occupation search and saved selections are restricted to them. Content Moderator and Call Centre / CX Team Leader are excluded pending O*NET codes. Computer User Support Specialists, the revision 5–6 expansions and the per-SOC-group curated files are removed. These remain curated prototype labels, not verified vacancies or validated transitions.

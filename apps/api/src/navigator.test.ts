@@ -14,7 +14,7 @@ const developer = {
   reason: "Exact code",
 }
 const familyOnly = { ...developer, code: "11-9199.00", title: "Managers, All Other" }
-const support = { ...developer, code: "15-1232.00", title: "Computer User Support Specialists" }
+const support = { ...developer, code: "43-4051.00", title: "Customer Service Representatives" }
 const admin = { ...developer, code: "43-6011.00", title: "Executive Assistants" }
 const unknownMapping = { ...developer, code: "99-9999.00", title: "Unclassified test occupation" }
 const context = navigatorContext({
@@ -99,7 +99,7 @@ test("destinations and titles are backend lookups while narrative uses confirmed
     expect(body.paths[0]!.title).toBe(lookupPathways(developer.code).automate!.title)
     expect(body.paths[3]).toMatchObject({
       coverage: "available",
-      title: "AI Safety Testing Practice",
+      title: "AI Safety & Red Team Lead",
     })
     expect(body.paths[3]!.roleResources[0]![0]!.href).toBe(
       "https://learn.microsoft.com/en-us/training/",
@@ -367,7 +367,7 @@ test("invented destination-specific resource IDs cannot bypass grounded lookup",
   }
 })
 
-test("computer user support returns fixed coverage for all four strategies without an LLM", async () => {
+test("prototype occupation returns fixed coverage for all four strategies without an LLM", async () => {
   vi.stubEnv("ROOTSYS_API_KEY", "")
   const app = buildApp({ catalogue: catalogue() })
   try {
@@ -384,9 +384,9 @@ test("computer user support returns fixed coverage for all four strategies witho
     for (const path of result.paths) {
       expect(path.coverage).toBe("available")
       expect(path.destinations).toEqual(lookupPathways(support.code)[path.id]!.destinations)
-      expect(path.destinations.length).toBeGreaterThan(3)
+      expect(path.destinations.length).toBeGreaterThanOrEqual(3)
     }
-    expect(result.paths[3]!.title).toBe("Small Business IT Support Practice")
+    expect(result.paths[3]!.title).toBe("Enterprise AI Ethics Auditor")
   } finally {
     await app.close()
   }
