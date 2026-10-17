@@ -80,7 +80,7 @@ export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): 
         ariaLabel: `Explore ${role}`,
         data: {
           title: role,
-          subtitle: "A possible role · view skills and learning",
+          subtitle: "Curated pathway · verify requirements",
           color: path.color,
           kind: "role",
           pathId: path.id,

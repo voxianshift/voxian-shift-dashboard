@@ -178,8 +178,8 @@ export const navigatorResources = {
     cost: "Free",
   },
 } as const
-export const NAVIGATOR_CONTRACT_VERSION = 2
-export const NAVIGATOR_RULE_VERSION = 1
+export const NAVIGATOR_CONTRACT_VERSION = 3
+export const NAVIGATOR_RULE_VERSION = 2
 export const pathIdSchema = z.enum(["automate", "hybrid", "pivot", "create"])
 export type StrategyId = z.infer<typeof pathIdSchema>
 export const navigatorStrategies = {
@@ -239,36 +239,22 @@ export function recommendStrategy(input: {
       reasonCode: "explicit_strategy",
       explanation: "This is the strategy you explicitly selected.",
     }
-  const choices = { stay: "hybrid", grow: "hybrid", change: "pivot", create: "create" } as const
-  const preference = input.movementPreference
-  const strategyId =
-    preference && preference in choices ? choices[preference as keyof typeof choices] : null
-  return strategyId
-    ? {
-        strategyId,
-        reasonCode: "explicit_direction",
-        explanation:
-          "A starting option based on your stated career movement preference, not a prediction of career fit.",
-      }
-    : {
-        strategyId: null,
-        reasonCode: "insufficient_preferences",
-        explanation:
-          "Explore all four strategies; no starting option is recommended without an explicit preference.",
-      }
+  return {
+    strategyId: null,
+    reasonCode: "insufficient_preferences",
+    explanation:
+      "Explore reviewed pathways; career movement preferences alone do not establish strategy suitability.",
+  }
 }
 const text = (max: number) => z.string().trim().min(1).max(max)
 const pathFields = {
   id: pathIdSchema,
-  title: text(100),
   focus: text(80),
   description: text(500),
   why: text(350),
+  humanEdge: text(500),
+  tradeoff: text(500),
   skills: z.array(text(100)).min(3).max(5),
-  roles: z
-    .array(text(120))
-    .length(3)
-    .refine((roles) => new Set(roles.map((role) => role.toLowerCase())).size === 3),
   project: text(500),
   firstStep: text(300),
 }
@@ -286,10 +272,7 @@ export const navigatorDraftSchema = z
         z.object({
           ...pathFields,
           resourceIds: z.array(resourceIdSchema).min(1).max(3),
-          // One list per role, in the same order as `roles`.
-          // Plain strings: Gemini rejects nested arrays of this enum (400 INVALID_ARGUMENT).
-          // The API keeps only IDs found in the catalogue.
-          roleResourceIds: z.array(z.array(z.string().max(40)).max(3)).length(3),
+          destinationIds: z.array(text(100)).max(3),
         }),
       )
       .length(4),
@@ -310,15 +293,38 @@ const resourceSchema = z
 export const careerPathSchema = z
   .object({
     ...pathFields,
+    title: text(100),
+    coverage: z.enum(["available", "unsupported"]),
+    mappingVersion: text(80),
+    mappingSource: text(200),
+    mappingRationale: text(500),
+    destinations: z
+      .array(
+        z.object({
+          id: text(100),
+          title: text(120),
+          kind: z.literal("curated_pathway"),
+          occupationCode: z.null(),
+        }),
+      )
+      .max(3),
+    roles: z.array(text(120)).max(3),
     label: z.string().min(1).max(20),
     colorToken: z.enum(["chart-3", "tertiary", "warning", "success"]),
     color: z.string().max(40),
     resources: z.array(resourceSchema).min(1).max(3),
-    roleResources: z.array(z.array(resourceSchema).max(3)).length(3),
+    roleResources: z.array(z.array(resourceSchema).max(3)).max(3),
   })
   .refine((path) => {
     const metadata = navigatorStrategies[path.id]
     return (
+      path.destinations.length === path.roles.length &&
+      path.roleResources.length === path.roles.length &&
+      new Set(path.destinations.map((role) => role.id)).size === path.destinations.length &&
+      path.destinations.every((role, index) => role.title === path.roles[index]) &&
+      (path.coverage === "available"
+        ? path.destinations.length > 0
+        : path.destinations.length === 0) &&
       path.label === metadata.label &&
       path.colorToken === metadata.colorToken &&
       path.color === `var(--${metadata.colorToken})`
@@ -334,6 +340,7 @@ export const navigatorResultSchema = z
     recommendation: recommendationSchema,
     recommendedPathId: pathIdSchema.nullable(),
     provider: text(80),
+    generationStatus: z.enum(["personalized", "reviewed_only", "unavailable"]),
     paths: z.array(careerPathSchema).length(4),
   })
   .refine(

@@ -192,3 +192,42 @@ test("result schema rejects obsolete caches, reordered strategies and forged met
     navigatorResultSchema.safeParse({ ...navigatorFixture, recommendedPathId: null }).success,
   ).toBe(false)
 })
+
+test("unsupported strategies show missing coverage without a plan or invented roles", () => {
+  state.data = {
+    ...navigatorFixture,
+    generationStatus: "reviewed_only",
+    paths: navigatorFixture.paths.map((path) =>
+      path.id === "create"
+        ? { ...path, coverage: "unsupported", roles: [], destinations: [], roleResources: [] }
+        : path,
+    ),
+  }
+  state.query = "path=create&role=2"
+  const html = renderToStaticMarkup(createElement(RoadmapPage))
+  expect(html).toContain("no reviewed destinations for Create")
+  expect(html).not.toContain("Choose this direction")
+  expect(html).not.toContain("Courses for undefined")
+  const canvas = renderToStaticMarkup(
+    createElement(SidebarProvider, null, createElement(CanvasPage)),
+  )
+  expect(canvas).toContain("No plan available until a destination mapping is reviewed")
+  expect(canvas).not.toContain("Build this direction into a plan")
+})
+
+test("partial coverage ignores out-of-range role links and shows pathway provenance", () => {
+  state.data = {
+    ...navigatorFixture,
+    paths: navigatorFixture.paths.map((path) => ({
+      ...path,
+      roles: path.roles.slice(0, 1),
+      destinations: path.destinations.slice(0, 1),
+      roleResources: path.roleResources.slice(0, 1),
+    })),
+  }
+  state.query = "path=automate&role=2"
+  const html = renderToStaticMarkup(createElement(RoadmapPage))
+  expect(html).not.toContain("undefined")
+  expect(html).toContain("Curated pathway labels")
+  expect(html).toContain("Test reviewed mapping")
+})

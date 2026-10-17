@@ -1,0 +1,1959 @@
+{
+  "version": "prototype-2.3.8-review-1",
+  "source": "voxian-shift-v2.3.8.html ROLE_BRANCHES",
+  "reviewNotes": "Prototype pathway labels, not verified occupations, vacancies or evidence of transition suitability. Senior leaf destinations excluded; source-occupation mappings narrowed to explicit O*NET codes. Create mappings withheld: magenta prototype branches describe governance/ethics rather than new value creation. Content moderator and broad office-supervisor mapping withheld for insufficient source specificity.",
+  "occupations": {
+    "43-4051.00": {
+      "prototypeRole": "cs_rep",
+      "strategies": {
+        "automate": {
+          "title": "AI Support Ops & Engineering",
+          "description": "Audit automated bot conversation logs, identify escalation failure triggers, and calibrate domain prompts.",
+          "humanEdge": "Catching contextual hallucinations, compliance breaches, and customer emotional tone misalignments.",
+          "skills": ["RAG Knowledge Base QA", "Prompt Engineering", "Ticket Taxonomy"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "cs_rep-automate-1",
+              "title": "AI Support Ops & Engineering",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-automate-2",
+              "title": "Frontend Support Integrator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-automate-3",
+              "title": "Agentic RAG Pipeline Architect",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "AI Specialist & Evaluation",
+          "description": "Stress-test enterprise chatbots for edge cases, bias, and safety failures using structured red-teaming methodologies.",
+          "humanEdge": "Adversarial social intuition \u2014 knowing how real users push systems beyond their guardrails.",
+          "skills": ["AI Red Teaming", "Responsible AI Standards", "Data Privacy Rules"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "cs_rep-hybrid-1",
+              "title": "AI Specialist & Evaluation",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-hybrid-2",
+              "title": "Conversational Vulnerability Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-hybrid-3",
+              "title": "NLP Voice & Sentiment Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Strategic Client Advocate & PM",
+          "description": "Take ownership of top-tier escalated disputes requiring discretion, authority and human accountability.",
+          "humanEdge": "High EQ, empathetic listening, and understanding of power dynamics in commercial disputes.",
+          "skills": ["Crisis De-escalation", "Commercial Dispute Law", "Active Listening"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "cs_rep-pivot-1",
+              "title": "Strategic Client Advocate & PM",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "cs_rep-pivot-2",
+              "title": "High-Stakes Escalation Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "43-6011.00": {
+      "prototypeRole": "admin_asst",
+      "strategies": {
+        "automate": {
+          "title": "Office Automation Specialist",
+          "description": "Automate routine admin tasks using no-code tools like Zapier, Make, and Microsoft Power Automate. Build document templates and scheduling systems.",
+          "humanEdge": "Judgment about when automation fails and human discretion is needed.",
+          "skills": ["Power Automate", "Zapier", "Document Templating"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "admin_asst-automate-1",
+              "title": "Office Automation Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "admin_asst-automate-2",
+              "title": "Process Automation Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "admin_asst-automate-3",
+              "title": "Digital Operations Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Executive AI Assistant",
+          "description": "Use AI tools to prepare executive briefings, manage complex schedules, and synthesize information for leadership.",
+          "humanEdge": "Trust, confidentiality, and reading what the exec truly needs vs. what they asked for.",
+          "skills": ["AI Briefing Tools", "Calendar Intelligence", "Executive Communications"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "admin_asst-hybrid-1",
+              "title": "Executive AI Assistant",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "admin_asst-hybrid-2",
+              "title": "Strategic Intelligence Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Operations Coordinator",
+          "description": "Coordinate multi-team projects, manage dependencies, track compliance documentation, and facilitate cross-functional communication.",
+          "humanEdge": "Human relationship capital across departments that builds over years.",
+          "skills": ["Asana/Monday", "Cross-Functional Facilitation", "Risk Registers"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "admin_asst-pivot-1",
+              "title": "Operations Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "admin_asst-pivot-2",
+              "title": "Programme Operations Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "43-3071.00": {
+      "prototypeRole": "bank_teller",
+      "strategies": {
+        "automate": {
+          "title": "Fintech Operations Specialist",
+          "description": "Transition from manual teller operations to digital banking platforms, fraud monitoring dashboards, and fintech API interfaces.",
+          "humanEdge": "Human judgment in flagging anomalous customer behavior that algorithms miss.",
+          "skills": ["Core Banking Systems", "Fraud Pattern Recognition", "Digital KYC"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "bank_teller-automate-1",
+              "title": "Fintech Operations Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-automate-2",
+              "title": "Digital Banking Operations Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-automate-3",
+              "title": "Payments & Settlements Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Digital Banking Advisor",
+          "description": "Pivot from transactional teller to relationship-first advisor role, using AI tools to prepare personalized financial recommendations.",
+          "humanEdge": "Trust-building with clients navigating financial vulnerability and life transitions.",
+          "skills": ["Financial Planning Basics", "CRM for Banking", "Advisory Conversations"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "bank_teller-hybrid-1",
+              "title": "Digital Banking Advisor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-hybrid-2",
+              "title": "Mass Affluent Banking Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-hybrid-3",
+              "title": "Private Wealth Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Wealth & Insurance Advisor",
+          "description": "Learn to assess client financial risk profiles and recommend appropriate insurance and savings products using AI-assisted planning tools.",
+          "humanEdge": "Human conversations about mortality, health, and family security that require deep empathy.",
+          "skills": ["Risk Profiling", "Insurance Product Knowledge", "Needs Analysis"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "bank_teller-pivot-1",
+              "title": "Wealth & Insurance Advisor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bank_teller-pivot-2",
+              "title": "Insurance Solutions Advisor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "43-9021.00": {
+      "prototypeRole": "data_entry",
+      "strategies": {
+        "automate": {
+          "title": "Data Quality Engineer",
+          "description": "Apply your domain knowledge of data patterns to build validation rules, anomaly detection scripts, and quality gates using Python and SQL.",
+          "humanEdge": "Domain intuition for what valid data looks like that pure statistical models miss.",
+          "skills": ["SQL Proficiency", "Python Pandas", "Data Profiling"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "data_entry-automate-1",
+              "title": "Data Quality Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-automate-2",
+              "title": "ETL Pipeline Developer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-automate-3",
+              "title": "Data Platform Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Data Validation Analyst",
+          "description": "Build automated reconciliation checks between data sources, flag discrepancies, and generate quality reports using Excel Power Query and SQL.",
+          "humanEdge": "Pattern memory from thousands of manual checks that builds intuition for subtle data corruption.",
+          "skills": ["Excel Power Query", "Reconciliation Logic", "Data Dictionaries"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "data_entry-hybrid-1",
+              "title": "Data Validation Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-hybrid-2",
+              "title": "Business Intelligence Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-hybrid-3",
+              "title": "Data Analytics Team Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "BI & Reporting Analyst",
+          "description": "Build operational dashboards in Power BI or Tableau, replacing manual report generation with automated visual insights.",
+          "humanEdge": "Knowing which metrics actually drive decisions for specific business users.",
+          "skills": ["Power BI / Tableau", "DAX Formulas", "Report Automation"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "data_entry-pivot-1",
+              "title": "BI & Reporting Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_entry-pivot-2",
+              "title": "Analytics Engineering Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "43-3031.00": {
+      "prototypeRole": "bookkeeper",
+      "strategies": {
+        "automate": {
+          "title": "AI Accounting Specialist",
+          "description": "Transition from manual bookkeeping to AI-augmented accounting platforms. Master exception handling, rule-based automation validation, and anomaly review.",
+          "humanEdge": "Understanding business context behind transactions that AI misclassifies.",
+          "skills": ["Xero / QuickBooks Online", "Bank Reconciliation AI", "Exception Handling"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "bookkeeper-automate-1",
+              "title": "AI Accounting Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-automate-2",
+              "title": "Automated Accounts Payable Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-automate-3",
+              "title": "Finance Systems Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Financial Controller Track",
+          "description": "Build expertise in financial statement preparation, internal control testing, and consolidated reporting aligned with IFRS/GAAP standards.",
+          "humanEdge": "Judgment under time pressure at month-end close that AI cannot fully automate.",
+          "skills": ["IFRS Fundamentals", "Internal Control Testing", "Management Accounts"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "bookkeeper-hybrid-1",
+              "title": "Financial Controller Track",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-hybrid-2",
+              "title": "Senior Financial Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-hybrid-3",
+              "title": "Group Financial Controller",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Tax & Planning Advisor",
+          "description": "Move from bookkeeping to tax compliance specialist, covering VAT, corporate tax, and advisory conversations with small business clients.",
+          "humanEdge": "Client trust built through reliable, accurate filings over years of relationship.",
+          "skills": ["Corporate Tax Basics", "VAT / GST Returns", "Tax Planning Concepts"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "bookkeeper-pivot-1",
+              "title": "Tax & Planning Advisor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "bookkeeper-pivot-2",
+              "title": "SME Tax & Business Advisor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "43-3051.00": {
+      "prototypeRole": "payroll_hr",
+      "strategies": {
+        "automate": {
+          "title": "HR Technology Specialist",
+          "description": "Configure HRIS platforms (Workday, SAP SuccessFactors), automate payroll workflows, and build audit controls for compliance.",
+          "humanEdge": "Understanding why edge-case payroll errors matter deeply to employees.",
+          "skills": ["Workday / SuccessFactors", "Payroll Compliance", "Data Migration QA"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "payroll_hr-automate-1",
+              "title": "HR Technology Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-automate-2",
+              "title": "Payroll Systems Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-automate-3",
+              "title": "HR Systems Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "People Analytics Specialist",
+          "description": "Build workforce dashboards tracking attrition, performance, diversity, and compensation equity using people data.",
+          "humanEdge": "Sensitivity to how people data analysis can harm vulnerable employees.",
+          "skills": ["R / Python for HR Data", "Attrition Analysis", "Compensation Benchmarking"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "payroll_hr-hybrid-1",
+              "title": "People Analytics Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "payroll_hr-hybrid-2",
+              "title": "HR Data Scientist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "HR Business Partner",
+          "description": "Evolve from HR admin to strategic HRBP \u2014 supporting business leaders with organizational design, workforce planning, and employee relations.",
+          "humanEdge": "Navigating difficult people conversations where data-driven answers are not enough.",
+          "skills": ["Org Design Basics", "Employee Relations", "Workforce Planning"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "payroll_hr-pivot-1",
+              "title": "HR Business Partner",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "23-2011.00": {
+      "prototypeRole": "paralegal",
+      "strategies": {
+        "automate": {
+          "title": "Legal Technology Specialist",
+          "description": "Learn to operate AI-assisted contract review platforms (Ironclad, Kira, Lexis+AI), validate AI-extracted contract clauses, and manage eDiscovery workflows.",
+          "humanEdge": "Legal judgment about which AI clause extractions require human review.",
+          "skills": ["Contract AI Platforms", "eDiscovery Management", "Clause Risk Assessment"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "paralegal-automate-1",
+              "title": "Legal Technology Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-automate-2",
+              "title": "Contract Intelligence Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-automate-3",
+              "title": "Legal Operations Technology Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Contract Intelligence Lead",
+          "description": "Use LLM-based drafting tools to prepare first-draft contracts, identify unusual risk clauses, and generate obligation checklists for legal review.",
+          "humanEdge": "Commercial context and relationship history that shapes contract interpretation.",
+          "skills": ["AI Contract Drafting", "Risk Clause Identification", "Obligation Mapping"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "paralegal-hybrid-1",
+              "title": "Contract Intelligence Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-hybrid-2",
+              "title": "Commercial Contracts Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-hybrid-3",
+              "title": "General Counsel Deputy",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Legal Operations Director",
+          "description": "Design streamlined matter management workflows, track legal spend efficiency, and implement process improvements across the legal function.",
+          "humanEdge": "Cross-departmental empathy for what legal stakeholders actually need.",
+          "skills": ["Matter Management Systems", "Legal Spend Analytics", "Process Mapping"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "paralegal-pivot-1",
+              "title": "Legal Operations Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "paralegal-pivot-2",
+              "title": "Legal Technology Programme Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "13-1071.00": {
+      "prototypeRole": "hr_recruiter",
+      "strategies": {
+        "automate": {
+          "title": "AI Recruiting Specialist",
+          "description": "Configure AI-assisted ATS platforms, automate sourcing workflows, and implement bias detection reviews for AI-screened candidate shortlists.",
+          "humanEdge": "Recruiting intuition that reads between the lines of candidate profiles.",
+          "skills": ["Workday Recruiting / Greenhouse", "AI Sourcing Tools", "Bias-Free Screening"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "hr_recruiter-automate-1",
+              "title": "AI Recruiting Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-automate-2",
+              "title": "Technical Talent Sourcer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-automate-3",
+              "title": "Talent Acquisition Tech Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Talent Intelligence Analyst",
+          "description": "Use workforce analytics platforms (LinkedIn Talent Insights, Lightcast) to map talent supply/demand, competitor hiring trends, and skills gap forecasts.",
+          "humanEdge": "Recruiter intuition about why candidates move and what really drives career decisions.",
+          "skills": [
+            "LinkedIn Talent Insights",
+            "Lightcast / Burning Glass",
+            "Workforce Planning Fundamentals"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "hr_recruiter-hybrid-1",
+              "title": "Talent Intelligence Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-hybrid-2",
+              "title": "Strategic Workforce Planner",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Employee Experience Designer",
+          "description": "Design AI-assisted onboarding journeys, map the full employee lifecycle experience, and build engagement survey programs.",
+          "humanEdge": "Recruiter empathy for the anxiety and hope of career transitions.",
+          "skills": ["EX Journey Mapping", "Onboarding Program Design", "Engagement Surveys"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "hr_recruiter-pivot-1",
+              "title": "Employee Experience Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "hr_recruiter-pivot-2",
+              "title": "Employee Lifecycle Program Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "15-1252.00": {
+      "prototypeRole": "software_dev",
+      "strategies": {
+        "automate": {
+          "title": "AI-Augmented Full Stack Engineer",
+          "description": "Master AI-assisted coding workflows using GitHub Copilot, Claude Code, and Cursor. Build expertise in validating AI-generated code for security, correctness, and performance.",
+          "humanEdge": "Developer judgment in reviewing AI output for subtle logic errors and security flaws.",
+          "skills": [
+            "GitHub Copilot / Claude Code",
+            "Prompt Engineering for Code",
+            "Security Code Review"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "software_dev-automate-1",
+              "title": "AI-Augmented Full Stack Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "software_dev-automate-2",
+              "title": "AI-Powered Application Developer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "software_dev-automate-3",
+              "title": "Platform Engineering Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "ML / AI Integration Engineer",
+          "description": "Build ML-integrated applications, design inference pipelines, and deploy models to production using cloud ML platforms and MLOps tools.",
+          "humanEdge": "Software engineering discipline that keeps ML systems maintainable and observable.",
+          "skills": [
+            "Python ML Libraries",
+            "Model APIs (Vertex AI, Bedrock)",
+            "MLOps Fundamentals"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "software_dev-hybrid-1",
+              "title": "ML / AI Integration Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "software_dev-hybrid-2",
+              "title": "ML Platform Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Technical Product Manager",
+          "description": "Transition from dev to PM for AI-powered products. Learn product discovery, user research, and roadmapping specific to AI feature development.",
+          "humanEdge": "Technical credibility with engineering teams combined with user empathy.",
+          "skills": ["Product Discovery", "User Research", "AI Feature Roadmapping"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "software_dev-pivot-1",
+              "title": "Technical Product Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "software_dev-pivot-2",
+              "title": "Senior AI Product Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "13-1081.00": {
+      "prototypeRole": "logistics_coord",
+      "strategies": {
+        "automate": {
+          "title": "Supply Chain AI Analyst",
+          "description": "Use AI-powered TMS/WMS platforms to optimize routing, predict demand, and identify supply chain disruption signals before they cascade.",
+          "humanEdge": "Operational intuition about why standard forecasting models fail during real-world disruptions.",
+          "skills": [
+            "TMS / WMS Systems",
+            "Demand Planning Fundamentals",
+            "Supply Chain Data Analysis"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "logistics_coord-automate-1",
+              "title": "Supply Chain AI Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-automate-2",
+              "title": "Demand Planning Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-automate-3",
+              "title": "Supply Chain Operations Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Procurement & Sourcing Manager",
+          "description": "Evolve from logistics coordination to strategic procurement using AI-powered spend analysis, supplier risk tools, and category management.",
+          "humanEdge": "Supplier relationship trust that enables favorable commercial terms.",
+          "skills": ["Spend Analytics", "Supplier Risk Assessment", "Category Management Basics"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "logistics_coord-hybrid-1",
+              "title": "Procurement & Sourcing Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-hybrid-2",
+              "title": "Category Procurement Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "SCM Platform & Digital Lead",
+          "description": "Implement and manage digital supply chain platforms including SAP SCM, Oracle SCM, and IoT-integrated logistics systems.",
+          "humanEdge": "Operational grounding that prevents digital implementations from losing touch with physical reality.",
+          "skills": ["SAP / Oracle SCM", "IoT Sensor Integration", "Digital Twin Concepts"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "logistics_coord-pivot-1",
+              "title": "SCM Platform & Digital Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "logistics_coord-pivot-2",
+              "title": "SCM Systems Implementation Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "41-3091.00": {
+      "prototypeRole": "sales_rep",
+      "strategies": {
+        "automate": {
+          "title": "AI Sales Engineer",
+          "description": "Master AI-powered CRM tools (Salesforce Einstein, HubSpot AI), revenue intelligence platforms (Gong, Chorus), and automated outreach sequencing.",
+          "humanEdge": "Relationship intelligence and timing instinct that AI prospecting tools cannot replicate.",
+          "skills": ["Salesforce Einstein / HubSpot AI", "Gong / Chorus", "Outreach Sequencing"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "sales_rep-automate-1",
+              "title": "AI Sales Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "sales_rep-automate-2",
+              "title": "Revenue Operations Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "sales_rep-automate-3",
+              "title": "Enterprise Sales Strategist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Solution Consultant / Pre-Sales",
+          "description": "Transition from field sales to pre-sales consulting \u2014 building technical demos, responding to RFPs, and articulating ROI frameworks for AI-powered solutions.",
+          "humanEdge": "Customer context and business problem empathy that generic demos miss.",
+          "skills": ["Demo Engineering", "Business Case Modeling", "RFP/RFI Response"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "sales_rep-hybrid-1",
+              "title": "Solution Consultant / Pre-Sales",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "sales_rep-hybrid-2",
+              "title": "Senior Solution Architect",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Key Account Manager",
+          "description": "Build strategic account management capability: executive mapping, joint business planning, and value co-creation frameworks for tier-1 accounts.",
+          "humanEdge": "Trust earned through consistent delivery and genuine client advocacy.",
+          "skills": [
+            "Executive Relationship Mapping",
+            "Joint Business Planning",
+            "NPS & Health Score Management"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "sales_rep-pivot-1",
+              "title": "Key Account Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "27-1024.00": {
+      "prototypeRole": "graphic_designer",
+      "strategies": {
+        "automate": {
+          "title": "AI Creative Director",
+          "description": "Master AI image generation tools (Midjourney, DALL-E, Firefly) for brand-consistent creative work. Learn to art-direct AI outputs, maintaining visual identity standards.",
+          "humanEdge": "Aesthetic judgment and brand intuition that distinguishes excellent AI-assisted design from generic output.",
+          "skills": [
+            "Midjourney / Firefly Art Direction",
+            "Brand Guidelines Application",
+            "AI Image QA"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "graphic_designer-automate-1",
+              "title": "AI Creative Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-automate-2",
+              "title": "Brand AI Systems Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Brand Strategy Director",
+          "description": "Develop brand strategy skills: positioning, audience segmentation, competitive analysis, and cultural trend mapping to complement visual design capabilities.",
+          "humanEdge": "Visual storytelling intuition that translates cultural insight into distinctive brand language.",
+          "skills": [
+            "Brand Positioning Frameworks",
+            "Consumer Research Methods",
+            "Competitive Brand Audit"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "graphic_designer-hybrid-1",
+              "title": "Brand Strategy Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-hybrid-2",
+              "title": "Global Brand Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "UX / Product Designer",
+          "description": "Transition from visual design to UX/product design: learn user research methods, interaction design principles, and Figma prototyping for digital products.",
+          "humanEdge": "Visual communication clarity and aesthetic judgment that reduces user friction.",
+          "skills": ["Figma Advanced", "UX Research Methods", "Interaction Design Principles"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "graphic_designer-pivot-1",
+              "title": "UX / Product Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "graphic_designer-pivot-2",
+              "title": "Senior Product Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "13-1199.06": {
+      "prototypeRole": "ecom_coord",
+      "strategies": {
+        "automate": {
+          "title": "E-Commerce AI Merchandiser",
+          "description": "Master AI merchandising tools: dynamic pricing engines, automated catalogue enrichment, AI-generated product descriptions, and personalized recommendation systems on SEA marketplace platforms.",
+          "humanEdge": "Merchandising intuition for category trends, seasonality, and consumer psychology beyond algorithms.",
+          "skills": [
+            "Tokopedia/Shopee Seller Tools",
+            "Dynamic Pricing Concepts",
+            "AI Product Description QA"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "ecom_coord-automate-1",
+              "title": "E-Commerce AI Merchandiser",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-automate-2",
+              "title": "AI Category Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-automate-3",
+              "title": "Marketplace Growth Strategist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Digital Commerce Strategist",
+          "description": "Design D2C brand digital commerce strategies: customer acquisition funnels, retention programs, and multi-channel marketplace strategy across SEA platforms.",
+          "humanEdge": "Consumer journey empathy that shapes strategy beyond what analytics dashboards reveal.",
+          "skills": [
+            "D2C Commerce Fundamentals",
+            "Customer Acquisition Funnels",
+            "Retention Program Design"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "ecom_coord-hybrid-1",
+              "title": "Digital Commerce Strategist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Category & Retail Analytics Manager",
+          "description": "Build category management expertise using AI-powered shopper analytics, market basket analysis, and planogram optimization tools.",
+          "humanEdge": "Shopper behavioral intuition that pure data analysis misses.",
+          "skills": [
+            "Category Management Fundamentals",
+            "Shopper Analytics",
+            "Market Basket Analysis"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "ecom_coord-pivot-1",
+              "title": "Category & Retail Analytics Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "ecom_coord-pivot-2",
+              "title": "Senior Category Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "13-2051.00": {
+      "prototypeRole": "financial_analyst",
+      "strategies": {
+        "automate": {
+          "title": "Quant AI Modeler",
+          "description": "Apply financial analysis skills to quantitative ML model development: factor models, risk attribution, and alternative data analysis using Python.",
+          "humanEdge": "Financial intuition that catches model overfitting to historical regimes that will not repeat.",
+          "skills": [
+            "Python (pandas, numpy, sklearn)",
+            "Quantitative Finance Fundamentals",
+            "Backtesting Frameworks"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "financial_analyst-automate-1",
+              "title": "Quant AI Modeler",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-automate-2",
+              "title": "Quantitative Research Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Investment Technology Analyst",
+          "description": "Specialize in technology and AI company investment research: valuation frameworks for AI businesses, competitive moat analysis, and regulatory risk assessment for AI portfolios.",
+          "humanEdge": "Analyst judgment about management quality and technology credibility beyond the numbers.",
+          "skills": [
+            "DCF for Tech Companies",
+            "AI Business Model Analysis",
+            "Competitive Moat Assessment"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "financial_analyst-hybrid-1",
+              "title": "Investment Technology Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-hybrid-2",
+              "title": "Senior Technology Equity Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Portfolio Manager",
+          "description": "Build portfolio management capability: asset allocation, risk budgeting, factor exposure management, and client investment policy statement design.",
+          "humanEdge": "Behavioral finance understanding of how client psychology affects investment decisions.",
+          "skills": ["Asset Allocation Frameworks", "Risk Budgeting", "Performance Attribution"],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "financial_analyst-pivot-1",
+              "title": "Portfolio Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "financial_analyst-pivot-2",
+              "title": "Portfolio Manager (Multi-Asset)",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "13-2011.00": {
+      "prototypeRole": "accountant",
+      "strategies": {
+        "automate": {
+          "title": "AI Audit Specialist",
+          "description": "Modernize audit practice with data analytics tools (IDEA, ACL/Galvanize), continuous monitoring, and AI-assisted risk assessment for 100% population testing.",
+          "humanEdge": "Professional skepticism and judgment about where AI audit tools produce false assurance.",
+          "skills": [
+            "IDEA / ACL Data Analytics",
+            "Continuous Monitoring Design",
+            "Risk-Based Audit Approach"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "accountant-automate-1",
+              "title": "AI Audit Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "accountant-automate-2",
+              "title": "Data Analytics Audit Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Finance Technology Consultant",
+          "description": "Build consulting capability in finance technology transformation: ERP implementation (SAP/Oracle Finance), digital close optimization, and finance process redesign.",
+          "humanEdge": "Accounting depth that prevents consulting recommendations unworkable in real finance teams.",
+          "skills": [
+            "SAP S/4HANA Finance",
+            "Finance Process Mapping",
+            "Digital Close Optimization"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "accountant-hybrid-1",
+              "title": "Finance Technology Consultant",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "accountant-hybrid-2",
+              "title": "Finance Transformation Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Tax Strategy Advisor",
+          "description": "Develop advanced tax strategy expertise: transfer pricing, international tax planning, OECD BEPS frameworks, and AI-assisted tax research.",
+          "humanEdge": "Commercial judgment about which tax planning structures survive scrutiny from both regulators and public opinion.",
+          "skills": [
+            "Transfer Pricing Fundamentals",
+            "OECD BEPS Framework",
+            "AI Tax Research Tools"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "accountant-pivot-1",
+              "title": "Tax Strategy Advisor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "accountant-pivot-2",
+              "title": "International Tax Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "29-2072.00": {
+      "prototypeRole": "medical_records",
+      "strategies": {
+        "automate": {
+          "title": "Health Data Specialist",
+          "description": "Build health informatics capability: FHIR/HL7 standards, clinical coding (ICD-10, SNOMED CT), healthcare data warehousing, and HIPAA/GDPR compliance for health data.",
+          "humanEdge": "Understanding of clinical workflows that ensures data standards work in real care settings.",
+          "skills": [
+            "FHIR / HL7 Standards",
+            "ICD-10 / SNOMED CT Clinical Coding",
+            "HIPAA Compliance & De-identification"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "medical_records-automate-1",
+              "title": "Health Data Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "medical_records-automate-2",
+              "title": "Clinical Data Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "medical_records-automate-3",
+              "title": "Health Analytics Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Clinical Data Quality Lead",
+          "description": "Specialize in clinical documentation improvement: CDI program management, physician query resolution, DRG optimization, and AI-assisted coding quality review.",
+          "humanEdge": "Medical records expertise that catches AI coding errors with real clinical consequence.",
+          "skills": [
+            "CDI Program Management",
+            "Physician Query Writing",
+            "DRG / Case Mix Optimization"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "medical_records-hybrid-1",
+              "title": "Clinical Data Quality Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "medical_records-hybrid-2",
+              "title": "Clinical Documentation Improvement Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Health IT Manager",
+          "description": "Build health IT project management skills: EHR go-live management, HL7 interface design, clinical workflow analysis, and healthcare data migration.",
+          "humanEdge": "Clinical workflow empathy that prevents IT implementations that harm care quality.",
+          "skills": [
+            "EHR Go-Live Project Management",
+            "HL7 Interface Design",
+            "Clinical Workflow Analysis"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "medical_records-pivot-1",
+              "title": "Health IT Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "13-1031.00": {
+      "prototypeRole": "insurance_claims",
+      "strategies": {
+        "automate": {
+          "title": "Insurtech Claims Analyst",
+          "description": "Modernize claims expertise with AI tools: automated claims triage, fraud pattern detection using ML, computer vision for property damage assessment, and claims analytics dashboards.",
+          "humanEdge": "Claims judgment that overrides AI decisions in ambiguous coverage interpretation cases.",
+          "skills": [
+            "AI Claims Triage Tools",
+            "Fraud Detection Fundamentals",
+            "Computer Vision Damage Assessment"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "insurance_claims-automate-1",
+              "title": "Insurtech Claims Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-automate-2",
+              "title": "Claims Analytics Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "AI Risk Assessor",
+          "description": "Build predictive risk assessment skills: telematics data analysis, IoT risk signal integration, ML-assisted underwriting, and pricing model validation.",
+          "humanEdge": "Insurance domain expertise that prevents ML risk models from encoding discriminatory proxies.",
+          "skills": [
+            "Telematics & IoT Risk Signals",
+            "ML Underwriting Models",
+            "Pricing Actuarial Fundamentals"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "insurance_claims-hybrid-1",
+              "title": "AI Risk Assessor",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-hybrid-2",
+              "title": "Underwriting Analytics Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Insurance Innovation Lead",
+          "description": "Develop insurance product innovation skills: parametric insurance design, embedded insurance distribution, usage-based product development, and InsurTech partnership models.",
+          "humanEdge": "Claims experience that ensures innovative products pay when customers genuinely need them.",
+          "skills": [
+            "Parametric Insurance Design",
+            "Embedded Distribution Channels",
+            "Usage-Based Product Development"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "insurance_claims-pivot-1",
+              "title": "Insurance Innovation Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "insurance_claims-pivot-2",
+              "title": "Product Manager (Insurance)",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "27-3023.00": {
+      "prototypeRole": "journalist_writer",
+      "strategies": {
+        "automate": {
+          "title": "AI Content Operations Lead",
+          "description": "Modernize content workflows with AI: AI-assisted research tools, automated content briefs, structured journalism templates, fact-checking workflows, and CMS automation.",
+          "humanEdge": "Editorial judgment that distinguishes AI-generated plausibility from verified fact.",
+          "skills": [
+            "AI Research & Briefing Tools",
+            "Automated Content Pipelines",
+            "Fact-Check Workflow Design"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "journalist_writer-automate-1",
+              "title": "AI Content Operations Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "journalist_writer-automate-2",
+              "title": "Managing Editor (Digital)",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Editorial AI Lead",
+          "description": "Build data journalism capability: OSINT techniques, document analysis with AI tools, geospatial journalism, financial document investigation, and public records research.",
+          "humanEdge": "Source protection ethics and public interest judgment that AI cannot exercise.",
+          "skills": [
+            "OSINT Fundamentals",
+            "Data Journalism with Python/R",
+            "Document Intelligence Tools"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "journalist_writer-hybrid-1",
+              "title": "Editorial AI Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "journalist_writer-hybrid-2",
+              "title": "Investigative Data Journalist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Content Strategy Director",
+          "description": "Develop content strategy skills: audience segmentation, subscription revenue models, newsletter strategy, branded content design, and content performance analytics.",
+          "humanEdge": "Journalistic voice that maintains editorial credibility within commercial content models.",
+          "skills": [
+            "Audience Segmentation & Personas",
+            "Subscription Revenue Models",
+            "Content Performance Analytics"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "journalist_writer-pivot-1",
+              "title": "Content Strategy Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "13-1151.00": {
+      "prototypeRole": "teacher_trainer",
+      "strategies": {
+        "automate": {
+          "title": "EdTech Facilitator",
+          "description": "Modernize teaching with EdTech: LMS platforms (Canvas, Moodle), AI tutoring tools, adaptive learning design, accessibility standards (WCAG), and learning analytics.",
+          "humanEdge": "Pedagogical judgment about when AI tutoring replaces vs. reduces student learning depth.",
+          "skills": [
+            "LMS Administration (Canvas/Moodle)",
+            "AI Tutoring Tool Integration",
+            "Learning Analytics Dashboards"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "teacher_trainer-automate-1",
+              "title": "EdTech Facilitator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "teacher_trainer-automate-2",
+              "title": "EdTech Integration Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Personalised Learning Designer",
+          "description": "Build personalized learning design capability: competency-based curriculum design, adaptive learning platforms (Knewton, DreamBox), learning experience design (LXD), and formative assessment strategies.",
+          "humanEdge": "Teacher insight about individual student motivation, not just performance data.",
+          "skills": [
+            "Competency-Based Curriculum Design",
+            "Learning Experience Design (LXD)",
+            "Adaptive Platform Configuration"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "teacher_trainer-hybrid-1",
+              "title": "Personalised Learning Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "teacher_trainer-hybrid-2",
+              "title": "Curriculum Innovation Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Education Innovation Lead",
+          "description": "Develop education innovation skills: EdTech product design, learning science application, program impact evaluation, and education-industry partnership development.",
+          "humanEdge": "Teaching experience that grounds innovation in real classroom and learner realities.",
+          "skills": [
+            "EdTech Product Design Thinking",
+            "Learning Science (Cognitive Load, Spaced Practice)",
+            "Impact Evaluation Frameworks"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "teacher_trainer-pivot-1",
+              "title": "Education Innovation Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "13-1161.01": {
+      "prototypeRole": "digital_marketer",
+      "strategies": {
+        "automate": {
+          "title": "AI Marketing Automation Lead",
+          "description": "Modernize digital marketing with AI automation: HubSpot/Marketo/Salesforce Marketing Cloud, AI copywriting tools, programmatic ad platforms, and customer journey automation.",
+          "humanEdge": "Brand intuition about when automated personalization crosses into customer discomfort.",
+          "skills": [
+            "Marketing Automation Platforms (HubSpot/Marketo)",
+            "AI Copywriting Tool Integration",
+            "Customer Journey Automation Design"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "digital_marketer-automate-1",
+              "title": "AI Marketing Automation Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "digital_marketer-automate-2",
+              "title": "Marketing Automation Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Growth Intelligence Analyst",
+          "description": "Build growth intelligence capability: A/B and multivariate testing, predictive LTV modeling, cohort analysis, media mix modeling (MMM), and causal inference for marketing.",
+          "humanEdge": "Marketing intuition about what moves customers that data alone cannot fully explain.",
+          "skills": [
+            "A/B Testing Design & Analysis",
+            "Predictive LTV Modeling",
+            "Media Mix Modeling (MMM)"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "digital_marketer-hybrid-1",
+              "title": "Growth Intelligence Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "digital_marketer-hybrid-2",
+              "title": "Senior Growth Analyst",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Brand Strategy Director",
+          "description": "Build brand strategy skills: brand architecture design, consumer insight research, cultural trend mapping, AI-augmented creative strategy, and brand measurement frameworks.",
+          "humanEdge": "Cultural intuition about how brand decisions resonate beyond demographic data.",
+          "skills": [
+            "Brand Architecture Frameworks",
+            "Consumer Insight Research Design",
+            "Cultural Trend Analysis"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "digital_marketer-pivot-1",
+              "title": "Brand Strategy Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "13-1082.00": {
+      "prototypeRole": "project_manager",
+      "strategies": {
+        "automate": {
+          "title": "AI Project Coordinator",
+          "description": "Modernize PM practice with AI tools: AI-assisted project planning (Linear, ClickUp AI, Notion AI), risk prediction models, automated status reporting, and agile ceremony facilitation.",
+          "humanEdge": "Stakeholder empathy and political judgment that AI project tools cannot substitute.",
+          "skills": [
+            "AI Project Planning Tools",
+            "Automated Status Reporting",
+            "Agile Ceremony Facilitation with AI Support"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "project_manager-automate-1",
+              "title": "AI Project Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "project_manager-automate-2",
+              "title": "Senior Project Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Digital Transformation PM",
+          "description": "Build digital transformation PM capability: change management frameworks (Prosci/ADKAR), ERP migration project management, cloud migration workstreams, and business readiness assessment.",
+          "humanEdge": "Human change leadership that enables technology transformation to actually stick.",
+          "skills": [
+            "Prosci ADKAR Change Management",
+            "ERP Migration Project Management",
+            "Business Readiness Assessment"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "project_manager-hybrid-1",
+              "title": "Digital Transformation PM",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "project_manager-hybrid-2",
+              "title": "Digital Transformation Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Programme Director",
+          "description": "Build programme management capability: MSP (Managing Successful Programmes) framework, benefits management lifecycle, strategic business case development, and senior stakeholder management.",
+          "humanEdge": "Leadership wisdom about organizational readiness that project metrics cannot capture.",
+          "skills": [
+            "MSP Programme Management Framework",
+            "Benefits Realisation Management",
+            "Strategic Business Case Development"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "project_manager-pivot-1",
+              "title": "Programme Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "project_manager-pivot-2",
+              "title": "Senior Programme Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "15-2051.01": {
+      "prototypeRole": "data_analyst",
+      "strategies": {
+        "automate": {
+          "title": "ML Data Scientist",
+          "description": "Extend analytical skills into ML: scikit-learn, feature engineering, model evaluation, MLOps basics, and A/B testing for model deployment. Build from business analytics into production ML.",
+          "humanEdge": "Business analyst intuition about which features actually explain business outcomes.",
+          "skills": [
+            "scikit-learn & ML Fundamentals",
+            "Feature Engineering",
+            "MLOps & Model Monitoring"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "data_analyst-automate-1",
+              "title": "ML Data Scientist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_analyst-automate-2",
+              "title": "Applied Machine Learning Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Data Intelligence Strategist",
+          "description": "Evolve into data strategy: enterprise BI architecture design, self-service analytics enablement, data storytelling for executive audiences, and analytics product management.",
+          "humanEdge": "Analyst communication skills that translate complex data into strategic action.",
+          "skills": [
+            "Enterprise BI Architecture (Tableau/Power BI/Looker)",
+            "Self-Service Analytics Design",
+            "Executive Data Storytelling"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "data_analyst-hybrid-1",
+              "title": "Data Intelligence Strategist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_analyst-hybrid-2",
+              "title": "Analytics Engineering Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Analytics Product Manager",
+          "description": "Build analytics PM skills: metric framework design (OKRs, HEART, North Star), analytics product roadmapping, data product strategy, and cross-functional analytics leadership.",
+          "humanEdge": "Analyst credibility that grounds PM decisions in what data actually shows.",
+          "skills": [
+            "Metric Framework Design (OKR/HEART/North Star)",
+            "Analytics Product Roadmap",
+            "User Research for Data Products"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "data_analyst-pivot-1",
+              "title": "Analytics Product Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "data_analyst-pivot-2",
+              "title": "Senior Analytics PM",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "17-1011.00": {
+      "prototypeRole": "architect_designer",
+      "strategies": {
+        "automate": {
+          "title": "AI Design & BIM Specialist",
+          "description": "Advance architectural skills with AI tools: Autodesk Forma, generative design workflows, BIM management, computational design (Rhino/Grasshopper), and AI rendering tools.",
+          "humanEdge": "Design intent and spatial quality judgment that generative tools optimize around the wrong objective.",
+          "skills": [
+            "Autodesk Forma / Revit Advanced BIM",
+            "Grasshopper Parametric Design",
+            "AI Rendering (Midjourney/Stable Diffusion for Architecture)"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "architect_designer-automate-1",
+              "title": "AI Design & BIM Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "architect_designer-automate-2",
+              "title": "BIM Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "architect_designer-automate-3",
+              "title": "Digital Design Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Computational Design Lead",
+          "description": "Build computational design capability: Grasshopper algorithm design, energy performance simulation (IES/EnergyPlus), structural optimization, and design-to-fabrication workflows.",
+          "humanEdge": "Architect's understanding of how computational optimization affects occupant experience.",
+          "skills": [
+            "Grasshopper Algorithm Design",
+            "Energy Performance Simulation",
+            "Structural Topology Optimization"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "architect_designer-hybrid-1",
+              "title": "Computational Design Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "architect_designer-hybrid-2",
+              "title": "Computational Design Researcher",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Design Director",
+          "description": "Build design leadership capability: design quality management, client relationship architecture, major project design leadership, and design culture development within practice.",
+          "humanEdge": "Design vision and critical judgment that distinguishes excellent from merely competent work.",
+          "skills": [
+            "Design Quality Management Frameworks",
+            "Client Architecture (Major Projects)",
+            "Studio Culture Leadership"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "architect_designer-pivot-1",
+              "title": "Design Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "27-3091.00": {
+      "prototypeRole": "translator",
+      "strategies": {
+        "automate": {
+          "title": "AI Post-Editor & Localisation Specialist",
+          "description": "Transition from translation to MT post-editing: MTPE workflows, CAT tools (Trados, memoQ, Phrase), localisation QA processes, and terminology management.",
+          "humanEdge": "Linguistic judgment that distinguishes fluent-sounding MT errors from accurate translation.",
+          "skills": [
+            "MT Post-Editing (MTPE) Workflows",
+            "CAT Tools Advanced (Trados/Phrase/memoQ)",
+            "Terminology Management (Multiterm)"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "translator-automate-1",
+              "title": "AI Post-Editor & Localisation Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "translator-automate-2",
+              "title": "Senior Post-Editor / Localisation QA Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "translator-automate-3",
+              "title": "Localisation Programme Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Language Technology Lead",
+          "description": "Build language technology expertise: NLP fundamentals, neural MT fine-tuning (domain adaptation), corpus linguistics, and language model evaluation for translation quality.",
+          "humanEdge": "Translator expertise in what constitutes genuine linguistic equivalence across cultural contexts.",
+          "skills": [
+            "Python NLP (spaCy, transformers)",
+            "Neural MT Fine-Tuning",
+            "Language Model Evaluation for Translation"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "translator-hybrid-1",
+              "title": "Language Technology Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "translator-hybrid-2",
+              "title": "Language AI Engineer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Global Content Director",
+          "description": "Develop global content strategy skills: multilingual SEO, transcreation vs. translation strategy, cultural consulting for product expansion, and international brand communication.",
+          "humanEdge": "Cultural intelligence about when direct translation fails and transcreation is required.",
+          "skills": [
+            "Multilingual SEO Strategy",
+            "Transcreation Methodology",
+            "Cultural Intelligence Frameworks (CQ)"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "translator-pivot-1",
+              "title": "Global Content Director",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "41-3041.00": {
+      "prototypeRole": "travel_agent",
+      "strategies": {
+        "automate": {
+          "title": "Travel Technology Specialist",
+          "description": "Modernize travel skills with technology: advanced GDS expertise (Amadeus/Sabre/Galileo), NDC (New Distribution Capability) content, AI pricing tools, and travel revenue management.",
+          "humanEdge": "Client relationship knowledge and nuanced service capability that AI booking tools cannot replicate for complex itineraries.",
+          "skills": [
+            "Advanced GDS (Amadeus/Sabre)",
+            "NDC Distribution & Content",
+            "Travel Revenue Management Fundamentals"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "travel_agent-automate-1",
+              "title": "Travel Technology Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "travel_agent-automate-2",
+              "title": "Travel Technology Product Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "travel_agent-automate-3",
+              "title": "Travel Technology Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "AI Experience Curator",
+          "description": "Develop high-end travel experience expertise: luxury hospitality partnerships, AI-assisted personalisation for VIP clients, bespoke itinerary design, and concierge service standards.",
+          "humanEdge": "Human warmth, discretion, and personal relationship cultivation that luxury clients specifically seek.",
+          "skills": [
+            "Luxury Hospitality Partnership Development",
+            "AI-Assisted VIP Personalisation",
+            "Bespoke Itinerary Design"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "travel_agent-hybrid-1",
+              "title": "AI Experience Curator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "travel_agent-hybrid-2",
+              "title": "Luxury Travel Experience Designer",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Destination Marketing Lead",
+          "description": "Build destination marketing skills: DMO partnership strategy, travel content production, tourism digital marketing (Google Ads, social travel content), and influencer marketing for destinations.",
+          "humanEdge": "Personal travel experience that creates authentic destination storytelling AI cannot replicate.",
+          "skills": [
+            "DMO Partnership Development",
+            "Travel Content Strategy & Production",
+            "Tourism Digital Marketing"
+          ],
+          "firstStep": "Review one example of your current work against these skills before choosing a learning project.",
+          "destinations": [
+            {
+              "id": "travel_agent-pivot-1",
+              "title": "Destination Marketing Lead",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "travel_agent-pivot-2",
+              "title": "Destination Marketing Manager",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    }
+  }
+}
