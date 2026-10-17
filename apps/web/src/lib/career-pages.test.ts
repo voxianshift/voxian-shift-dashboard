@@ -5,6 +5,7 @@ import { emptyProfile, navigatorContext, type NavigatorResult } from "@voxian/sh
 import InsightsPage from "../app/(dashboard)/insights/page"
 import RoadmapPage from "../app/(dashboard)/roadmap/page"
 import CanvasPage from "../app/(dashboard)/roadmap/canvas/page"
+import { SidebarProvider } from "../components/ui/sidebar"
 import { navigatorFixture } from "./navigator.fixture"
 
 const state = vi.hoisted(() => ({
@@ -74,7 +75,7 @@ test("unknown path falls back to profile recommendation", () => {
 
 test("canvas uses same profile path and preserves selected role in plan link", () => {
   state.query = "path=quality&role=1"
-  const html = renderToStaticMarkup(createElement(CanvasPage))
+  const html = renderToStaticMarkup(createElement(SidebarProvider, null, createElement(CanvasPage)))
   expect(html).not.toContain("Profile-based directions")
   expect(html).not.toContain(navigatorFixture.summary)
   expect(html).toContain("Software Quality &amp; AI Evaluation Analyst")

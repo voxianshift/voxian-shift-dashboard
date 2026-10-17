@@ -3,13 +3,18 @@ import type { CareerPath } from "@voxian/shared"
 
 export const cardWidth = 260
 export const cardHeight = 208
+// Desktop zooms out so neighbouring cards stay visible; large screens have room for full size.
+export const defaultZoom = 0.7
+export const largeScreenZoom = 1
+export const largeScreenQuery = "(min-width: 1536px)"
 
 export function selectedCardViewport(
   position: { x: number; y: number },
   width: number,
   height: number,
+  maxZoom = defaultZoom,
 ) {
-  const zoom = Math.max(0.25, Math.min(1, (width - 32) / cardWidth, (height - 32) / cardHeight))
+  const zoom = Math.max(0.25, Math.min(maxZoom, (width - 32) / cardWidth, (height - 32) / cardHeight))
   return {
     x: width / 2 - (position.x + cardWidth / 2) * zoom,
     y: height / 2 - (position.y + cardHeight / 2) * zoom,

@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useLayoutEffect, useRef, useState } from "react"
+import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { useTheme } from "next-themes"
 import { useSearchParams } from "next/navigation"
@@ -25,6 +25,7 @@ import {
 } from "@xyflow/react"
 import "@xyflow/react/dist/style.css"
 import { Button } from "@/components/ui/button"
+import { useSidebar } from "@/components/ui/sidebar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import type { NavigatorResult } from "@voxian/shared"
 import { useNavigator } from "@/components/navigator-provider"
@@ -34,6 +35,9 @@ import {
   careerEdges,
   visibleCareerNodes,
   selectedCardViewport,
+  defaultZoom,
+  largeScreenQuery,
+  largeScreenZoom,
   type RoleNode,
 } from "@/lib/career-canvas"
 
@@ -92,7 +96,13 @@ function RoleCard({ data, selected }: NodeProps<RoleNode>) {
 }
 
 const nodeTypes = { role: RoleCard }
+const maxZoom = () =>
+  window.matchMedia(largeScreenQuery).matches ? largeScreenZoom : defaultZoom
 export default function NavigatorCanvasPage() {
+  const { setOpen } = useSidebar()
+  // Collapse once on entry for canvas space; later toggles are the user's and persist via cookie.
+  // setOpen changes identity with `open`, so depending on it would re-collapse after every expand.
+  useEffect(() => setOpen(false), []) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <Suspense
       fallback={
@@ -164,7 +174,7 @@ function NavigatorCanvas({
       const bottomSheet = window.matchMedia("(max-width: 650px)").matches
       const width = bottomSheet ? bounds.width : Math.max(0, panel.left - bounds.left - 12)
       const height = bottomSheet ? Math.max(0, panel.top - bounds.top - 12) : bounds.height
-      void flow.setViewport(selectedCardViewport(node.position, width, height))
+      void flow.setViewport(selectedCardViewport(node.position, width, height, maxZoom()))
     }
     centerSelection()
     const observer = new ResizeObserver(centerSelection)
@@ -216,7 +226,7 @@ function NavigatorCanvas({
           onInit={(instance) => {
             setFlow(instance)
             if (!initialSelectedId)
-              void instance.fitView({ padding: 0.18, minZoom: 0.55, maxZoom: 1 })
+              void instance.fitView({ padding: 0.18, minZoom: 0.55, maxZoom: maxZoom() })
           }}
           minZoom={0.25}
           maxZoom={1.6}

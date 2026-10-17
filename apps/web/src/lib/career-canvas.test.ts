@@ -6,6 +6,8 @@ import {
   careerEdges,
   visibleCareerNodes,
   selectedCardViewport,
+  defaultZoom,
+  largeScreenZoom,
 } from "./career-canvas"
 import { navigatorFixture } from "./navigator.fixture"
 const careerPaths = navigatorFixture.paths
@@ -22,10 +24,11 @@ test("selection resets zoom and centers the card in unobscured canvas space", ()
     expect(viewport.x + (position.x + cardWidth / 2) * viewport.zoom).toBeCloseTo(width / 2)
     expect(viewport.y + (position.y + cardHeight / 2) * viewport.zoom).toBeCloseTo(height / 2)
     expect(viewport.zoom).toBeGreaterThanOrEqual(0.25)
-    expect(viewport.zoom).toBeLessThanOrEqual(1)
+    expect(viewport.zoom).toBeLessThanOrEqual(defaultZoom)
   }
-  expect(selectedCardViewport(position, 800, 700).zoom).toBe(1)
-  expect(selectedCardViewport(position, 240, 400).zoom).toBe(0.8)
+  expect(selectedCardViewport(position, 800, 700).zoom).toBe(defaultZoom)
+  expect(selectedCardViewport(position, 180, 400).zoom).toBeCloseTo(148 / cardWidth)
+  expect(selectedCardViewport(position, 800, 700, largeScreenZoom).zoom).toBe(largeScreenZoom)
 })
 
 test("all nine role options are reachable through their own direction", () => {
