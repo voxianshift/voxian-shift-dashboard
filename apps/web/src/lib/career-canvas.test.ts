@@ -120,3 +120,38 @@ test("canvas starting point uses the supplied profile occupation", () => {
   const renamed = buildCareerNodes(careerPaths, "Architects")
   expect(renamed.find((node) => node.id === "start")?.data.title).toBe("Architects")
 })
+
+test("more-options card reveals batches outward with exact remaining counts and no overlaps", () => {
+  const path = {
+    ...careerPaths[0]!,
+    roles: Array.from({ length: 8 }, (_, index) => `Curated option ${index + 1}`),
+  }
+  for (const [limit, visible, remaining] of [
+    [3, 3, 5],
+    [6, 6, 2],
+    [9, 8, 0],
+  ]) {
+    const nodes = buildCareerNodes([path], "Starting occupation", { automate: limit! })
+    const roles = nodes.filter((node) => node.data.kind === "role")
+    const more = nodes.find((node) => node.data.kind === "more")
+    expect(roles).toHaveLength(visible!)
+    if (remaining) {
+      expect(more!.data.title).toBe(`+${remaining} more options`)
+      expect(more!.position.x).toBeGreaterThan(roles.at(-1)!.position.x)
+    } else expect(more).toBeUndefined()
+    const edges = careerEdges([path], nodes, roles.at(-1)!.id)
+    for (const edge of edges) {
+      expect(nodes.some((node) => node.id === edge.source)).toBe(true)
+      expect(nodes.some((node) => node.id === edge.target)).toBe(true)
+    }
+    for (const [index, node] of nodes.entries())
+      for (const other of nodes.slice(index + 1))
+        expect(
+          Math.abs(node.position.x - other.position.x) >= cardWidth + 60 ||
+            Math.abs(node.position.y - other.position.y) >= cardHeight + 48,
+        ).toBe(true)
+  }
+  const nodes = buildCareerNodes([path], "Starting occupation", { automate: 9 })
+  const edges = careerEdges([path], nodes, "automate-role-7")
+  expect(edges.find((edge) => edge.target === "automate-role-6")!.source).toBe("automate-role-5")
+})

@@ -275,12 +275,11 @@ export const navigatorDraftSchema = z
         z.object({
           ...pathFields,
           resourceIds: z.array(resourceIdSchema).min(1).max(3),
-          destinationIds: z.array(text(100)).max(3),
+          destinationIds: z.array(text(100)),
           destinationResources: z
             .array(
               z.object({ destinationId: text(100), resourceIds: z.array(resourceIdSchema).max(3) }),
             )
-            .max(3)
             .default([]),
         }),
       )
@@ -308,22 +307,20 @@ export const careerPathSchema = z
     mappingVersion: text(80),
     mappingSource: text(200),
     mappingRationale: text(500),
-    destinations: z
-      .array(
-        z.object({
-          id: text(100),
-          title: text(120),
-          kind: z.literal("curated_pathway"),
-          occupationCode: z.null(),
-        }),
-      )
-      .max(3),
-    roles: z.array(text(120)).max(3),
+    destinations: z.array(
+      z.object({
+        id: text(100),
+        title: text(120),
+        kind: z.literal("curated_pathway"),
+        occupationCode: z.null(),
+      }),
+    ),
+    roles: z.array(text(120)),
     label: z.string().min(1).max(20),
     colorToken: z.enum(["chart-3", "tertiary", "warning", "success"]),
     color: z.string().max(40),
     resources: z.array(resourceSchema).min(1).max(3),
-    roleResources: z.array(z.array(resourceSchema).max(3)).max(3),
+    roleResources: z.array(z.array(resourceSchema).max(3)),
   })
   .refine((path) => {
     const metadata = navigatorStrategies[path.id]

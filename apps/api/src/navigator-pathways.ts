@@ -18,8 +18,7 @@ const pathwaySchema = z.object({
         occupationCode: z.null(),
       }),
     )
-    .min(1)
-    .max(3),
+    .min(1),
 })
 const catalogue = z
   .object({

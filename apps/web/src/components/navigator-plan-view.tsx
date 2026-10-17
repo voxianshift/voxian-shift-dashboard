@@ -92,7 +92,7 @@ export function Roadmap({
   const branch = branchOverride ?? (requested >= 0 ? requested : Math.max(0, recommended))
   const [targetRole, setTargetRole] = useState<number | null>(
     requested >= 0 &&
-      /^[0-2]$/.test(requestedRole ?? "") &&
+      /^(0|[1-9]\d*)$/.test(requestedRole ?? "") &&
       branches[requested]!.roles[Number(requestedRole)]
       ? Number(requestedRole)
       : null,

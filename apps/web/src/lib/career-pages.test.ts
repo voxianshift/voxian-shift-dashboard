@@ -331,3 +331,34 @@ test("family-level options are labelled as exploration on canvas and in details"
   )
   expect(html).toContain("Family exploration · validate fit")
 })
+
+test("full destination arrays validate and deep links reveal roles beyond third card", () => {
+  const original = navigatorFixture.paths[0]!
+  const destinations = Array.from({ length: 8 }, (_, index) => ({
+    ...original.destinations[0]!,
+    id: `expanded-${index}`,
+    title: `Expanded option ${index + 1}`,
+  }))
+  state.data = navigatorResultSchema.parse({
+    ...navigatorFixture,
+    paths: navigatorFixture.paths.map((path) =>
+      path.id === "automate"
+        ? {
+            ...path,
+            destinations,
+            roles: destinations.map((item) => item.title),
+            roleResources: destinations.map(() => []),
+          }
+        : path,
+    ),
+  })
+  let html = renderToStaticMarkup(
+    createElement(SidebarProvider, null, createElement(NavigatorPage)),
+  )
+  expect(html).toContain("+5 more options")
+  expect(html).not.toContain("Expanded option 4</h2>")
+  state.query = "path=automate&role=6"
+  html = renderToStaticMarkup(createElement(SidebarProvider, null, createElement(NavigatorPage)))
+  expect(html.match(/id="role-details-title"[^>]*>(.*?)<\/h2>/)?.[1]).toBe("Expanded option 7")
+  expect(html).not.toContain("more options</h2>")
+})

@@ -129,3 +129,27 @@ test("family exploration does not inherit unrelated courses or mandatory credent
   expect(courses[0]!.mustHave).toBe(false)
   expect(courses[0]!.href).toBe(navigatorResources.learn.href)
 })
+
+test("model can echo full destination lists and resources beyond three options", () => {
+  const draft = {
+    summary: "Full list",
+    paths: ["automate", "hybrid", "pivot", "create"].map((id) => ({
+      id,
+      focus: "Explore options",
+      description: "Explore supplied options.",
+      why: "Validate requirements.",
+      humanEdge: "Human judgment.",
+      tradeoff: "Requirements unknown.",
+      skills: ["Research", "Review", "Practice"],
+      project: "Review a sample.",
+      firstStep: "Read requirements.",
+      resourceIds: ["learn"],
+      destinationIds: Array.from({ length: 8 }, (_, i) => `${id}-${i}`),
+      destinationResources: Array.from({ length: 8 }, (_, i) => ({
+        destinationId: `${id}-${i}`,
+        resourceIds: ["learn"],
+      })),
+    })),
+  }
+  expect(navigatorDraftSchema.safeParse(draft).success).toBe(true)
+})
