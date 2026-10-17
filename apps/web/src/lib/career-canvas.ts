@@ -1,4 +1,5 @@
 import { MarkerType, type Edge, type Node } from "@xyflow/react"
+import { routeCareerEdge, curvedCareerPath } from "./career-routing"
 import type { CareerPath } from "@voxian/shared"
 
 export const rolePageSize = 3
@@ -37,9 +38,9 @@ export type RoleNode = Node<
   "role"
 >
 
-// Every curated role is shown, filling columns of `rolePageSize` rows to keep branches short.
+// Fixed rows and columns reserve separate space for every card.
 export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): RoleNode[] {
-  const rowHeight = cardHeight + 48
+  const rowHeight = cardHeight + 56
   const branchRows = careerPaths.map((path) =>
     Math.max(1, Math.min(rolePageSize, path.roles.length)),
   )
@@ -56,7 +57,7 @@ export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): 
       focusable: false,
       data: {
         title: roleTitle,
-        subtitle: "Your saved main occupation · your starting point",
+        subtitle: "Day 0 Baseline",
         color: "var(--ring)",
         kind: "start",
       },
@@ -68,7 +69,10 @@ export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): 
         {
           id: path.id,
           type: "role",
-          position: { x: 360, y: (firstRow + (branchRows[index]! - 1) / 2) * rowHeight },
+          position: {
+            x: 380,
+            y: (firstRow + (branchRows[index]! - 1) / 2) * rowHeight,
+          },
           width: cardWidth,
           height: cardHeight,
           ariaLabel: `Explore ${path.title}`,
@@ -90,7 +94,7 @@ export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): 
           id: `${path.id}-role-${roleIndex}`,
           type: "role",
           position: {
-            x: 720 + Math.floor(roleIndex / rolePageSize) * 360,
+            x: 920 + Math.floor(roleIndex / rolePageSize) * 420,
             y: (firstRow + (roleIndex % rolePageSize)) * rowHeight,
           },
           width: cardWidth,
@@ -129,13 +133,22 @@ export function careerEdges(
         })),
     ].map(({ active, ...edge }) => ({
       ...edge,
-      type: "default",
+      type: "obstacle",
+      data: {
+        path: curvedCareerPath(
+          routeCareerEdge(
+            careerNodes.find((node) => node.id === edge.source)!,
+            careerNodes.find((node) => node.id === edge.target)!,
+            careerNodes,
+          ),
+        ),
+      },
       animated: active,
       style: {
         stroke: path.color,
         strokeWidth: active ? 2.5 : 1.3,
         filter: active ? `drop-shadow(0 0 2px ${path.color})` : undefined,
-        opacity: selectedId && !active ? 0.3 : 1,
+        opacity: selectedId && !active ? 0.5 : 0.9,
       },
       markerEnd: { type: MarkerType.ArrowClosed, color: path.color },
     }))

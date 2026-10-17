@@ -27,11 +27,11 @@ const groups: { id: string; title: string; fields: ProfileField[] }[] = [
     title: "Your work",
     fields: ["preferredName", "currentWork", "taskFocus", "strengths"],
   },
-  { id: "next", title: "Your next step", fields: ["goals", "direction", "risk"] },
+  { id: "next", title: "Your next step", fields: ["direction", "goals", "risk", "anxieties"] },
   {
     id: "preferences",
     title: "Preferences",
-    fields: ["hours", "flexibility", "timeline", "anxieties"],
+    fields: ["hours", "timeline", "flexibility"],
   },
 ]
 

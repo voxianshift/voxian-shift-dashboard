@@ -85,18 +85,14 @@ function Meter() {
             : "Default routine weights · task mix not shared"
     return (
       <div className={editorialPage}>
-        <PanelHeading
-          kicker="THE METER / YOUR STARTING PICTURE"
-          title="Your profile is ready for the Meter."
-        >
-          Check your occupation and task mix, then calculate your exposure baseline. Other
-          preferences are optional.
+        <PanelHeading kicker="THE METER / YOUR STARTING PICTURE" title="Review your baseline">
+          Confirm your role and task mix.
         </PanelHeading>
         <section className="rounded-xl border bg-muted/30 p-6 mb-6" aria-label="Your Meter inputs">
           <p className="text-[20px] font-medium">{draftRole.title}</p>
           <p className="text-[16px] text-muted-foreground mt-2">{mix}</p>
           <p className="text-[14px] text-muted-foreground mt-4 leading-relaxed">
-            Uses illustrative task estimates. Exposure is not a prediction of job loss.
+            Demo estimates · not a job-loss prediction.
           </p>
         </section>
         <div className="flex flex-wrap gap-3">
@@ -124,28 +120,26 @@ function Meter() {
           kicker="THE METER / BASELINE COVERAGE"
           title={
             profile.primaryOccupation && profile.occupationNames[profile.primaryOccupation]
-              ? "Baseline being prepared."
+              ? "Baseline unavailable"
               : profile.occupations.length > 1
                 ? "Choose your main occupation."
                 : profile.currentWork
-                  ? "Your work needs a supported baseline."
-                  : "Let’s set up your Meter."
+                  ? "Match your occupation"
+                  : "Set up your Meter"
           }
         >
           {profile.primaryOccupation && profile.occupationNames[profile.primaryOccupation]
-            ? `${profile.occupationNames[profile.primaryOccupation]} is recognised and saved. We do not yet have an exposure baseline for this role, so there is no personal score to show.`
+            ? `${profile.occupationNames[profile.primaryOccupation]} is saved. No exposure baseline available yet.`
             : profile.occupations.length > 1
-              ? "You’ve selected multiple roles. Choose which takes most of your time so we can calculate one baseline."
+              ? "Choose the role that takes most of your time."
               : profile.currentWork
-                ? "Search the occupation catalogue to match your work. Only roles with an exposure baseline can show a score."
-                : "No occupation is saved yet. Search for your role and choose your task mix to calculate an exposure baseline."}{" "}
-          Other preferences are optional.
+                ? "Search your role to find an available baseline."
+                : "Choose your occupation and task mix."}
         </PanelHeading>
         <p className="text-[16px] text-muted-foreground mb-6">
           {profile.occupationNames[profile.primaryOccupation] ||
             profile.currentWork ||
             "No occupation selected."}{" "}
-          Personal scores remain empty until your baseline is confirmed.
         </p>
         <div className="flex flex-wrap gap-3">
           <Button onClick={() => setEditing(true)}>
@@ -189,13 +183,10 @@ function Meter() {
             <span className={smallTag}>TASK EXPOSURE</span>
           </div>
           <h1 className="mt-5 text-[clamp(28px,2.7vw,42px)] font-[450] leading-[1.15] tracking-[-1.6px] max-[850px]:text-[36px]">
-            Change starts
-            <br />
-            at the task level.
+            Your AI exposure
           </h1>
           <p className="mt-3.5 max-w-[360px] text-[16px] leading-[1.8] text-muted-foreground">
-            Your job is more than a job title. See where AI meets your work — and where you make the
-            difference.
+            See which tasks AI can handle.
           </p>
           <div className="mt-3 flex flex-wrap gap-2 py-[13px] text-[13px] leading-[1.7] text-muted-foreground">
             <p>
@@ -213,7 +204,7 @@ function Meter() {
             </Link>
           </div>
           <div className="mt-[26px] border px-[15px] py-[13px]">
-            <span className={eyebrow}>OCCUPATIONAL ANCHOR</span>
+            <span className={eyebrow}>YOUR ROLE</span>
             <p className="my-1 text-[16px]">{role.title}</p>
             <span className="font-mono text-[13px] text-muted-foreground">{role.code}</span>
           </div>
@@ -239,23 +230,24 @@ function Meter() {
                     {model.title}
                   </Button>
                 ))}
-              <p className={fieldHelp}>One role at a time; these scores are not blended.</p>
+              <p className={fieldHelp}>Scores shown per role.</p>
             </div>
           )}
           {!iscoRole && !example && confirmed && !profile.taskFocus && (
-            <p className={cn(fieldHelp, "mt-3")}>
-              Occupation baseline: task mix not shared. Showing default routine weights; change the
-              mix below to refine.
-            </p>
+            <p className={cn(fieldHelp, "mt-3")}>Default task mix. Adjust below.</p>
           )}
           {iscoRole ? (
-            <p className={cn(fieldHelp, "mt-3")}>
-              ISCO-08 task statements weighted equally (ILO publishes no task weights), so the
-              task-mix switch does not apply. Source: ILO Working Paper 140 (2025).{" "}
-              {iscoRole.crosswalkMatch === "ai"
-                ? `ISCO unit matched by AI from the O*NET description: ${iscoRole.mappingNote}`
-                : `ISCO unit from the ESCO–O*NET crosswalk (${iscoRole.crosswalkMatch}: ${iscoRole.mappingNote}).`}
-            </p>
+            <details className={cn(fieldHelp, "mt-3")}>
+              <summary className="cursor-pointer">Source & mapping</summary>
+              <p className="mt-2">
+                ILO WP140 (2025) · Equal task weights. Task-mix controls do not apply.
+              </p>
+              <p className="mt-1">
+                {iscoRole.crosswalkMatch === "ai"
+                  ? `AI-assisted ISCO mapping: ${iscoRole.mappingNote}`
+                  : `ESCO–O*NET crosswalk (${iscoRole.crosswalkMatch}): ${iscoRole.mappingNote}`}
+              </p>
+            </details>
           ) : (
             <fieldset className="mt-[22px]">
               <legend className={eyebrow}>WHAT FILLS MOST OF YOUR DAY?</legend>
@@ -286,15 +278,14 @@ function Meter() {
                 </Button>
               </div>
               <p className={cn(fieldHelp, "mt-3")}>
-                Explore a different task mix here. Reset returns to{" "}
-                {example || !confirmed ? "the example" : "your saved profile"}.
+                Preview a task mix. Reset restores saved values.
               </p>
             </fieldset>
           )}
           <div className="pt-[27px] pb-[22px]" aria-live="polite">
             <div className="flex items-end justify-between">
               <div>
-                <p className={eyebrow}>YOUR TASK EXPOSURE INDEX</p>
+                <p className={eyebrow}>TASK EXPOSURE</p>
                 <div
                   data-meter-score
                   className="text-[65px] font-normal leading-[1.2] tracking-[-4px] tabular-nums"
@@ -305,15 +296,24 @@ function Meter() {
                   </span>
                 </div>
               </div>
-              <span className="mb-3.5 flex items-center gap-1.5 text-[13px] text-[#8c6d7d]">
-                {score >= 60 ? "High exposure" : "Moderate exposure"}
+              <span
+                className={cn(
+                  "mb-3.5 flex items-center gap-1.5 text-[13px]",
+                  score >= 60
+                    ? "text-red-700 dark:text-red-400"
+                    : score >= 40
+                      ? "text-yellow-700 dark:text-yellow-400"
+                      : "text-emerald-700 dark:text-emerald-400",
+                )}
+              >
+                {score >= 60 ? "High exposure" : score >= 40 ? "Moderate exposure" : "Low exposure"}
                 <ArrowUpRight className="size-3.5" />
               </span>
             </div>
             <div className="mt-[17px] mb-2 h-[7px] bg-muted">
               <div
-                className="h-full bg-mauve transition-[width] duration-400 motion-reduce:transition-none"
-                style={{ width: `${score}%` }}
+                className="h-full bg-linear-to-r from-emerald-500 via-yellow-400 to-red-500 transition-[clip-path] duration-400 motion-reduce:transition-none"
+                style={{ clipPath: `inset(0 ${100 - score}% 0 0)` }}
               />
             </div>
             <div className="flex justify-between text-[13px] text-muted-foreground">
@@ -321,7 +321,7 @@ function Meter() {
               <span>More exposed</span>
             </div>
             <p className="mt-[15px] text-[13px] text-muted-foreground">
-              Task exposure ≠ probability of losing your job.
+              Exposure measures AI capability, not job-loss risk.
             </p>
           </div>
         </div>
@@ -338,7 +338,14 @@ function Meter() {
               <div className="min-w-0 flex-1">
                 <p className="text-[14px] leading-[1.5]">{task.name}</p>
                 <span
-                  className={cn("text-[12px]", task.moat ? "text-[#758879]" : "text-[#927480]")}
+                  className={cn(
+                    "text-[12px]",
+                    task.exposure >= 0.6
+                      ? "text-red-700 dark:text-red-400"
+                      : task.exposure >= 0.4
+                        ? "text-yellow-700 dark:text-yellow-400"
+                        : "text-emerald-700 dark:text-emerald-400",
+                  )}
                 >
                   {task.moat ? "Human advantage" : "Automation exposed"}
                 </span>
@@ -352,8 +359,8 @@ function Meter() {
                 </span>
                 <div className="mt-[7px] h-[3px] bg-muted">
                   <div
-                    className="h-full bg-[#c0b0ba]"
-                    style={{ width: `${task.exposure * 100}%` }}
+                    className="h-full bg-linear-to-r from-emerald-500 via-yellow-400 to-red-500"
+                    style={{ clipPath: `inset(0 ${100 - task.exposure * 100}% 0 0)` }}
                   />
                 </div>
               </div>
@@ -369,27 +376,20 @@ function Meter() {
         <RadarFooter />
       </section>
       <aside className="min-w-0 bg-[#fafafa] px-[30px] max-[1100px]:px-4 max-[850px]:border-t max-[850px]:pb-[25px] min-[1600px]:px-10 dark:bg-[#191919]">
-        <PanelHeading
-          variant="panel"
-          kicker="A CLEARER SIGNAL. A BETTER NEXT STEP."
-          title="Your work is changing. You still have agency."
-        >
-          Understand the shift. Find your human advantage.
-          <br className="hidden xl:block" /> Build a future that works for you.
+        <PanelHeading variant="panel" kicker="YOUR NEXT MOVE" title="Build on your strengths">
+          Find skills worth building next.
         </PanelHeading>
         <div className="relative flex items-center justify-between gap-2.5 overflow-hidden bg-mauve-wash px-6 py-[22px]">
           <div>
-            <p className="relative z-1 text-[16px] text-[#3d343a]">
-              Your role evolves. Your value doesn’t disappear.
-            </p>
+            <p className="relative z-1 text-[16px] text-[#3d343a]">Turn insight into action.</p>
             <span className="mt-1.5 block text-[14px] text-[#7a6d75]">
-              Start with what makes you hard to replace.
+              Start with your human strengths.
             </span>
             <Link
               href="/roadmap"
               className="relative z-1 mt-[11px] flex items-center gap-1.5 text-[14px] text-[#78516c]"
             >
-              Find your next direction <ArrowRight className="size-3.5" />
+              Explore career paths <ArrowRight className="size-3.5" />
             </Link>
           </div>
           <div
@@ -405,26 +405,17 @@ function Meter() {
           crosswalkMatch={iscoRole?.crosswalkMatch}
         />
         <div className="mt-[30px]">
-          <p className={cn(eyebrow, "mx-4 mb-[18px]")}>FROM AWARENESS TO ACTION</p>
+          <p className={cn(eyebrow, "mx-4 mb-[18px]")}>EXPLORE</p>
           <Link href="/insights" className={nextStepLink}>
-            <span className="shrink-0">Follow the curve</span>
-            <span className="order-3 w-full text-[13px] text-muted-foreground">
-              See what’s observed. Explore what’s next.
-            </span>
+            <span className="shrink-0">AI trends</span>
             <ArrowUpRight className="ml-auto size-[13px] shrink-0 text-muted-foreground" />
           </Link>
           <Link href="/roadmap" className={nextStepLink}>
             <span className="shrink-0">Choose a direction</span>
-            <span className="order-3 w-full text-[13px] text-muted-foreground">
-              Three paths from the skills you already have.
-            </span>
             <ArrowUpRight className="ml-auto size-[13px] shrink-0 text-muted-foreground" />
           </Link>
           <Link href="/resources" className={nextStepLink}>
             <span className="shrink-0">Check the evidence</span>
-            <span className="order-3 w-full text-[13px] text-muted-foreground">
-              Open methodology. Visible assumptions.
-            </span>
             <ArrowUpRight className="ml-auto size-[13px] shrink-0 text-muted-foreground" />
           </Link>
         </div>

@@ -54,7 +54,10 @@ export function RadarEvidence({
           <div className="min-w-[220px] flex-1">
             <span className={smallTag}>{tag.toUpperCase()}</span>
             <h2 className="mt-3 text-[16px] font-medium">{info.label}</h2>
-            <p className="mt-1.5 text-[14px] leading-[1.8] text-muted-foreground">{info.meaning}</p>
+            <details className="mt-2 text-sm text-muted-foreground">
+              <summary className="cursor-pointer">What this means</summary>
+              <p className="mt-2">{info.meaning}</p>
+            </details>
             <p className="mt-2 font-mono text-[12px] text-muted-foreground">
               μ {mean.toFixed(2)} · σ {sd.toFixed(2)} · {exposures.length} tasks ·{" "}
               {isco ? `ISCO-08 ${isco.code}` : "illustrative inputs"}
@@ -78,14 +81,14 @@ export function RadarEvidence({
             <span className={cn(smallTag, "ml-auto table")}>Insufficient data</span>
             <h3 className="mt-3 text-[15px] font-medium">Observed adoption</h3>
             <p className="mt-1.5 text-[13px] leading-[1.7] text-muted-foreground">
-              No dated adoption evidence linked yet, so no trend is shown.
+              No adoption data linked.
             </p>
           </div>
           <div className={cell}>
             <span className={cn(smallTag, "ml-auto table")}>Data pending</span>
             <h3 className="mt-3 text-[15px] font-medium">Employment outcomes</h3>
             <p className="mt-1.5 text-[13px] leading-[1.7] text-muted-foreground">
-              No observed job or wage outcomes linked for your country.
+              No local jobs or wage data linked.
             </p>
           </div>
           <div className={cell}>
@@ -108,19 +111,16 @@ export function RadarEvidence({
       <div className="flex gap-2.5 px-4 py-[27px] text-[13px] leading-[1.8] text-muted-foreground">
         <ArrowDownRight className="size-4 shrink-0" />
         <p>
-          <strong className="font-normal text-foreground">A signal, not a sentence.</strong>{" "}
-          Confidence is {overall.toLowerCase()}{" "}
           {isco
-            ? `because ILO’s scores are global and the occupation is mapped to ISCO ${crosswalkMatch === "ai" ? "by an AI match from its description" : "through the ESCO crosswalk"}, not because the exposure signal is weak.`
-            : "because these are illustrative demo inputs."}{" "}
-          It rises as local, dated evidence is added.
+            ? `Global ILO data; local evidence limited.${crosswalkMatch === "ai" ? " Occupation mapping is AI-assisted." : ""}`
+            : "Illustrative demo inputs; not a personal forecast."}
         </p>
       </div>
     </>
   )
 }
 
-// 270° ring in the Meter's mauve; marker at μ on a 0–1 scale
+// Fixed exposure scale: green at low values, yellow midway, red at high values.
 function GradientDial({ mean, code }: { mean: number; code: string }) {
   const id = useId()
   const r = 38
@@ -135,9 +135,10 @@ function GradientDial({ mean, code }: { mean: number; code: string }) {
       aria-label={`${code}, mean ${mean.toFixed(2)}`}
     >
       <defs>
-        <linearGradient id={id} x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0%" stopColor="#d6c3d0" />
-          <stop offset="100%" stopColor="#9f7f94" />
+        <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="12" y1="50" x2="88" y2="50">
+          <stop offset="0%" stopColor="#10b981" />
+          <stop offset="50%" stopColor="#facc15" />
+          <stop offset="100%" stopColor="#ef4444" />
         </linearGradient>
       </defs>
       <circle
@@ -167,7 +168,7 @@ function GradientDial({ mean, code }: { mean: number; code: string }) {
         cy={50 + r * Math.sin(angle)}
         r="4"
         fill="var(--color-background)"
-        stroke="#9f7f94"
+        stroke={value >= 0.6 ? "#ef4444" : value >= 0.4 ? "#eab308" : "#10b981"}
         strokeWidth="2"
       />
       <text x="50" y="57" textAnchor="middle" className="fill-foreground text-[22px] font-[450]">
@@ -199,7 +200,10 @@ function GradientBar({ mean }: { mean: number }) {
         ))}
       </div>
       <div className="relative mt-1 h-[3px] bg-muted">
-        <div className="h-full bg-mauve" style={{ width: `${Math.min(100, mean * 100)}%` }} />
+        <div
+          className="h-full bg-linear-to-r from-emerald-500 via-yellow-400 to-red-500"
+          style={{ clipPath: `inset(0 ${100 - Math.min(100, mean * 100)}% 0 0)` }}
+        />
       </div>
     </div>
   )

@@ -196,3 +196,20 @@ test("option questions render answer chips only; free text stays for name and wo
   expect(html).toContain("About 2 hours from chat") // earlier custom answer kept as a chip
   expect(html.match(/Required · used to schedule your learning/g)).toHaveLength(2)
 })
+
+test("profile editor respects tab field order and work offers search without a description input", () => {
+  const fields = ["preferredName", "currentWork", "taskFocus", "strengths"] as const
+  const html = renderToStaticMarkup(
+    createElement(
+      TooltipProvider,
+      null,
+      createElement(ProfileEditor, { profile: emptyProfile, onChange: () => {}, fields }),
+    ),
+  )
+  const positions = fields.map((field) => html.indexOf(`id="profile-${field}-label"`))
+  expect(positions.every((position) => position >= 0)).toBe(true)
+  expect(positions).toEqual([...positions].sort((a, b) => a - b))
+  expect(html).toContain("Search your job title or duties")
+  expect(html).not.toContain("<textarea")
+  expect(html).not.toContain("Or describe your work")
+})

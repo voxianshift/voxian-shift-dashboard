@@ -71,7 +71,12 @@ for (const scope of ["profile", "all"] as const) {
     vi.stubGlobal("sessionStorage", { removeItem })
     await reset(scope)
     expect(removeItem).toHaveBeenCalledWith("voxian-navigator-v1")
-    expect(state.value).toEqual({ profile: emptyProfile, confirmed: false, skipped: [] })
+    expect(state.value).toEqual({
+      profile: emptyProfile,
+      confirmed: false,
+      onboardingComplete: false,
+      skipped: [],
+    })
     expect(fetch).toHaveBeenCalledTimes(1)
     if (scope === "profile") {
       expect(fetch).toHaveBeenCalledWith(
@@ -98,3 +103,39 @@ for (const scope of ["profile", "all"] as const) {
     expect(state.value).toBe(before)
   })
 }
+
+test("onboarding requires occupation and schedule before opening dashboard", () => {
+  const { completeOnboarding } = context()
+  expect(completeOnboarding(emptyProfile)).toBe(false)
+  const profile = {
+    ...emptyProfile,
+    preferredName: "Alex",
+    occupations: ["15-1252.00"],
+    primaryOccupation: "15-1252.00",
+    hours: "1–3 hours",
+    timeline: "Next 3 months",
+  } as CareerProfile
+  for (const patch of [{ primaryOccupation: "" }, { hours: "" }, { timeline: "" }]) {
+    expect(completeOnboarding({ ...profile, ...patch })).toBe(false)
+  }
+  expect(completeOnboarding(profile)).toBe(true)
+  expect(state.value).toMatchObject({ onboardingComplete: true, confirmed: true, profile })
+})
+
+test("editing preferences preserves onboarding completion", () => {
+  const { completeOnboarding, update } = context()
+  completeOnboarding({
+    ...emptyProfile,
+    preferredName: "Alex",
+    occupations: ["15-1252.00"],
+    primaryOccupation: "15-1252.00",
+    hours: "1–3 hours",
+    timeline: "Next 3 months",
+  } as CareerProfile)
+  update({ preferredName: "Sam" })
+  expect(state.value).toMatchObject({
+    onboardingComplete: true,
+    confirmed: false,
+    profile: { preferredName: "Sam" },
+  })
+})

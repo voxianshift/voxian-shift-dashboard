@@ -15,7 +15,7 @@ export const statusDot = "inline-block size-[5px] rounded-full bg-sage"
 
 // Wrap of selectable outline buttons; pressed = chosen
 export const answerChips =
-  "flex flex-wrap gap-2 [&_button]:h-auto [&_button]:min-h-10 [&_button]:justify-start [&_button]:whitespace-normal [&_button]:px-[13px] [&_button]:py-[9px] [&_button]:text-left [&_button]:text-[14px] [&_button]:leading-[1.5] [&_button]:font-normal [&_button[aria-pressed=true]]:border-mauve [&_button[aria-pressed=true]]:bg-mauve-tint"
+  "flex flex-wrap gap-2 [&_button]:h-auto [&_button]:min-h-10 [&_button]:justify-start [&_button]:whitespace-normal [&_button]:px-[13px] [&_button]:py-[9px] [&_button]:text-left [&_button]:text-[14px] [&_button]:leading-[1.5] [&_button]:font-normal [&_button[aria-pressed=true]]:border-mauve [&_button[aria-pressed=true]]:bg-mauve-tint dark:[&_button[aria-pressed=true]]:border-white dark:[&_button[aria-pressed=true]]:bg-white/5"
 
 // Segmented control (task mix): container + each button
 export const segmentControl = "mt-[9px] flex gap-0.5 bg-muted p-[3px]"

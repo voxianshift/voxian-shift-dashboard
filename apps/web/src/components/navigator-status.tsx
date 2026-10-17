@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { LoaderCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useNavigator } from "@/components/navigator-provider"
 
@@ -29,9 +30,23 @@ export function NavigatorStatus() {
           </Button>
         </div>
       ) : (
-        <p role="status" className="mt-4 text-[17px] leading-relaxed text-muted-foreground">
-          Preparing directions from your saved occupations and career preferences…
-        </p>
+        <div
+          role="status"
+          aria-live="polite"
+          aria-busy="true"
+          className="mt-6 flex items-center gap-3 text-muted-foreground"
+        >
+          <LoaderCircle
+            className="size-5 animate-spin motion-reduce:animate-none"
+            aria-hidden="true"
+          />
+          <div>
+            <p className="font-medium text-foreground">Fetching your career paths…</p>
+            <p className="mt-1 text-sm">
+              Matching your role and preferences. This can take up to a minute.
+            </p>
+          </div>
+        </div>
       )}
     </div>
   )

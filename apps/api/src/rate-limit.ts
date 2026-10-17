@@ -3,6 +3,7 @@ import type { FastifyInstance, FastifyRequest } from "fastify"
 // Requests per client IP per minute. LLM routes cost money, so they get the tightest limits.
 const perMinute: Record<string, number> = {
   "/plan": 5,
+  "/onboarding/cv": 5,
   "/navigator/paths": 5,
   "/onboarding/chat": 15,
 }

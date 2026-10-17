@@ -116,7 +116,7 @@ export function OccupationPicker({
       {status === "error" && (
         <div role="alert">
           <p className={fieldHelp}>Search is unavailable. Your current selections are kept.</p>
-          <Button variant="outline" onClick={() => setAttempt((value) => value + 1)}>
+          <Button type="button" variant="outline" onClick={() => setAttempt((value) => value + 1)}>
             Retry search
           </Button>
         </div>

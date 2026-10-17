@@ -8,20 +8,29 @@ import {
   mergeProfile,
   profileSchema,
   hasMeterInputs,
+  hasScheduleAnswers,
   type CareerProfile,
 } from "@/lib/onboarding"
 
 const sessionSchema = z.object({
   profile: profileSchema,
   confirmed: z.boolean(),
+  onboardingComplete: z.boolean().default(false),
   skipped: z.array(z.string()).max(20),
 })
-const blank = { profile: emptyProfile, confirmed: false, skipped: [] as string[] }
+const blank = {
+  profile: emptyProfile,
+  confirmed: false,
+  onboardingComplete: false,
+  skipped: [] as string[],
+}
 const storageKey = "voxian-career-profile-v1"
 type ProfileState = z.infer<typeof sessionSchema>
 const ProfileContext = createContext<{
   profile: CareerProfile
   confirmed: boolean
+  onboardingComplete: boolean
+  completeOnboarding: (profile: CareerProfile) => boolean
   skipped: string[]
   ready: boolean
   storageAvailable: boolean
@@ -122,6 +131,11 @@ export function CareerProfileProvider({ children }: { children: ReactNode }) {
         ready,
         storageAvailable,
         saveOccupations,
+        completeOnboarding: (profile) => {
+          if (!hasMeterInputs(profile) || !hasScheduleAnswers(profile)) return false
+          setState((s) => ({ ...s, profile, confirmed: true, onboardingComplete: true }))
+          return true
+        },
         update: (patch) =>
           setState((s) => ({ ...s, profile: mergeProfile(s.profile, patch), confirmed: false })),
         skip: (field) => setState((s) => ({ ...s, skipped: [...new Set([...s.skipped, field])] })),

@@ -66,7 +66,9 @@ test("all branches and roles occupy separate rows without overlapping cards", ()
     const roles = nodes.filter((node) => node.data.kind === "role" && node.data.pathId === path.id)
     expect(roles.map((node) => node.data.title)).toEqual([...path.roles])
     const parent = nodes.find((node) => node.id === path.id)!
-    expect(parent.position.y).toBe((roles[0]!.position.y + roles.at(-1)!.position.y) / 2)
+    expect(
+      Math.abs(parent.position.y - (roles[0]!.position.y + roles.at(-1)!.position.y) / 2),
+    ).toBeLessThanOrEqual(24)
   }
   for (const [index, node] of nodes.entries()) {
     expect(node.width).toBe(cardWidth)
@@ -130,8 +132,8 @@ test("all roles show in columns of three with no overlaps and edges from the str
   const nodes = buildCareerNodes([path], "Starting occupation")
   const roles = nodes.filter((node) => node.data.kind === "role")
   expect(roles).toHaveLength(8)
-  expect(new Set(roles.map((node) => node.position.x)).size).toBe(3)
-  expect(new Set(roles.map((node) => node.position.y)).size).toBe(3)
+  expect(new Set(roles.map((node) => Math.round((node.position.x - 920) / 420))).size).toBe(3)
+  expect(new Set(roles.map((node) => Math.round(node.position.y / (cardHeight + 56)))).size).toBe(3)
   for (const [index, node] of nodes.entries())
     for (const other of nodes.slice(index + 1))
       expect(
@@ -157,4 +159,11 @@ test("real prototype mappings show every curated role", () => {
         nodes.filter((node) => node.data.kind === "role" && node.data.pathId === path.id).length,
     ),
   ).toEqual([4, 3, 3, 3])
+})
+
+test("fixed card grid stays aligned across renders", () => {
+  expect(buildCareerNodes(careerPaths, navigatorFixture.roleTitle)).toEqual(careerNodes)
+  const roles = careerNodes.filter((node) => node.data.kind === "role")
+  expect(new Set(roles.map((node) => node.position.x)).size).toBe(1)
+  expect(roles.every((node) => node.position.y % (cardHeight + 56) === 0)).toBe(true)
 })

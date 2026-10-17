@@ -4,6 +4,7 @@ import {
   type OccupationCatalogue,
 } from "./occupation-catalogue.ts"
 import Fastify from "fastify"
+import { registerCv } from "./cv.ts"
 import { registerOnboarding } from "./onboarding.ts"
 import { registerPlan } from "./plan.ts"
 import { registerNavigator } from "./navigator.ts"
@@ -32,6 +33,7 @@ export function buildApp(options: { chatStore?: ChatStore; catalogue?: Occupatio
     (process.env.DATABASE_URL ? createOccupationCatalogue(process.env.DATABASE_URL) : undefined)
   if (catalogue) app.addHook("onClose", () => catalogue.close())
   registerOccupations(app, catalogue)
+  registerCv(app, catalogue)
   registerOnboarding(app, store, catalogue)
   registerPlan(app, catalogue)
   registerNavigator(app, catalogue)

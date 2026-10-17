@@ -1,18 +1,18 @@
 import { Suspense, type ReactNode } from "react"
 import { cookies } from "next/headers"
-import { CareerProfileProvider } from "@/components/career-profile-provider"
+import { OnboardingGate } from "@/components/onboarding-gate"
 import { AppSidebar } from "@/components/app-sidebar"
 import { DashboardHeader } from "@/components/dashboard-header"
 import { SidebarProvider } from "@/components/ui/sidebar"
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
-    <CareerProfileProvider>
+    <OnboardingGate>
       {/* Cookie read is request-time data, so it must sit inside Suspense under Cache Components. */}
       <Suspense fallback={null}>
         <DashboardShell>{children}</DashboardShell>
       </Suspense>
-    </CareerProfileProvider>
+    </OnboardingGate>
   )
 }
 

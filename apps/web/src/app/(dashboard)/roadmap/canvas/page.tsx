@@ -6,6 +6,8 @@ import { useSearchParams } from "next/navigation"
 import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, GitBranch, MapPin, X } from "lucide-react"
 import {
   ReactFlow,
+  BaseEdge,
+  type EdgeProps,
   Background,
   BackgroundVariant,
   Controls,
@@ -15,6 +17,7 @@ import {
   type ReactFlowInstance,
 } from "@xyflow/react"
 import "@xyflow/react/dist/style.css"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -54,13 +57,29 @@ import {
   type RoleNode,
 } from "@/lib/career-canvas"
 
+const strategyHelp: Record<string, string> = {
+  automate: "Use AI to automate routine work in your field.",
+  hybrid: "Combine your human strengths with AI tools.",
+  pivot: "Apply your skills to a different career direction.",
+  create: "Build new value through AI governance, ethics, or oversight.",
+}
+
 function RoleCard({ data, selected }: NodeProps<RoleNode>) {
   return (
     <div
       className="relative flex h-[152px] w-[260px] flex-col overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm transition-shadow"
       style={{
         borderColor: selected ? data.color : "var(--border)",
-        boxShadow: selected ? `0 0 0 1px ${data.color}, 0 8px 24px #0001` : undefined,
+        boxShadow:
+          data.kind === "start"
+            ? "0 8px 28px #0002"
+            : selected
+              ? `0 0 0 1px ${data.color}, 0 0 32px color-mix(in srgb, ${data.color} 30%, transparent)`
+              : `0 8px 24px color-mix(in srgb, ${data.color} 16%, transparent)`,
+        background:
+          data.kind === "start"
+            ? "var(--card)"
+            : `linear-gradient(135deg, color-mix(in srgb, ${data.color} 10%, var(--card)), var(--card))`,
       }}
     >
       {data.kind !== "start" && (
@@ -77,11 +96,25 @@ function RoleCard({ data, selected }: NodeProps<RoleNode>) {
           ) : (
             <GitBranch className="size-4" style={{ color: data.color }} />
           )}
-          {data.kind === "start"
-            ? "STARTING POINT"
-            : data.kind === "path"
-              ? data.strategyLabel?.toUpperCase()
-              : "ROLE TO EXPLORE"}
+          {data.kind === "start" ? (
+            "STARTING POINT"
+          ) : data.kind === "path" ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  className="nodrag text-left underline decoration-dotted underline-offset-4"
+                  aria-label={`About ${data.strategyLabel}`}
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  {data.strategyLabel?.toUpperCase()}
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>{strategyHelp[data.pathId ?? ""]}</TooltipContent>
+            </Tooltip>
+          ) : (
+            "ROLE TO EXPLORE"
+          )}
         </p>
         <h2 className="line-clamp-2 text-[22px] font-medium leading-tight">{data.title}</h2>
         {data.subtitle && (
@@ -99,6 +132,17 @@ function RoleCard({ data, selected }: NodeProps<RoleNode>) {
   )
 }
 
+function ObstacleEdge({ id, data, style, markerEnd }: EdgeProps) {
+  return (
+    <BaseEdge
+      id={id}
+      path={typeof data?.path === "string" ? data.path : ""}
+      style={style}
+      markerEnd={markerEnd}
+    />
+  )
+}
+const edgeTypes = { obstacle: ObstacleEdge }
 const nodeTypes = { role: RoleCard }
 const maxZoom = () => (window.matchMedia(largeScreenQuery).matches ? largeScreenZoom : defaultZoom)
 export default function NavigatorCanvasPage() {
@@ -125,7 +169,7 @@ function CanvasRoute() {
   const requestedRole = params.get("role")
   const { data, status, profileKey } = useNavigator()
   if (status !== "ready" || !data) return <NavigatorStatus />
-  const initialPathId = data.paths.find((path) => path.id === requestedPath)?.id ?? "automate"
+  const initialPathId = data.paths.find((path) => path.id === requestedPath)?.id ?? null
   return (
     <NavigatorCanvas
       key={`${profileKey}-${requestedPath ?? "all"}-${requestedRole}`}
@@ -237,7 +281,7 @@ function NavigatorCanvas({
   }
   return (
     <div className="flex min-h-[660px] h-full flex-col bg-background text-foreground">
-      <h1 className="sr-only">Map your next move</h1>
+      <h1 className="sr-only">Explore your career multiverse</h1>
       <div
         ref={canvasRef}
         className="relative min-h-[400px] min-w-0 flex-1 overflow-hidden"
@@ -258,12 +302,15 @@ function NavigatorCanvas({
           }))}
           edges={careerEdges(careerPaths, careerNodes, selectedId)}
           nodesDraggable={false}
+          fitView={!initialSelectedId}
+          fitViewOptions={{ padding: 0.18, minZoom: 0.25, maxZoom: defaultZoom }}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           colorMode={resolvedTheme === "dark" ? "dark" : "light"}
           onInit={(instance) => {
             setFlow(instance)
             if (!initialSelectedId)
-              void instance.fitView({ padding: 0.18, minZoom: 0.55, maxZoom: maxZoom() })
+              void instance.fitView({ padding: 0.18, minZoom: 0.25, maxZoom: maxZoom() })
           }}
           minZoom={0.25}
           maxZoom={1.6}

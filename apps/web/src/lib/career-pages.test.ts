@@ -1,5 +1,9 @@
 import { createElement } from "react"
-import { renderToStaticMarkup } from "react-dom/server"
+import { renderToStaticMarkup as renderMarkup } from "react-dom/server"
+import { TooltipProvider } from "../components/ui/tooltip"
+function renderToStaticMarkup(element: Parameters<typeof renderMarkup>[0]) {
+  return renderMarkup(createElement(TooltipProvider, null, element))
+}
 import { beforeEach, expect, test, vi } from "vite-plus/test"
 import {
   navigatorResultSchema,
@@ -49,8 +53,8 @@ beforeEach(() => {
 
 test("Curve separates global evidence from conceptual scenarios", () => {
   const html = renderToStaticMarkup(createElement(InsightsPage))
-  expect(html).toContain("Your perspective: Software Developers")
-  expect(html).toContain("All lines are conceptual")
+  expect(html).toContain("Software Developers")
+  expect(html).toContain("Illustrative scenarios, not measured trends or personal forecasts.")
   expect(html).toContain("not a measured forecast or probability")
   expect(html).toContain("https://www.ilo.org/")
 })
@@ -128,7 +132,7 @@ for (const status of ["missing", "loading", "error"]) {
         ? "Set up my profile"
         : status === "error"
           ? "Retry career paths"
-          : "Preparing directions",
+          : "Fetching your career paths",
     )
   })
 }
@@ -295,17 +299,13 @@ test("saved plan sheet keeps chosen pace and hides exploration controls", () => 
   expect(html).toContain("View progress")
 })
 
-test("Navigator defaults to Automate even when another strategy is recommended", () => {
+test("Navigator opens full map without an overlapping details panel", () => {
   state.data = { ...navigatorFixture, recommendedPathId: "pivot" }
   const html = renderToStaticMarkup(
     createElement(SidebarProvider, null, createElement(NavigatorPage)),
   )
-  expect(html).toContain('id="role-details-title"')
-  expect(html).toContain(navigatorFixture.paths[0]!.why)
-  expect(html.match(/id="role-details-title"[^>]*>(.*?)<\/h2>/)?.[1]).toBe(
-    navigatorFixture.paths[0]!.title.replaceAll("&", "&amp;"),
-  )
-  expect(html).toContain("Build this direction into a plan")
+  expect(html).not.toContain('id="role-details-title"')
+  expect(html).toContain("View full plan")
 })
 
 for (const [index, path] of navigatorFixture.paths.entries()) {
