@@ -348,3 +348,38 @@ test("one bounded schema repair can recover an extra phase without weakening cov
     await app.close()
   }
 })
+
+test("computer user support destinations generate validated plans in every strategy", async () => {
+  mockProvider()
+  const support = { ...occupation, code: "15-1232.00", title: "Computer User Support Specialists" }
+  const app = buildApp({
+    catalogue: { ...catalogue, search: async (code) => (code === support.code ? [support] : []) },
+  })
+  try {
+    for (const strategyId of ["automate", "hybrid", "pivot", "create"]) {
+      const base = request()
+      const response = await app.inject({
+        method: "POST",
+        url: "/plan",
+        payload: {
+          ...base,
+          occupationCode: support.code,
+          strategyId,
+          destinationId: `user_support-${strategyId}-1`,
+          profile: {
+            ...base.profile,
+            occupations: [support.code],
+            primaryOccupation: support.code,
+          },
+        },
+      })
+      expect(response.statusCode).toBe(200)
+      const plan = flightPlanSchema.parse(response.json().plan)
+      expect(plan.occupationCode).toBe(support.code)
+      expect(plan.destinationId).toBe(`user_support-${strategyId}-1`)
+      expect(() => validatePlanSchedule(plan)).not.toThrow()
+    }
+  } finally {
+    await app.close()
+  }
+})

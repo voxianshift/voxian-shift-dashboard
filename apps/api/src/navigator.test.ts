@@ -13,6 +13,7 @@ const developer = {
   baselineId: null,
   reason: "Exact code",
 }
+const support = { ...developer, code: "15-1232.00", title: "Computer User Support Specialists" }
 const admin = { ...developer, code: "43-6011.00", title: "Executive Assistants" }
 const unknownMapping = { ...developer, code: "11-1011.00", title: "Chief Executives" }
 const context = navigatorContext({
@@ -31,7 +32,7 @@ const context = navigatorContext({
 function catalogue(): OccupationCatalogue {
   return {
     search: vi.fn(async (code) =>
-      [developer, admin, unknownMapping].filter((role) => role.code === code),
+      [developer, admin, support, unknownMapping].filter((role) => role.code === code),
     ),
     selections: async () => ({ occupations: [], primaryOccupation: "" }),
     select: async () => {},
@@ -360,6 +361,31 @@ test("invented destination-specific resource IDs cannot bypass grounded lookup",
     expect(response.json().paths[0].destinations).toEqual(
       lookupPathways(developer.code).automate!.destinations,
     )
+  } finally {
+    await app.close()
+  }
+})
+
+test("computer user support returns fixed coverage for all four strategies without an LLM", async () => {
+  vi.stubEnv("ROOTSYS_API_KEY", "")
+  const app = buildApp({ catalogue: catalogue() })
+  try {
+    const response = await app.inject({
+      method: "POST",
+      url: "/navigator/paths",
+      payload: {
+        profile: { ...context, occupations: [support.code], primaryOccupation: support.code },
+      },
+    })
+    expect(response.statusCode).toBe(200)
+    const result = navigatorResultSchema.parse(response.json())
+    expect(result.occupationCode).toBe(support.code)
+    for (const path of result.paths) {
+      expect(path.coverage).toBe("available")
+      expect(path.destinations).toEqual(lookupPathways(support.code)[path.id]!.destinations)
+      expect(path.destinations).toHaveLength(3)
+    }
+    expect(result.paths[3]!.title).toBe("Small Business IT Support Practice")
   } finally {
     await app.close()
   }

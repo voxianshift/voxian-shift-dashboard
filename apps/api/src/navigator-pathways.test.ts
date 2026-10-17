@@ -4,7 +4,7 @@ import { lookupPathways, pathwayVersion } from "./navigator-pathways.ts"
 
 test("reviewed mapping IDs and titles are stable, unique and explicitly curated", () => {
   const ids = new Set<string>()
-  expect(Object.keys(data.occupations)).toHaveLength(25)
+  expect(Object.keys(data.occupations)).toHaveLength(26)
   for (const code of Object.keys(data.occupations)) {
     const strategies = lookupPathways(code)
     expect(Object.keys(strategies)).toEqual(["automate", "hybrid", "pivot", "create"])
@@ -19,7 +19,7 @@ test("reviewed mapping IDs and titles are stable, unique and explicitly curated"
       }
     }
   }
-  expect(pathwayVersion).toBe("strategy-definitions-2026-10-17-review-3")
+  expect(pathwayVersion).toBe("strategy-definitions-2026-10-17-review-4")
   expect(lookupPathways("unmapped")).toEqual({})
   expect(lookupPathways("43-4051.00").automate!.title).not.toEqual(
     lookupPathways("15-1252.00").automate!.title,

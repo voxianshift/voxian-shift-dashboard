@@ -15,7 +15,7 @@ The previous blanket Create exclusion was an implementation mistake. Revision 2 
 
 The source occupation code selects an explicit, versioned mapping. Strategy order, pathway titles, destination IDs, labels and ordering are resolved before any provider call. LLM input contains those destinations; output contains narrative and an exact destination-ID echo only. Changed, missing or reordered destination IDs invalidate narrative output. Model-authored role titles are never consumed.
 
-The current dataset is `apps/api/data/navigator-pathways.json`, adapted from the user-supplied HTML's ROLE_BRANCHES. It covers 25 specific O*NET source occupations, verified to exist in the local catalogue. This is product curation, not an external evaluation of career transferability.
+The current dataset is `apps/api/data/navigator-pathways.json`, adapted from the user-supplied HTML's ROLE_BRANCHES. It covers 26 specific O*NET source occupations, verified to exist in the local catalogue. This is product curation, not an external evaluation of career transferability.
 
 ## Grounding and limitations
 
@@ -49,3 +49,7 @@ Future catalogue-backed mappings require exact codes and reviewed transition rat
 The user's latest definitions supersede the prototype's strategy interpretations. Automate means remaining in the field as the operator, supervisor or configurator of AI automating current work. Hybrid retains human judgment, relationships and creativity within the field while AI handles automatable tasks. Pivot redirects underlying skills into different work, with lower exposure and transferability requiring validation. Create means an owned service, practice, product or new role validated against market demand, rather than an employee job switch.
 
 Shared meanings and Navigator/Plan prompts use these definitions. No literal 50/50 task split or individual risk/transferability claim follows from a strategy label. Create mappings have been revised, with explicit user approval, into occupation-specific owned practices, services and toolkits. These are curated offer hypotheses, not proven market opportunities. Other prototype strategy mappings remain pending semantic review against the updated meanings. The model must not silently rename deterministic destinations. Existing saved plans are not rewritten.
+
+## Computer user support coverage
+
+Revision 4 explicitly adds `15-1232.00` Computer User Support Specialists. Source tasks: https://www.onetonline.org/link/summary/15-1232.00 (2026; checked 17 October 2026). Diagnostics, user assistance, documentation, workflow analysis and user training ground these product-curated exploration options. The four strategies cover operating AI support workflows, retaining human support responsibilities, evaluating training/service-coordination moves, and validating an owned small-business IT support offer. These destinations are not O*NET-endorsed transitions; lower exposure, entry requirements and market demand require validation. No family-wide fallback or occupation substitution is introduced.

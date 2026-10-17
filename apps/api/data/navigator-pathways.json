@@ -1,7 +1,7 @@
 {
-  "version": "strategy-definitions-2026-10-17-review-3",
-  "source": "voxian-shift-v2.3.8.html ROLE_BRANCHES; user strategy definitions 2026-10-17",
-  "reviewNotes": "Curated exploration options, not verified occupations, vacancies or proven suitability. Create revised to owned practice, service and toolkit options following user definitions and approval; validate customer demand, scope and relevant professional requirements. Other strategy mappings retain prototype labels pending semantic review. Executive labels excluded; source mappings limited to explicit O*NET codes.",
+  "version": "strategy-definitions-2026-10-17-review-4",
+  "source": "voxian-shift-v2.3.8.html ROLE_BRANCHES; user strategy definitions 2026-10-17; O*NET 15-1232.00 tasks (2026)",
+  "reviewNotes": "Curated exploration options, not verified occupations, vacancies or proven suitability. Create revised to owned practice, service and toolkit options following user definitions and approval; validate customer demand, scope and relevant professional requirements. Other strategy mappings retain prototype labels pending semantic review. Executive labels excluded; source mappings limited to explicit O*NET codes. Computer User Support Specialists added as explicit product-curated options grounded in O*NET support, diagnostics, documentation and training tasks; Pivot exposure and transition suitability remain unverified.",
   "occupations": {
     "43-4051.00": {
       "prototypeRole": "cs_rep",
@@ -2623,6 +2623,128 @@
             {
               "id": "travel_agent-create-2",
               "title": "Sustainable Travel Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        }
+      }
+    },
+    "15-1232.00": {
+      "prototypeRole": "user_support",
+      "strategies": {
+        "automate": {
+          "title": "AI Support Workflow Operations",
+          "description": "Stay in IT support and operate or configure AI-assisted ticket triage, knowledge retrieval and diagnostic workflows with human approval.",
+          "humanEdge": "Check diagnostic evidence, permissions and escalation boundaries before any system change.",
+          "skills": [
+            "Ticket Workflow Configuration",
+            "Knowledge Base Quality",
+            "Automation Monitoring"
+          ],
+          "firstStep": "Use synthetic tickets to compare manual triage with an AI-assisted workflow; document where human approval is required.",
+          "destinations": [
+            {
+              "id": "user_support-automate-1",
+              "title": "AI Support Workflow Operations",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-automate-2",
+              "title": "Support Knowledge Automation",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-automate-3",
+              "title": "Endpoint Automation Operations",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "hybrid": {
+          "title": "Human-Centred IT Support",
+          "description": "Keep user communication, contextual troubleshooting and accountable decisions while AI assists with summaries, documentation and routine diagnostics.",
+          "humanEdge": "Listen to frustrated users, clarify ambiguous symptoms and decide when to escalate.",
+          "skills": ["User Communication", "Diagnostic Reasoning", "AI Output Verification"],
+          "firstStep": "Choose one synthetic support incident; separate human decisions from tasks an AI assistant can draft.",
+          "destinations": [
+            {
+              "id": "user_support-hybrid-1",
+              "title": "Human-Centred IT Support",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-hybrid-2",
+              "title": "AI-Assisted Technical Troubleshooting",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-hybrid-3",
+              "title": "User Enablement & Training",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "pivot": {
+          "title": "Technical Training & Service Coordination",
+          "description": "Explore different work using troubleshooting, documentation and communication skills; compare entry requirements and task exposure before moving.",
+          "humanEdge": "Translate technical issues into clear instructions and coordinate stakeholders.",
+          "skills": ["Instructional Design", "Service Coordination", "Requirements Analysis"],
+          "firstStep": "Compare one target role with your current tasks and identify prerequisites; lower exposure remains a hypothesis to verify.",
+          "destinations": [
+            {
+              "id": "user_support-pivot-1",
+              "title": "Technical Training Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-pivot-2",
+              "title": "IT Service Coordinator",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-pivot-3",
+              "title": "Technology Adoption Specialist",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            }
+          ]
+        },
+        "create": {
+          "title": "Small Business IT Support Practice",
+          "description": "Validate an owned small-business IT support practice, service or toolkit using support knowledge and potential customer feedback.",
+          "humanEdge": "Understand customer context, build trust and set clear service boundaries.",
+          "skills": [
+            "IT Support Scoping",
+            "Knowledge Base Design",
+            "Customer Discovery",
+            "Offer Design"
+          ],
+          "firstStep": "Ask one potential customer about a recurring IT problem, then outline a small owned offer before building.",
+          "destinations": [
+            {
+              "id": "user_support-create-1",
+              "title": "Small Business IT Support Practice",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-create-2",
+              "title": "Small Business IT Support Service",
+              "kind": "curated_pathway",
+              "occupationCode": null
+            },
+            {
+              "id": "user_support-create-3",
+              "title": "Small Business IT Support Toolkit",
               "kind": "curated_pathway",
               "occupationCode": null
             }
