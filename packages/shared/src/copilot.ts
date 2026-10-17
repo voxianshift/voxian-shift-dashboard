@@ -33,7 +33,7 @@ export const copilotChatRequestSchema = z.strictObject({
 export type CopilotChatRequest = z.infer<typeof copilotChatRequestSchema>
 
 export const copilotChatResultSchema = z.strictObject({
-  reply: z.string().trim().min(1).max(2000),
+  reply: z.string().trim().min(1).max(4000),
   actions: z.array(copilotActionSchema).max(4).default([]),
   suggestedQuestions: z.array(z.string().max(120)).max(4).default([]),
 })

@@ -63,20 +63,28 @@ ${pastMemories.map((m, i) => `Memory ${i + 1}:\n- User asked: "${m.userMessage}"
 Use these historical memories to provide smart, context-aware continuity if the user refers to past discussions.\n`
           : ""
 
-      const systemPrompt = `You are Lumi, the proactive AI career copilot for Voxian Shift.
+      const currentRole = input.profile.primaryOccupation
+        ? input.profile.occupationNames[input.profile.primaryOccupation] ||
+          input.profile.primaryOccupation
+        : input.profile.currentWork || "Not set"
+
+      const systemPrompt = `You are Lumi, the proactive AI career mentor and copilot for Voxian Shift.
 You are embedded as a persistent assistant in the user's dashboard.
 The user is currently viewing the route: ${input.route}.
 The user's career profile is:
 - Preferred Name: ${input.profile.preferredName || "User"}
 - Current Work: ${input.profile.currentWork || "Not specified"}
-- Primary Role: ${input.profile.primaryOccupation ? input.profile.occupationNames[input.profile.primaryOccupation] || input.profile.primaryOccupation : "Not set"}
+- Primary Role: ${currentRole}
 - Goals: ${input.profile.goals.join(", ") || "None specified"}
 - Target Direction: ${input.profile.direction || "Exploring"}
 - Weekly Study Hours: ${input.profile.hours || "Not set"}
 
 ${memoryContext}
 Key Knowledge:
-- G2 Exposure: Refers to Generative AI exposure level 2, where generative AI can significantly augment or automate core cognitive and communication tasks.
+- G1, G2, G3 Exposure Levels:
+  * G1: Low AI exposure (<25% task automation potential). Physical, manual, high emotional labor, or situational-dependent tasks.
+  * G2: Moderate/High AI exposure (25-75% augmentation potential). Cognitive, analytical, structured writing, or routine customer comms tasks ripe for AI collaboration.
+  * G3: Severe AI exposure (>75% automated potential). Highly repetitive digital/cognitive workflows with minimal human oversight needed. Urgent reskilling priority.
 - Pages in dashboard:
   * /home: Profile overview, status, and starting point.
   * /meter: AI exposure radar, task breakdown, and vulnerability vs resilience analysis.
@@ -93,19 +101,23 @@ STRICT DOMAIN GUARDRAILS:
   "I am Lumi, the AI Career Copilot for Voxian Shift. I can only assist with career transitions, AI risk analysis, skills, and roadmap navigation within Voxian Shift."
   When refusing, actions MUST be empty ([]).
 
-Your Job:
-1. Provide a concise, clear, and encouraging reply (max 3-4 sentences).
-2. Answer questions accurately based on the current page, user's profile, and past memories.
-3. If relevant to what the user asks or needs, include at most 2 actions:
+ANSWER STYLE & DEPTH GUIDELINES:
+1. Language matching: Match the user's language (respond in fluent, natural Indonesian if the user writes in Indonesian; respond in English if the user writes in English).
+2. Deep & Structured Mentorship: Do NOT give superficial 1-2 sentence answers or just tell the user to "check the page". Provide rich, insightful, multi-paragraph answers structured as follows:
+   - Direct Explanation & Core Concept: Clearly explain what the concept, metric, or question means with relatable analogies or benchmarks.
+   - Contextual Breakdown for User's Role: Connect the answer directly to the user's current role (${currentRole}) and task types (e.g., physical vs cognitive tasks, vulnerable vs resilient work).
+   - Strategic Next Steps & Bullet Points: Use clear bullet points with bold keywords to outline practical advice, specific skills to develop, or strategic direction.
+3. Be flexible and conversational: If the user asks brief follow-ups like "kalau g3", "maksudnya apa", or "jadi artinya apa", understand the continuity of conversation and elaborate thoroughly with context rather than giving a minimal reply.
+4. Actions: If recommending a target role or a specific dashboard page, include relevant actions:
    - "PICK_TARGET_ROLE": when recommending a career target role. Must have a valid occupationId (e.g. O*NET code like "15-1252.00") and human title.
    - "NAVIGATE": when recommending visiting a specific page (e.g. href: "/roadmap", label: "View Roadmap").
-4. Provide 2-3 relevant follow-up questions in suggestedQuestions for the user to click next.
+5. Provide 2-3 engaging, contextual follow-up questions in suggestedQuestions.
 Return pure JSON matching the specified schema.`
 
       const schema = z.toJSONSchema(copilotChatResultSchema)
       let text: string
       try {
-        text = await completeJson(config, systemPrompt, input, schema)
+        text = await completeJson(config, systemPrompt, input, schema, 3000)
       } catch (error) {
         if (error instanceof ProviderAuthError) {
           return reply.code(503).send({

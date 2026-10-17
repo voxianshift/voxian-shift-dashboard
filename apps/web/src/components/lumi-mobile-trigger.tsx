@@ -5,6 +5,7 @@ import { ChevronRight, RotateCcw, Send, X } from "lucide-react"
 import { useLumiChat } from "@/components/lumi-chat-provider"
 import { LumiMascot } from "@/components/lumi-mascot"
 import { LumiActionCard } from "@/components/lumi-action-card"
+import { LumiFormattedText } from "@/components/lumi-formatted-text"
 import { Button } from "@/components/ui/button"
 import Orb from "@/components/ui/orb"
 import { cn } from "@/lib/utils"
@@ -226,7 +227,11 @@ export function LumiMobileTrigger() {
                             : "bg-muted/60 text-foreground border border-border/60",
                         )}
                       >
-                        <p className="whitespace-pre-wrap">{m.text}</p>
+                        {m.role === "user" ? (
+                          <p className="whitespace-pre-wrap">{m.text}</p>
+                        ) : (
+                          <LumiFormattedText text={m.text} />
+                        )}
                         {m.actions && m.actions.length > 0 && (
                           <div className="mt-1 space-y-1.5">
                             {m.actions.map((act, i) => (
