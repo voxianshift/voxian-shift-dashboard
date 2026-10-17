@@ -42,12 +42,13 @@ const result = {
   reply: "Your work includes customer support.",
   updates: { currentWork: "Customer support" },
 }
-const post = (body: unknown = payload, origin = "http://localhost:3000") =>
+const post = (body: unknown = payload, origin = "http://localhost:3000", ip = "127.0.0.1") =>
   app.inject({
     method: "POST",
     url: "/onboarding/chat",
     headers: { origin, cookie },
     payload: body as object,
+    remoteAddress: ip,
   })
 const geminiResponse = () =>
   Response.json({ candidates: [{ content: { parts: [{ text: JSON.stringify(result) }] } }] })
@@ -227,8 +228,10 @@ test("bounds paid requests per API instance", async () => {
   vi.stubEnv("GEMINI_API_KEY", "test-only-key")
   const fetch = vi.fn().mockImplementation(async () => geminiResponse())
   vi.stubGlobal("fetch", fetch)
-  for (let i = 0; i < 20; i++) expect((await post()).statusCode).toBe(200)
-  const limited = await post()
+  // Spread across clients so the per-IP limiter does not trip before the instance cap.
+  for (let i = 0; i < 20; i++)
+    expect((await post(payload, undefined, `10.0.0.${i}`)).statusCode).toBe(200)
+  const limited = await post(payload, undefined, "10.0.1.1")
   expect(limited.statusCode).toBe(429)
   expect(limited.headers["retry-after"]).toBe("60")
   expect(fetch).toHaveBeenCalledTimes(20)
