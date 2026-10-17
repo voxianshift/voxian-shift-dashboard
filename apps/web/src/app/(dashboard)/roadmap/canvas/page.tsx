@@ -46,7 +46,6 @@ import { useNavigator } from "@/components/navigator-provider"
 import { NavigatorStatus } from "@/components/navigator-status"
 import {
   buildCareerNodes,
-  rolePageSize,
   careerEdges,
   selectedCardViewport,
   defaultZoom,
@@ -58,7 +57,7 @@ import {
 function RoleCard({ data, selected }: NodeProps<RoleNode>) {
   return (
     <div
-      className="relative flex h-[208px] w-[260px] flex-col overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm transition-shadow"
+      className="relative flex h-[152px] w-[260px] flex-col overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm transition-shadow"
       style={{
         borderColor: selected ? data.color : "var(--border)",
         boxShadow: selected ? `0 0 0 1px ${data.color}, 0 8px 24px #0001` : undefined,
@@ -82,35 +81,20 @@ function RoleCard({ data, selected }: NodeProps<RoleNode>) {
             ? "STARTING POINT"
             : data.kind === "path"
               ? data.strategyLabel?.toUpperCase()
-              : data.kind === "more"
-                ? "MORE OPTIONS"
-                : "ROLE TO EXPLORE"}
+              : "ROLE TO EXPLORE"}
         </p>
         <h2 className="line-clamp-2 text-[22px] font-medium leading-tight">{data.title}</h2>
-        <p className="mt-2 line-clamp-2 text-[14px] leading-relaxed text-muted-foreground">
-          {data.subtitle}
-        </p>
+        {data.subtitle && (
+          <p className="mt-2 line-clamp-1 text-[14px] leading-relaxed text-muted-foreground">
+            {data.subtitle}
+          </p>
+        )}
       </div>
-      <div
-        className="flex shrink-0 items-center justify-between border-t px-4 py-3 text-[13px]"
-        style={{ color: data.color }}
-      >
-        <span>
-          {data.kind === "start"
-            ? "Your saved occupation"
-            : data.kind === "more"
-              ? "Reveal next options"
-              : "Skills, learning & next steps"}
-        </span>
-        {data.kind !== "start" && <ArrowUpRight className="size-4" />}
-      </div>
-      {data.kind !== "more" && (
-        <Handle
-          type="source"
-          position={Position.Right}
-          className="!border-background !bg-muted-foreground"
-        />
-      )}
+      <Handle
+        type="source"
+        position={Position.Right}
+        className="!border-background !bg-muted-foreground"
+      />
     </div>
   )
 }
@@ -179,20 +163,7 @@ function NavigatorCanvas({
   }, [data.occupationCode, params])
   const sprint = timelineSprint(profile.timeline) ?? profile.hours === "5+ hours"
   const careerPaths = data.paths
-  const [roleLimits, setRoleLimits] = useState<Record<string, number>>(() =>
-    Object.fromEntries(
-      careerPaths.map((path) => {
-        const index = initialSelectedId?.startsWith(`${path.id}-role-`)
-          ? Number(initialSelectedId.split("-role-")[1])
-          : -1
-        return [
-          path.id,
-          Math.max(rolePageSize, Math.ceil((index + 1) / rolePageSize) * rolePageSize),
-        ]
-      }),
-    ),
-  )
-  const careerNodes = buildCareerNodes(careerPaths, data.roleTitle, roleLimits)
+  const careerNodes = buildCareerNodes(careerPaths, data.roleTitle)
   const { resolvedTheme } = useTheme()
   const [selectedId, setSelectedId] = useState<string | null>(initialSelectedId)
   const [focusRequest, setFocusRequest] = useState(0)
@@ -208,26 +179,10 @@ function NavigatorCanvas({
   const nextStrategy = careerPaths[(strategyIndex + 1) % careerPaths.length]!
 
   const returnFocus = useRef<HTMLElement | null>(null)
-  const revealFocus = useRef<string | null>(null)
-  useEffect(() => {
-    if (!revealFocus.current) return
-    const id = revealFocus.current
-    revealFocus.current = null
-    const frame = requestAnimationFrame(() => {
-      const card = canvasRef.current?.querySelector<HTMLElement>(
-        `.react-flow__node[data-id="${id}"]`,
-      )
-      card?.focus()
-      returnFocus.current = card ?? null
-    })
-    return () => cancelAnimationFrame(frame)
-  }, [roleLimits])
   useLayoutEffect(() => {
     const canvas = canvasRef.current
     const details = detailsRef.current
-    const node = buildCareerNodes(data.paths, data.roleTitle, roleLimits).find(
-      (item) => item.id === selectedId,
-    )
+    const node = buildCareerNodes(data.paths, data.roleTitle).find((item) => item.id === selectedId)
     if (!flow || !canvas || !details || !node) return
     const centerSelection = () => {
       const bounds = canvas.getBoundingClientRect()
@@ -242,7 +197,7 @@ function NavigatorCanvas({
     observer.observe(canvas)
     observer.observe(details)
     return () => observer.disconnect()
-  }, [flow, selectedId, focusRequest, data, roleLimits])
+  }, [flow, selectedId, focusRequest, data])
   const targetRole =
     selectedNode?.data.kind === "role" && selected ? selected.roles.indexOf(selectedRole) : null
   async function generatePlan(schedule: PlanScheduleInput): Promise<GeneratedPlan> {
@@ -270,16 +225,6 @@ function NavigatorCanvas({
     return generatedPlanSchema.parse(result)
   }
   function selectNode(id: string) {
-    const node = careerNodes.find((item) => item.id === id)
-    if (node?.data.kind === "more" && node.data.pathId) {
-      const pathId = node.data.pathId
-      const count = roleLimits[pathId] ?? rolePageSize
-      revealFocus.current = `${pathId}-role-${count}`
-      setRoleLimits((current) => ({ ...current, [pathId]: count + rolePageSize }))
-      setSelectedId(`${pathId}-role-${count}`)
-      setFocusRequest((request) => request + 1)
-      return
-    }
     if (!document.activeElement?.closest('[aria-labelledby="role-details-title"]')) {
       returnFocus.current = document.activeElement as HTMLElement
     }

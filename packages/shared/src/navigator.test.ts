@@ -113,11 +113,11 @@ test("draft requires exactly one of each strategy and excludes model recommendat
   ).toBe(false)
 })
 
-test("strategy meanings distinguish operating AI, human work, moving roles and ownership", () => {
+test("strategy meanings distinguish operating AI, human work, moving roles and new-value roles", () => {
   expect(navigatorStrategies.automate.meaning).toContain("operate, supervise or configure")
   expect(navigatorStrategies.hybrid.meaning).toContain("judgment, relationships and creativity")
   expect(navigatorStrategies.pivot.meaning).toContain("validate transferability")
-  expect(navigatorStrategies.create.meaning).toContain("you own")
+  expect(navigatorStrategies.create.meaning).toContain("new value")
 })
 
 test("family exploration does not inherit unrelated courses or mandatory credentials", () => {

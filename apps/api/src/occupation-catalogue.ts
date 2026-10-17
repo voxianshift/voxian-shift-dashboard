@@ -6,6 +6,7 @@ import { chatOwner, newChatOwner } from "./chat-store.ts"
 import { chatConfig, completeJson } from "./llm.ts"
 import iscoTasks from "../data/isco-tasks.json" with { type: "json" }
 import onetIsco from "../data/onet-isco.json" with { type: "json" }
+import { curatedOccupationCodes } from "./navigator-pathways.ts"
 
 class UnknownOccupationError extends Error {}
 
@@ -78,7 +79,8 @@ export function createOccupationCatalogue(connectionString: string): OccupationC
           SELECT o.code, o.code = $1 OR coalesce(b.exact, false) AS exact,
             coalesce(b.title_score, 0) AS title_score, ts_rank_cd(o.search_document, q.ts, 32) AS text_rank
           FROM occupations o CROSS JOIN q LEFT JOIN best b ON b.code = o.code
-          WHERE b.code IS NOT NULL OR o.search_document @@ q.ts OR o.code = $1)
+          WHERE (b.code IS NOT NULL OR o.search_document @@ q.ts OR o.code = $1)
+            AND o.code = ANY($4::text[]))
         SELECT ${columns},
           CASE WHEN s.exact THEN 100
             ELSE least(99, round(100 * (0.8 * s.title_score + 0.2 * s.text_rank)))::int END AS match,
@@ -88,7 +90,7 @@ export function createOccupationCatalogue(connectionString: string): OccupationC
         ${joins} JOIN scored s ON s.code = o.code
         ORDER BY match DESC, o.title
         LIMIT $3`,
-        [query, searchTerms(query), Math.min(10, Math.max(1, limit))],
+        [query, searchTerms(query), Math.min(10, Math.max(1, limit)), curatedOccupationCodes],
       )
       return result.rows
     },
@@ -111,8 +113,8 @@ export function createOccupationCatalogue(connectionString: string): OccupationC
         await client.query("BEGIN")
         await client.query("SELECT pg_advisory_xact_lock(hashtextextended($1, 0))", [owner])
         const found = await client.query(
-          "SELECT code FROM occupations WHERE code=ANY($1::text[])",
-          [codes],
+          "SELECT code FROM occupations WHERE code=ANY($1::text[]) AND code=ANY($2::text[])",
+          [codes, curatedOccupationCodes],
         )
         if (found.rowCount !== codes.length) throw new UnknownOccupationError("Unknown occupation")
         await client.query("DELETE FROM career_occupation_selections WHERE owner_hash=$1", [owner])

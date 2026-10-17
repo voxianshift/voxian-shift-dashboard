@@ -32,7 +32,7 @@ test("new Home has one role intake and cannot continue with a description alone"
   expect(html).not.toContain("Your role is recognised.")
 })
 
-test("multiple roles without a main role remain in intake", () => {
+test("legacy multiple roles without a main role remain in intake until one is chosen", () => {
   state.profile = {
     ...emptyProfile,
     occupations: ["15-1252.00", "43-4051.00"],
@@ -42,7 +42,7 @@ test("multiple roles without a main role remain in intake", () => {
     },
   }
   const html = render()
-  expect(html).toContain("Which role takes most of your time?")
+  expect(html).not.toContain("Your selected role")
   expect(html).toMatch(/<button[^>]*disabled=""[^>]*>Confirm role/)
   expect(html).not.toContain("Continue to my Meter")
 })

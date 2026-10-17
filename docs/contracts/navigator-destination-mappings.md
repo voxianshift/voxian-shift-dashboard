@@ -66,7 +66,7 @@ Family templates do not automatically inherit occupation-specific course lists o
 
 Destination, role-projection and per-destination resource arrays no longer have a three-option cap. Resource selections still allow up to three links per option. The data catalogue defines the complete curated list; the LLM must echo its full ordered ID list. Full role indices are accepted in both canvas and saved-plan links, with bounds checked against actual data.
 
-Canvas initially displays up to three options for every strategy. Longer lists append a `+N more options` card linked from the third visible card. Activating it reveals the next three options in a column to the right and moves the remaining-count card outward; it disappears when exhausted. Each strategy expands independently. Deep links reveal enough columns to include the selected option. Keyboard activation follows the same handler and transfers focus to the first revealed card. No hidden-count estimate, generated extra roles or additional provider request is introduced. Current mappings may still have three or fewer entries; those correctly show no overflow card.
+Canvas shows every curated option for each strategy, filling columns of three rows to the right of the strategy card; every option edge starts at its strategy card. There is no overflow card. No generated extra roles or additional provider request is introduced.
 
 ## First expanded source mapping
 
@@ -74,8 +74,14 @@ Revision 5 expands Computer User Support Specialists (`15-1232.00`) to 8 Automat
 
 Automation options concern configuring and checking tools within support; Hybrid retains human incident handling and communication. Pivot options require comparison of actual entry requirements, writing/training samples and destination task exposure; no lower-exposure claim is established. Create options describe owned setup, content, workshop and toolkit offers requiring customer validation. These are product-curated applications of task evidence, not an exhaustive job catalogue or externally validated transitions.
 
-Browser test occupation: Computer User Support Specialists. Initial count cards should show +5, +3, +2 and +4 respectively. Automate expands through 3/+5, 6/+2, then 8/no count card. Dataset and cache revisions refresh earlier three-option results without rewriting saved commitments.
+Browser test occupation: Computer User Support Specialists shows 8, 6, 5 and 7 options. Dataset and cache revisions refresh earlier three-option results without rewriting saved commitments.
 
 ## Revision 6: all mapped occupations
 
-Revision 6 appends three product-curated exploration options to every strategy of all other 25 mapped occupations, so each strategy now has 4–6 options and shows a `+N more options` card. Existing destination IDs are unchanged; new IDs continue each strategy's sequence. Create additions keep the Practice/Service/Toolkit ownership form and still require customer validation. As with earlier labels, these are exploration labels, not verified vacancies, entry requirements or measured lower-exposure transitions; semantic review per occupation remains pending. Navigator cache key bumped to refresh earlier results.
+Revision 6 appends three product-curated exploration options to every strategy of all other 25 mapped occupations, so each strategy now has 4–6 options. Existing destination IDs are unchanged; new IDs continue each strategy's sequence. Create additions keep the Practice/Service/Toolkit ownership form and still require customer validation. As with earlier labels, these are exploration labels, not verified vacancies, entry requirements or measured lower-exposure transitions; semantic review per occupation remains pending. Navigator cache key bumped to refresh earlier results.
+
+## Prototype v2.3.8 branches (supersedes revisions 4–6)
+
+Following team-lead direction, Navigator branches now come verbatim from the prototype `ROLE_BRANCHES` in `voxian-shift-v2.3.8.html` (extract: `docs/legacy/voxian-shift-v2.3.8-navigator.js`). Each strategy is one prototype branch: title = branch name, description/humanEdge/skills = branch foundation, destinations = branch name followed by its leaf roles (3–4 options). Branch order maps to Automate, Hybrid, Pivot, Create; Create now means roles that generate new value AI can't replicate, using the prototype's governance and ethics branches.
+
+Only the 25 prototype occupations with O*NET codes are supported: occupation search and saved selections are restricted to them. Content Moderator and Call Centre / CX Team Leader are excluded pending O*NET codes. Computer User Support Specialists, the revision 5–6 expansions and the per-SOC-group curated files are removed. These remain curated prototype labels, not verified vacancies or validated transitions.

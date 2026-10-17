@@ -11,7 +11,7 @@ export const navigatorFixture: NavigatorResult = {
   summary: "Options based on software development and limited weekly study time.",
   recommendedPathId: "automate",
   contractVersion: 3,
-  ruleVersion: 2,
+  ruleVersion: 3,
   recommendation: recommendStrategy({ occupationResolved: true, selectedStrategyId: "automate" }),
   provider: "Test provider",
   generationStatus: "personalized",
