@@ -69,6 +69,8 @@ export async function completeJson(
                 responseMimeType: "application/json",
                 responseJsonSchema: schema,
                 maxOutputTokens: maxTokens,
+                // Structured extraction, not reasoning: thinking would eat the output budget
+                thinkingConfig: { thinkingBudget: 0 },
               },
             }
           : {
