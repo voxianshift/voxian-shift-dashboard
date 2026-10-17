@@ -1,128 +1,245 @@
-import { ArrowUpRight, BookOpen, Calculator, Fingerprint } from "lucide-react"
+"use client"
+
+import Link from "next/link"
+import { ArrowUpRight, Calculator } from "lucide-react"
+import {
+  baselineIdForOccupation,
+  computeExposure,
+  occupationCode,
+  SCORING_VERSION,
+} from "@voxian/shared"
+import { useCareerProfile } from "@/components/career-profile-provider"
+import { useIscoMeter } from "@/hooks/use-isco-meter"
 import { PanelHeading } from "@/components/radar-panel"
+import { Button } from "@/components/ui/button"
+import { hasMeterInputs } from "@/lib/onboarding"
 import { occupationModels, taskWeights } from "@/lib/occupations"
-import { computeExposure, SCORING_VERSION } from "@voxian/shared"
 import { editorialPage, editorialSection, eyebrow } from "@/lib/styles"
 
 export default function ResourcesPage() {
+  const { profile, ready, confirmed } = useCareerProfile()
+  const code = occupationCode(profile.primaryOccupation)
+  const valid = hasMeterInputs(profile)
+  const demo = occupationModels.find((model) => model.id === baselineIdForOccupation(code))
+  const isco = useIscoMeter(code, profile.occupationNames[code] ?? "", ready && valid && !demo)
+  const model = valid
+    ? demo && confirmed
+      ? demo
+      : !demo && isco !== "missing"
+        ? isco
+        : null
+    : null
+  const focus = profile.taskFocus || "routine"
+  const weights = model ? taskWeights(model, focus) : []
+  const totalWeight = weights.reduce((sum, weight) => sum + weight, 0)
+  const score = model
+    ? computeExposure(model.tasks.map((task, index) => ({ ...task, weight: weights[index]! })))
+    : null
+  const title = profile.occupationNames[code] || demo?.title || code
+  const sourceLinks = [
+    {
+      title: "ILO Working Paper 140 · May 2025",
+      detail: demo
+        ? "Research context; does not validate the demo estimates."
+        : "Research behind the task exposure dataset.",
+      href: "https://www.ilo.org/publications/generative-ai-and-jobs-refined-global-index-occupational-exposure",
+    },
+    ...(valid
+      ? [
+          {
+            title: `${title} · O*NET ${code}`,
+            detail:
+              "Occupation description and activities; O*NET does not supply this exposure score.",
+            href: `https://www.onetonline.org/link/summary/${code}`,
+          },
+        ]
+      : []),
+    ...(model && !demo
+      ? [
+          {
+            title: "ILO task-level exposure data",
+            detail: "Published ISCO-08 task scores used by this Meter.",
+            href: "https://pgmyrek.github.io/2025_GenAI_scores_ISCO08/",
+          },
+          {
+            title: "ESCO–O*NET occupation crosswalk",
+            detail: "Mapping reference; your actual match method is shown above.",
+            href: "https://esco.ec.europa.eu/en/use-esco/other-crosswalks",
+          },
+        ]
+      : []),
+  ]
   return (
     <div className={editorialPage}>
       <PanelHeading kicker="04 / METHODOLOGY & PROOF" title="Trust starts with showing our work.">
-        A transparent calculation. Clear assumptions. Evidence you can inspect.
-        <br />
-        Here’s what sits behind the signal.
+        See the inputs behind your Meter, how we calculate it, and where the evidence ends.
       </PanelHeading>
-      <div className="flex items-center gap-[25px] bg-mauve-wash p-[25px] text-[#5c4c57]">
-        <Calculator className="size-7" strokeWidth={1} />
+      <section className="mb-7 rounded-xl border p-6" aria-label="Your Meter evidence">
+        <p className={eyebrow}>YOUR CURRENT BASELINE</p>
+        {!ready ? (
+          <p role="status" className="mt-3">
+            Loading your profile…
+          </p>
+        ) : !valid ? (
+          <>
+            <h2 className="mt-3 text-[24px]">Choose your main occupation first.</h2>
+            <p className="mt-2 text-muted-foreground">
+              Your task calculation will appear here once a supported baseline is available.
+            </p>
+            <Button asChild className="mt-4">
+              <Link href="/home">Set up my profile</Link>
+            </Button>
+          </>
+        ) : (
+          <>
+            <h2 className="mt-3 text-[24px]">{title}</h2>
+            <p className="mt-2 text-[14px] text-muted-foreground">
+              O*NET {code} · Main occupation only; additional roles are not averaged into the Meter.
+            </p>
+            {demo && !confirmed ? (
+              <p className="mt-4">
+                Review and calculate your baseline in the Meter before viewing a personal result.
+              </p>
+            ) : !demo && isco === null ? (
+              <p role="status" className="mt-4">
+                Loading your task evidence…
+              </p>
+            ) : !model ? (
+              <p role="status" className="mt-4">
+                Task evidence is unavailable for this occupation. No substitute score is shown.
+                Return to the Meter to check coverage or try loading this page again.
+              </p>
+            ) : (
+              <>
+                <p
+                  className="mt-4 text-[32px] font-medium"
+                  data-methodology-score={score!.toFixed(1)}
+                >
+                  {score!.toFixed(1)}{" "}
+                  <span className="text-[16px] text-muted-foreground">/ 100 · exposure index</span>
+                </p>
+                <p className="mt-2 text-[16px]">
+                  {demo
+                    ? "Illustrative prototype task estimates"
+                    : "ILO WP140 task exposure scores · equal task weights"}
+                </p>
+                <p className="mt-2 text-[14px] text-muted-foreground">
+                  {demo
+                    ? `Task mix: ${focus === "escalations" ? "Complex problems & exceptions" : focus === "mixed" ? "A bit of both" : "Routine questions & coordination"}.${!profile.taskFocus ? " Task mix not shared; default routine weights used." : ""}`
+                    : "ILO does not supply personal time-use weights. Each published task counts equally; your task-mix preference does not change these weights."}
+                </p>
+                {isco && isco !== "missing" && !demo && (
+                  <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
+                    Mapped to ISCO-08 {isco.isco} · {isco.iscoTitle}.{" "}
+                    {isco.crosswalkMatch === "ai"
+                      ? `AI-assisted occupation match: ${isco.mappingNote}. This mapping is an estimate, not an official crosswalk match.`
+                      : `ESCO–O*NET crosswalk match: ${isco.crosswalkMatch} · ${isco.mappingNote}. Occupation boundaries may differ.`}
+                  </p>
+                )}
+              </>
+            )}
+            <Button asChild variant="outline" className="mt-4">
+              <Link href="/meter">
+                View my Meter <ArrowUpRight />
+              </Link>
+            </Button>
+          </>
+        )}
+      </section>
+      <div className="flex items-center gap-5 bg-mauve-wash p-6 text-[#5c4c57]">
+        <Calculator className="size-7 shrink-0" strokeWidth={1} />
         <div>
           <p className={eyebrow}>EXPOSURE MODEL / VERSION {SCORING_VERSION}</p>
-          <p className="my-2.5 font-mono text-[27px] tracking-[-1px] max-[700px]:text-[20px]">
-            E = 100 × Σ(wᵢ × eᵢ)
+          <p className="my-2.5 font-mono text-[25px] max-[700px]:text-[18px]">
+            E = 100 × Σ(wᵢ × eᵢ) / Σwᵢ
           </p>
-          <p className="text-[14px]">Task weight × AI capability, summed across your work.</p>
+          <p className="text-[14px]">
+            Task weight × exposure estimate, normalized across the selected occupation.
+          </p>
         </div>
       </div>
-      <div className="mt-7 grid grid-cols-2 gap-[45px] max-[700px]:grid-cols-1 max-[700px]:gap-[15px]">
+      {ready && model && (
         <section className={editorialSection}>
-          <p className={eyebrow}>01 / THE INPUTS</p>
-          <h2>Tasks, not job titles.</h2>
+          <p className={eyebrow}>01 / REPRODUCE YOUR RESULT</p>
           <p>
-            Each task has a relative weight (wᵢ) and an AI exposure estimate (eᵢ) between 0 and 1.
-            We normalize weights so they sum to 1, then calculate the weighted exposure index.
+            These are the same baseline inputs and calculation used by your Meter. Temporary example
+            and task-mix overrides on the Meter are not saved to your profile.
           </p>
-        </section>
-        <section className={editorialSection}>
-          <p className={eyebrow}>02 / THE LIMITS</p>
-          <h2>A model with boundaries.</h2>
-          <p>
-            Task weights and capability estimates in this prototype are illustrative, curated demo
-            inputs. The score is not an official ILO score, a measured automation rate, or an
-            individual job-loss probability.
-          </p>
-        </section>
-      </div>
-      <section className={editorialSection}>
-        <p className={eyebrow}>03 / REPRODUCE THE RESULT</p>
-        <p className="mt-3">
-          Choose one occupation at a time. The mixed task option averages routine and escalation
-          weights; it does not average occupations.
-        </p>
-        {occupationModels.map((model) => (
-          <div key={model.id} className="overflow-x-auto">
-            <table className="mt-5 w-full text-left text-[16px] whitespace-nowrap [&_td]:border-b [&_td]:px-3 [&_td]:py-3.5 [&_td:first-child]:pl-0 [&_th]:border-b [&_th]:px-3 [&_th]:py-3.5 [&_th]:font-medium [&_th:first-child]:pl-0">
-              <caption className="text-left mt-6 font-medium">
-                {model.title} · illustrative demo inputs
+          <div className="overflow-x-auto">
+            <table className="mt-5 w-full text-left text-[15px] [&_td]:border-b [&_td]:px-3 [&_td]:py-3.5 [&_th]:border-b [&_th]:px-3 [&_th]:py-3.5 [&_th]:font-medium">
+              <caption className="mb-3 text-left">
+                {title} · {demo ? "Illustrative estimates" : "ILO task data"}
               </caption>
               <thead>
                 <tr>
                   <th scope="col">Task</th>
-                  <th scope="col">AI capability</th>
-                  <th scope="col">Routine weight</th>
-                  <th scope="col">Escalation weight</th>
+                  <th scope="col">Exposure (0–1)</th>
+                  <th scope="col">Weight</th>
+                  <th scope="col">Points / 100</th>
                 </tr>
               </thead>
               <tbody>
-                {model.tasks.map((task, i) => (
-                  <tr key={task.name}>
-                    <th scope="row">{task.name}</th>
-                    <td>{task.exposure.toFixed(2)}</td>
-                    <td>{Math.round(task.weight * 100)}%</td>
-                    <td>{Math.round(model.escalationWeights[i]! * 100)}%</td>
-                  </tr>
-                ))}
-                <tr>
-                  <th scope="row">Exposure index</th>
-                  <td>/ 100</td>
-                  {["routine", "escalations"].map((focus) => (
-                    <td key={focus}>
-                      {computeExposure(
-                        model.tasks.map((task, i) => ({
-                          ...task,
-                          weight: taskWeights(model, focus)[i]!,
-                        })),
-                      ).toFixed(1)}
-                    </td>
-                  ))}
-                </tr>
+                {model.tasks.map((task, index) => {
+                  const weight = weights[index]! / totalWeight
+                  return (
+                    <tr key={`${index}-${task.name}`}>
+                      <th scope="row">{task.name}</th>
+                      <td>{task.exposure.toFixed(2)}</td>
+                      <td>{(weight * 100).toFixed(1)}%</td>
+                      <td>{(100 * weight * task.exposure).toFixed(2)}</td>
+                    </tr>
+                  )
+                })}
               </tbody>
+              <tfoot>
+                <tr>
+                  <th scope="row" colSpan={2}>
+                    Exposure index
+                  </th>
+                  <td>100%</td>
+                  <td>{score!.toFixed(1)}</td>
+                </tr>
+              </tfoot>
             </table>
           </div>
-        ))}
+          <p className="mt-3 text-[14px] text-muted-foreground">
+            Calculation uses full precision; displayed rows are rounded and may not sum exactly.
+          </p>
+        </section>
+      )}
+      <section className={editorialSection}>
+        <p className={eyebrow}>02 / WHAT THIS CAN TELL YOU</p>
+        <h2>Exposure is not a job-loss forecast.</h2>
+        <p>
+          {demo
+            ? "This baseline uses curated prototype estimates, not official ILO occupational scores."
+            : "Mapped task scores describe an occupation group, not your personal tasks or employer’s AI adoption."}{" "}
+          The index does not predict job loss, timing, pay, or your chance of getting a new role.
+          Your daily work may differ from this baseline.
+        </p>
+        <p>
+          Goals, available time, strengths and comfort with change guide Navigator suggestions; they
+          do not change this exposure calculation. Navigator directions and generated plans are AI
+          guidance, not research-backed job matches or verified vacancies.
+        </p>
       </section>
       <section className={editorialSection}>
-        <p className={eyebrow}>04 / RESEARCH STARTING POINTS</p>
-        <a
-          className="flex items-center gap-[18px] border-b py-[23px] [&>svg]:size-5 [&>svg]:shrink-0 [&>svg]:text-muted-foreground [&>svg:last-child]:ml-auto [&>svg:last-child]:w-[15px] [&_strong]:text-[16px] [&_strong]:font-medium [&_small]:mt-[5px] [&_small]:block [&_small]:text-[14px] [&_small]:text-muted-foreground"
-          href="https://www.ilo.org/publications/generative-ai-and-jobs-refined-global-index-occupational-exposure"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <BookOpen />
-          <span>
-            <strong>Generative AI and Jobs: A Refined Global Index</strong>
-            <small>
-              International Labour Organization · May 2025 · Occupational exposure research
-            </small>
-          </span>
-          <ArrowUpRight />
-        </a>
-        <a
-          className="flex items-center gap-[18px] border-b py-[23px] [&>svg]:size-5 [&>svg]:shrink-0 [&>svg]:text-muted-foreground [&>svg:last-child]:ml-auto [&>svg:last-child]:w-[15px] [&_strong]:text-[16px] [&_strong]:font-medium [&_small]:mt-[5px] [&_small]:block [&_small]:text-[14px] [&_small]:text-muted-foreground"
-          href="https://www.onetonline.org/link/summary/43-4051.00"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <Fingerprint />
-          <span>
-            <strong>Customer Service Representatives</strong>
-            <small>O*NET OnLine · 43-4051.00 · Occupational tasks and activities</small>
-          </span>
-          <ArrowUpRight />
-        </a>
-        <p className="mt-4">
-          Research provides context for the approach. Prototype task estimates and scenarios remain
-          assumptions; they are not directly validated by these sources.
-        </p>
+        <p className={eyebrow}>03 / INSPECT THE SOURCES</p>
+        {sourceLinks.map((source) => (
+          <a
+            key={source.href}
+            href={source.href}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center justify-between gap-4 border-b py-5"
+          >
+            <span>
+              <strong className="text-[16px] font-medium">{source.title}</strong>
+              <span className="mt-1 block text-[14px] text-muted-foreground">{source.detail}</span>
+            </span>
+            <ArrowUpRight className="size-4 shrink-0" />
+          </a>
+        ))}
       </section>
     </div>
   )

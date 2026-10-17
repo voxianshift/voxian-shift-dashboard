@@ -7,7 +7,7 @@ import {
   emptyProfile,
   mergeProfile,
   profileSchema,
-  canConfirmProfile,
+  hasMeterInputs,
   type CareerProfile,
 } from "@/lib/onboarding"
 
@@ -28,8 +28,8 @@ const ProfileContext = createContext<{
   saveOccupations: (profile: CareerProfile) => Promise<CareerProfile>
   update: (patch: Partial<CareerProfile>) => void
   skip: (field: string) => void
-  confirm: () => boolean
-  clear: () => void
+  confirm: (patch?: Partial<CareerProfile>) => boolean
+  reset: (scope: "profile" | "all") => Promise<void>
 } | null>(null)
 
 export function CareerProfileProvider({ children }: { children: ReactNode }) {
@@ -49,7 +49,7 @@ export function CareerProfileProvider({ children }: { children: ReactNode }) {
             restored = {
               ...result.data,
               profile,
-              confirmed: result.data.confirmed && canConfirmProfile(profile),
+              confirmed: result.data.confirmed && hasMeterInputs(profile),
             }
           }
         }
@@ -125,12 +125,29 @@ export function CareerProfileProvider({ children }: { children: ReactNode }) {
         update: (patch) =>
           setState((s) => ({ ...s, profile: mergeProfile(s.profile, patch), confirmed: false })),
         skip: (field) => setState((s) => ({ ...s, skipped: [...new Set([...s.skipped, field])] })),
-        confirm: () => {
-          if (!canConfirmProfile(state.profile)) return false
-          setState((s) => ({ ...s, confirmed: true }))
+        confirm: (patch) => {
+          const profile = mergeProfile(state.profile, patch ?? {})
+          if (!hasMeterInputs(profile)) return false
+          setState((s) => ({ ...s, profile, confirmed: true }))
           return true
         },
-        clear: () => setState(blank),
+        reset: async (scope) => {
+          if (scope === "all") {
+            const response = await fetch("/api/onboarding/conversation", {
+              method: "DELETE",
+              signal: AbortSignal.timeout(10_000),
+            })
+            if (!response.ok) throw new Error("Your saved data could not be reset. Try again.")
+          } else {
+            await saveOccupations(emptyProfile)
+          }
+          try {
+            sessionStorage.removeItem("voxian-navigator-v1")
+          } catch {
+            setStorageAvailable(false)
+          }
+          setState(blank)
+        },
       }}
     >
       {children}

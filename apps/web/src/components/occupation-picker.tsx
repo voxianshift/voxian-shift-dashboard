@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect, useState, useId } from "react"
-import { Info } from "lucide-react"
+import { useEffect, useState, useId, useRef } from "react"
+import { Info, X } from "lucide-react"
 import { occupationCode, occupationSearchSchema, type OccupationMatch } from "@voxian/shared"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -26,6 +26,7 @@ export function OccupationPicker({
   suggestions?: OccupationMatch[]
 }) {
   const searchId = useId()
+  const searchInput = useRef<HTMLInputElement>(null)
   const primaryId = useId()
   const [query, setQuery] = useState(
     suggestions.length || profile.occupations.length ? "" : profile.currentWork,
@@ -33,8 +34,7 @@ export function OccupationPicker({
   const [results, setResults] = useState<OccupationMatch[]>([])
   const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">("idle")
   const [attempt, setAttempt] = useState(0)
-  // Empty search box: match against the work description the person already gave
-  const term = query.trim() || profile.currentWork.trim()
+  const term = query.trim()
   useEffect(() => {
     if (term.length < 2) {
       setStatus("idle")
@@ -89,13 +89,34 @@ export function OccupationPicker({
       <label className="block text-[14px] font-medium" htmlFor={searchId}>
         Search your job title or duties
       </label>
-      <Input
-        id={searchId}
-        value={query}
-        maxLength={800}
-        onChange={(event) => setQuery(event.target.value)}
-        placeholder="e.g. software developer, teacher, customer support"
-      />
+      <div className="relative">
+        <Input
+          ref={searchInput}
+          id={searchId}
+          value={query}
+          maxLength={800}
+          className="pr-10"
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="e.g. software developer, teacher, customer support"
+        />
+        {query.length > 0 && (
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            className="absolute top-1/2 right-1 -translate-y-1/2"
+            aria-label="Clear job title search"
+            onClick={() => {
+              setQuery("")
+              setResults([])
+              setStatus("idle")
+              searchInput.current?.focus()
+            }}
+          >
+            <X className="size-4" />
+          </Button>
+        )}
+      </div>
       <p className={fieldHelp}>
         Choose up to five roles that fit. Matching a role does not guarantee an exposure baseline.
       </p>
@@ -143,7 +164,7 @@ export function OccupationPicker({
           <p className={fieldHelp}>
             {role.baselineId
               ? "Illustrative Meter baseline available"
-              : "Baseline being prepared · role can still be saved"}
+              : "Meter availability checked after you choose this role"}
           </p>
           <Button
             type="button"

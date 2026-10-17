@@ -6,6 +6,7 @@ import {
 import Fastify from "fastify"
 import { registerOnboarding } from "./onboarding.ts"
 import { registerPlan } from "./plan.ts"
+import { registerNavigator } from "./navigator.ts"
 import { createChatStore, type ChatStore } from "./chat-store.ts"
 import { SCORING_VERSION } from "@voxian/shared"
 
@@ -26,6 +27,7 @@ export function buildApp(options: { chatStore?: ChatStore; catalogue?: Occupatio
   registerOccupations(app, catalogue)
   registerOnboarding(app, store, catalogue)
   registerPlan(app)
+  registerNavigator(app, catalogue)
 
   return app
 }

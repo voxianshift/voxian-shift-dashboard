@@ -132,9 +132,10 @@ export function mergeProfile(profile: CareerProfile, patch: Partial<CareerProfil
   return merged
 }
 
+export function hasMeterInputs(profile: CareerProfile) {
+  return profile.primaryOccupation !== "" && profile.occupations.includes(profile.primaryOccupation)
+}
+
 export function canConfirmProfile(profile: CareerProfile) {
-  return (
-    baselineIdForOccupation(profile.primaryOccupation) !== null &&
-    profile.occupations.includes(profile.primaryOccupation)
-  )
+  return hasMeterInputs(profile) && baselineIdForOccupation(profile.primaryOccupation) !== null
 }

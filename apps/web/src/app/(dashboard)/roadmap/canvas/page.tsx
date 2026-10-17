@@ -1,0 +1,439 @@
+"use client"
+
+import { Suspense, useLayoutEffect, useRef, useState } from "react"
+import Link from "next/link"
+import { useTheme } from "next-themes"
+import { useSearchParams } from "next/navigation"
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  BookOpen,
+  Compass,
+  GitBranch,
+  MapPin,
+  X,
+} from "lucide-react"
+import {
+  ReactFlow,
+  Background,
+  BackgroundVariant,
+  Controls,
+  Handle,
+  Position,
+  type NodeProps,
+  type ReactFlowInstance,
+} from "@xyflow/react"
+import "@xyflow/react/dist/style.css"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import type { NavigatorResult } from "@voxian/shared"
+import { useNavigator } from "@/components/navigator-provider"
+import { NavigatorStatus } from "@/components/navigator-status"
+import {
+  buildCareerNodes,
+  careerEdges,
+  visibleCareerNodes,
+  selectedCardViewport,
+  type RoleNode,
+} from "@/lib/career-canvas"
+
+function RoleCard({ data, selected }: NodeProps<RoleNode>) {
+  return (
+    <div
+      className="relative flex h-[208px] w-[260px] flex-col overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm transition-shadow"
+      style={{
+        borderColor: selected ? data.color : "var(--border)",
+        boxShadow: selected ? `0 0 0 1px ${data.color}, 0 8px 24px #0001` : undefined,
+      }}
+    >
+      {data.kind !== "start" && (
+        <Handle
+          type="target"
+          position={Position.Left}
+          className="!border-background !bg-muted-foreground"
+        />
+      )}
+      <div className="min-h-0 flex-1 px-4 py-4">
+        <p className="mb-3 flex items-center gap-2 text-[12px] tracking-[1px] text-muted-foreground">
+          {data.kind === "start" ? (
+            <MapPin className="size-4" />
+          ) : (
+            <GitBranch className="size-4" style={{ color: data.color }} />
+          )}
+          {data.kind === "start"
+            ? "STARTING POINT"
+            : data.kind === "path"
+              ? "DIRECTION"
+              : "ROLE TO EXPLORE"}
+        </p>
+        <h2 className="line-clamp-2 text-[22px] font-medium leading-tight">{data.title}</h2>
+        <p className="mt-2 line-clamp-2 text-[14px] leading-relaxed text-muted-foreground">
+          {data.subtitle}
+        </p>
+      </div>
+      <div
+        className="flex shrink-0 items-center justify-between border-t px-4 py-3 text-[13px]"
+        style={{ color: data.color }}
+      >
+        <span>
+          {data.kind === "start" ? "Your saved occupation" : "Skills, learning & next steps"}
+        </span>
+        {data.kind !== "start" && <ArrowUpRight className="size-4" />}
+      </div>
+      {data.kind !== "role" && (
+        <Handle
+          type="source"
+          position={Position.Right}
+          className="!border-background !bg-muted-foreground"
+        />
+      )}
+    </div>
+  )
+}
+
+const nodeTypes = { role: RoleCard }
+export default function NavigatorCanvasPage() {
+  return (
+    <Suspense
+      fallback={
+        <p role="status" className="px-6 py-12">
+          Loading your canvas…
+        </p>
+      }
+    >
+      <CanvasRoute />
+    </Suspense>
+  )
+}
+
+function CanvasRoute() {
+  const params = useSearchParams()
+  const requestedPath = params.get("path")
+  const requestedRole = params.get("role")
+  const { data, status, profileKey } = useNavigator()
+  if (status !== "ready" || !data) return <NavigatorStatus />
+  const initialPathId = data.paths.find((path) => path.id === requestedPath)?.id ?? null
+  return (
+    <NavigatorCanvas
+      key={`${profileKey}-${requestedPath ?? "all"}-${requestedRole}`}
+      data={data}
+      initialPathId={initialPathId}
+      initialSelectedId={
+        initialPathId && /^[0-2]$/.test(requestedRole ?? "")
+          ? `${initialPathId}-role-${requestedRole}`
+          : initialPathId
+      }
+    />
+  )
+}
+
+function NavigatorCanvas({
+  data,
+  initialPathId,
+  initialSelectedId,
+}: {
+  data: NavigatorResult
+  initialPathId: string | null
+  initialSelectedId: string | null
+}) {
+  const careerPaths = data.paths
+  const careerNodes = buildCareerNodes(careerPaths, data.roleTitle)
+  const { resolvedTheme } = useTheme()
+  const [selectedId, setSelectedId] = useState<string | null>(initialSelectedId)
+  const [focusRequest, setFocusRequest] = useState(0)
+  const [flow, setFlow] = useState<ReactFlowInstance<RoleNode> | null>(null)
+  const canvasRef = useRef<HTMLDivElement | null>(null)
+  const detailsRef = useRef<HTMLElement | null>(null)
+  const [expandedPathId, setExpandedPathId] = useState<string>(
+    initialPathId ?? data.recommendedPathId,
+  )
+  const visibleNodes = visibleCareerNodes(careerNodes, expandedPathId)
+  const visibleIds = new Set(visibleNodes.map((node) => node.id))
+  const selectedNode = careerNodes.find((node) => node.id === selectedId)
+  const selected = careerPaths.find((path) => path.id === selectedNode?.data.pathId) ?? null
+  const selectedRole = selectedNode?.data.title ?? ""
+  const returnFocus = useRef<HTMLElement | null>(null)
+  useLayoutEffect(() => {
+    const canvas = canvasRef.current
+    const details = detailsRef.current
+    const node = buildCareerNodes(data.paths, data.roleTitle).find((item) => item.id === selectedId)
+    if (!flow || !canvas || !details || !node) return
+    const centerSelection = () => {
+      const bounds = canvas.getBoundingClientRect()
+      const panel = details.getBoundingClientRect()
+      const bottomSheet = window.matchMedia("(max-width: 650px)").matches
+      const width = bottomSheet ? bounds.width : Math.max(0, panel.left - bounds.left - 12)
+      const height = bottomSheet ? Math.max(0, panel.top - bounds.top - 12) : bounds.height
+      void flow.setViewport(selectedCardViewport(node.position, width, height))
+    }
+    centerSelection()
+    const observer = new ResizeObserver(centerSelection)
+    observer.observe(canvas)
+    observer.observe(details)
+    return () => observer.disconnect()
+  }, [flow, selectedId, focusRequest, data])
+  function selectNode(id: string) {
+    const pathId = careerNodes.find((node) => node.id === id)?.data.pathId
+    if (pathId) setExpandedPathId(pathId)
+    if (!document.activeElement?.closest('[aria-labelledby="role-details-title"]')) {
+      returnFocus.current = document.activeElement as HTMLElement
+    }
+    setSelectedId(id)
+    setFocusRequest((request) => request + 1)
+  }
+  function closeDetails() {
+    setSelectedId(null)
+    if (returnFocus.current?.isConnected) returnFocus.current.focus()
+  }
+  return (
+    <div className="flex min-h-[660px] h-full flex-col bg-background text-foreground">
+      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-border px-7 py-5 max-[650px]:px-5">
+        <div className="flex items-center gap-3">
+          <span className="grid size-10 place-items-center rounded-xl border border-border bg-muted">
+            <Compass className="size-5 text-mauve-deep" />
+          </span>
+          <div>
+            <p className="text-[12px] tracking-[1.5px] text-muted-foreground">
+              NAVIGATOR / YOUR CAREER MAP
+            </p>
+            <h1 className="mt-1 text-[23px] font-medium tracking-[-0.5px]">Map your next move.</h1>
+          </div>
+        </div>
+        <Button
+          variant="outline"
+          asChild
+          className="border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground"
+        >
+          <Link href="/roadmap">
+            <ArrowLeft /> Plan view
+          </Link>
+        </Button>
+      </header>
+      <div
+        ref={canvasRef}
+        className="relative min-h-[400px] min-w-0 flex-1 overflow-hidden"
+        aria-label="Interactive career path canvas"
+      >
+        <ReactFlow<RoleNode>
+          nodes={visibleNodes.map((node) => ({
+            ...node,
+            selected: node.id === selectedId || node.id === expandedPathId,
+          }))}
+          edges={careerEdges(careerPaths, careerNodes, selectedId).filter(
+            (edge) => visibleIds.has(edge.source) && visibleIds.has(edge.target),
+          )}
+          nodesDraggable={false}
+          nodeTypes={nodeTypes}
+          colorMode={resolvedTheme === "dark" ? "dark" : "light"}
+          onInit={(instance) => {
+            setFlow(instance)
+            if (!initialSelectedId)
+              void instance.fitView({ padding: 0.18, minZoom: 0.55, maxZoom: 1 })
+          }}
+          minZoom={0.25}
+          maxZoom={1.6}
+          nodesConnectable={false}
+          edgesReconnectable={false}
+          deleteKeyCode={null}
+          onNodeClick={(_, node) => {
+            if (node.data.pathId) selectNode(node.id)
+          }}
+          className="!bg-background motion-reduce:[&_path]:!animate-none"
+          aria-label="Career paths: drag canvas to pan, scroll to zoom, select a role to see details"
+        >
+          <Background variant={BackgroundVariant.Dots} gap={24} size={1.6} color="var(--input)" />
+          <Controls showInteractive={false} position="bottom-left" className="[&_button]:!size-9" />
+        </ReactFlow>
+        {selected && (
+          <aside
+            ref={detailsRef}
+            aria-labelledby="role-details-title"
+            onKeyDown={(event) => {
+              if (event.key === "Escape") {
+                event.stopPropagation()
+                closeDetails()
+              }
+            }}
+            className="absolute inset-y-3 right-3 z-10 flex w-[560px] max-w-[calc(100%-24px)] min-[651px]:max-w-[70%] flex-col overflow-hidden rounded-xl border bg-popover text-foreground shadow-lg max-[650px]:top-auto max-[650px]:h-[90%]"
+          >
+            <header className="relative shrink-0 border-b px-6 pt-6 pb-5 max-[650px]:px-4 max-[650px]:pt-4 max-[650px]:pb-3">
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                aria-label="Close role details"
+                className="absolute top-3 right-3"
+                onClick={closeDetails}
+              >
+                <X />
+              </Button>
+              <p
+                className="mb-3 pr-6 text-[12px] tracking-[1.5px]"
+                style={{ color: selected.color }}
+              >
+                PATH DETAILS / YOUR PROFILE
+              </p>
+              <h2
+                id="role-details-title"
+                className="pr-5 text-[25px] font-medium leading-tight max-[650px]:text-[21px]"
+              >
+                {selectedRole}
+              </h2>
+            </header>
+            <Tabs defaultValue="overview" className="min-h-0 flex-1 gap-0">
+              <TabsList
+                aria-label="Role details sections"
+                className="mx-6 my-3 min-h-10 w-auto shrink-0 max-[650px]:mx-4"
+              >
+                <TabsTrigger value="overview" className="text-[14px]">
+                  Overview
+                </TabsTrigger>
+                <TabsTrigger value="skills" className="text-[14px]">
+                  Skills & project
+                </TabsTrigger>
+                <TabsTrigger value="learning" className="text-[14px]">
+                  Learning
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent
+                value="overview"
+                className="min-h-0 space-y-5 overflow-y-auto px-6 pb-5 max-[650px]:px-4"
+              >
+                <p className="text-[15px] leading-relaxed text-muted-foreground">
+                  {selected.description}
+                </p>
+
+                <section aria-label="Other roles in this direction">
+                  <h3 className="mb-3 text-[15px] font-medium">
+                    Alternative roles in this direction
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selected.roles.map((role, index) => (
+                      <Button
+                        key={role}
+                        variant="outline"
+                        aria-pressed={selectedId === `${selected.id}-role-${index}`}
+                        className="h-auto min-h-9 whitespace-normal text-left text-[13px]"
+                        onClick={() => selectNode(`${selected.id}-role-${index}`)}
+                      >
+                        {role}
+                      </Button>
+                    ))}
+                  </div>
+                </section>
+                <section className="rounded-lg bg-muted/60 p-4">
+                  <h3 className="mb-2 text-[15px] font-medium">Why this fits your profile</h3>
+                  <p className="text-[15px] leading-relaxed text-muted-foreground">
+                    {selected.why}
+                  </p>
+                </section>
+                {selectedRole !== selected.title && (
+                  <p className="text-[14px] text-muted-foreground">
+                    An alternative within {selected.title}, not a required step before another role.
+                    Experience and entry requirements vary by employer.
+                  </p>
+                )}
+              </TabsContent>
+              <TabsContent
+                value="skills"
+                className="min-h-0 space-y-5 overflow-y-auto px-6 pb-5 max-[650px]:px-4"
+              >
+                <section>
+                  <h2 className="mb-3 text-[17px] font-medium">Skills to build</h2>
+                  <div className="flex flex-wrap gap-2">
+                    {selected.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="rounded-md border border-border bg-muted px-3 py-2 text-[14px] text-foreground"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </section>
+                <section className="rounded-xl border border-border bg-muted/60 p-5">
+                  <p className="text-[12px] tracking-[1px] text-mauve-deep">
+                    BUILD PROOF, NOT JUST A CERTIFICATE
+                  </p>
+                  <h2 className="mt-2 text-[18px]">Your bridge project</h2>
+                  <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+                    {selected.project}
+                  </p>
+                </section>
+                <section className="border-t border-border pt-5">
+                  <h2 className="text-[17px] font-medium">Start this week</h2>
+                  <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+                    {selected.firstStep}
+                  </p>
+                </section>
+              </TabsContent>
+              <TabsContent
+                value="learning"
+                className="min-h-0 space-y-5 overflow-y-auto px-6 pb-5 max-[650px]:px-4"
+              >
+                <section>
+                  <h2 className="mb-3 flex items-center gap-2 text-[17px] font-medium">
+                    <BookOpen className="size-4" /> Courses, credentials & resources
+                  </h2>
+                  <div className="space-y-3">
+                    {selected.resources.map((resource) => (
+                      <a
+                        key={resource.href}
+                        href={resource.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group block rounded-xl border border-border p-4 transition-colors hover:border-mauve focus-visible:outline-2 focus-visible:outline-ring"
+                      >
+                        <p className="text-[12px] text-muted-foreground">
+                          {resource.provider} · {resource.type}
+                        </p>
+                        <h3 className="mt-2 flex items-start justify-between gap-3 text-[16px] font-medium">
+                          {resource.title}
+                          <ArrowUpRight className="mt-1 size-4 shrink-0" />
+                        </h3>
+                        <p className="mt-2 text-[16px] leading-relaxed text-muted-foreground">
+                          {resource.note}
+                        </p>
+                      </a>
+                    ))}
+                  </div>
+                  <p className="mt-3 text-[12px] leading-relaxed text-muted-foreground">
+                    Official provider links checked October 2026. Availability, fees and eligibility
+                    can change. Credentials do not guarantee employment.
+                  </p>
+                </section>
+              </TabsContent>
+            </Tabs>
+            <footer className="shrink-0 border-t bg-popover px-6 py-4 max-[650px]:px-4">
+              <Button asChild className="h-auto min-h-11 w-full whitespace-normal">
+                <Link
+                  href={`/roadmap?path=${selected.id}${selectedNode?.data.kind === "role" ? `&role=${selected.roles.indexOf(selectedRole)}` : ""}`}
+                >
+                  Build this direction into a plan <ArrowRight />
+                </Link>
+              </Button>
+            </footer>
+          </aside>
+        )}
+      </div>
+      <footer className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-t px-6 py-3 text-[13px] text-muted-foreground">
+        <span>Drag background to pan · scroll or pinch to zoom · cards stay fixed.</span>
+        <div
+          className="flex flex-wrap gap-3"
+          aria-label="Open path details without using the canvas"
+        >
+          {careerPaths.map((path) => (
+            <button
+              key={path.id}
+              className="rounded px-1 py-1 underline-offset-4 hover:underline focus-visible:outline-2"
+              style={{ color: path.color }}
+              onClick={() => selectNode(path.id)}
+            >
+              {path.title}
+            </button>
+          ))}
+        </div>
+      </footer>
+    </div>
+  )
+}

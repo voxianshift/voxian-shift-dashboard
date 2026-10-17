@@ -14,7 +14,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { mergeProfile, type ProfileField } from "@/lib/onboarding"
+import { mergeProfile, type ProfileField, type CareerProfile } from "@/lib/onboarding"
 
 const groups: { id: string; title: string; fields: ProfileField[] }[] = [
   {
@@ -37,7 +37,7 @@ export function ProfileSheet({
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSaved?: () => void
+  onSaved?: (profile: CareerProfile) => void
 }) {
   const { profile, update, storageAvailable, saveOccupations } = useCareerProfile()
   const [saving, setSaving] = useState(false)
@@ -53,10 +53,9 @@ export function ProfileSheet({
       const saved = await saveOccupations(draft)
       if (JSON.stringify(saved) !== JSON.stringify(profile)) update(saved)
       onOpenChange(false)
-      onSaved?.()
+      onSaved?.(saved)
       toast.success(storageAvailable ? "Profile saved" : "Profile updated for this visit", {
-        description:
-          "Occupation choices are saved. Review your starting picture before opening your Meter.",
+        description: "Your changes are saved. Open your Meter whenever you’re ready.",
       })
     } catch {
       toast.error("Profile could not be saved", {

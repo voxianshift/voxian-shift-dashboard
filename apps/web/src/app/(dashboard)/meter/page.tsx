@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useEffect, useState } from "react"
+import { Suspense, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight, Fingerprint, RotateCcw } from "lucide-react"
@@ -13,6 +13,7 @@ import { useCareerProfile } from "@/components/career-profile-provider"
 import { canConfirmProfile } from "@/lib/onboarding"
 import { occupationModels, taskWeights, type MeterModel } from "@/lib/occupations"
 import { cn } from "@/lib/utils"
+import { useIscoMeter } from "@/hooks/use-isco-meter"
 import {
   answerChips,
   editorialPage,
@@ -46,17 +47,6 @@ function Meter() {
   const [editing, setEditing] = useState(false)
   const [overrideFocus, setOverrideFocus] = useState<string | null>(null)
   const [overrideRole, setOverrideRole] = useState<string | null>(null)
-  const [isco, setIsco] = useState<
-    | (MeterModel & {
-        gradient: string
-        crosswalkMatch: string
-        mappingNote: string
-        isco: string
-        iscoTitle: string
-      })
-    | "missing"
-    | null
-  >(null)
   const example = useSearchParams().get("example") === "1"
   const roleId =
     overrideRole ||
@@ -70,35 +60,7 @@ function Meter() {
     ? profile.primaryOccupation
     : ""
   const useIsco = !demoRole && !!catalogueCode && !example && !overrideRole
-  useEffect(() => {
-    if (!useIsco) return
-    const controller = new AbortController()
-    fetch(`/api/occupations/${catalogueCode}/meter`, { signal: controller.signal })
-      .then((response) => (response.ok ? response.json() : Promise.reject()))
-      .then((data: IscoMeterData) => {
-        // ILO gives task scores but no weights: equal weights, no routine/escalation split
-        const weight = 1 / data.tasks.length
-        setIsco({
-          id: "isco",
-          title: profile.occupationNames[catalogueCode] ?? data.iscoTitle,
-          code: `ISCO-08 ${data.isco} · O*NET ${catalogueCode}`,
-          gradient: data.gradient,
-          crosswalkMatch: data.crosswalk.match,
-          mappingNote: data.crosswalk.escoTitle,
-          isco: data.isco,
-          iscoTitle: data.iscoTitle,
-          tasks: data.tasks.map((t) => ({
-            name: t.task,
-            exposure: t.exposure,
-            weight,
-            moat: t.exposure < 0.5,
-          })),
-          escalationWeights: data.tasks.map(() => weight),
-        })
-      })
-      .catch(() => !controller.signal.aborted && setIsco("missing"))
-    return () => controller.abort()
-  }, [useIsco, catalogueCode, profile.occupationNames])
+  const isco = useIscoMeter(catalogueCode, profile.occupationNames[catalogueCode] ?? "", useIsco)
   const iscoRole = useIsco && isco && isco !== "missing" ? isco : undefined
   const role: MeterModel | undefined = demoRole ?? iscoRole
   const focus = overrideFocus || (!example && confirmed ? profile.taskFocus : "") || "routine"
@@ -469,12 +431,4 @@ function Meter() {
       </aside>
     </div>
   )
-}
-
-type IscoMeterData = {
-  isco: string
-  iscoTitle: string
-  gradient: string
-  crosswalk: { escoTitle: string; match: string }
-  tasks: { task: string; exposure: number }[]
 }

@@ -2,6 +2,7 @@ import { expect, test } from "vite-plus/test"
 import { computeExposure } from "@voxian/shared"
 import {
   canConfirmProfile,
+  hasMeterInputs,
   chatResultSchema,
   emptyProfile,
   mergeProfile,
@@ -128,4 +129,29 @@ test("catalogue roles are preserved without inventing exposure coverage; old pro
   expect(canConfirmProfile(mergeProfile(emptyProfile, { occupations: ["customer-support"] }))).toBe(
     true,
   )
+})
+
+test("Meter review requires a selected main occupation, not optional planning answers", () => {
+  expect(hasMeterInputs(emptyProfile)).toBe(false)
+  expect(
+    hasMeterInputs({
+      ...emptyProfile,
+      currentWork: "Software developer",
+      occupationNames: { "15-1252.00": "Software Developers" },
+    }),
+  ).toBe(false)
+  expect(hasMeterInputs({ ...emptyProfile, occupations: ["15-1252.00", "43-4051.00"] })).toBe(false)
+  expect(
+    hasMeterInputs({
+      ...emptyProfile,
+      occupations: ["15-1252.00"],
+      primaryOccupation: "43-4051.00",
+    }),
+  ).toBe(false)
+  const matched = mergeProfile(emptyProfile, { occupations: ["15-1252.00"] })
+  expect(hasMeterInputs(matched)).toBe(true)
+  expect(matched.goals).toEqual([])
+  expect(matched.hours).toBe("")
+  expect(matched.taskFocus).toBe("")
+  expect(canConfirmProfile(matched)).toBe(false)
 })

@@ -12,6 +12,7 @@
   "dependencies": {
     "@hookform/resolvers": "catalog:",
     "@voxian/shared": "workspace:*",
+    "@xyflow/react": "catalog:",
     "class-variance-authority": "catalog:",
     "cn": "catalog:",
     "lucide-react": "catalog:",
