@@ -1,22 +1,33 @@
-import { navigatorResources, type NavigatorResult } from "@voxian/shared"
+import {
+  navigatorStrategies,
+  recommendStrategy,
+  navigatorResources,
+  type NavigatorResult,
+} from "@voxian/shared"
 
 export const navigatorFixture: NavigatorResult = {
   roleTitle: "Software Developers",
   occupationCode: "15-1252.00",
   summary: "Options based on software development and limited weekly study time.",
-  recommendedPathId: "operations",
+  recommendedPathId: "automate",
+  contractVersion: 2,
+  ruleVersion: 1,
+  recommendation: recommendStrategy({ occupationResolved: true, selectedStrategyId: "automate" }),
   provider: "Test provider",
   paths: (
     [
-      ["advocate", "Technical Product Collaboration"],
-      ["operations", "Developer Tooling & Automation"],
-      ["quality", "Software Quality & AI Evaluation"],
+      ["automate", "Developer Tooling & Automation"],
+      ["hybrid", "Technical Product Collaboration"],
+      ["pivot", "Software Quality & AI Evaluation"],
+      ["create", "Independent Software Products"],
     ] as const
   ).map(([id, title]) => ({
     id,
     title,
     focus: "Transfer software experience",
-    color: "var(--ring)",
+    label: navigatorStrategies[id].label,
+    colorToken: navigatorStrategies[id].colorToken,
+    color: `var(--${navigatorStrategies[id].colorToken})`,
     description: "Use development experience to improve real software outcomes.",
     why: "Builds on coding skills while respecting limited weekly time.",
     skills: ["Testing", "Communication", "Workflow design"],

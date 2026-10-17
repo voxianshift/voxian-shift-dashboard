@@ -1,7 +1,12 @@
 import { createElement } from "react"
 import { renderToStaticMarkup } from "react-dom/server"
 import { beforeEach, expect, test, vi } from "vite-plus/test"
-import { emptyProfile, navigatorContext, type NavigatorResult } from "@voxian/shared"
+import {
+  navigatorResultSchema,
+  emptyProfile,
+  navigatorContext,
+  type NavigatorResult,
+} from "@voxian/shared"
 import InsightsPage from "../app/(dashboard)/insights/page"
 import RoadmapPage from "../app/(dashboard)/roadmap/page"
 import CanvasPage from "../app/(dashboard)/roadmap/canvas/page"
@@ -65,7 +70,7 @@ for (const path of navigatorFixture.paths) {
 }
 
 test("plan view lists at least five courses with must-have and cost badges", () => {
-  state.query = "path=quality&role=1"
+  state.query = "path=pivot&role=1"
   const html = renderToStaticMarkup(createElement(RoadmapPage))
   expect(html).toContain("LEARNING COURSES")
   expect(html.match(/rel="noreferrer"/g)!.length).toBeGreaterThanOrEqual(5)
@@ -76,7 +81,7 @@ test("plan view lists at least five courses with must-have and cost badges", () 
 })
 
 test("plan view shows a flight plan for the first phase by default", () => {
-  state.query = "path=quality"
+  state.query = "path=pivot"
   const html = renderToStaticMarkup(createElement(RoadmapPage))
   expect(html).toContain("FLIGHT PLAN · PHASE 01 · DAYS 1–30")
   expect(html).toContain("D1–D15")
@@ -98,12 +103,12 @@ test("unknown path falls back to profile recommendation", () => {
 })
 
 test("canvas uses same profile path and preserves selected role in plan link", () => {
-  state.query = "path=quality&role=1"
+  state.query = "path=pivot&role=1"
   const html = renderToStaticMarkup(createElement(SidebarProvider, null, createElement(CanvasPage)))
   expect(html).not.toContain("Profile-based directions")
   expect(html).not.toContain(navigatorFixture.summary)
   expect(html).toContain("Software Quality &amp; AI Evaluation Analyst")
-  expect(html).toContain("/roadmap?path=quality&amp;role=1")
+  expect(html).toContain("/roadmap?path=pivot&amp;role=1")
   expect(html).toContain("Why this fits your profile")
   expect(html).not.toContain("CUSTOMER SUPPORT")
 })
@@ -142,4 +147,47 @@ test("profile context includes optional constraints but excludes display identit
   expect(context).not.toHaveProperty("preferredName")
   expect(context).not.toHaveProperty("occupationNames")
   expect(JSON.stringify(context)).not.toBe(JSON.stringify(navigatorContext(state.profile)))
+})
+
+test("null recommendation remains explorable without implying a best fit", () => {
+  state.data = {
+    ...navigatorFixture,
+    recommendedPathId: null,
+    recommendation: {
+      strategyId: null,
+      reasonCode: "insufficient_preferences",
+      explanation: "No starting option is recommended without an explicit preference.",
+    },
+  }
+  const html = renderToStaticMarkup(createElement(RoadmapPage))
+  expect(html).toContain("No starting option is recommended")
+  expect(html).toContain("Developer Tooling &amp; Automation")
+  expect(html).toContain("Independent Software Products")
+  expect(() =>
+    renderToStaticMarkup(createElement(SidebarProvider, null, createElement(CanvasPage))),
+  ).not.toThrow()
+})
+
+test("result schema rejects obsolete caches, reordered strategies and forged metadata", () => {
+  expect(navigatorResultSchema.safeParse(navigatorFixture).success).toBe(true)
+  expect(navigatorResultSchema.safeParse({ ...navigatorFixture, contractVersion: 1 }).success).toBe(
+    false,
+  )
+  expect(
+    navigatorResultSchema.safeParse({
+      ...navigatorFixture,
+      paths: [...navigatorFixture.paths].reverse(),
+    }).success,
+  ).toBe(false)
+  expect(
+    navigatorResultSchema.safeParse({
+      ...navigatorFixture,
+      paths: navigatorFixture.paths.map((path, index) =>
+        index ? path : { ...path, colorToken: "success", label: "Fake" },
+      ),
+    }).success,
+  ).toBe(false)
+  expect(
+    navigatorResultSchema.safeParse({ ...navigatorFixture, recommendedPathId: null }).success,
+  ).toBe(false)
 })

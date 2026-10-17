@@ -33,8 +33,6 @@ const scenarios = [
       "Complex cases still reach people",
     ],
     action: "Try one reviewed AI workflow. Track time saved and errors caught before expanding it.",
-    role: "Strategic Client Advocate",
-    pathId: "advocate",
   },
   {
     id: "autonomy",
@@ -52,8 +50,6 @@ const scenarios = [
       "Teams measure failures and recovery",
     ],
     action: "Map one process, identify its failure points, and design a safe human handoff.",
-    role: "AI Support Operations",
-    pathId: "operations",
   },
   {
     id: "oversight",
@@ -72,8 +68,6 @@ const scenarios = [
     ],
     action:
       "Build a small evaluation checklist. Record when a person should review or override an AI output.",
-    role: "AI Quality & Governance",
-    pathId: "quality",
   },
 ] as const
 
@@ -277,10 +271,10 @@ export default function InsightsPage() {
             <p className="mt-3 text-[18px] leading-relaxed">{scenario.action}</p>
           </div>
           <Link
-            href={`/roadmap/canvas?path=${scenario.pathId}`}
+            href="/roadmap/canvas"
             className="mt-6 flex items-center justify-between gap-4 border-t pt-4 text-[15px]"
           >
-            Explore {scenario.role}
+            Explore your strategies
             <ArrowRight className="size-4 shrink-0" />
           </Link>
         </div>

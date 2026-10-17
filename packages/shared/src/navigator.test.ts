@@ -1,8 +1,16 @@
 import { expect, test } from "vite-plus/test"
-import { courseList, navigatorResources, pathCourseIds, type CareerPath } from "./navigator.ts"
+import {
+  recommendStrategy,
+  navigatorDraftSchema,
+  pathIdSchema,
+  courseList,
+  navigatorResources,
+  pathCourseIds,
+  type CareerPath,
+} from "./navigator.ts"
 
 const path = {
-  id: "quality",
+  id: "pivot",
   resources: [navigatorResources.nist],
   roleResources: [
     [navigatorResources.istqb],
@@ -36,4 +44,67 @@ test("courses change with the chosen role", () => {
   expect(titles(0)[1]).toBe(navigatorResources.istqb.title)
   expect(titles(1)[1]).toBe(navigatorResources.kaggle.title)
   expect(titles(null)).not.toEqual(titles(1))
+})
+
+test("recommendations use explicit canonical preferences, never inferred profile text", () => {
+  expect(
+    recommendStrategy({ occupationResolved: false, selectedStrategyId: "automate" }),
+  ).toMatchObject({ strategyId: null, reasonCode: "missing_occupation" })
+  for (const preference of [undefined, "unknown", "explore"] as const)
+    expect(
+      recommendStrategy({ occupationResolved: true, movementPreference: preference }),
+    ).toMatchObject({ strategyId: null, reasonCode: "insufficient_preferences" })
+  for (const [movementPreference, strategyId] of [
+    ["stay", "hybrid"],
+    ["grow", "hybrid"],
+    ["change", "pivot"],
+    ["create", "create"],
+  ] as const)
+    expect(recommendStrategy({ occupationResolved: true, movementPreference })).toMatchObject({
+      strategyId,
+      reasonCode: "explicit_direction",
+    })
+  expect(
+    recommendStrategy({
+      occupationResolved: true,
+      movementPreference: "stay",
+      selectedStrategyId: "automate",
+    }),
+  ).toMatchObject({ strategyId: "automate", reasonCode: "explicit_strategy" })
+})
+
+test("draft requires exactly one of each strategy and excludes model recommendations", () => {
+  const path = {
+    title: "Practical option",
+    focus: "Domain practice",
+    description: "Build on work.",
+    why: "Uses existing skills.",
+    skills: ["Review", "Writing", "Testing"],
+    roles: ["Analyst", "Specialist", "Practitioner"],
+    project: "Review a sample.",
+    firstStep: "Map one task.",
+    resourceIds: ["learn"],
+    roleResourceIds: [[], [], []],
+  }
+  const draft = {
+    summary: "Four options",
+    recommendedPathId: "create",
+    paths: pathIdSchema.options.map((id) => ({ ...path, id })),
+  }
+  expect(navigatorDraftSchema.parse(draft)).not.toHaveProperty("recommendedPathId")
+  expect(navigatorDraftSchema.safeParse({ ...draft, paths: draft.paths.slice(0, 3) }).success).toBe(
+    false,
+  )
+  expect(
+    navigatorDraftSchema.safeParse({
+      ...draft,
+      paths: [...draft.paths.slice(0, 3), draft.paths[0]],
+    }).success,
+  ).toBe(false)
+  expect(
+    navigatorDraftSchema.safeParse({
+      ...draft,
+      paths: draft.paths.map((p) => ({ ...p, id: "quality" })),
+    }).success,
+  ).toBe(false)
 })
