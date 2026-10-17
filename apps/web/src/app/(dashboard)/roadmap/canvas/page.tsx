@@ -135,7 +135,7 @@ function CanvasRoute() {
   const requestedRole = params.get("role")
   const { data, status, profileKey } = useNavigator()
   if (status !== "ready" || !data) return <NavigatorStatus />
-  const initialPathId = data.paths.find((path) => path.id === requestedPath)?.id ?? null
+  const initialPathId = data.paths.find((path) => path.id === requestedPath)?.id ?? "automate"
   return (
     <NavigatorCanvas
       key={`${profileKey}-${requestedPath ?? "all"}-${requestedRole}`}

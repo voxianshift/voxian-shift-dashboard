@@ -294,3 +294,16 @@ test("saved plan sheet keeps chosen pace and hides exploration controls", () => 
   expect(html).not.toContain("Target role options")
   expect(html).toContain("View progress")
 })
+
+test("Navigator defaults to Automate even when another strategy is recommended", () => {
+  state.data = { ...navigatorFixture, recommendedPathId: "pivot" }
+  const html = renderToStaticMarkup(
+    createElement(SidebarProvider, null, createElement(NavigatorPage)),
+  )
+  expect(html).toContain('id="role-details-title"')
+  expect(html).toContain(navigatorFixture.paths[0]!.why)
+  expect(html.match(/id="role-details-title"[^>]*>(.*?)<\/h2>/)?.[1]).toBe(
+    navigatorFixture.paths[0]!.title.replaceAll("&", "&amp;"),
+  )
+  expect(html).toContain("Build this direction into a plan")
+})
