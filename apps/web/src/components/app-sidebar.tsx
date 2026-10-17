@@ -41,16 +41,6 @@ export function AppSidebar() {
               </span>
             )}
           </Link>
-          {!collapsed && (
-            <Button
-              variant="ghost"
-              size="icon-xs"
-              onClick={toggleSidebar}
-              aria-label="Collapse sidebar"
-            >
-              <PanelLeft className="size-3.5" />
-            </Button>
-          )}
         </div>
       </SidebarHeader>
       <SidebarContent className="px-2 pt-3">
