@@ -22,6 +22,8 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-hook-form": "catalog:",
+    "react-markdown": "catalog:",
+    "remark-gfm": "catalog:",
     "shadcn": "catalog:",
     "sonner": "catalog:",
     "tw-animate-css": "catalog:",

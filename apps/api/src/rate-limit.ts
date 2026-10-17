@@ -6,6 +6,7 @@ const perMinute: Record<string, number> = {
   "/onboarding/cv": 5,
   "/navigator/paths": 5,
   "/onboarding/chat": 15,
+  "/copilot/chat": 15,
 }
 const defaultPerMinute = 120
 const windowMs = 60_000

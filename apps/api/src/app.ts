@@ -8,6 +8,7 @@ import { registerCv } from "./cv.ts"
 import { registerOnboarding } from "./onboarding.ts"
 import { registerPlan } from "./plan.ts"
 import { registerNavigator } from "./navigator.ts"
+import { registerCopilot } from "./copilot.ts"
 import { registerRateLimit } from "./rate-limit.ts"
 import { createChatStore, type ChatStore } from "./chat-store.ts"
 import { SCORING_VERSION } from "@voxian/shared"
@@ -37,6 +38,7 @@ export function buildApp(options: { chatStore?: ChatStore; catalogue?: Occupatio
   registerOnboarding(app, store, catalogue)
   registerPlan(app, catalogue)
   registerNavigator(app, catalogue)
+  registerCopilot(app, catalogue, store)
 
   return app
 }

@@ -1,30 +1,27 @@
-"use client"
-
-import * as React from "react"
+import type { ComponentProps } from "react"
 import { cn } from "cn"
-import { Progress as ProgressPrimitive } from "radix-ui"
 
-function Progress({
+export function Progress({
   className,
-  value,
+  value = 0,
   ...props
-}: React.ComponentProps<typeof ProgressPrimitive.Root>) {
+}: ComponentProps<"div"> & { value?: number }) {
+  const clamped = Math.max(0, Math.min(100, value ?? 0))
   return (
-    <ProgressPrimitive.Root
+    <div
+      role="progressbar"
+      aria-valuenow={clamped}
+      aria-valuemin={0}
+      aria-valuemax={100}
       data-slot="progress"
-      className={cn(
-        "relative flex h-1 w-full items-center overflow-x-hidden rounded-full bg-muted",
-        className,
-      )}
+      className={cn("relative h-1.5 w-full overflow-hidden rounded-full bg-muted", className)}
       {...props}
     >
-      <ProgressPrimitive.Indicator
+      <div
         data-slot="progress-indicator"
-        className="size-full flex-1 bg-primary transition-all"
-        style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
+        className="size-full flex-1 bg-primary transition-all duration-300 rounded-full"
+        style={{ transform: `translateX(-${100 - clamped}%)` }}
       />
-    </ProgressPrimitive.Root>
+    </div>
   )
 }
-
-export { Progress }
