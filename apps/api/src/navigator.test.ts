@@ -33,8 +33,8 @@ const context = navigatorContext({
 })
 const draft = () => ({
   summary: "Directions for software development with limited study time.",
-  recommendedPathId: "operations",
-  paths: (["advocate", "operations", "quality"] as const).map((id) => ({
+  recommendedPathId: "automate",
+  paths: (["automate", "hybrid", "pivot", "create"] as const).map((id) => ({
     id,
     title: `Software ${id}`,
     focus: "Development experience",
@@ -81,10 +81,25 @@ test("Navigator uses authoritative occupations and complete profile constraints,
     })
     expect(response.statusCode).toBe(200)
     const result = navigatorResultSchema.parse(response.json())
+    expect(result.paths.map((path) => path.id)).toEqual(["automate", "hybrid", "pivot", "create"])
+    expect(result.paths.map((path) => path.colorToken)).toEqual([
+      "chart-3",
+      "tertiary",
+      "warning",
+      "success",
+    ])
+    expect(result.paths.map((path) => path.label)).toEqual([
+      "Automate",
+      "Hybrid",
+      "Pivot",
+      "Create",
+    ])
     expect(result).toMatchObject({
       roleTitle: developer.title,
       occupationCode: developer.code,
-      recommendedPathId: "operations",
+      recommendedPathId: null,
+      contractVersion: 2,
+      recommendation: { strategyId: null, reasonCode: "insufficient_preferences" },
     })
     expect(result.paths[0]!.resources[0]!.href).toBe(navigatorResources.web.href)
     // Role picks keep catalogue IDs only; the invented one is dropped.
@@ -236,6 +251,45 @@ test("plan generation receives the actual selected target and optional profile a
       goals: ["Stability"],
       hours: "1–2 hours",
     })
+  } finally {
+    await app.close()
+  }
+})
+
+test("backend owns recommendation and canonical order even when provider disagrees", async () => {
+  const providerDraft = draft()
+  providerDraft.paths.reverse()
+  const fetch = vi.fn().mockImplementation(() => completion(providerDraft))
+  vi.stubGlobal("fetch", fetch)
+  const app = buildApp({ catalogue: catalogue() })
+  try {
+    for (const [preferences, expected] of [
+      [{ movementPreference: "change" }, "pivot"],
+      [{ movementPreference: "stay", selectedStrategyId: "create" }, "create"],
+      [{}, null],
+    ] as const) {
+      const response = await app.inject({
+        method: "POST",
+        url: "/navigator/paths",
+        payload: { profile: { ...context, direction: "change careers" }, ...preferences },
+      })
+      expect(response.statusCode).toBe(200)
+      expect(response.json().recommendedPathId).toBe(expected)
+      expect(response.json().recommendation.strategyId).toBe(expected)
+      expect(response.json().paths.map((path: { id: string }) => path.id)).toEqual([
+        "automate",
+        "hybrid",
+        "pivot",
+        "create",
+      ])
+    }
+    const bad = await app.inject({
+      method: "POST",
+      url: "/navigator/paths",
+      payload: { profile: context, selectedStrategyId: "quality" },
+    })
+    expect(bad.statusCode).toBe(400)
+    expect(fetch).toHaveBeenCalledTimes(3)
   } finally {
     await app.close()
   }

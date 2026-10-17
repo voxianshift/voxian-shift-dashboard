@@ -13,12 +13,12 @@ This contract describes target behavior, not deployed capability. Source referen
 
 Return exactly these IDs once, in this order. Titles may be personalized; IDs and labels cannot change.
 
-| ID | Label | Meaning | Existing semantic color token |
-| --- | --- | --- | --- |
-| `automate` | Automate | Improve current work through automation with human review. | `chart-3` (cyan) |
-| `hybrid` | Hybrid | Combine domain expertise with AI assistance while retaining human judgment. | `tertiary` (purple) |
-| `pivot` | Pivot | Validate adjacent work using transferable skills. | `warning` (amber) |
-| `create` | Create | Validate a new service, product or original body of work. | `success` (green) |
+| ID         | Label    | Meaning                                                                     | Existing semantic color token |
+| ---------- | -------- | --------------------------------------------------------------------------- | ----------------------------- |
+| `automate` | Automate | Improve current work through automation with human review.                  | `chart-3` (cyan)              |
+| `hybrid`   | Hybrid   | Combine domain expertise with AI assistance while retaining human judgment. | `tertiary` (purple)           |
+| `pivot`    | Pivot    | Validate adjacent work using transferable skills.                           | `warning` (amber)             |
+| `create`   | Create   | Validate a new service, product or original body of work.                   | `success` (green)             |
 
 Reuse existing tokens in both themes; no new hex values or theme overrides. Prototype magenta for Create is adapted to available green token. Labels/icons remain visible, so color is never the sole identifier. Strategy colors do not indicate risk or evidence confidence.
 

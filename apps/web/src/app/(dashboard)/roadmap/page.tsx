@@ -80,7 +80,7 @@ function Roadmap({
   const requested = branches.findIndex((path) => path.id === requestedPath)
   const recommended = branches.findIndex((path) => path.id === data.recommendedPathId)
   const [branchOverride, setBranch] = useState<number | null>(null)
-  const branch = branchOverride ?? (requested >= 0 ? requested : recommended)
+  const branch = branchOverride ?? (requested >= 0 ? requested : Math.max(0, recommended))
   const [targetRole, setTargetRole] = useState<number | null>(
     requested >= 0 && /^[0-2]$/.test(requestedRole ?? "") ? Number(requestedRole) : null,
   )
@@ -159,12 +159,17 @@ function Roadmap({
       <div className="min-h-0 flex-1 overflow-y-auto">
         <div className={editorialPage}>
           <PanelHeading kicker="03 / NAVIGATOR" title="One starting point. More than one future.">
-            Your existing skills are a starting point. Explore three possible directions,
+            Your existing skills are a starting point. Explore four possible strategies,
             <br />
             then turn one into a practical next step.
           </PanelHeading>
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-xl border p-4 text-[15px]">
-            <p>{data.summary}</p>
+            <div>
+              <p>{data.summary}</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {data.recommendation.explanation}
+              </p>
+            </div>
             <Button variant="outline" asChild>
               <Link
                 href={`/roadmap/canvas?path=${selected.id}${targetRole === null ? "" : `&role=${targetRole}`}`}
@@ -192,8 +197,9 @@ function Roadmap({
               preserveAspectRatio="none"
               fill="none"
             >
-              {["M33 50 C37 50 35 20 45 20", "M33 50 H45", "M33 50 C37 50 35 80 45 80"].map(
-                (path, index) => (
+              {branches
+                .map((_, index) => `M33 50 C37 50 35 ${12.5 + index * 25} 45 ${12.5 + index * 25}`)
+                .map((path, index) => (
                   <g key={path}>
                     <path
                       d={path}
@@ -222,8 +228,7 @@ function Roadmap({
                       </path>
                     )}
                   </g>
-                ),
-              )}
+                ))}
             </svg>
             <div className="flex flex-col items-center justify-center text-center text-[16px] leading-[1.7]">
               <Compass strokeWidth={1} className="size-8 text-[#a28a9a]" />

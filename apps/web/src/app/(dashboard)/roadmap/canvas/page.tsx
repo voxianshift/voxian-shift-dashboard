@@ -146,7 +146,7 @@ function NavigatorCanvas({
   const canvasRef = useRef<HTMLDivElement | null>(null)
   const detailsRef = useRef<HTMLElement | null>(null)
   const [expandedPathId, setExpandedPathId] = useState<string>(
-    initialPathId ?? data.recommendedPathId,
+    initialPathId ?? data.recommendedPathId ?? "",
   )
   const visibleNodes = visibleCareerNodes(careerNodes, expandedPathId)
   const visibleIds = new Set(visibleNodes.map((node) => node.id))

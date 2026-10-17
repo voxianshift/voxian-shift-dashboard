@@ -31,8 +31,8 @@ test("selection resets zoom and centers the card in unobscured canvas space", ()
   expect(selectedCardViewport(position, 800, 700, largeScreenZoom).zoom).toBe(largeScreenZoom)
 })
 
-test("all nine role options are reachable through their own direction", () => {
-  expect(careerNodes.filter((node) => node.data.kind === "role")).toHaveLength(9)
+test("all twelve role options are reachable through their own direction", () => {
+  expect(careerNodes.filter((node) => node.data.kind === "role")).toHaveLength(12)
   for (const path of careerPaths) {
     const roles = careerNodes.filter(
       (node) => node.data.pathId === path.id && node.data.kind === "role",
@@ -77,14 +77,14 @@ test("each direction displays three peer options without overlapping visible car
 })
 
 test("selecting a role animates only its route from starting point", () => {
-  const active = careerEdges(careerPaths, careerNodes, "operations-role-1").filter(
+  const active = careerEdges(careerPaths, careerNodes, "automate-role-1").filter(
     (edge) => edge.animated,
   )
-  expect(active.map((edge) => edge.id)).toEqual(["start-operations", "operations-next-1"])
+  expect(active.map((edge) => edge.id)).toEqual(["start-automate", "automate-next-1"])
   expect(active.every((edge) => edge.style?.filter?.includes("drop-shadow"))).toBe(true)
   expect(
-    careerEdges(careerPaths, careerNodes, "operations-role-1")
-      .filter((edge) => edge.source === "advocate")
+    careerEdges(careerPaths, careerNodes, "automate-role-1")
+      .filter((edge) => edge.source === "hybrid")
       .every((edge) => !edge.animated),
   ).toBe(true)
   expect(careerEdges(careerPaths, careerNodes, null).some((edge) => edge.animated)).toBe(false)
@@ -95,10 +95,10 @@ test("direction selection highlights every peer role without role-to-role links"
     careerEdges(careerPaths, careerNodes, null).every((edge) => !edge.source.includes("-role-")),
   ).toBe(true)
   expect(
-    careerEdges(careerPaths, careerNodes, "quality")
+    careerEdges(careerPaths, careerNodes, "pivot")
       .filter((edge) => edge.animated)
       .map((edge) => edge.target),
-  ).toEqual(["quality", "quality-role-0", "quality-role-1", "quality-role-2"])
+  ).toEqual(["pivot", "pivot-role-0", "pivot-role-1", "pivot-role-2"])
 })
 
 test("canvas starting point uses the supplied profile occupation", () => {

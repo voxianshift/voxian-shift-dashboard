@@ -178,7 +178,85 @@ export const navigatorResources = {
     cost: "Free",
   },
 } as const
-export const pathIdSchema = z.enum(["advocate", "operations", "quality"])
+export const NAVIGATOR_CONTRACT_VERSION = 2
+export const NAVIGATOR_RULE_VERSION = 1
+export const pathIdSchema = z.enum(["automate", "hybrid", "pivot", "create"])
+export type StrategyId = z.infer<typeof pathIdSchema>
+export const navigatorStrategies = {
+  automate: {
+    label: "Automate",
+    meaning: "Improve current work through automation with human review.",
+    colorToken: "chart-3",
+  },
+  hybrid: {
+    label: "Hybrid",
+    meaning: "Combine domain expertise with AI assistance and human judgment.",
+    colorToken: "tertiary",
+  },
+  pivot: {
+    label: "Pivot",
+    meaning: "Validate adjacent work using transferable skills.",
+    colorToken: "warning",
+  },
+  create: {
+    label: "Create",
+    meaning: "Validate a new service, product or original body of work.",
+    colorToken: "success",
+  },
+} as const
+export const movementPreferenceSchema = z.enum([
+  "stay",
+  "grow",
+  "change",
+  "explore",
+  "create",
+  "unknown",
+])
+export const recommendationSchema = z.object({
+  strategyId: pathIdSchema.nullable(),
+  reasonCode: z.enum([
+    "missing_occupation",
+    "explicit_strategy",
+    "explicit_direction",
+    "insufficient_preferences",
+  ]),
+  explanation: z.string().min(1).max(350),
+})
+export function recommendStrategy(input: {
+  occupationResolved: boolean
+  selectedStrategyId?: StrategyId
+  movementPreference?: z.infer<typeof movementPreferenceSchema>
+}): z.infer<typeof recommendationSchema> {
+  if (!input.occupationResolved)
+    return {
+      strategyId: null,
+      reasonCode: "missing_occupation",
+      explanation: "Confirm your occupation before choosing a starting option.",
+    }
+  if (input.selectedStrategyId)
+    return {
+      strategyId: input.selectedStrategyId,
+      reasonCode: "explicit_strategy",
+      explanation: "This is the strategy you explicitly selected.",
+    }
+  const choices = { stay: "hybrid", grow: "hybrid", change: "pivot", create: "create" } as const
+  const preference = input.movementPreference
+  const strategyId =
+    preference && preference in choices ? choices[preference as keyof typeof choices] : null
+  return strategyId
+    ? {
+        strategyId,
+        reasonCode: "explicit_direction",
+        explanation:
+          "A starting option based on your stated career movement preference, not a prediction of career fit.",
+      }
+    : {
+        strategyId: null,
+        reasonCode: "insufficient_preferences",
+        explanation:
+          "Explore all four strategies; no starting option is recommended without an explicit preference.",
+      }
+}
 const text = (max: number) => z.string().trim().min(1).max(max)
 const pathFields = {
   id: pathIdSchema,
@@ -203,7 +281,6 @@ const resourceIdSchema = z.enum(
 export const navigatorDraftSchema = z
   .object({
     summary: text(500),
-    recommendedPathId: pathIdSchema,
     paths: z
       .array(
         z.object({
@@ -215,9 +292,9 @@ export const navigatorDraftSchema = z
           roleResourceIds: z.array(z.array(z.string().max(40)).max(3)).length(3),
         }),
       )
-      .length(3),
+      .length(4),
   })
-  .refine((data) => new Set(data.paths.map((path) => path.id)).size === 3)
+  .refine((data) => new Set(data.paths.map((path) => path.id)).size === 4)
 const resourceSchema = z
   .object({
     title: text(180),
@@ -230,22 +307,43 @@ const resourceSchema = z
   .refine((resource) =>
     Object.values(navigatorResources).some((known) => known.href === resource.href),
   )
-export const careerPathSchema = z.object({
-  ...pathFields,
-  color: z.string().max(40),
-  resources: z.array(resourceSchema).min(1).max(3),
-  roleResources: z.array(z.array(resourceSchema).max(3)).length(3),
-})
+export const careerPathSchema = z
+  .object({
+    ...pathFields,
+    label: z.string().min(1).max(20),
+    colorToken: z.enum(["chart-3", "tertiary", "warning", "success"]),
+    color: z.string().max(40),
+    resources: z.array(resourceSchema).min(1).max(3),
+    roleResources: z.array(z.array(resourceSchema).max(3)).length(3),
+  })
+  .refine((path) => {
+    const metadata = navigatorStrategies[path.id]
+    return (
+      path.label === metadata.label &&
+      path.colorToken === metadata.colorToken &&
+      path.color === `var(--${metadata.colorToken})`
+    )
+  }, "Strategy metadata must match its stable ID")
 export const navigatorResultSchema = z
   .object({
     roleTitle: text(200),
     occupationCode: occupationCodeSchema,
     summary: text(500),
-    recommendedPathId: pathIdSchema,
+    contractVersion: z.literal(NAVIGATOR_CONTRACT_VERSION),
+    ruleVersion: z.literal(NAVIGATOR_RULE_VERSION),
+    recommendation: recommendationSchema,
+    recommendedPathId: pathIdSchema.nullable(),
     provider: text(80),
-    paths: z.array(careerPathSchema).length(3),
+    paths: z.array(careerPathSchema).length(4),
   })
-  .refine((data) => new Set(data.paths.map((path) => path.id)).size === 3)
+  .refine(
+    (data) => pathIdSchema.options.every((id, index) => data.paths[index]?.id === id),
+    "Strategies must use canonical order",
+  )
+  .refine(
+    (data) => data.recommendedPathId === data.recommendation.strategyId,
+    "Recommendation IDs must agree",
+  )
 export type CareerPath = z.infer<typeof careerPathSchema>
 export type NavigatorResult = z.infer<typeof navigatorResultSchema>
 
@@ -253,16 +351,10 @@ export type CourseResource = CareerPath["resources"][number]
 type ResourceId = keyof typeof navigatorResources
 // Reviewed courses per direction, most valuable first; guarantees every plan lists at least five.
 export const pathCourseIds: Record<CareerPath["id"], ResourceId[]> = {
-  advocate: ["techWriting", "hubspot", "contentMarketing", "crm", "elementsOfAi", "aiEssentials"],
-  operations: [
-    "automate",
-    "projectManagement",
-    "powerPlatform",
-    "sre",
-    "cloudPractitioner",
-    "learn",
-  ],
-  quality: ["istqb", "nist", "aigp", "dataAnalytics", "kaggle", "ml"],
+  hybrid: ["techWriting", "hubspot", "crm", "elementsOfAi", "aiEssentials", "learn"],
+  automate: ["automate", "projectManagement", "powerPlatform", "sre", "cloudPractitioner", "learn"],
+  pivot: ["learn", "projectManagement", "dataAnalytics", "kaggle", "crm", "elementsOfAi"],
+  create: ["web", "contentMarketing", "techWriting", "projectManagement", "elementsOfAi", "learn"],
 }
 /** Must-have picks for this person first, then role-specific picks, then the curated list. */
 export function courseList(path: CareerPath, roleIndex: number | null) {
