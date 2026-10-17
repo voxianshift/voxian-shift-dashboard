@@ -5,6 +5,7 @@ import {
 } from "./occupation-catalogue.ts"
 import Fastify from "fastify"
 import { registerOnboarding } from "./onboarding.ts"
+import { registerPlan } from "./plan.ts"
 import { createChatStore, type ChatStore } from "./chat-store.ts"
 import { SCORING_VERSION } from "@voxian/shared"
 
@@ -24,6 +25,7 @@ export function buildApp(options: { chatStore?: ChatStore; catalogue?: Occupatio
   if (catalogue) app.addHook("onClose", () => catalogue.close())
   registerOccupations(app, catalogue)
   registerOnboarding(app, store, catalogue)
+  registerPlan(app)
 
   return app
 }
