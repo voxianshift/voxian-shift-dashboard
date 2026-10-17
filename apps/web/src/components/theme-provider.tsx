@@ -10,7 +10,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       attribute="class"
       defaultTheme="light"
       storageKey="voxian-theme"
-      enableSystem={false}
+      enableSystem
       disableTransitionOnChange
     >
       {children}

@@ -4,6 +4,7 @@ import { PanelLeft, Radio } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { navTitle } from "@/lib/nav"
 
 export function DashboardHeader() {
@@ -21,10 +22,13 @@ export function DashboardHeader() {
           <span className="text-foreground">{title}</span>
         </span>
       </div>
-      <span className="hidden items-center gap-2 text-[14px] text-muted-foreground sm:flex">
-        <Radio className="size-3.5" /> AI disruption radar{" "}
-        <span className="ml-3 border px-1.5 py-0.5 font-mono text-[12px]">DEMO</span>
-      </span>
+      <div className="flex items-center gap-4">
+        <span className="hidden items-center gap-2 text-[14px] text-muted-foreground sm:flex">
+          <Radio className="size-3.5" /> AI disruption radar{" "}
+          <span className="ml-3 border px-1.5 py-0.5 font-mono text-[12px]">DEMO</span>
+        </span>
+        <ThemeToggle />
+      </div>
     </header>
   )
 }
