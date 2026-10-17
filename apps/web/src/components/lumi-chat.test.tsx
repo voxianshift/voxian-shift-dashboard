@@ -120,7 +120,9 @@ test("renders LumiSidebar empty state with starter questions", () => {
   expect(html).toContain("Lumi Copilot")
   expect(html).toContain("Hi, I&#x27;m Lumi")
   expect(html).toContain("Suggested Questions")
-  expect(html).toContain("What does my exposure score mean?")
+  expect(html).toContain("What does G2 mean?")
+  expect(html).toContain("Show me my best path")
+  expect(html).toContain("Who are you?")
 })
 
 test("renders LumiFormattedText with rich markdown headings, lists, code, and links", () => {

@@ -3,9 +3,9 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react"
 import { usePathname } from "next/navigation"
 import { toast } from "sonner"
-import type { CopilotAction, CopilotChatResult } from "@voxian/shared"
+import { baselineIdForOccupation, computeExposure, type CopilotAction, type CopilotChatResult } from "@voxian/shared"
 import { useCareerProfile } from "@/components/career-profile-provider"
-import { EXPOSURE, TASKS } from "@/lib/mock"
+import { occupationModels, taskWeights } from "@/lib/occupations"
 
 export type ChatMessage = {
   id: string
@@ -15,38 +15,22 @@ export type ChatMessage = {
   timestamp: number
 }
 
-const DEFAULT_QUESTIONS = ["What does G2 mean?", "Show me my best path", "Who are you?"]
+const CORE_STARTER_QUESTIONS = ["What does G2 mean?", "Show me my best path", "Who are you?"]
 
 function getRouteSuggestions(route: string): string[] {
   if (route.startsWith("/meter")) {
-    return [
-      "What does my exposure score mean?",
-      "Which tasks are most vulnerable?",
-      "How is G2 calculated?",
-    ]
+    return [...CORE_STARTER_QUESTIONS, "Which tasks are most vulnerable?"]
   }
   if (route.startsWith("/roadmap")) {
-    return [
-      "Show me my best transition path",
-      "How long will this transition take?",
-      "Recommend a target role",
-    ]
+    return [...CORE_STARTER_QUESTIONS, "Recommend an adjacent target role"]
   }
   if (route.startsWith("/skill-analyse")) {
-    return [
-      "What skill gaps should I focus on?",
-      "Are my routine skills transferable?",
-      "Show technical vs human skills",
-    ]
+    return [...CORE_STARTER_QUESTIONS, "What skill gaps should I focus on?"]
   }
   if (route.startsWith("/progress")) {
-    return [
-      "How is my learning consistency?",
-      "What is the next session deliverable?",
-      "How do I log completed hours?",
-    ]
+    return [...CORE_STARTER_QUESTIONS, "How is my learning consistency?"]
   }
-  return DEFAULT_QUESTIONS
+  return CORE_STARTER_QUESTIONS
 }
 
 type LumiChatContextType = {
@@ -158,10 +142,28 @@ export function LumiChatProvider({ children }: { children: ReactNode }) {
           text: m.text.slice(0, 4000),
         }))
 
+      let liveExposure: number | undefined
+      let topVulnerable: string | undefined
+      let topMoat: string | undefined
+
+      if (profile?.primaryOccupation) {
+        const baselineId = baselineIdForOccupation(profile.primaryOccupation)
+        const model = occupationModels.find((m) => m.id === baselineId)
+        if (model) {
+          const weights = taskWeights(model, profile.taskFocus || "routine")
+          liveExposure = Math.round(
+            computeExposure(model.tasks.map((t, i) => ({ ...t, weight: weights[i]! }))),
+          )
+          const sorted = [...model.tasks].sort((a, b) => b.exposure - a.exposure)
+          topVulnerable = sorted.find((t) => !t.moat)?.name || sorted[0]?.name
+          topMoat = model.tasks.find((t) => t.moat)?.name
+        }
+      }
+
       const pageContext = {
-        exposureScore: Math.round(EXPOSURE),
-        topVulnerableTask: TASKS.find((t) => !t.moat)?.name || "Routine drafting & triage",
-        topMoatTask: TASKS.find((t) => t.moat)?.name || "Complex high-stakes de-escalation",
+        exposureScore: liveExposure,
+        topVulnerableTask: topVulnerable,
+        topMoatTask: topMoat,
         activeStrategy:
           typeof window !== "undefined"
             ? new URLSearchParams(window.location.search).get("strategy") || undefined
