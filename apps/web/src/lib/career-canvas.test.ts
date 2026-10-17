@@ -4,7 +4,6 @@ import {
   cardHeight,
   buildCareerNodes,
   careerEdges,
-  visibleCareerNodes,
   selectedCardViewport,
   defaultZoom,
   largeScreenZoom,
@@ -59,21 +58,35 @@ test("all twelve role options are reachable through their own direction", () => 
   }
 })
 
-test("each direction displays three peer options without overlapping visible cards", () => {
+test("all branches and roles occupy separate rows without overlapping cards", () => {
+  const nodes = careerNodes
+  expect(nodes).toHaveLength(17)
   for (const path of careerPaths) {
-    const nodes = visibleCareerNodes(careerNodes, path.id)
-    const roles = nodes.filter((node) => node.data.kind === "role")
+    const roles = nodes.filter((node) => node.data.kind === "role" && node.data.pathId === path.id)
     expect(roles.map((node) => node.data.title)).toEqual([...path.roles])
-    expect(new Set(roles.map((node) => node.position.x)).size).toBe(1)
-    for (const [index, node] of nodes.entries()) {
-      expect(node.width).toBe(cardWidth)
-      expect(node.height).toBe(cardHeight)
-      for (const other of nodes.slice(index + 1)) {
-        const horizontalGap = Math.abs(node.position.x - other.position.x) - cardWidth
-        const verticalGap = Math.abs(node.position.y - other.position.y) - cardHeight
-        expect(horizontalGap >= 60 || verticalGap >= 48).toBe(true)
-      }
+    const parent = nodes.find((node) => node.id === path.id)!
+    expect(parent.position.y).toBe((roles[0]!.position.y + roles.at(-1)!.position.y) / 2)
+  }
+  for (const [index, node] of nodes.entries()) {
+    expect(node.width).toBe(cardWidth)
+    expect(node.height).toBe(cardHeight)
+    for (const other of nodes.slice(index + 1)) {
+      const horizontalGap = Math.abs(node.position.x - other.position.x) - cardWidth
+      const verticalGap = Math.abs(node.position.y - other.position.y) - cardHeight
+      expect(horizontalGap >= 60 || verticalGap >= 48).toBe(true)
     }
+  }
+})
+
+test("partial and missing role coverage still reserve non-overlapping branches", () => {
+  const paths = careerPaths.map((path, index) => ({ ...path, roles: path.roles.slice(0, index) }))
+  const nodes = buildCareerNodes(paths, "Software Developers")
+  expect(new Set(nodes.map((node) => node.id)).size).toBe(nodes.length)
+  const branches = nodes.filter((node) => node.data.kind === "path")
+  for (let i = 1; i < branches.length; i++) {
+    expect(branches[i]!.position.y - branches[i - 1]!.position.y).toBeGreaterThanOrEqual(
+      cardHeight + 48,
+    )
   }
 })
 

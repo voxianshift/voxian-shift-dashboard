@@ -36,13 +36,17 @@ export type RoleNode = Node<
   "role"
 >
 
-// One direction’s peer roles appear at a time; each visible row keeps 48px clearance.
+// Reserve one row per role so all four branches remain visible without overlaps.
 export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): RoleNode[] {
+  const rowHeight = cardHeight + 48
+  const branchRows = careerPaths.map((path) => Math.max(1, path.roles.length))
+  const totalRows = branchRows.reduce((sum, rows) => sum + rows, 0)
+  let rowOffset = 0
   return [
     {
       id: "start",
       type: "role",
-      position: { x: 0, y: 256 },
+      position: { x: 0, y: ((totalRows - 1) * rowHeight) / 2 },
       width: cardWidth,
       height: cardHeight,
       selectable: false,
@@ -54,39 +58,43 @@ export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): 
         kind: "start",
       },
     },
-    ...careerPaths.flatMap((path, index): RoleNode[] => [
-      {
-        id: path.id,
-        type: "role",
-        position: { x: 360, y: index * 256 },
-        width: cardWidth,
-        height: cardHeight,
-        ariaLabel: `Explore ${path.title}`,
-        data: {
-          title: path.title,
-          strategyLabel: path.label,
-          subtitle: path.focus,
-          color: path.color,
-          kind: "path",
-          pathId: path.id,
+    ...careerPaths.flatMap((path, index): RoleNode[] => {
+      const firstRow = rowOffset
+      rowOffset += branchRows[index]!
+      return [
+        {
+          id: path.id,
+          type: "role",
+          position: { x: 360, y: (firstRow + (branchRows[index]! - 1) / 2) * rowHeight },
+          width: cardWidth,
+          height: cardHeight,
+          ariaLabel: `Explore ${path.title}`,
+          data: {
+            title: path.title,
+            strategyLabel: path.label,
+            subtitle: path.focus,
+            color: path.color,
+            kind: "path",
+            pathId: path.id,
+          },
         },
-      },
-      ...path.roles.map((role, roleIndex): RoleNode => ({
-        id: `${path.id}-role-${roleIndex}`,
-        type: "role",
-        position: { x: 720, y: roleIndex * 256 },
-        width: cardWidth,
-        height: cardHeight,
-        ariaLabel: `Explore ${role}`,
-        data: {
-          title: role,
-          subtitle: "Curated pathway · verify requirements",
-          color: path.color,
-          kind: "role",
-          pathId: path.id,
-        },
-      })),
-    ]),
+        ...path.roles.map((role, roleIndex): RoleNode => ({
+          id: `${path.id}-role-${roleIndex}`,
+          type: "role",
+          position: { x: 720, y: (firstRow + roleIndex) * rowHeight },
+          width: cardWidth,
+          height: cardHeight,
+          ariaLabel: `Explore ${role}`,
+          data: {
+            title: role,
+            subtitle: "Curated pathway · verify requirements",
+            color: path.color,
+            kind: "role",
+            pathId: path.id,
+          },
+        })),
+      ]
+    }),
   ]
 }
 
@@ -119,8 +127,4 @@ export function careerEdges(
       markerEnd: { type: MarkerType.ArrowClosed, color: path.color },
     }))
   })
-}
-
-export function visibleCareerNodes(careerNodes: RoleNode[], pathId: string) {
-  return careerNodes.filter((node) => node.data.kind !== "role" || node.data.pathId === pathId)
 }

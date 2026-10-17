@@ -47,7 +47,6 @@ import { NavigatorStatus } from "@/components/navigator-status"
 import {
   buildCareerNodes,
   careerEdges,
-  visibleCareerNodes,
   selectedCardViewport,
   defaultZoom,
   largeScreenQuery,
@@ -140,7 +139,6 @@ function CanvasRoute() {
     <NavigatorCanvas
       key={`${profileKey}-${requestedPath ?? "all"}-${requestedRole}`}
       data={data}
-      initialPathId={initialPathId}
       initialSelectedId={
         initialPathId &&
         /^[0-2]$/.test(requestedRole ?? "") &&
@@ -154,11 +152,9 @@ function CanvasRoute() {
 
 function NavigatorCanvas({
   data,
-  initialPathId,
   initialSelectedId,
 }: {
   data: NavigatorResult
-  initialPathId: string | null
   initialSelectedId: string | null
 }) {
   const { profile } = useCareerProfile()
@@ -183,11 +179,6 @@ function NavigatorCanvas({
   const [flow, setFlow] = useState<ReactFlowInstance<RoleNode> | null>(null)
   const canvasRef = useRef<HTMLDivElement | null>(null)
   const detailsRef = useRef<HTMLElement | null>(null)
-  const [expandedPathId, setExpandedPathId] = useState<string>(
-    initialPathId ?? data.recommendedPathId ?? "",
-  )
-  const visibleNodes = visibleCareerNodes(careerNodes, expandedPathId)
-  const visibleIds = new Set(visibleNodes.map((node) => node.id))
   const selectedNode = careerNodes.find((node) => node.id === selectedId)
   const selected = careerPaths.find((path) => path.id === selectedNode?.data.pathId) ?? null
   const selectedRole = selectedNode?.data.title ?? ""
@@ -238,8 +229,6 @@ function NavigatorCanvas({
     return generatedPlanSchema.parse(result)
   }
   function selectNode(id: string) {
-    const pathId = careerNodes.find((node) => node.id === id)?.data.pathId
-    if (pathId) setExpandedPathId(pathId)
     if (!document.activeElement?.closest('[aria-labelledby="role-details-title"]')) {
       returnFocus.current = document.activeElement as HTMLElement
     }
@@ -267,13 +256,11 @@ function NavigatorCanvas({
           <BookOpen /> View full plan
         </Button>
         <ReactFlow<RoleNode>
-          nodes={visibleNodes.map((node) => ({
+          nodes={careerNodes.map((node) => ({
             ...node,
-            selected: node.id === selectedId || node.id === expandedPathId,
+            selected: node.id === selectedId,
           }))}
-          edges={careerEdges(careerPaths, careerNodes, selectedId).filter(
-            (edge) => visibleIds.has(edge.source) && visibleIds.has(edge.target),
-          )}
+          edges={careerEdges(careerPaths, careerNodes, selectedId)}
           nodesDraggable={false}
           nodeTypes={nodeTypes}
           colorMode={resolvedTheme === "dark" ? "dark" : "light"}
