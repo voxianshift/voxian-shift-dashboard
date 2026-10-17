@@ -94,6 +94,19 @@ export function registerNavigator(app: FastifyInstance, catalogue?: OccupationCa
         })),
       })
     } catch (error) {
+      request.log.error(
+        {
+          provider: config.provider,
+          error: error instanceof Error ? error.name : "UnknownError",
+          details:
+            error instanceof z.ZodError
+              ? error.issues.map(({ code, path }) => ({ code, path }))
+              : error instanceof Error
+                ? error.message
+                : "Unknown failure",
+        },
+        "Navigator generation failed",
+      )
       if (error instanceof ProviderAuthError)
         return reply.code(503).send({ error: "Navigator credentials were not accepted." })
       return reply.code(502).send({ error: "Your career paths could not be prepared. Try again." })
