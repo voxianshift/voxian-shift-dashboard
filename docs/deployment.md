@@ -1,4 +1,4 @@
-# Production setup for the redesign (not yet applied)
+# Production setup for the redesign (applied 2026-10-17)
 
 Merging to `main` deploys both Cloud Run services through `.github/workflows/deploy.yml`. Before merging this branch, production needs the database and Lumi settings below. `gcloud run deploy --image` keeps existing env vars, secrets and Cloud SQL connections, so this is a one-time setup.
 
@@ -11,7 +11,7 @@ Project `voxian-shift-app`, region `asia-southeast1`, Cloud SQL instance `voxian
 - Secret `voxian-database-url`: `postgresql://voxian_api:…@localhost/voxian?host=/cloudsql/voxian-shift-app:asia-southeast1:voxian-db` (Cloud Run Unix socket form).
 - Secret `voxian-rootsys-api-key`: copy of the local `ROOTSYS_API_KEY`.
 
-## Still to do
+## Applied 2026-10-17 (kept for re-runs)
 
 1. Let the API service account use Cloud SQL and read the secrets:
 
@@ -51,3 +51,7 @@ Project `voxian-shift-app`, region `asia-southeast1`, Cloud SQL instance `voxian
 
 - Hackathon rule is Google Cloud only. Rootsys is an external LLM; for the submission, switch to `CHAT_PROVIDER=gemini` with a Gemini key secret.
 - Cloud SQL stops when the RM 4 budget kill switch fires; restore with `gcloud sql instances patch voxian-db --activation-policy ALWAYS`.
+
+## Status 2026-10-17
+
+All steps above were applied: API service account has Cloud SQL client, secret access and Vertex AI user; migrations 001–003 and the O*NET 31.0 import ran on `voxian-db`; `voxian-api` runs with the Cloud SQL socket, `DATABASE_URL` secret, `WEB_ORIGIN` and `CHAT_PROVIDER=vertex` (Gemini on Vertex AI via the service account, no API key). The Rootsys key secret is no longer used in production.
