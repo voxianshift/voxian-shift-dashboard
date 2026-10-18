@@ -93,6 +93,26 @@
   --color-mauve-tint-faint: color-mix(in srgb, var(--background) 97%, #b69aa9);
   --color-sage: #84958a;
 
+  /* Lumi mascot idle float */
+  --animate-lumi-float: lumi-float 3.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  --animate-lumi-arm-idle: lumi-arm-idle 4.2s ease-in-out infinite;
+  --animate-lumi-antenna: lumi-antenna 2.8s ease-in-out infinite;
+
+  @keyframes lumi-float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-9px); }
+  }
+  @keyframes lumi-arm-idle {
+    0%, 100% { transform: rotate(0deg); }
+    30% { transform: rotate(-6deg); }
+    70% { transform: rotate(4deg); }
+  }
+  @keyframes lumi-antenna {
+    0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.9; }
+    40% { transform: rotate(-4deg) scale(1.15); opacity: 1; }
+    70% { transform: rotate(3deg) scale(0.95); opacity: 0.8; }
+  }
+
   /* Lumi thinking orb (components/ui/orb.tsx) */
   --animate-orb-swell: orb-swell 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   --animate-orb-globe: orb-globe 3.2s linear infinite;
