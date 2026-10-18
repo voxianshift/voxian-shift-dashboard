@@ -2,9 +2,10 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ArrowUpRight, AudioLines, ChevronUp } from "lucide-react"
+import { ArrowUpRight, ChevronUp } from "lucide-react"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { AccountMenu } from "@/components/account-menu"
+import { Logo } from "@/components/logo"
 import { SidebarTracker } from "@/components/sidebar-tracker"
 import {
   Sidebar,
@@ -36,7 +37,7 @@ export function AppSidebar() {
             aria-label="Voxian Shift home"
             className="flex items-center gap-2.5 whitespace-nowrap"
           >
-            <AudioLines className="size-6 shrink-0" strokeWidth={1.5} />
+            <Logo />
             {!collapsed && (
               <span className="text-[16px] font-semibold tracking-[-.3px]">
                 VOXIAN <span className="font-normal">SHIFT</span>

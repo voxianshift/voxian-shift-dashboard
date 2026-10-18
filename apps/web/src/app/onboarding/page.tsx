@@ -5,7 +5,8 @@ import { prefetchNavigator } from "@/components/navigator-provider"
 import { prefetchProfileMeter } from "@/hooks/use-isco-meter"
 import { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, ArrowRight, Compass } from "lucide-react"
+import { ArrowLeft, ArrowRight } from "lucide-react"
+import { Logo } from "@/components/logo"
 import { occupationSearchSchema, type OccupationMatch } from "@voxian/shared"
 import { toast } from "sonner"
 import { useCareerProfile } from "@/components/career-profile-provider"
@@ -124,7 +125,7 @@ export default function OnboardingPage() {
     <main className="flex min-h-dvh items-center justify-center bg-background px-6 py-10 text-foreground sm:py-16">
       <div className="w-full max-w-2xl">
         <div className="mb-8 flex items-center gap-2 text-sm font-semibold">
-          <Compass className="size-5" /> Voxian Shift
+          <Logo className="size-6" /> Voxian Shift
         </div>
         <div className="mb-6 flex items-center justify-between gap-4 border-b pb-4">
           <p className="text-xs tracking-widest text-muted-foreground">
