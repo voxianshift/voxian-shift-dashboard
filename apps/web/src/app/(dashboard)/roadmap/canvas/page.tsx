@@ -530,7 +530,7 @@ function NavigatorCanvas({
     if (returnFocus.current?.isConnected) returnFocus.current.focus({ preventScroll: true })
   }
   return (
-    <div className="navigator-canvas flex min-h-[660px] h-full flex-col bg-background text-foreground">
+    <div className="navigator-canvas flex min-h-[660px] h-full flex-col bg-[#050810] text-slate-100">
       <h1 className="sr-only">Explore your career multiverse</h1>
       <div
         ref={canvasRef}
@@ -541,7 +541,7 @@ function NavigatorCanvas({
           variant="outline"
           disabled={!commitment?.plan}
           onClick={() => setPlanOpen(true)}
-          className="absolute top-3 left-3 z-10 border-border bg-background/90 text-foreground shadow-sm backdrop-blur hover:bg-accent hover:text-accent-foreground"
+          className="absolute top-3 left-3 z-10 border-slate-700/60 bg-[#0b1628]/90 text-slate-200 shadow-sm backdrop-blur hover:bg-slate-800 hover:text-white"
         >
           <BookOpen /> View full plan
         </Button>
@@ -561,8 +561,8 @@ function NavigatorCanvas({
           fitViewOptions={{ padding: 0.18, minZoom: 0.25, maxZoom: defaultZoom }}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
-          colorMode={resolvedTheme === "dark" ? "dark" : "light"}
-          style={{ background: "var(--background)" }}
+          colorMode="dark"
+          style={{ background: "#050810" }}
           onInit={(instance) => {
             setFlow(instance)
             if (!initialSelectedId)
@@ -589,7 +589,7 @@ function NavigatorCanvas({
           className="!bg-background motion-reduce:[&_path]:!animate-none"
           aria-label="Career paths: drag canvas to pan, scroll to zoom, select a role to see details"
         >
-          <Background variant={BackgroundVariant.Dots} gap={32} size={0.6} color="var(--border)" />
+          <Background variant={BackgroundVariant.Dots} gap={32} size={0.6} color="#1e293b" />
           <Controls showInteractive={false} position="bottom-left" className="[&_button]:!size-9" />
         </ReactFlow>
         {selected && (
@@ -602,9 +602,9 @@ function NavigatorCanvas({
                 closeDetails()
               }
             }}
-            className="absolute inset-y-3 right-3 z-10 flex w-[560px] max-w-[calc(100%-24px)] min-[651px]:max-w-[70%] flex-col overflow-hidden rounded-xl border bg-popover text-foreground shadow-lg max-[650px]:top-auto max-[650px]:h-[90%]"
+            className="absolute inset-y-3 right-3 z-10 flex w-[560px] max-w-[calc(100%-24px)] min-[651px]:max-w-[70%] flex-col overflow-hidden rounded-2xl border border-slate-700/60 bg-[#0b1628]/95 text-slate-100 shadow-2xl backdrop-blur-sm max-[650px]:top-auto max-[650px]:h-[90%]"
           >
-            <header className="relative shrink-0 border-b px-6 pt-6 pb-5 max-[650px]:px-4 max-[650px]:pt-4 max-[650px]:pb-3">
+            <header className="relative shrink-0 border-b border-slate-700/60 px-6 pt-6 pb-5 max-[650px]:px-4 max-[650px]:pt-4 max-[650px]:pb-3">
               <Button
                 variant="ghost"
                 size="icon-sm"
@@ -701,9 +701,9 @@ function NavigatorCanvas({
                     ))}
                   </div>
                 </section>
-                <section className="rounded-lg bg-muted/60 p-4">
-                  <h3 className="mb-2 text-[15px] font-medium">Why this fits your profile</h3>
-                  <p className="text-[15px] leading-relaxed text-muted-foreground">
+                <section className="rounded-xl border border-slate-700/60 bg-slate-900/60 p-4">
+                  <h3 className="mb-2 text-[15px] font-medium text-slate-200">Why this fits your profile</h3>
+                  <p className="text-[15px] leading-relaxed text-slate-400">
                     {selected.why}
                   </p>
                 </section>
@@ -724,15 +724,15 @@ function NavigatorCanvas({
                     {selected.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="rounded-md border border-border bg-muted px-3 py-2 text-[14px] text-foreground"
+                        className="rounded-md border border-slate-700/60 bg-slate-900/60 px-3 py-2 text-[14px] text-slate-200"
                       >
                         {skill}
                       </span>
                     ))}
                   </div>
                 </section>
-                <section className="rounded-xl border border-border bg-muted/60 p-5">
-                  <p className="text-[12px] tracking-[1px] text-mauve-deep">
+                <section className="rounded-xl border border-slate-700/60 bg-slate-900/60 p-5">
+                  <p className="text-[12px] tracking-[1px] text-cyan-400">
                     BUILD PROOF, NOT JUST A CERTIFICATE
                   </p>
                   <h2 className="mt-2 text-[18px]">Your bridge project</h2>
@@ -740,7 +740,7 @@ function NavigatorCanvas({
                     {selected.project}
                   </p>
                 </section>
-                <section className="border-t border-border pt-5">
+                <section className="border-t border-slate-700/60 pt-5">
                   <h2 className="text-[17px] font-medium">Start this week</h2>
                   <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
                     {selected.firstStep}
@@ -762,7 +762,7 @@ function NavigatorCanvas({
                         href={resource.href}
                         target="_blank"
                         rel="noreferrer"
-                        className="group block rounded-xl border border-border p-4 transition-colors hover:border-mauve focus-visible:outline-2 focus-visible:outline-ring"
+                        className="group block rounded-xl border border-slate-700/60 bg-slate-900/40 p-4 transition-colors hover:border-cyan-700/60 focus-visible:outline-2 focus-visible:outline-ring"
                       >
                         <p className="text-[12px] text-muted-foreground">
                           {resource.provider} · {resource.type}
@@ -784,7 +784,7 @@ function NavigatorCanvas({
                 </section>
               </TabsContent>
             </Tabs>
-            <footer className="shrink-0 border-t bg-popover px-6 py-4 max-[650px]:px-4">
+            <footer className="shrink-0 border-t border-slate-700/60 bg-[#070d1c] px-6 py-4 max-[650px]:px-4">
               {commitment?.plan ? (
                 <Button asChild className="h-auto min-h-11 w-full whitespace-normal">
                   <Link href="/progress">

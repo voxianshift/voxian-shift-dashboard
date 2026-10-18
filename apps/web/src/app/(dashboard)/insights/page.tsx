@@ -84,22 +84,23 @@ export default function InsightsPage() {
   const scenario = scenarios[selected]!
   const role = profile.occupationNames[profile.primaryOccupation] || profile.currentWork
   return (
+    <div className="bg-[#050810] text-slate-100 min-h-[calc(100dvh-48px)]">
     <div className={editorialPage}>
       <PanelHeading kicker="02 / THE CURVE" title="Three possible futures">
         Select a curve to explore your next move.
       </PanelHeading>
-      <div className="mb-7 flex flex-wrap items-center justify-between gap-3 rounded-xl border px-5 py-4 text-[15px]">
+      <div className="mb-7 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-800/80 bg-[#0b1628]/60 px-5 py-4 text-[15px]">
         <span className="flex items-center gap-2">
-          <Fingerprint className="size-4 text-mauve-deep" />
+          <Fingerprint className="size-4 text-cyan-400" />
           {role ? role : "Future of work"}
         </span>
-        <Link href="/meter" className="flex items-center gap-2 text-mauve-deep">
+        <Link href="/meter" className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300">
           Your Meter <ArrowUpRight className="size-4" />
         </Link>
       </div>
       <div className="grid grid-cols-[minmax(0,1fr)_280px] gap-6 max-[1000px]:grid-cols-1">
         <section
-          className="min-w-0 overflow-hidden rounded-xl border bg-background"
+          className="min-w-0 overflow-hidden rounded-2xl border border-slate-800/80 bg-[#0b1628]/60"
           aria-labelledby="curve-title"
         >
           <div className="flex flex-wrap items-start justify-between gap-4 px-6 pt-6">
@@ -110,7 +111,7 @@ export default function InsightsPage() {
               </h2>
             </div>
             <div
-              className="inline-flex gap-1 rounded-lg bg-muted p-1"
+              className="inline-flex gap-1 rounded-lg bg-slate-900/80 border border-slate-700/60 p-1"
               aria-label="Scenario horizon"
             >
               {([2028, 2030] as const).map((year) => (
@@ -238,15 +239,15 @@ export default function InsightsPage() {
               </Button>
             ))}
           </div>
-          <p className="border-t bg-muted/40 px-6 py-4 text-[13px] leading-relaxed text-muted-foreground">
+          <p className="border-t border-slate-800/60 bg-slate-900/40 px-6 py-4 text-[13px] leading-relaxed text-slate-500">
             Illustrative scenarios, not measured trends or personal forecasts. Colors show change
             intensity, not job-loss probability.
           </p>
         </section>
-        <aside className="flex flex-col justify-between rounded-xl border bg-mauve-tint-faint p-6">
+        <aside className="flex flex-col justify-between rounded-2xl border border-slate-800/80 bg-[#0b1628]/60 p-6">
           <div>
             <p className={eyebrow}>WHAT RESEARCH SAYS</p>
-            <p className="mt-6 text-[58px] font-[450] leading-none tracking-[-3px]">1 in 4</p>
+            <p className="mt-6 text-[58px] font-[450] leading-none tracking-[-3px] text-cyan-400">1 in 4</p>
             <p className="mt-4 text-[16px] leading-relaxed">
               jobs worldwide are potentially exposed to generative AI.
             </p>
@@ -265,7 +266,7 @@ export default function InsightsPage() {
         </aside>
       </div>
       <section
-        className="mt-6 grid grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] gap-8 rounded-xl border p-7 max-[700px]:grid-cols-1 max-[700px]:p-5"
+        className="mt-6 grid grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] gap-8 rounded-2xl border border-slate-800/80 bg-[#0b1628]/40 p-7 max-[700px]:grid-cols-1 max-[700px]:p-5"
         aria-live="polite"
       >
         <div>
@@ -287,7 +288,7 @@ export default function InsightsPage() {
             ))}
           </ul>
         </div>
-        <div className="flex flex-col justify-between rounded-xl bg-muted/60 p-6">
+        <div className="flex flex-col justify-between rounded-2xl border border-slate-800/80 bg-slate-900/60 p-6">
           <div>
             <Lightbulb className="size-5 text-mauve-deep" />
             <p className="mt-3 text-[13px] tracking-[1px] text-muted-foreground">TRY THIS</p>
@@ -314,7 +315,7 @@ export default function InsightsPage() {
               href={item.href}
               target="_blank"
               rel="noreferrer"
-              className="group rounded-xl border p-6 transition-colors hover:border-mauve focus-visible:outline-2 focus-visible:outline-ring"
+              className="group rounded-2xl border border-slate-800/80 bg-[#0b1628]/60 p-6 transition-colors hover:border-cyan-700/60 focus-visible:outline-2 focus-visible:outline-ring"
             >
               <p className={eyebrow}>
                 {item.date} / {item.source}
@@ -328,6 +329,7 @@ export default function InsightsPage() {
           ))}
         </div>
       </section>
+    </div>
     </div>
   )
 }
