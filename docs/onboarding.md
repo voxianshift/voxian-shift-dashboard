@@ -2,7 +2,7 @@
 
 See [architecture](../ARCHITECTURE.md) for runtime diagrams, anonymous identity, storage schemas and local-to-Cloud-SQL deployment.
 
-`/` opens `/onboarding`, which has seven screens defined in `apps/web/src/lib/onboarding-flow.ts`. The dashboard waits for the saved profile and onboarding completion flag. A main occupation, task focus, weekly learning time and timeline are required to finish the current UI flow; other answers are optional. Returning guests with completed onboarding continue to Home.
+`/` opens `/onboarding`, which has five screens defined in `apps/web/src/lib/onboarding-flow.ts`. The dashboard waits for the saved profile and onboarding completion flag. A main occupation, task focus, weekly learning time and timeline are required to finish the current UI flow; other answers are optional. Returning guests with completed onboarding continue to Home.
 
 `/home` provides role review/editing through one flow: search by job title or duties, choose matching occupations, select a main role, then confirm and open the Meter. Up to five occupations are supported. A description or display label alone cannot unlock the Meter. Goals, strengths and other optional preferences can be edited through the profile Sheet; weekly time and timeline were required during initial onboarding. No chat/questionnaire mode chooser or separate completion card appears on Home.
 

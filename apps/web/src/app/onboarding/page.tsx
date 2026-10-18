@@ -82,7 +82,7 @@ export default function OnboardingPage() {
       setRoles(result.occupations)
       update({ occupations: [], primaryOccupation: "", occupationNames: {} })
       setFileName("")
-      setIndex(2)
+      setIndex(1)
     } catch (failure) {
       setError(failure instanceof Error ? failure.message : "Role matching failed. Try again.")
     } finally {
@@ -156,7 +156,7 @@ export default function OnboardingPage() {
           className="mt-6"
           onSubmit={(event) => {
             event.preventDefault()
-            if (index === 1) void matchWork()
+            if (index === 0) void matchWork()
             else if (canAdvanceOnboarding(index, profile)) {
               if (last) void finish()
               else setIndex(index + 1)
@@ -164,8 +164,20 @@ export default function OnboardingPage() {
           }}
         >
           <fieldset disabled={saving || matching}>
-            {index === 1 ? (
+            {index === 0 ? (
               <div className="space-y-5">
+                <label htmlFor="onboarding-name" className="block text-sm font-medium">
+                  What should we call you?{" "}
+                  <span className="font-normal text-muted-foreground">Optional</span>
+                </label>
+                <Input
+                  id="onboarding-name"
+                  maxLength={80}
+                  autoComplete="given-name"
+                  value={profile.preferredName}
+                  onChange={(event) => update({ preferredName: event.target.value })}
+                  placeholder="Leave blank to stay a guest"
+                />
                 <label htmlFor="onboarding-job" className="block text-sm font-medium">
                   What is your current job title?
                 </label>
@@ -203,11 +215,11 @@ export default function OnboardingPage() {
                     })
                     setFileName(filename)
                     setError("")
-                    setIndex(2)
+                    setIndex(1)
                   }}
                 />
               </div>
-            ) : index === 2 ? (
+            ) : index === 1 ? (
               <div className="space-y-4">
                 <p className="text-sm text-muted-foreground">
                   Matched for {fileName || profile.currentWork || "your saved occupation"}. Select
@@ -242,7 +254,7 @@ export default function OnboardingPage() {
                   </p>
                 )}
               </div>
-            ) : index === 3 ? (
+            ) : index === 2 ? (
               <div role="radiogroup" aria-label={step.title} className="grid gap-3 sm:grid-cols-2">
                 {[
                   {
@@ -286,12 +298,14 @@ export default function OnboardingPage() {
               </div>
             ) : (
               <>
-                <ProfileEditor
-                  profile={profile}
-                  onChange={update}
-                  fields={step.fields.filter((field) => field !== "anxieties")}
-                  bordered={false}
-                />
+                {!last && (
+                  <ProfileEditor
+                    profile={profile}
+                    onChange={update}
+                    fields={step.fields}
+                    bordered={false}
+                  />
+                )}
                 {last && (
                   <div className="py-4">
                     <label htmlFor="onboarding-anxieties" className="mb-2 block font-medium">
@@ -338,7 +352,7 @@ export default function OnboardingPage() {
           </fieldset>
           {matching && (
             <p role="status" className="mt-4 text-sm">
-              {index === 1 ? "Finding matching roles…" : "Loading…"}
+              {index === 0 ? "Finding matching roles…" : "Loading…"}
             </p>
           )}
           {error && (
@@ -372,7 +386,7 @@ export default function OnboardingPage() {
                   ? "Matching…"
                   : last
                     ? "Launch My Disruption Radar"
-                    : index === 1
+                    : index === 0
                       ? "Search roles"
                       : "Continue"}
               <ArrowRight />

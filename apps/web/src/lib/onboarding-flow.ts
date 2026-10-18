@@ -6,16 +6,13 @@ import {
   type ProfileField,
 } from "./onboarding"
 
+// Five short screens. Strengths, direction, flexibility, risk and goals stay editable in the
+// profile but are not asked here, so onboarding stays quick.
 export const onboardingSteps: { title: string; description: string; fields: ProfileField[] }[] = [
   {
-    title: "About you",
-    description: "Let’s start with what we should call you.",
-    fields: ["preferredName"],
-  },
-  {
     title: "Your work",
-    description: "Search your current job title, or upload your CV to find matching roles.",
-    fields: ["currentWork"],
+    description: "Tell us what to call you, then search your job title or upload your CV.",
+    fields: ["preferredName", "currentWork"],
   },
   {
     title: "Identify Your Baseline Gravity",
@@ -30,28 +27,22 @@ export const onboardingSteps: { title: string; description: string; fields: Prof
   },
   {
     title: "Your Moat & Strategic Posture",
-    description: "Your strengths and adaptation bandwidth help shape a path that fits.",
-    fields: ["strengths", "direction", "hours", "flexibility"],
-  },
-  {
-    title: "Time Horizon & Risk Appetite",
-    description: "Set your adaptation window and the amount of change that feels manageable.",
-    fields: ["timeline", "risk"],
+    description: "Your weekly time and adaptation window set the pace of your learning plan.",
+    fields: ["hours", "timeline"],
   },
   {
     title: "Career North Star & Anxieties",
-    description: "Share what you want to move towards and any concerns along the way.",
-    fields: ["goals", "anxieties"],
+    description: "Share what you are working towards and what worries you about getting there.",
+    fields: ["anxieties"],
   },
 ]
 
 export function canAdvanceOnboarding(index: number, profile: CareerProfile) {
-  if (index === 1) return profile.currentWork.trim().length >= 2
-  if (index === 2) return hasMeterInputs(profile)
-  if (index === 3) return hasAnswer(profile, "taskFocus")
-  if (index === 4) return hasAnswer(profile, "hours")
-  if (index === 5) return hasAnswer(profile, "timeline")
-  if (index === 6)
+  if (index === 0) return profile.currentWork.trim().length >= 2
+  if (index === 1) return hasMeterInputs(profile)
+  if (index === 2) return hasAnswer(profile, "taskFocus")
+  if (index === 3) return hasAnswer(profile, "hours") && hasAnswer(profile, "timeline")
+  if (index === 4)
     return hasMeterInputs(profile) && hasScheduleAnswers(profile) && hasAnswer(profile, "taskFocus")
-  return index === 0
+  return false
 }
