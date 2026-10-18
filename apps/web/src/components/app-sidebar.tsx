@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { ArrowUpRight, AudioLines, ChevronUp } from "lucide-react"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { AccountMenu } from "@/components/account-menu"
+import { SidebarTracker } from "@/components/sidebar-tracker"
 import {
   Sidebar,
   SidebarContent,
@@ -62,8 +63,9 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter className="gap-4 p-4">
-        {!collapsed && (
-          <>
+        <SidebarTracker
+          collapsed={collapsed}
+          fallback={
             <div className="border bg-background p-3">
               <span className={eyebrow}>YOUR NEXT CHAPTER</span>
               <p className="mt-2 text-[16px] leading-relaxed">
@@ -78,10 +80,12 @@ export function AppSidebar() {
                 Explore your paths <ArrowUpRight className="size-3.5" />
               </Link>
             </div>
-            <div className="flex items-center gap-2 text-[13px] text-muted-foreground">
-              <span className="size-1.5 rounded-full bg-[#809488]" /> Research prototype · v0.1
-            </div>
-          </>
+          }
+        />
+        {!collapsed && (
+          <div className="flex items-center gap-2 text-[13px] text-muted-foreground">
+            <span className="size-1.5 rounded-full bg-[#809488]" /> Research prototype · v0.1
+          </div>
         )}
         <div className="flex items-center gap-2.5">
           <AccountMenu />

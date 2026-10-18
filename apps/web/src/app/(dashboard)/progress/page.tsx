@@ -1,7 +1,7 @@
 "use client"
 
 import { generatedPlanSchema, navigatorContext } from "@voxian/shared"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import Link from "next/link"
 import {
   ArrowRight,
@@ -19,15 +19,18 @@ import { Button } from "@/components/ui/button"
 import { PanelHeading } from "@/components/radar-panel"
 import { CommitDirectionDialog } from "@/components/commit-direction-dialog"
 import { PlanSheet } from "@/components/plan-sheet"
+import { PlanBoard } from "@/components/plan-board"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { MILESTONES } from "@/lib/mock"
 import {
   learningPhase,
-  planToday,
+  commitmentChanged,
+  countdown,
+  sessionState,
+  toggledCommitment,
   attendanceStatus,
   dayNames,
   loadCommitment,
-  planDays,
   saveCommitment,
   slotEnd,
   streak,
@@ -57,8 +60,14 @@ export default function ProgressPage() {
       .catch(() => {
         if (active) setError("Your saved plan couldn’t load.")
       })
+    const reload = () =>
+      void loadCommitment().then((saved) => {
+        if (active) setCommitment(saved)
+      })
+    window.addEventListener(commitmentChanged, reload)
     return () => {
       active = false
+      window.removeEventListener(commitmentChanged, reload)
     }
   }, [attempt])
   if (error)
@@ -112,34 +121,19 @@ function Progress({
   const { profile } = useCareerProfile()
   // Legacy slots follow live preferences; validated plans retain their confirmed schedule until replanned.
   const commitment = withProfile(saved, profile)
-  const today = planToday(commitment)
-  const days = planDays(commitment)
-  const todayDay = days.find((day) => day.date === today)
-  const dayNumber = todayDay?.dayNumber ?? (today < commitment.startDate ? 0 : days.length + 1)
+  const session = sessionState(commitment, now)
+  const { today, days, todayDay, dayNumber, missed, logLocked } = session
   const phase = learningPhase(commitment, today)
-  const missed = days.filter((day) => day.slot && !day.done && day.date < today)
   const due = days.filter((day) => day.slot && day.date <= today)
   const doneCount = days.filter((day) => day.slot && day.done).length
   const slots = commitmentSlots(commitment)
-  // ponytail: slot times read as browser-local wall time; convert via plan timeZone if users travel.
-  const at = (date: string, start: string) => new Date(`${date}T${start}:00`)
-  const nextSession = days
-    .filter((day) => !day.done)
-    .flatMap((day) => (day.slots ?? []).map((slot) => at(day.date, slot.start)))
-    .find((start) => start > now)
-  const todayStart = todayDay?.slot && at(today, (todayDay.slots ?? [todayDay.slot])[0]!.start)
-  const logLocked =
-    !!todayStart && !todayDay?.done && now.getTime() < todayStart.getTime() - 30 * 60_000
   const todayFocus = commitment.flightPlan?.find((segment) => {
     const [start, end] = segment.days.replace(/D/g, "").split("–").map(Number)
     return dayNumber >= start! && dayNumber <= end!
   })
   async function toggle(date: string) {
-    if (saving || date > today || !days.some((day) => day.date === date && day.slot)) return
-    const completed = commitment.completed.includes(date)
-      ? commitment.completed.filter((item) => item !== date)
-      : [...commitment.completed, date]
-    const next = { ...commitment, completed }
+    const next = toggledCommitment(commitment, date, today)
+    if (saving || !next) return
     setSaving(true)
     setSaveError("")
     try {
@@ -211,9 +205,9 @@ function Progress({
                   ? "You reached the end of your plan. Review what you built and choose what is next."
                   : "Your plan starts soon."}
           </p>
-          {nextSession && (
+          {session.next && (
             <p className="mt-1.5 font-mono text-[14px]" aria-live="off">
-              Next session in {countdown(nextSession.getTime() - now.getTime())}
+              Next session in {countdown(session.next.start.getTime() - now.getTime())}
             </p>
           )}
           {todayDay && todayFocus && (
@@ -228,24 +222,16 @@ function Progress({
             </p>
           )}
         </div>
-        {todayDay?.slot && (
-          <Button
-            variant={todayDay.done ? "outline" : "default"}
-            aria-pressed={todayDay.done}
-            disabled={saving || logLocked}
-            title={logLocked ? "Unlocks 30 minutes before your session" : undefined}
-            onClick={() => toggle(today)}
-          >
-            {logLocked ? <Lock /> : <Check />}{" "}
-            {saving
-              ? "Saving…"
-              : todayDay.done
-                ? "Logged today · undo"
-                : logLocked
-                  ? "Unlocks 30 min before session"
-                  : "Log today's session"}
-          </Button>
-        )}
+        <Button
+          variant={todayDay?.done ? "outline" : "default"}
+          aria-pressed={!!todayDay?.done}
+          disabled={saving || !session.canLog}
+          title={logLocked ? "Unlocks 30 minutes before your session" : undefined}
+          onClick={() => toggle(today)}
+        >
+          {logLocked || !todayDay?.slot ? <Lock /> : <Check />}{" "}
+          {saving ? "Saving…" : session.logLabel}
+        </Button>
       </section>
 
       {missed.length > 0 && (
@@ -270,6 +256,15 @@ function Progress({
           {saveError}
         </p>
       )}
+      <Suspense>
+        <PlanBoard
+          commitment={commitment}
+          today={today}
+          saving={saving}
+          logLocked={logLocked}
+          onToggle={toggle}
+        />
+      </Suspense>
 
       <div className="mt-4 grid grid-cols-[auto_1fr] gap-4 max-[900px]:grid-cols-1">
         <section aria-labelledby="activity-title" className="min-w-0 rounded-xl border p-5">
@@ -400,15 +395,6 @@ function Progress({
       )}
     </div>
   )
-}
-
-function countdown(ms: number) {
-  const total = Math.max(0, Math.floor(ms / 1000))
-  const d = Math.floor(total / 86400)
-  const hms = [Math.floor(total / 3600) % 24, Math.floor(total / 60) % 60, total % 60]
-    .map((n) => String(n).padStart(2, "0"))
-    .join(":")
-  return d ? `${d}d ${hms}` : hms
 }
 
 function Stat({ label, value }: { label: string; value: React.ReactNode }) {

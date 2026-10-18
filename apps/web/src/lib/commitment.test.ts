@@ -1,3 +1,4 @@
+import { buildPlanSchedule } from "@voxian/shared"
 import { expect, test } from "vite-plus/test"
 import {
   commitmentSlots,
@@ -5,7 +6,10 @@ import {
   defaultStudyDays,
   planStartDate,
   timelineSprint,
+  planBoard,
   planDays,
+  sessionState,
+  toggledCommitment,
   slotEnd,
   streak,
   weeklyHours,
@@ -207,4 +211,99 @@ test("missed attendance holds learning phase until earlier sessions are attended
     .map((day) => day.date)
   expect(learningPhase({ ...pending, completed: allDue }, today)).toBe(1)
   expect(learningPhase(pending, "2027-01-20")).toBe(0)
+})
+
+test("plan board sorts tasks into missed, past, in progress and upcoming with resource fallback", () => {
+  const schedule = {
+    startDate: "2026-10-19",
+    timeZone: "Asia/Kuala_Lumpur",
+    weeklyMinutes: 120,
+    studyDays: [1, 3],
+    sessionLimitMinutes: 90,
+  }
+  const { firstMonth, milestones } = buildPlanSchedule(schedule, 90)
+  const planned: Commitment = {
+    ...commitment,
+    completed: ["2026-10-19"],
+    plan: {
+      provider: "Test",
+      plan: {
+        summary: "Plan",
+        firstStep: "Start",
+        contractVersion: 3,
+        strategyId: "pivot",
+        schedule,
+        phases: [22, 45, 67, 90].map((endDay, index) => ({
+          title: `Phase ${index + 1}`,
+          days: "",
+          focus: "",
+          actions: [],
+          deliverable: `Deliverable ${index + 1}`,
+          flightPlan: [],
+          endDay,
+        })),
+        firstMonth: firstMonth.map((day) => ({
+          ...day,
+          task: day.kind === "task" ? `Task ${day.day}` : null,
+          doneWhen: day.kind === "task" ? `Done ${day.day}` : undefined,
+          ...(day.day === 1 ? { resourceId: "crm" as const } : {}),
+        })),
+        milestones: milestones.map((milestone) => ({ ...milestone, action: "Practice" })),
+      },
+    },
+  }
+  // Wednesday of week two: day 1 logged, day 3 and day 8 missed, day 10 is today.
+  const { phases, items } = planBoard(planned, "2026-10-28")
+  const status = (id: string) => items.find((item) => item.id === id)?.status
+  expect(status("day-1")).toBe("past")
+  expect(status("day-3")).toBe("missed")
+  expect(status("day-8")).toBe("missed")
+  expect(status("day-10")).toBe("inProgress")
+  expect(status("day-15")).toBe("upcoming")
+  expect(items.find((item) => item.id === "day-2")).toBeUndefined() // rest day
+  expect(items.find((item) => item.id === "day-3")).toMatchObject({
+    resourceId: "crm",
+    suggested: true,
+    doneWhen: "Done 3",
+  })
+  expect(items.some((item) => item.id.startsWith("intermediate"))).toBe(true)
+  expect(phases.map((phase) => phase.status)).toEqual([
+    "inProgress",
+    "upcoming",
+    "upcoming",
+    "upcoming",
+  ])
+  expect(phases[0]).toMatchObject({ done: 1, resources: ["crm"] })
+  // Before day 1 everything is upcoming.
+  expect(
+    planBoard({ ...planned, completed: [] }, "2026-10-18").items.every(
+      (item) => item.status === "upcoming",
+    ),
+  ).toBe(true)
+})
+
+test("session state locks logging until 30 minutes before, then finds current and next sessions", () => {
+  // Mon and Wed mornings at 06:30 from Mon 19 Oct; both first-week sessions already logged.
+  const before = sessionState(commitment, new Date(2026, 9, 18, 12))
+  expect(before.dayNumber).toBe(0)
+  expect(before.logLabel).toMatch(/^Starts /)
+  expect(before.canLog).toBe(false)
+  expect(before.next!.day.date).toBe("2026-10-26") // logged sessions are skipped
+  const early = sessionState(commitment, new Date(2026, 9, 26, 5, 30))
+  expect(early).toMatchObject({ logLocked: true, canLog: false })
+  expect(early.logLabel).toBe("Unlocks 30 min before session")
+  const ready = sessionState(commitment, new Date(2026, 9, 26, 6, 10))
+  expect(ready).toMatchObject({ logLocked: false, canLog: true, logLabel: "Log today's session" })
+  expect(ready.current).toBeUndefined()
+  expect(sessionState(commitment, new Date(2026, 9, 26, 6, 40)).current?.day.date).toBe(
+    "2026-10-26",
+  )
+  const saturday = sessionState(commitment, new Date(2026, 9, 31, 9))
+  expect(saturday.logLabel).toBe("Rest day today")
+  expect(saturday.missed.map((day) => day.date)).toEqual(["2026-10-26", "2026-10-28"])
+  expect(toggledCommitment(commitment, "2026-10-27", "2026-10-31")).toBeNull() // rest day
+  expect(toggledCommitment(commitment, "2026-11-02", "2026-10-31")).toBeNull() // future
+  expect(toggledCommitment(commitment, "2026-10-26", "2026-10-31")!.completed).toContain(
+    "2026-10-26",
+  )
 })

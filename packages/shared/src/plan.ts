@@ -151,8 +151,12 @@ export const planDraftSchema = z.object({
       }),
     )
     .length(4),
-  tasks: z.array(z.object({ id: text(40), task: text(220), ...resourcePick })).max(30),
-  milestones: z.array(z.object({ id: text(60), action: text(220), ...resourcePick })).max(20),
+  tasks: z
+    .array(z.object({ id: text(40), task: text(220), doneWhen: text(140), ...resourcePick }))
+    .max(30),
+  milestones: z
+    .array(z.object({ id: text(60), action: text(220), doneWhen: text(140), ...resourcePick }))
+    .max(20),
   goals: z
     .array(z.object({ id: z.enum(["day-30", "day-60", "day-90"]), outcome: text(220) }))
     .length(3),
@@ -200,6 +204,7 @@ export const flightPlanSchema = z.object({
         minutes: z.number().int().nonnegative(),
         sessions: z.array(z.number().int().positive()).max(1440),
         task: text(220).nullable(),
+        doneWhen: text(140).optional(),
         resourceId: resourceIdSchema.optional(),
       }),
     )
@@ -212,6 +217,7 @@ export const flightPlanSchema = z.object({
         startDay: z.number().int(),
         endDay: z.number().int(),
         action: text(220),
+        doneWhen: text(140).optional(),
         minutes: z.number().int().nonnegative(),
         resourceId: resourceIdSchema.optional(),
       }),

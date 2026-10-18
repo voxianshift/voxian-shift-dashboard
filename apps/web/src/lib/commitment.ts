@@ -1,4 +1,10 @@
-import { commitmentSchema, weeklyDayMinutes, type FlightPlan } from "@voxian/shared"
+import {
+  commitmentSchema,
+  pathCourseIds,
+  weeklyDayMinutes,
+  type FlightPlan,
+  type ResourceId,
+} from "@voxian/shared"
 import { guestRequest } from "@/lib/guest-data"
 import { type FlightSegment } from "@/lib/flight-plan"
 
@@ -244,6 +250,7 @@ export function streak(days: PlanDay[], today: string) {
 }
 
 const storageKey = "voxian-commitment-v1"
+export const commitmentChanged = "voxian:commitment-changed"
 export async function loadCommitment(): Promise<Commitment | null> {
   const result = await guestRequest("commitment")
   if (result.commitment !== null) return commitmentSchema.parse(result.commitment)
@@ -261,6 +268,8 @@ export async function loadCommitment(): Promise<Commitment | null> {
 export async function saveCommitment(commitment: Commitment | null) {
   const parsed = commitmentSchema.nullable().parse(commitment)
   await guestRequest("commitment", "PUT", parsed)
+  // The sidebar tracker and Progress each hold a copy; tell them to reload.
+  globalThis.window?.dispatchEvent(new Event(commitmentChanged))
   try {
     localStorage.removeItem(storageKey)
   } catch {
@@ -295,4 +304,188 @@ export function learningPhase(commitment: Commitment, today: string) {
     commitment,
     pending?.dayNumber ?? current?.dayNumber ?? (today < commitment.startDate ? 1 : days.length),
   )
+}
+
+export type BoardStatus = "inProgress" | "missed" | "upcoming" | "past"
+export type BoardItem = {
+  id: string
+  phase: number
+  title: string
+  doneWhen?: string
+  resourceId?: ResourceId
+  /** True when the AI picked no resource and the card shows the phase's usual one instead. */
+  suggested: boolean
+  /** Scheduled session dates inside this task or milestone window. */
+  dates: string[]
+  status: BoardStatus
+}
+export type BoardPhase = {
+  index: number
+  title: string
+  days: string
+  deliverable: string
+  status: Exclude<BoardStatus, "missed">
+  done: number
+  total: number
+  resources: ResourceId[]
+}
+
+/** Phases plus first-month tasks and later milestones, each with a status for today. */
+export function planBoard(commitment: Commitment, today: string) {
+  const plan = commitment.plan?.plan
+  const days = planDays(commitment)
+  const byNumber = new Map(days.map((day) => [day.dayNumber, day]))
+  const done = new Set(commitment.completed)
+  const ends = plan?.phases.every((phase) => phase.endDay)
+    ? plan.phases.map((phase) => phase.endDay!)
+    : commitment.sprint
+      ? [20, 55, 90]
+      : [30, 75, 120]
+  const phaseOf = (day: number) => {
+    const index = ends.findIndex((end) => day <= end)
+    return index === -1 ? ends.length - 1 : index
+  }
+  const window = (start: number, end: number) =>
+    days.filter((day) => day.dayNumber >= start && day.dayNumber <= end)
+  const raw = [
+    ...(plan?.firstMonth ?? [])
+      .filter((day) => day.kind === "task" && day.task)
+      .map((day) => ({ ...day, title: day.task!, startDay: day.day, endDay: day.day })),
+    ...(plan?.milestones ?? [])
+      .filter((milestone) => milestone.minutes > 0)
+      .map((milestone) => ({ ...milestone, title: milestone.action })),
+  ]
+  const usual = (picks: (ResourceId | undefined)[]) => {
+    const counts = new Map<ResourceId, number>()
+    for (const id of picks) if (id) counts.set(id, (counts.get(id) ?? 0) + 1)
+    return [...counts].sort((a, b) => b[1] - a[1]).map(([id]) => id)
+  }
+  const fallback =
+    usual(raw.map((item) => item.resourceId))[0] ??
+    (plan?.strategyId ? pathCourseIds[plan.strategyId][0] : undefined)
+  const items: BoardItem[] = raw.flatMap((item) => {
+    const dates = window(item.startDay, item.endDay)
+      .filter((day) => day.slot)
+      .map((day) => day.date)
+    if (!dates.length) return []
+    const phase = phaseOf(item.startDay)
+    const resourceId =
+      item.resourceId ??
+      usual(raw.filter((other) => phaseOf(other.startDay) === phase).map((o) => o.resourceId))[0] ??
+      fallback
+    const end = byNumber.get(item.endDay)?.date ?? dates.at(-1)!
+    const status: BoardStatus = dates.every((date) => done.has(date))
+      ? "past"
+      : end < today
+        ? "missed"
+        : (byNumber.get(item.startDay)?.date ?? dates[0]!) <= today
+          ? "inProgress"
+          : "upcoming"
+    return [
+      {
+        id: item.id,
+        phase,
+        title: item.title,
+        doneWhen: item.doneWhen,
+        resourceId,
+        suggested: !item.resourceId && !!resourceId,
+        dates,
+        status,
+      },
+    ]
+  })
+  const todayNumber = days.find((day) => day.date === today)?.dayNumber
+  const current = todayNumber ?? (today < commitment.startDate ? 0 : Number.POSITIVE_INFINITY)
+  const phases: BoardPhase[] = (plan?.phases ?? []).map((phase, index) => {
+    const start = index ? ends[index - 1]! + 1 : 1
+    const sessions = window(start, ends[index] ?? start).filter((day) => day.slot)
+    return {
+      index,
+      title: phase.title,
+      days: phase.days,
+      deliverable: phase.deliverable,
+      status: current > (ends[index] ?? 0) ? "past" : current >= start ? "inProgress" : "upcoming",
+      done: sessions.filter((day) => done.has(day.date)).length,
+      total: sessions.length,
+      resources: usual(items.filter((item) => item.phase === index).map((i) => i.resourceId)).slice(
+        0,
+        2,
+      ),
+    }
+  })
+  return { phases, items }
+}
+
+export function countdown(ms: number) {
+  const total = Math.max(0, Math.floor(ms / 1000))
+  const d = Math.floor(total / 86400)
+  const hms = [Math.floor(total / 3600) % 24, Math.floor(total / 60) % 60, total % 60]
+    .map((n) => String(n).padStart(2, "0"))
+    .join(":")
+  return d ? `${d}d ${hms}` : hms
+}
+
+const shortDay = (date: string) =>
+  new Date(`${date}T00:00`).toLocaleDateString(undefined, {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+  })
+
+/** Today's log button, the next session and the current one; shared by Progress and the sidebar. */
+export function sessionState(commitment: Commitment, now = new Date()) {
+  const today = planToday(commitment, now)
+  const days = planDays(commitment)
+  const todayDay = days.find((day) => day.date === today)
+  const dayNumber = todayDay?.dayNumber ?? (today < commitment.startDate ? 0 : days.length + 1)
+  // ponytail: slot times read as browser-local wall time; convert via plan timeZone if users travel.
+  const at = (date: string, start: string) => new Date(`${date}T${start}:00`)
+  const sessions = days.flatMap((day) =>
+    (day.slots ?? []).map((slot) => {
+      const start = at(day.date, slot.start)
+      return { day, slot, start, end: new Date(start.getTime() + slot.minutes * 60_000) }
+    }),
+  )
+  const next = sessions.find((session) => !session.day.done && session.start > now)
+  const current = sessions.find((session) => session.start <= now && now < session.end)
+  const todayStart = todayDay?.slot && at(today, (todayDay.slots ?? [todayDay.slot])[0]!.start)
+  const logLocked =
+    !!todayStart && !todayDay?.done && now.getTime() < todayStart.getTime() - 30 * 60_000
+  const logLabel =
+    dayNumber === 0
+      ? `Starts ${shortDay(commitment.startDate)}`
+      : dayNumber > days.length
+        ? "Plan complete"
+        : !todayDay?.slot
+          ? "Rest day today"
+          : todayDay.done
+            ? "Logged today · undo"
+            : logLocked
+              ? "Unlocks 30 min before session"
+              : "Log today's session"
+  return {
+    today,
+    days,
+    todayDay,
+    dayNumber,
+    next: next && {
+      ...next,
+      label: `${shortDay(next.day.date)} · ${next.slot.start}–${slotEnd(next.slot)}`,
+    },
+    current,
+    logLocked,
+    logLabel,
+    canLog: !!todayDay?.slot && !logLocked,
+    missed: days.filter((day) => day.slot && !day.done && day.date < today),
+  }
+}
+
+/** Toggle attendance for a scheduled, non-future day; null when that day can't be logged. */
+export function toggledCommitment(commitment: Commitment, date: string, today: string) {
+  if (date > today || !planDays(commitment).some((day) => day.date === date && day.slot))
+    return null
+  const completed = commitment.completed.includes(date)
+    ? commitment.completed.filter((item) => item !== date)
+    : [...commitment.completed, date]
+  return { ...commitment, completed }
 }

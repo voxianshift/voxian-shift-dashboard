@@ -369,7 +369,7 @@ export type CareerPath = z.infer<typeof careerPathSchema>
 export type NavigatorResult = z.infer<typeof navigatorResultSchema>
 
 export type CourseResource = CareerPath["resources"][number]
-type ResourceId = keyof typeof navigatorResources
+export type ResourceId = keyof typeof navigatorResources
 // Reviewed courses per direction, most valuable first; guarantees every plan lists at least five.
 export const pathCourseIds: Record<CareerPath["id"], ResourceId[]> = {
   hybrid: ["techWriting", "hubspot", "crm", "elementsOfAi", "aiEssentials", "learn"],

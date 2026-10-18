@@ -62,11 +62,14 @@ function narrative(input: any) {
     tasks: input.activeDays.map((day: any) => ({
       id: day.id,
       task: "Practice one skill and record feedback.",
+      doneWhen: "One page of feedback notes saved.",
       resourceId: "learn",
     })),
     milestones: input.milestones.map((entry: any) => ({
       id: entry.id,
       action: "Improve one part of the sample.",
+      doneWhen: "A revised sample saved.",
+      resourceId: "learn",
     })),
     goals: [30, 60, 90].map((day) => ({
       id: `day-${day}`,
@@ -203,7 +206,11 @@ for (const failure of [
       if (failure === "missing-task") draft.tasks.pop()
       if (failure === "duplicate-task") draft.tasks[1].id = draft.tasks[0].id
       if (failure === "rest-task")
-        draft.tasks.push({ id: input.restDayIds[0], task: "Do work on rest day" })
+        draft.tasks.push({
+          id: input.restDayIds[0],
+          task: "Do work on rest day",
+          doneWhen: "Done.",
+        })
       if (failure === "milestone-gap") draft.milestones.pop()
       if (failure === "phase-id") delete draft.phases.foundation
       if (failure === "goal-id") draft.goals[1].id = "day-30"
@@ -363,6 +370,24 @@ test("one bounded schema repair can recover an extra phase without weakening cov
     expect(second.messages[0].content).toContain("Repair the previous schema/coverage failure")
     expect(response.json().plan.phases).toHaveLength(4)
     expect(() => validatePlanSchedule(response.json().plan)).not.toThrow()
+  } finally {
+    await app.close()
+  }
+})
+
+test("thin resource coverage gets one repair, then the plan is accepted as-is", async () => {
+  const fetch = mockProvider((draft) => {
+    for (const item of [...draft.tasks, ...draft.milestones]) delete item.resourceId
+  })
+  const app = buildApp({ catalogue })
+  try {
+    const response = await app.inject({ method: "POST", url: "/plan", payload: request() })
+    expect(response.statusCode).toBe(200)
+    expect(fetch).toHaveBeenCalledTimes(2)
+    const second = JSON.parse(fetch.mock.calls[1]![1]!.body)
+    expect(second.messages[0].content).toContain("at least 60% of tasks and milestones")
+    const task = response.json().plan.firstMonth.find((day: any) => day.kind === "task")
+    expect(task.doneWhen).toBe("One page of feedback notes saved.")
   } finally {
     await app.close()
   }
