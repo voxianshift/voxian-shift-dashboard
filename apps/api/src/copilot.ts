@@ -151,9 +151,14 @@ Return pure JSON matching the specified schema.`
 
       const result = copilotChatResultSchema.parse(JSON.parse(text || "{}"))
 
-      // Asynchronously persist turn into vector memory
-      if (store?.saveMemory && owner) {
-        void store.saveMemory(owner, input.message, result.reply, queryEmbedding).catch(() => {})
+      // Asynchronously persist turn into vector memory & chat turns
+      if (store && owner) {
+        if (store.append) {
+          void store.append(owner, input.message, result.reply).catch(() => {})
+        }
+        if (store.saveMemory) {
+          void store.saveMemory(owner, input.message, result.reply, queryEmbedding).catch(() => {})
+        }
       }
 
       return reply.send(result)

@@ -3,7 +3,12 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react"
 import { usePathname } from "next/navigation"
 import { toast } from "sonner"
-import { baselineIdForOccupation, computeExposure, type CopilotAction, type CopilotChatResult } from "@voxian/shared"
+import {
+  baselineIdForOccupation,
+  computeExposure,
+  type CopilotAction,
+  type CopilotChatResult,
+} from "@voxian/shared"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { occupationModels, taskWeights } from "@/lib/occupations"
 
