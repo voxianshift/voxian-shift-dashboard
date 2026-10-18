@@ -10,12 +10,24 @@ export function OnboardingGate({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (ready && !onboardingComplete) router.replace("/onboarding")
   }, [ready, onboardingComplete, router])
-  if (!ready || !onboardingComplete) {
+  if (ready && !onboardingComplete) {
     return (
       <p role="status" className="m-auto p-8 text-muted-foreground">
         Preparing your space…
       </p>
     )
   }
-  return children
+  return (
+    <>
+      {!ready && (
+        <div
+          role="status"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-background text-muted-foreground"
+        >
+          Preparing your space…
+        </div>
+      )}
+      {children}
+    </>
+  )
 }

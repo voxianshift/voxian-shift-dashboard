@@ -6,6 +6,7 @@ import { useLumiChat } from "@/components/lumi-chat-provider"
 import { LumiMascot } from "@/components/lumi-mascot"
 import { LumiActionCard } from "@/components/lumi-action-card"
 import { LumiFormattedText } from "@/components/lumi-formatted-text"
+import { LumiToolCallBadge } from "@/components/lumi-tool-call-badge"
 import { Button } from "@/components/ui/button"
 import Orb from "@/components/ui/orb"
 import { cn } from "@/lib/utils"
@@ -230,7 +231,24 @@ export function LumiMobileTrigger() {
                         {m.role === "user" ? (
                           <p className="whitespace-pre-wrap">{m.text}</p>
                         ) : (
-                          <LumiFormattedText text={m.text} />
+                          <>
+                            {m.toolCalls && m.toolCalls.length > 0 && (
+                              <div className="mb-2 space-y-1">
+                                {m.toolCalls.map((tc, idx) => (
+                                  <LumiToolCallBadge key={`${tc.name}-${idx}`} toolCall={tc} />
+                                ))}
+                              </div>
+                            )}
+                            {m.text ? (
+                              <LumiFormattedText text={m.text} />
+                            ) : m.toolCalls &&
+                              m.toolCalls.some((t) => t.status === "running") ? null : (
+                              <div className="flex items-center gap-2 py-0.5 text-muted-foreground">
+                                <Orb variant="pulse" size={14} />
+                                <span className="text-[12px]">Lumi is thinking…</span>
+                              </div>
+                            )}
+                          </>
                         )}
                         {m.actions && m.actions.length > 0 && (
                           <div className="mt-1 space-y-1.5">
@@ -243,7 +261,7 @@ export function LumiMobileTrigger() {
                     </div>
                   ))}
 
-                  {isLoading && (
+                  {isLoading && messages[messages.length - 1]?.role === "user" && (
                     <div className="flex items-center gap-2 text-muted-foreground pl-1">
                       <Orb variant="pulse" size={16} />
                       <span className="text-[12px]">Lumi is thinking…</span>

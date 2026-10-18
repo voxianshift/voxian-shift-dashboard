@@ -3,50 +3,49 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react"
 import { usePathname } from "next/navigation"
 import { toast } from "sonner"
-import type { CopilotAction, CopilotChatResult } from "@voxian/shared"
+import {
+  baselineIdForOccupation,
+  computeExposure,
+  type CopilotAction,
+  type CopilotChatResult,
+} from "@voxian/shared"
 import { useCareerProfile } from "@/components/career-profile-provider"
-import { EXPOSURE, TASKS } from "@/lib/mock"
+import { occupationModels, taskWeights } from "@/lib/occupations"
+
+export type ChatToolCall = {
+  name: string
+  parameters?: Record<string, string>
+  status: "running" | "completed"
+  summary?: string
+  data?: unknown
+}
 
 export type ChatMessage = {
   id: string
   role: "user" | "assistant"
   text: string
   actions?: CopilotAction[]
+  suggestedQuestions?: string[]
+  toolCalls?: ChatToolCall[]
   timestamp: number
 }
 
-const DEFAULT_QUESTIONS = ["What does G2 mean?", "Show me my best path", "Who are you?"]
+const CORE_STARTER_QUESTIONS = ["What does G2 mean?", "Show me my best path", "Who are you?"]
 
 function getRouteSuggestions(route: string): string[] {
   if (route.startsWith("/meter")) {
-    return [
-      "What does my exposure score mean?",
-      "Which tasks are most vulnerable?",
-      "How is G2 calculated?",
-    ]
+    return [...CORE_STARTER_QUESTIONS, "Which tasks are most vulnerable?"]
   }
   if (route.startsWith("/roadmap")) {
-    return [
-      "Show me my best transition path",
-      "How long will this transition take?",
-      "Recommend a target role",
-    ]
+    return [...CORE_STARTER_QUESTIONS, "Recommend an adjacent target role"]
   }
   if (route.startsWith("/skill-analyse")) {
-    return [
-      "What skill gaps should I focus on?",
-      "Are my routine skills transferable?",
-      "Show technical vs human skills",
-    ]
+    return [...CORE_STARTER_QUESTIONS, "What skill gaps should I focus on?"]
   }
   if (route.startsWith("/progress")) {
-    return [
-      "How is my learning consistency?",
-      "What is the next session deliverable?",
-      "How do I log completed hours?",
-    ]
+    return [...CORE_STARTER_QUESTIONS, "How is my learning consistency?"]
   }
-  return DEFAULT_QUESTIONS
+  return CORE_STARTER_QUESTIONS
 }
 
 type LumiChatContextType = {
@@ -94,6 +93,40 @@ export function LumiChatProvider({ children }: { children: ReactNode }) {
       }
     } catch {
       /* ignore */
+    }
+  }, [])
+
+  // Hydrate persistent turns from server database (lumi_chat_turns)
+  useEffect(() => {
+    let active = true
+    async function loadServerHistory() {
+      try {
+        const res = await fetch("/api/copilot/history", {
+          credentials: "same-origin",
+          signal: AbortSignal.timeout(5000),
+        })
+        if (!res.ok) return
+        const data = await res.json()
+        if (active && Array.isArray(data.history) && data.history.length > 0) {
+          setMessages((prev) => {
+            if (prev.length > 0) return prev
+            return data.history.map(
+              (h: { role: "user" | "assistant"; text: string }, i: number) => ({
+                id: `db-${i}-${Date.now()}`,
+                role: h.role,
+                text: h.text,
+                timestamp: Date.now(),
+              }),
+            )
+          })
+        }
+      } catch {
+        /* ignore */
+      }
+    }
+    void loadServerHistory()
+    return () => {
+      active = false
     }
   }, [])
 
@@ -158,21 +191,54 @@ export function LumiChatProvider({ children }: { children: ReactNode }) {
           text: m.text.slice(0, 4000),
         }))
 
+      let liveExposure: number | undefined
+      let topVulnerable: string | undefined
+      let topMoat: string | undefined
+
+      if (profile?.primaryOccupation) {
+        const baselineId = baselineIdForOccupation(profile.primaryOccupation)
+        const model = occupationModels.find((m) => m.id === baselineId)
+        if (model) {
+          const weights = taskWeights(model, profile.taskFocus || "routine")
+          liveExposure = Math.round(
+            computeExposure(model.tasks.map((t, i) => ({ ...t, weight: weights[i]! }))),
+          )
+          const sorted = [...model.tasks].sort((a, b) => b.exposure - a.exposure)
+          topVulnerable = sorted.find((t) => !t.moat)?.name || sorted[0]?.name
+          topMoat = model.tasks.find((t) => t.moat)?.name
+        }
+      }
+
       const pageContext = {
-        exposureScore: Math.round(EXPOSURE),
-        topVulnerableTask: TASKS.find((t) => !t.moat)?.name || "Routine drafting & triage",
-        topMoatTask: TASKS.find((t) => t.moat)?.name || "Complex high-stakes de-escalation",
+        exposureScore: liveExposure,
+        topVulnerableTask: topVulnerable,
+        topMoatTask: topMoat,
         activeStrategy:
           typeof window !== "undefined"
             ? new URLSearchParams(window.location.search).get("strategy") || undefined
             : undefined,
       }
 
+      const assistantId = `a-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
+      const assistantMsg: ChatMessage = {
+        id: assistantId,
+        role: "assistant",
+        text: "",
+        toolCalls: [],
+        timestamp: Date.now(),
+      }
+
+      setMessages((prev) => [...prev, assistantMsg])
+
       try {
         const response = await fetch("/api/copilot/chat", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          signal: AbortSignal.timeout(30_000),
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "text/event-stream, application/json",
+          },
+          credentials: "same-origin",
+          signal: AbortSignal.timeout(45_000),
           body: JSON.stringify({
             message: trimmed,
             route: pathname || "/home",
@@ -188,31 +254,146 @@ export function LumiChatProvider({ children }: { children: ReactNode }) {
           throw new Error((errData.error || `Server responded with ${response.status}`) + detailStr)
         }
 
-        const data: CopilotChatResult = await response.json()
+        const contentType = response.headers.get("content-type") || ""
+        if (contentType.includes("text/event-stream") && response.body) {
+          const reader = response.body.getReader()
+          const decoder = new TextDecoder()
+          let buffer = ""
 
-        const assistantMsg: ChatMessage = {
-          id: `a-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-          role: "assistant",
-          text: data.reply,
-          actions: data.actions,
-          timestamp: Date.now(),
-        }
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+            buffer += decoder.decode(value, { stream: true })
+            const blocks = buffer.split("\n\n")
+            buffer = blocks.pop() || ""
 
-        setMessages((prev) => [...prev, assistantMsg])
-        if (data.suggestedQuestions && data.suggestedQuestions.length > 0) {
-          setDynamicSuggestions(data.suggestedQuestions)
+            for (const block of blocks) {
+              let eventType = "message"
+              let eventData = ""
+              for (const line of block.split("\n")) {
+                if (line.startsWith("event: ")) eventType = line.slice(7).trim()
+                if (line.startsWith("data: ")) eventData = line.slice(6).trim()
+              }
+              if (!eventData) continue
+
+              try {
+                const parsed = JSON.parse(eventData)
+                if (eventType === "tool_call") {
+                  setMessages((prev) =>
+                    prev.map((m) =>
+                      m.id === assistantId
+                        ? {
+                            ...m,
+                            toolCalls: [
+                              ...(m.toolCalls || []),
+                              {
+                                name: parsed.name,
+                                parameters: parsed.parameters,
+                                status: "running" as const,
+                              },
+                            ],
+                          }
+                        : m,
+                    ),
+                  )
+                } else if (eventType === "tool_result") {
+                  setMessages((prev) =>
+                    prev.map((m) =>
+                      m.id === assistantId
+                        ? {
+                            ...m,
+                            toolCalls: (m.toolCalls || []).map((tc) =>
+                              tc.name === parsed.name
+                                ? {
+                                    ...tc,
+                                    status: "completed" as const,
+                                    summary: parsed.summary,
+                                    data: parsed.data,
+                                  }
+                                : tc,
+                            ),
+                          }
+                        : m,
+                    ),
+                  )
+                } else if (eventType === "delta") {
+                  setMessages((prev) =>
+                    prev.map((m) =>
+                      m.id === assistantId
+                        ? {
+                            ...m,
+                            text: m.text + (parsed.delta || ""),
+                          }
+                        : m,
+                    ),
+                  )
+                } else if (eventType === "final") {
+                  setMessages((prev) =>
+                    prev.map((m) =>
+                      m.id === assistantId
+                        ? {
+                            ...m,
+                            actions: parsed.actions,
+                            suggestedQuestions: parsed.suggestedQuestions,
+                          }
+                        : m,
+                    ),
+                  )
+                  if (parsed.suggestedQuestions && parsed.suggestedQuestions.length > 0) {
+                    setDynamicSuggestions(parsed.suggestedQuestions)
+                  }
+                } else if (eventType === "error") {
+                  throw new Error(parsed.error || "Streaming error occurred")
+                }
+              } catch {
+                /* ignore unparsed non-JSON chunk */
+              }
+            }
+          }
+        } else {
+          const data: CopilotChatResult = await response.json()
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === assistantId
+                ? {
+                    ...m,
+                    text: data.reply,
+                    actions: data.actions,
+                    suggestedQuestions: data.suggestedQuestions,
+                  }
+                : m,
+            ),
+          )
+          if (data.suggestedQuestions && data.suggestedQuestions.length > 0) {
+            setDynamicSuggestions(data.suggestedQuestions)
+          }
         }
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : "AI copilot unavailable"
         toast.error(message)
 
-        const fallbackMsg: ChatMessage = {
-          id: `err-${Date.now()}`,
-          role: "assistant",
-          text: `Notice: ${message}`,
-          timestamp: Date.now(),
-        }
-        setMessages((prev) => [...prev, fallbackMsg])
+        setMessages((prev) => {
+          const exists = prev.some((m) => m.id === assistantId)
+          if (exists) {
+            return prev.map((m) =>
+              m.id === assistantId
+                ? {
+                    ...m,
+                    text: m.text ? `${m.text}\n\n[Notice: ${message}]` : `Notice: ${message}`,
+                  }
+                : m,
+            )
+          }
+          return [
+            ...prev,
+            {
+              id: `err-${Date.now()}`,
+              role: "assistant",
+              text: `Notice: ${message}`,
+              timestamp: Date.now(),
+            },
+          ]
+        })
       } finally {
         setIsLoading(false)
       }
@@ -228,6 +409,10 @@ export function LumiChatProvider({ children }: { children: ReactNode }) {
     } catch {
       /* ignore */
     }
+    void fetch("/api/copilot/history", {
+      method: "DELETE",
+      credentials: "same-origin",
+    }).catch(() => {})
   }, [])
 
   return (

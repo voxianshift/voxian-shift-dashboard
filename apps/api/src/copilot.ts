@@ -3,14 +3,223 @@ import type { FastifyInstance } from "fastify"
 import { z } from "zod"
 import { chatOwner, newChatOwner, type ChatStore } from "./chat-store.ts"
 import { chatConfig, completeJson, generateEmbedding, ProviderAuthError } from "./llm.ts"
-import { copilotChatRequestSchema, copilotChatResultSchema } from "@voxian/shared"
+import {
+  copilotActionSchema,
+  copilotChatRequestSchema,
+  copilotChatResultSchema,
+  type CopilotChatResult,
+} from "@voxian/shared"
+import iscoTasks from "../data/isco-tasks.json" with { type: "json" }
+import onetIsco from "../data/onet-isco.json" with { type: "json" }
+import { lookupPathways } from "./navigator-pathways.ts"
+
+export const copilotTurnSchema = z.strictObject({
+  toolCall: z
+    .strictObject({
+      name: z.enum([
+        "search_occupations",
+        "get_occupation_details",
+        "get_occupation_tasks",
+        "get_career_pathways",
+        "calculate_exposure_radar",
+      ]),
+      parameters: z.record(z.string(), z.string()).optional(),
+    })
+    .nullable()
+    .optional(),
+  reply: z.string().trim().max(4000).optional(),
+  actions: z.array(copilotActionSchema).max(4).default([]),
+  suggestedQuestions: z.array(z.string().max(120)).max(4).default([]),
+})
+
+export function safeJsonParse<T>(text: string, schema: z.ZodType<T>): T {
+  let cleaned = text.trim()
+  if (cleaned.startsWith("```")) {
+    cleaned = cleaned
+      .replace(/^```(?:json)?\s*/i, "")
+      .replace(/\s*```$/, "")
+      .trim()
+  }
+  const firstBrace = cleaned.indexOf("{")
+  const lastBrace = cleaned.lastIndexOf("}")
+  if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+    cleaned = cleaned.slice(firstBrace, lastBrace + 1)
+  }
+  return schema.parse(JSON.parse(cleaned))
+}
+
+function summarizeToolObservation(name: string, obs: any): string {
+  if (!obs) return "Completed"
+  if (obs.error) return String(obs.error)
+  switch (name) {
+    case "search_occupations":
+      return `Found ${obs.results?.length || 0} matching occupations`
+    case "get_occupation_details":
+      return `Loaded O*NET ${obs.code} (${obs.title}) · ISCO ${obs.iscoCode}`
+    case "get_occupation_tasks":
+      return `Loaded ${obs.tasks?.length || 0} tasks for ${obs.title || obs.code}`
+    case "get_career_pathways":
+      return `Loaded pathways (Shift, Grow, Leap, Create) for ${obs.code}`
+    case "calculate_exposure_radar":
+      return `Computed exposure score: ${obs.overallExposure}% (${obs.gradient})`
+    default:
+      return "Data retrieved"
+  }
+}
+
+async function executeTool(
+  toolName: string,
+  parameters: Record<string, string> | undefined,
+  catalogue?: OccupationCatalogue,
+): Promise<unknown> {
+  const params = parameters || {}
+  switch (toolName) {
+    case "search_occupations": {
+      const q = (params.query || "").trim()
+      if (!q) return { results: [] }
+      if (catalogue) {
+        try {
+          const results = await catalogue.search(q, 5)
+          if (results && results.length > 0) return { results }
+        } catch {
+          /* fallback to local dataset */
+        }
+      }
+      const lower = q.toLowerCase()
+      const matches: { code: string; title: string; isco: string; iscoTitle: string }[] = []
+      const mapping = onetIsco as Record<string, { isco: string; iscoTitle: string; via: string }>
+      for (const [code, info] of Object.entries(mapping)) {
+        if (
+          info.via.toLowerCase().includes(lower) ||
+          info.iscoTitle.toLowerCase().includes(lower) ||
+          code.includes(lower)
+        ) {
+          matches.push({ code, title: info.via, isco: info.isco, iscoTitle: info.iscoTitle })
+          if (matches.length >= 5) break
+        }
+      }
+      return { results: matches }
+    }
+
+    case "get_occupation_details": {
+      const code = (params.code || "").trim()
+      const mapping = (
+        onetIsco as Record<string, { isco: string; iscoTitle: string; via: string }>
+      )[code]
+      if (!mapping) return { error: `Occupation code ${code} not found in database.` }
+      const iscoData = (
+        iscoTasks as Record<string, { title: string; gradient: string; tasks: unknown[] }>
+      )[mapping.isco]
+      return {
+        code,
+        title: mapping.via,
+        iscoCode: mapping.isco,
+        iscoTitle: mapping.iscoTitle,
+        gradient: iscoData?.gradient || "Unknown",
+        totalTasks: iscoData?.tasks?.length || 0,
+      }
+    }
+
+    case "get_occupation_tasks": {
+      const code = (params.code || "").trim()
+      const mapping = (
+        onetIsco as Record<string, { isco: string; iscoTitle: string; via: string }>
+      )[code]
+      if (!mapping) return { error: `Occupation code ${code} not found in database.` }
+      const iscoData = (
+        iscoTasks as Record<
+          string,
+          { title: string; gradient: string; tasks: { task: string; exposure: number }[] }
+        >
+      )[mapping.isco]
+      if (!iscoData) return { error: `Task breakdown for ISCO ${mapping.isco} not found.` }
+      return {
+        code,
+        title: mapping.via,
+        iscoCode: mapping.isco,
+        gradient: iscoData.gradient,
+        tasks: iscoData.tasks.map((t) => ({
+          name: t.task,
+          exposure: Math.round(t.exposure * 100),
+          isMoat: t.exposure < 0.4,
+        })),
+      }
+    }
+
+    case "get_career_pathways": {
+      const code = (params.code || "").trim()
+      const pathways = lookupPathways(code)
+      if (!pathways || Object.keys(pathways).length === 0) {
+        return { error: `No curated pathways found for occupation code ${code}.` }
+      }
+      return { code, pathways }
+    }
+
+    case "calculate_exposure_radar": {
+      const code = (params.code || "").trim()
+      const focus = params.taskFocus || "routine"
+      const mapping = (
+        onetIsco as Record<string, { isco: string; iscoTitle: string; via: string }>
+      )[code]
+      if (!mapping) return { error: `Occupation code ${code} not found.` }
+      const iscoData = (
+        iscoTasks as Record<
+          string,
+          { title: string; gradient: string; tasks: { task: string; exposure: number }[] }
+        >
+      )[mapping.isco]
+      if (!iscoData || !iscoData.tasks.length) return { error: `No tasks to score for ${code}.` }
+      const n = iscoData.tasks.length
+      const avg = Math.round((iscoData.tasks.reduce((sum, t) => sum + t.exposure, 0) / n) * 100)
+      const sorted = [...iscoData.tasks].sort((a, b) => b.exposure - a.exposure)
+      return {
+        code,
+        title: mapping.via,
+        overallExposure: avg,
+        gradient: iscoData.gradient,
+        focus,
+        topVulnerableTask: sorted[0]?.task,
+        topMoatTask: sorted.find((t) => t.exposure < 0.4)?.task || sorted.at(-1)?.task,
+      }
+    }
+
+    default:
+      return { error: `Unknown tool: ${toolName}` }
+  }
+}
 
 export function registerCopilot(
   app: FastifyInstance,
-  _catalogue?: OccupationCatalogue,
+  catalogue?: OccupationCatalogue,
   store?: ChatStore,
 ) {
   let quota = { started: 0, count: 0 }
+
+  app.get("/copilot/history", async (request, reply) => {
+    reply.header("Cache-Control", "no-store")
+    if (!store) return reply.send({ history: [] })
+    const owner = chatOwner(request)
+    if (!owner) return reply.send({ history: [] })
+    try {
+      const turns = await store.history(owner)
+      return reply.send({ history: turns.slice(-20) })
+    } catch {
+      return reply.send({ history: [] })
+    }
+  })
+
+  app.delete("/copilot/history", async (request, reply) => {
+    reply.header("Cache-Control", "no-store")
+    if (!store) return reply.send({ ok: true })
+    const owner = chatOwner(request)
+    if (!owner) return reply.send({ ok: true })
+    try {
+      await store.clear(owner)
+      return reply.send({ ok: true })
+    } catch {
+      return reply.send({ ok: true })
+    }
+  })
 
   app.post("/copilot/chat", { bodyLimit: 48_000 }, async (request, reply) => {
     reply.header("Cache-Control", "no-store")
@@ -30,7 +239,7 @@ export function registerCopilot(
     const input = parsed.data
 
     const config = chatConfig()
-    // Strict LLM check (Option B)
+    // Strict LLM check
     if (!config?.apiKey) {
       return reply
         .code(503)
@@ -46,6 +255,20 @@ export function registerCopilot(
         .send({ error: "Copilot is busy. Please try again in a minute." })
     }
     quota.count++
+
+    const isStream = Boolean(request.headers.accept?.includes("text/event-stream"))
+    if (isStream) {
+      reply.raw.setHeader("Content-Type", "text/event-stream")
+      reply.raw.setHeader("Cache-Control", "no-cache, no-transform")
+      reply.raw.setHeader("Connection", "keep-alive")
+      reply.raw.setHeader("X-Accel-Buffering", "no")
+      reply.raw.flushHeaders?.()
+    }
+
+    const sendEvent = (event: string, data: unknown) => {
+      if (!isStream || reply.raw.writableEnded || reply.raw.destroyed) return
+      reply.raw.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`)
+    }
 
     // Retrieve historical memories via pgvector search if store is available
     let pastMemories: { userMessage: string; assistantMessage: string }[] = []
@@ -93,6 +316,28 @@ The user's career profile is:
 - Weekly Study Hours: ${input.profile.hours || "Not set"}
 
 ${pageMetrics}${memoryContext}
+AVAILABLE AGENT TOOLS:
+You have access to 5 backend tools to inspect real-world occupation, task, exposure, and pathway data:
+1. "search_occupations": Search occupations by keyword/role name. Parameters: { "query": "<search keyword>" }
+2. "get_occupation_details": Get O*NET and ISCO mapping and exposure gradient. Parameters: { "code": "<O*NET code, e.g. 15-1252.00>" }
+3. "get_occupation_tasks": Inspect all tasks, task exposure percentages, and human moat resilience. Parameters: { "code": "<O*NET code>" }
+4. "get_career_pathways": Retrieve curated transition pathways (Shift, Grow, Leap, Create), destination roles, and required skill focus. Parameters: { "code": "<O*NET code>" }
+5. "calculate_exposure_radar": Calculate dynamic overall exposure score and top vulnerable vs moat tasks. Parameters: { "code": "<O*NET code>", "taskFocus": "routine" | "escalations" | "mixed" }
+
+If you need factual data about a specific occupation code, tasks, exposure score, or pathways to answer the user's question accurately, you may request a tool call in your JSON response by returning:
+{
+  "toolCall": {
+    "name": "<tool_name>",
+    "parameters": { ... }
+  }
+}
+When you have the data needed (or for general/conceptual questions), provide the final response:
+{
+  "reply": "<your rich markdown answer>",
+  "actions": [ ... ],
+  "suggestedQuestions": [ ... ]
+}
+
 Key Knowledge:
 - G1, G2, G3 Exposure Levels:
   * G1: Low AI exposure (<25% task automation potential). Physical, manual, high emotional labor, or situational-dependent tasks.
@@ -120,7 +365,10 @@ ANSWER STYLE & DEPTH GUIDELINES:
    - Direct Explanation & Core Concept: Clearly explain what the concept, metric, or question means with relatable analogies or benchmarks.
    - Contextual Breakdown for User's Role: Connect the answer directly to the user's current role (${currentRole}) and live page context (exposure score, vulnerable tasks vs human moats).
    - Strategic Next Steps & Bullet Points: Use clear bullet points with bold keywords to outline practical advice, specific skills to develop, or strategic direction.
-3. Be flexible and conversational: If the user asks brief follow-ups like "kalau g3", "maksudnya apa", or "jadi artinya apa", understand the continuity of conversation and elaborate thoroughly with context rather than giving a minimal reply.
+3. Core Interaction Modes:
+   - Risk Summarizer (e.g. "What does G2 mean?", exposure inquiries): Detail the tier (G1 <25% manual/empathic, G2 25-75% cognitive augmentation, G3 >75% automated routines). Connect directly to their live exposure score (${input.pageContext?.exposureScore !== undefined ? `${input.pageContext.exposureScore}%` : "calculated on /meter"}), highlight their vulnerable task vs human moat, and provide a NAVIGATE action to "/meter".
+   - Navigator Summarizer (e.g. "Show me my best path", career transition): Summarize the 4 Navigator strategies (Grow, Shift, Leap, Create), recommend an adjacent target occupation with real O*NET code and title, and emit a "PICK_TARGET_ROLE" action card alongside a "SELECT_STRATEGY" action and NAVIGATE to "/roadmap".
+   - Persona & Identity (e.g. "Who are you?"): Introduce Lumi as Voxian Shift's proactive AI Career Copilot. Explain how you help users navigate AI automation risk, customize career roadmaps, and build weekly study flight plans.
 4. Agent Actions (Chat-to-Action Tool Calling): You have the ability to offer actionable cards that the user can execute directly with 1 click:
    - "PICK_TARGET_ROLE": When recommending a target career destination. Must have a valid occupationId (e.g. O*NET code like "15-1252.00") and clear title.
    - "SELECT_STRATEGY": When recommending a career transition strategy. Must be one of:
@@ -133,29 +381,131 @@ ANSWER STYLE & DEPTH GUIDELINES:
 5. Provide 2-3 engaging, contextual follow-up questions in suggestedQuestions.
 Return pure JSON matching the specified schema.`
 
-      const schema = z.toJSONSchema(copilotChatResultSchema)
-      let text: string
-      try {
-        text = await completeJson(config, systemPrompt, input, schema, 3000)
-      } catch (error) {
-        if (error instanceof ProviderAuthError) {
-          return reply.code(503).send({
-            error: `${config.label} credentials were not accepted. Please check API configuration.`,
-          })
+      let currentInput: unknown = input
+      let toolObservations = ""
+      let result: CopilotChatResult | null = null
+
+      const stepSchema = z.toJSONSchema(copilotTurnSchema)
+      const finalSchema = z.toJSONSchema(copilotChatResultSchema)
+
+      for (let step = 0; step < 2; step++) {
+        const promptWithObservations = toolObservations
+          ? `${systemPrompt}\n\n## Tools Data Retrieved from Database:\n${toolObservations}\nNow deliver your complete, high-quality final response with actionable recommendations.`
+          : systemPrompt
+
+        const isLastStep = step === 1
+        const activeSchema = isLastStep ? finalSchema : stepSchema
+        let text: string
+        try {
+          text = await completeJson(
+            config,
+            promptWithObservations,
+            currentInput,
+            activeSchema,
+            3000,
+          )
+        } catch (error) {
+          if (error instanceof ProviderAuthError) {
+            if (isStream) {
+              sendEvent("error", {
+                error: `${config.label} credentials were not accepted. Please check API configuration.`,
+              })
+              reply.raw.end()
+              return
+            }
+            return reply.code(503).send({
+              error: `${config.label} credentials were not accepted. Please check API configuration.`,
+            })
+          }
+          throw error
         }
-        throw error
+
+        if (isLastStep) {
+          result = safeJsonParse(text, copilotChatResultSchema)
+          break
+        }
+
+        const turn = safeJsonParse(text, copilotTurnSchema)
+        if (turn.toolCall && turn.toolCall.name) {
+          sendEvent("tool_call", {
+            name: turn.toolCall.name,
+            parameters: turn.toolCall.parameters,
+          })
+
+          const observation = await executeTool(
+            turn.toolCall.name,
+            turn.toolCall.parameters,
+            catalogue,
+          )
+          const summary = summarizeToolObservation(turn.toolCall.name, observation)
+
+          sendEvent("tool_result", {
+            name: turn.toolCall.name,
+            parameters: turn.toolCall.parameters,
+            summary,
+            data: observation,
+          })
+
+          toolObservations += `\n[Tool Output for ${turn.toolCall.name} with ${JSON.stringify(turn.toolCall.parameters)}]:\n${JSON.stringify(observation, null, 2)}\n`
+          currentInput = {
+            ...input,
+            toolObservation: observation,
+          }
+          continue
+        }
+
+        result = copilotChatResultSchema.parse({
+          reply:
+            turn.reply ||
+            "I am here to help you navigate your career transition and AI exposure radar.",
+          actions: turn.actions || [],
+          suggestedQuestions: turn.suggestedQuestions || [],
+        })
+        break
       }
 
-      const result = copilotChatResultSchema.parse(JSON.parse(text || "{}"))
+      if (!result) {
+        throw new Error("Failed to produce copilot response.")
+      }
 
-      // Asynchronously persist turn into vector memory
-      if (store?.saveMemory && owner) {
-        void store.saveMemory(owner, input.message, result.reply, queryEmbedding).catch(() => {})
+      // Synchronously or asynchronously persist turn into database (lumi_chat_turns & memories)
+      if (store && owner) {
+        if (store.append) {
+          await store.append(owner, input.message, result.reply).catch(() => {})
+        }
+        if (store.saveMemory) {
+          void store.saveMemory(owner, input.message, result.reply, queryEmbedding).catch(() => {})
+        }
+      }
+
+      if (isStream) {
+        // Stream text tokens progressively via typewriter effect
+        const words = result.reply.split(/(\s+)/)
+        for (let i = 0; i < words.length; i += 2) {
+          const chunk = (words[i] || "") + (words[i + 1] || "")
+          sendEvent("delta", { delta: chunk })
+          await new Promise((resolve) => setTimeout(resolve, 15))
+        }
+
+        sendEvent("final", {
+          actions: result.actions,
+          suggestedQuestions: result.suggestedQuestions,
+        })
+        sendEvent("done", {})
+        reply.raw.end()
+        return
       }
 
       return reply.send(result)
     } catch (err) {
       request.log.error(err)
+      if (isStream) {
+        sendEvent("error", {
+          error: "AI copilot could not complete your request. Please try again.",
+        })
+        reply.raw.end()
+        return
+      }
       return reply.code(502).send({
         error: "AI copilot could not complete your request. Please try again.",
       })

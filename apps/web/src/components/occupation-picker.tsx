@@ -176,11 +176,11 @@ export function OccupationPicker({
         </div>
       )}
       <Tooltip>
-        {/* <TooltipTrigger asChild>
+        <TooltipTrigger asChild>
           <button type="button" className={`${fieldHelp} inline-flex items-center gap-1`}>
             <Info className="size-3.5" /> Source: O*NET® 31.0 (US)
           </button>
-        </TooltipTrigger> */}
+        </TooltipTrigger>
         <TooltipContent className="max-w-72 text-[13px] leading-relaxed">
           Occupation data from the O*NET® 31.0 Database, U.S. Department of Labor, Employment and
           Training Administration, adapted under CC BY 4.0. Voxian adds matching and illustrative
