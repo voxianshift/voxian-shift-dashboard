@@ -7,17 +7,23 @@ import { SidebarProvider } from "@/components/ui/sidebar"
 import { LumiChatProvider } from "@/components/lumi-chat-provider"
 import { LumiSidebar } from "@/components/lumi-sidebar"
 import { LumiMobileTrigger } from "@/components/lumi-mobile-trigger"
+import { NavigatorProvider } from "@/components/navigator-provider"
+import { WarmupOverlay } from "@/components/warmup-overlay"
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <OnboardingGate>
-      <LumiChatProvider>
-        {/* Cookie read is request-time data, so it must sit inside Suspense under Cache Components. */}
-        <Suspense fallback={null}>
-          <DashboardShell>{children}</DashboardShell>
-        </Suspense>
-        <LumiMobileTrigger />
-      </LumiChatProvider>
+      {/* One Navigator fetch for every page, started on arrival so the warm-up can wait on it. */}
+      <NavigatorProvider>
+        <LumiChatProvider>
+          {/* Cookie read is request-time data, so it must sit inside Suspense under Cache Components. */}
+          <Suspense fallback={null}>
+            <DashboardShell>{children}</DashboardShell>
+          </Suspense>
+          <LumiMobileTrigger />
+        </LumiChatProvider>
+        <WarmupOverlay />
+      </NavigatorProvider>
     </OnboardingGate>
   )
 }

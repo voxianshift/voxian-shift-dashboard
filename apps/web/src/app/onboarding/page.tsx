@@ -1,5 +1,6 @@
 "use client"
 
+import { warmupFlag } from "@/components/warmup-overlay"
 import { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowLeft, ArrowRight, Compass } from "lucide-react"
@@ -94,6 +95,11 @@ export default function OnboardingPage() {
       const saved = await saveOccupations(profile)
       if (!(await completeOnboarding(saved)))
         throw new Error("Complete your role and learning preferences first.")
+      try {
+        sessionStorage.setItem(warmupFlag, "1")
+      } catch {
+        /* Without the flag the dashboard simply loads each page on demand. */
+      }
       router.replace("/home")
     } catch {
       toast.error("Your profile could not be saved. Your answers are still here. Try again.")
