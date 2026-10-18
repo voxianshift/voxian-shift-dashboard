@@ -9,6 +9,7 @@ catalog:
   "@hookform/resolvers": ^5.9.1
   "@types/node": ^24
   "@types/pg": ^8.23.1
+  "@types/word-extractor": ^1.0.6
   "@xyflow/react": ^12.12.0
   class-variance-authority: ^0.7.1
   cn: ^0.4.0
@@ -30,6 +31,7 @@ catalog:
   typescript: ^7.0.2
   vite: npm:@voidzero-dev/vite-plus-core@1.2.0
   vite-plus: 1.2.0
+  word-extractor: ^1.0.4
   wrangler: ^4.151.0
   zod: ^4.6.7
 overrides:

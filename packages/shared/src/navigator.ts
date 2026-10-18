@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { cvAssessmentSchema } from "./cv.ts"
 import { profileSchema, type CareerProfile } from "./onboarding.ts"
 import { occupationCode, occupationCodeSchema } from "./occupations.ts"
 
@@ -274,6 +275,7 @@ export const navigatorDraftSchema = z
       .array(
         z.object({
           ...pathFields,
+          cvAssessments: z.array(cvAssessmentSchema).max(20).default([]),
           resourceIds: z.array(resourceIdSchema).min(1).max(3),
           destinationIds: z.array(text(100)),
           destinationResources: z
@@ -303,6 +305,11 @@ export const careerPathSchema = z
     ...pathFields,
     title: text(100),
     coverage: z.enum(["available", "unsupported"]),
+    requiredSkills: z.array(text(100)).max(20).optional(),
+    cvMatches: z
+      .array(z.object({ skill: text(100), evidence: text(180), reason: text(250) }))
+      .max(20)
+      .optional(),
     mappingLevel: z.enum(["occupation", "family"]).optional(),
     mappingVersion: text(80),
     mappingSource: text(200),

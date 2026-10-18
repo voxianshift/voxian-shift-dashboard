@@ -18,7 +18,7 @@ const NavigatorContext = createContext<{
   profileKey: string
   retry: () => void
 } | null>(null)
-const storageKey = "voxian-navigator-v3-prototype1"
+const storageKey = "voxian-navigator-v3-cv-vector1"
 
 export function NavigatorProvider({ children }: { children: ReactNode }) {
   const { profile, ready } = useCareerProfile()
@@ -37,7 +37,7 @@ export function NavigatorProvider({ children }: { children: ReactNode }) {
       if (attempt === 0) {
         try {
           const cached = JSON.parse(sessionStorage.getItem(storageKey) ?? "null")
-          if (cached?.key === key) {
+          if (cached?.key === key && cached.data?.generationStatus !== "unavailable") {
             const data = navigatorResultSchema.parse(cached.data)
             if (data.occupationCode === JSON.parse(key).primaryOccupation) {
               setState({ key, status: "ready", data })
@@ -69,7 +69,8 @@ export function NavigatorProvider({ children }: { children: ReactNode }) {
         if (controller.signal.aborted) return
         setState({ key, status: "ready", data })
         try {
-          sessionStorage.setItem(storageKey, JSON.stringify({ key, data }))
+          if (data.generationStatus !== "unavailable")
+            sessionStorage.setItem(storageKey, JSON.stringify({ key, data }))
         } catch {
           /* Paths remain available for this visit. */
         }

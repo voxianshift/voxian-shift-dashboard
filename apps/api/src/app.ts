@@ -13,9 +13,15 @@ import { registerRateLimit } from "./rate-limit.ts"
 import { createChatStore, type ChatStore } from "./chat-store.ts"
 import { SCORING_VERSION } from "@voxian/shared"
 import { createGuestStore, registerGuest, type GuestStore } from "./guest-store.ts"
+import { createCvVectorStore, type CvVectorStore } from "./cv-vector-store.ts"
 
 export function buildApp(
-  options: { chatStore?: ChatStore; catalogue?: OccupationCatalogue; guestStore?: GuestStore } = {},
+  options: {
+    chatStore?: ChatStore
+    catalogue?: OccupationCatalogue
+    guestStore?: GuestStore
+    cvVectorStore?: CvVectorStore
+  } = {},
 ) {
   const app = Fastify({
     logger: process.env.NODE_ENV !== "test",
@@ -40,7 +46,13 @@ export function buildApp(
   registerCv(app, catalogue)
   registerOnboarding(app, store, catalogue)
   registerPlan(app, catalogue)
-  registerNavigator(app, catalogue)
+  const cvVectors =
+    options.cvVectorStore ??
+    (process.env.DATABASE_URL && ["shadow", "active"].includes(process.env.CV_VECTOR_MODE ?? "")
+      ? createCvVectorStore(process.env.DATABASE_URL)
+      : undefined)
+  if (cvVectors) app.addHook("onClose", () => cvVectors.close())
+  registerNavigator(app, catalogue, cvVectors)
   registerCopilot(app, catalogue, store)
   const guestStore =
     options.guestStore ??

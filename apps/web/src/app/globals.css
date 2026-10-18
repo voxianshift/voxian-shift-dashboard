@@ -280,8 +280,8 @@
   --info-foreground: #ffffff;
 
   /* Lines */
-  --border: #262626;
-  --input: #333333;
+  --border: color-mix(in srgb, var(--foreground) 20%, var(--background));
+  --input: var(--border);
   --ring: #4a6ee0;
 
   /* Charts */
@@ -298,7 +298,7 @@
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #303030;
   --sidebar-accent-foreground: #ebebeb;
-  --sidebar-border: #262626;
+  --sidebar-border: var(--border);
   --sidebar-ring: #4a6ee0;
 }
 

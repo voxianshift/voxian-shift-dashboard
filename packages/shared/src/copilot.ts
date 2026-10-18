@@ -46,7 +46,11 @@ export const copilotPageContextSchema = z
   .optional()
 export type CopilotPageContext = z.infer<typeof copilotPageContextSchema>
 
-export const copilotProfileSchema = profileSchema.partial().strip().default({})
+export const copilotProfileSchema = profileSchema
+  .omit({ cvContext: true })
+  .partial()
+  .strip()
+  .default({})
 
 export const copilotChatRequestSchema = z.object({
   message: z.string().trim().min(1).max(3000),

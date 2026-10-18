@@ -1,0 +1,3 @@
+
+# PDF fixtures contain byte offsets; preserve their exact binary content.
+*.pdf binary

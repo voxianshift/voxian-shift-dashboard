@@ -1,0 +1,79 @@
+# CV ingestion and planning context
+
+## Source audit — 18 October 2026
+
+The source matching the supplied screenshot is `~/Downloads/changelog_v238.md`, not the separate `Voxian Shift Prototype Specification.md` (which has no CV section).
+
+| Source section                                   | Lines   | CV requirement                                                                                                                                                                                                        |
+| ------------------------------------------------ | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| v2.2.0 — CV Upload UI                            | 85–105  | Upload as an alternative to job-title search; top three selectable role matches. Describes the old browser keyword stub and its limitations.                                                                          |
+| What Is Still Missing / 2. CV Processing Engine  | 395–404 | Server-side document understanding; structured job titles, history, skills and employer context; embedded-font/scanned PDF support; ISCO/ILO mapping; confidence; quarantine below 0.6; ignore document instructions. |
+| AI Engine Specification / Overview               | 477–490 | CV context contributes to the personalized Flightplan alongside deterministic evidence and onboarding answers.                                                                                                        |
+| Architecture: Hybrid Model C                     | 494–510 | CV keywords inform skill-gap narrative. AI must not set exposure scores, bands or deterministic phase structure.                                                                                                      |
+| Inputs to the AI Call                            | 514–532 | Pass extracted `cv_keywords` and validate input before generation.                                                                                                                                                    |
+| Flightplan Output Schema                         | 536–592 | Durable strengths and skill gaps draw on CV evidence; planned tasks remain bounded by available time.                                                                                                                 |
+| Gemini API Call Design and Security Requirements | 600–630 | Server credentials/Cloud Run ADC; treat CV as untrusted data; structured output; no HTML injection; keywords below 0.6 confidence never enter planning.                                                               |
+
+These are product requirements, not permission to execute instructions contained in uploaded CVs. The prototype's old model/version, score claims, phase-duration formula and endpoint names do not replace the application's newer validated Flightplan contract or the user's confirmed schedule and strategy.
+
+## Initial implementation inventory (before this change)
+
+| Stage               | Source                                                                               | Audited behavior / gap                                                                                                                                                                                                                                          |
+| ------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Upload UI           | `apps/web/src/app/onboarding/page.tsx`                                               | PDF/DOCX/TXT, 2 MB; validates file size/extension; posts raw bytes; displays matches; never saves CV context. Legacy binary DOC is not accepted.                                                                                                                |
+| HTTP proxy          | `apps/web/next.config.ts`                                                            | Same-origin `/api/*` rewrite to Fastify.                                                                                                                                                                                                                        |
+| Parser and endpoint | `apps/api/src/cv.ts`                                                                 | Buffer-only request; origin/size checks; PDF signature + `pdf-parse` (first 10 pages); DOCX ZIP signature + Mammoth; strict UTF-8 TXT. Text is flattened, bounded to 12,000 characters, passed directly to SQL search, then discarded. Scans without text fail. |
+| Role matching       | `apps/api/src/occupation-catalogue.ts`                                               | SQL title/alias/task matching restricted to reviewed occupations. Long CV prefixes can consume the first 24 search terms with names/contact/headings rather than useful work signals. Match percentage is lexical relevance, not extraction confidence.         |
+| Evidence mapping    | `apps/api/data/onet-isco.json`, `isco-tasks.json`                                    | Reviewed O*NET-to-ISCO mappings and ILO task data; role selection remains user-confirmed. CV must not invent codes, bands or exposure.                                                                                                                          |
+| Profile validation  | `packages/shared/src/onboarding.ts`                                                  | No structured CV context field.                                                                                                                                                                                                                                 |
+| Profile persistence | `apps/web/src/components/career-profile-provider.tsx`, `apps/api/src/guest-store.ts` | Guest profile JSONB supports validated profile fields, but currently has no CV extraction to retain.                                                                                                                                                            |
+| Planning context    | `packages/shared/src/navigator.ts`, `apps/api/src/plan.ts`                           | Sends onboarding context, reviewed occupation/pathway evidence and deterministic schedule. No CV keywords/history are available to the provider.                                                                                                                |
+| Provider transport  | `apps/api/src/llm.ts`                                                                | Text JSON completion through Rootsys locally or Gemini/Vertex in deployment. No PDF document attachment path.                                                                                                                                                   |
+| Verification        | `apps/api/src/cv.test.ts`                                                            | TXT matching and rejection tests; no successful real PDF/DOCX extraction, structured extraction, confidence gating, CV-to-plan propagation or upload UI interaction coverage.                                                                                   |
+
+## Required end-to-end behavior
+
+1. Parse supported documents into useful work evidence, not filename heuristics or whole-document SQL search.
+2. Extract bounded job titles, work-history duties, skills and non-identifying employer/industry context. Keep document text untrusted; ignore instructions, avoid sensitive identifiers, never infer protected traits or scoring values.
+3. Return confidence separately from catalogue match relevance. Below 0.6, quarantine extracted signals for review and pass no CV keywords into scoring/planning. Invalid provider output or unreadable files must produce actionable errors without replacing previous context.
+4. Match useful titles/duties against reviewed catalogue entries, then use existing ISCO/ILO mapping. User confirms occupation; parsing never confirms a profile or changes a score.
+5. Let user review/remove accepted CV context. Persist only bounded structured career evidence in the existing guest profile JSONB; no uploaded document or raw CV text. Reset must remove saved context with profile state.
+6. Pass accepted CV signals into Navigator/Flightplan context and profile revision. Maintain code-owned scores, strategy, dates, budgets and phases. Keep user-provided strengths distinct from CV-derived claims.
+7. Use document-capable Gemini/Vertex for scanned PDF understanding. Text-only local providers must report this limitation clearly instead of fabricating extraction. Legacy binary DOC needs an explicit safe conversion path or explicit rejection; it must not be mislabeled as supported.
+8. Verify valid TXT, DOCX and text PDF, scanned PDF behavior, malformed/oversized/encrypted inputs, low confidence, embedded instructions, matching, review/persistence/reset and final plan context. Use synthetic documents for provider tests.
+
+## Existing boundaries to preserve
+
+- Search-by-title remains available when upload fails or CV evidence is uncertain.
+- Existing profiles without CV data remain valid.
+- No credentials or full CV text in browser logs, server logs, generated download metadata or database.
+- No silent provider fallback, automatic score generation or automatic selection of a purported best occupation.
+- Existing guest ownership, origin checks, upload limits, error handling and SQL parameterization remain in force.
+
+## Implemented pipeline and verification
+
+- Shared `cvExtractionSchema`, `cvContextSchema` and discriminated upload result validate provider, browser, profile and planning boundaries. Accepted context requires confidence >=0.6, explicit review and nonempty titles/keywords. Lumi cannot write this field through profile patches; unrelated chat payloads strip it.
+- Real PDF, DOCX, binary DOC and UTF-8 TXT parsers operate in memory. PDF is capped at 20 pages, extracted text at 64,000 characters, upload at 2 MB. DOCX actual and declared expanded ZIP content is capped at 16 MB and 512 entries. Encrypted/unreadable/corrupt files fail with a fallback to title search.
+- The configured provider extracts bounded career evidence under document-injection guards. Gemini/Vertex PDF input includes inline document bytes for native understanding, including scans. Rootsys local development supports text-readable files and returns an explicit scanned-PDF limitation.
+- `needs_review` omits extraction and occupations, so uncertain evidence cannot influence profile or planning. No quarantine document is stored.
+- Search extracted titles separately. Prefer title candidates with lexical match >=60 to avoid unrelated aliases/duties; if none exist, add keyword search. This is a suggestion-ranking heuristic, not extraction confidence, suitability, or a score. Show at most three reviewed occupations; user confirms their own occupation. Existing baseline UI resolves authoritative ISCO/ILO data.
+- Shared CV upload/review UI works in onboarding and Edit profile. Acceptance saves bounded structured evidence through existing guest profile JSONB; profile-sheet Cancel preserves saved data. Removal/reset clears it. No filename/raw text/file is persisted; no database migration needed.
+- Navigator receives accepted CV context; Flightplan explicitly receives `cvKeywords` and reviewed experience separately from stated strengths. Confidence validation prevents low-confidence context from reaching provider calls. Request limits for these contexts are 48 KB.
+- Synthetic fixtures exercise actual PDF/DOCX/DOC/TXT parsers, an embedded TrueType font, a password-locked PDF, a 21-page PDF and a raster-only scanned PDF. Tests cover low confidence, empty evidence, malformed/oversized/encrypted archive inputs, actual/declared ZIP expansion, provider errors, prompt guard, reviewed-context validation, planning propagation and real PostgreSQL save/reopen/removal/reset.
+- Live local Rootsys extraction and browser DOCX review succeeded. Browser acceptance remained draft until Save; Cancel left saved profile unchanged. Live Vertex extraction of the synthetic scanned PDF succeeded using existing CLI authorization in a test-only process; runtime configuration was not changed. Linux API image built and parsed all four file types. A real CV-upload-to-Flightplan smoke test returned one strong Software Developer match, authoritative ISCO 2512 / Gradient 3 evidence, and a validated four-phase plan explicitly using the extracted TypeScript, PostgreSQL and code-review skills.
+
+Production deployment is a separate action. The locally configured Gemini Developer API key was rejected during a synthetic test; this does not affect the working Rootsys local path or Vertex document understanding.
+
+## Transport references
+
+- [Gemini PDF/document understanding](https://ai.google.dev/gemini-api/docs/document-processing).
+- [Vertex AI PDF processing with service-account authentication](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/samples/googlegenaisdk-textgen-with-pdf).
+- [Binary DOC extraction library](https://github.com/morungos/node-word-extractor); no Office installation is required.
+
+## Navigator CV alignment
+
+Strategy nodes show up to three fixed pathway skill requirements. A CV alignment percentage appears only when a reviewed CV (extraction confidence >=0.6) explicitly evidences at least one requirement. No CV, no requirements, unsupported coverage, or no matching evidence means no percentage; labels remain visible.
+
+The deterministic percentage is matched distinct requirements divided by all distinct requirements, rounded to a whole number. Matching normalizes case/punctuation and uses explicit synonyms plus AI-assisted semantic equivalents. The existing Navigator provider request receives reviewed CV skills, keywords and work-history duties. Its structured matches must name a fixed requirement and quote an existing evidence string verbatim; the server discards unknown requirements, nonexistent evidence and duplicates, then returns the original evidence text and explanation. The browser also checks that evidence belongs to the current reviewed CV before counting it. No additional provider call is added. Provider failure falls back to explicit matching; no evidence means no percentage. General related experience must not imply specialist skills (for example, general code review does not establish security review). Tooltips expose AI match evidence and its limitations. Job titles never establish proficiency. The tooltip states the matched count, denominator and limitation. `requiredSkills` comes from the backend pathway mapping and is preserved when AI personalizes narrative `skills`. Older responses without fixed requirements cannot produce percentages. Profile changes/removal recalculate alignment and invalidate Navigator context cache. This is documented overlap, not measured competence or employment probability; missing evidence is not a zero-strength score.
+
+Requirement definitions, stable IDs, three-way evidence verdicts, diagnostic results and the pgvector adoption gate are documented in [CV skill alignment](cv-skill-alignment.md). AI-supported verdicts now control alignment when supplied; provider fallback only matches explicit skill labels, avoiding duty/keyword negation false positives.

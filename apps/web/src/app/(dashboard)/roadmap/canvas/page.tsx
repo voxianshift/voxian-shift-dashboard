@@ -127,7 +127,7 @@ function RoleCard({ data, selected }: NodeProps<RoleNode>) {
     )
   if (data.kind === "path")
     return (
-      <div className="relative h-[180px] w-[260px]" style={{ color }}>
+      <div className="relative h-[260px] w-[260px]" style={{ color }}>
         <h2
           className="absolute inset-x-0 top-0 line-clamp-2 text-center text-[14px] font-semibold leading-tight text-muted-foreground"
           title={data.title}
@@ -136,7 +136,7 @@ function RoleCard({ data, selected }: NodeProps<RoleNode>) {
         </h2>
         <svg
           viewBox="0 0 260 180"
-          className="absolute inset-0 size-full overflow-visible"
+          className="absolute inset-x-0 top-0 h-[180px] w-full overflow-visible"
           aria-hidden="true"
         >
           {selected && (
@@ -182,11 +182,37 @@ function RoleCard({ data, selected }: NodeProps<RoleNode>) {
             <TooltipContent>{strategyHelp[data.pathId ?? ""]}</TooltipContent>
           </Tooltip>
         </div>
-        {data.subtitle && (
-          <p className="absolute inset-x-0 top-[160px] text-center text-[11px] text-muted-foreground">
-            {data.subtitle}
-          </p>
-        )}
+        <div className="absolute inset-x-0 top-[158px] space-y-1 text-center text-[11px] text-muted-foreground">
+          {data.skills?.map((skill) => (
+            <p key={skill} className="truncate" title={skill}>
+              {skill}
+            </p>
+          ))}
+          {data.alignment && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  className="nodrag font-medium text-foreground underline decoration-dotted underline-offset-4"
+                  aria-label={`${data.alignment.percentage}% CV alignment`}
+                >
+                  {data.alignment.percentage}% CV alignment
+                </button>
+              </TooltipTrigger>
+              <TooltipContent className="max-w-72">
+                {data.alignment.matched} of {data.alignment.total} required skills evidenced in your
+                reviewed CV. Documented overlap, not measured proficiency. AI-assisted phrase
+                matching may be imperfect.
+                {data.cvMatches?.map((match) => (
+                  <p key={match.skill} className="mt-2">
+                    <strong>{match.skill}</strong>: {match.evidence} — {match.reason}
+                  </p>
+                ))}
+              </TooltipContent>
+            </Tooltip>
+          )}
+          {data.subtitle && <p>{data.subtitle}</p>}
+        </div>
         <Handle
           type="target"
           position={Position.Left}
@@ -355,7 +381,7 @@ function NavigatorCanvas({
   const sprint = timelineSprint(profile.timeline) ?? profile.hours === "5+ hours"
   const { resolvedTheme } = useTheme()
   const careerPaths = data.paths
-  const careerNodes = buildCareerNodes(careerPaths, data.roleTitle)
+  const careerNodes = buildCareerNodes(careerPaths, data.roleTitle, profile.cvContext)
   const [selectedId, setSelectedId] = useState<string | null>(initialSelectedId)
   const [focusRequest, setFocusRequest] = useState(0)
   const [flow, setFlow] = useState<ReactFlowInstance<RoleNode> | null>(null)

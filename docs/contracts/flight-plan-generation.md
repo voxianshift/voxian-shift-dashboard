@@ -8,6 +8,10 @@ Code owns the 90/120-day horizon, four quarter-horizon phase boundaries, strateg
 
 The provider receives actual occupational task descriptions/exposure from the versioned O*NET–ISCO/task data, curated pathway skill requirements, user-stated strengths/goals/constraints and code-generated time windows. Missing task evidence is explicitly unavailable. The model writes a summary, phase actions/deliverables, scheduled task content, later milestone actions and measurable learning goals. It cannot set dates, budgets, role titles or statistical scores. Exposure arithmetic is unchanged.
 
+## Reviewed CV context
+
+Optional `profile.cvContext` carries bounded job titles, skills, duties, employer/industry context and keywords, plus extraction confidence and explicit user review. Shared validation requires confidence >=0.6 and `reviewed: true`; absent/removed context produces an empty `skillContext.cvKeywords` list. No raw CV/file is part of the planning request. `skillContext.reviewedCvExperience` and `userStatedStrengths` remain distinct, and profile revision includes accepted CV context. Document/onboarding instructions remain untrusted; CV evidence cannot change deterministic scores, strategy or schedule. See [CV processing](cv-processing.md).
+
 ## Schedule representation
 
 A plan has contractVersion 3, a unique plan ID, revision 1, profileRevision (hash of the parsed current profile), occupation/strategy/destination IDs, mapping version, generatedAt, summary, firstStep and a nested `schedule` object. The nested schedule contains `startDate`, `timeZone`, `weeklyMinutes`, `studyDays` and `sessionLimitMinutes`; these are the confirmed values, not LLM output.

@@ -40,9 +40,11 @@ export async function completeJson(
   schema: unknown,
   maxTokens = 2000,
   timeoutMs = 20_000,
+  document?: { mimeType: "application/pdf"; data: string },
 ): Promise<string> {
   const vertex = config.provider === "vertex"
   const gemini = vertex || config.provider === "gemini"
+  if (document && !gemini) throw new Error("This provider cannot read PDF images")
   const project = process.env.GOOGLE_CLOUD_PROJECT || "voxian-shift-app"
   const response = await fetch(
     vertex
@@ -65,7 +67,15 @@ export async function completeJson(
         gemini
           ? {
               systemInstruction: { parts: [{ text: systemPrompt }] },
-              contents: [{ role: "user", parts: [{ text: JSON.stringify(input) }] }],
+              contents: [
+                {
+                  role: "user",
+                  parts: [
+                    { text: JSON.stringify(input) },
+                    ...(document ? [{ inlineData: document }] : []),
+                  ],
+                },
+              ],
               generationConfig: {
                 responseMimeType: "application/json",
                 responseJsonSchema: schema,

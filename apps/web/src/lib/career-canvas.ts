@@ -1,6 +1,7 @@
 import { type Edge, type Node } from "@xyflow/react"
 import { referenceCareerPath } from "./career-routing"
-import type { CareerPath } from "@voxian/shared"
+import type { CareerPath, CvContext } from "@voxian/shared"
+import { cvAlignment } from "./cv-alignment"
 
 const roleGridColumns = 3
 export const cardWidth = 260
@@ -43,16 +44,23 @@ export type RoleNode = Node<
     color: string
     kind: "start" | "path" | "role"
     pathId?: string
+    skills?: string[]
+    alignment?: ReturnType<typeof cvAlignment>
+    cvMatches?: CareerPath["cvMatches"]
   },
   "role"
 >
 
 // Fixed branch bands match the reference, with compact pills and room for labels.
-export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): RoleNode[] {
+export function buildCareerNodes(
+  careerPaths: CareerPath[],
+  roleTitle: string,
+  cv?: CvContext | null,
+): RoleNode[] {
   const rowHeight = 100
   const branchRows = careerPaths.map((path) =>
     Math.max(
-      2,
+      3,
       path.roles.length <= 4 ? path.roles.length : Math.ceil(path.roles.length / roleGridColumns),
     ),
   )
@@ -81,7 +89,7 @@ export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): 
           type: "role",
           position: { x: 420, y: center - 90 },
           width: 260,
-          height: 180,
+          height: 260,
           ariaLabel: `Explore ${path.title}`,
           data: {
             title: path.title,
@@ -95,6 +103,12 @@ export function buildCareerNodes(careerPaths: CareerPath[], roleTitle: string): 
             color,
             kind: "path",
             pathId: path.id,
+            skills: (path.requiredSkills ?? path.skills).slice(0, 3),
+            alignment:
+              path.coverage === "available"
+                ? cvAlignment(path.requiredSkills ?? [], cv, path.cvMatches)
+                : null,
+            cvMatches: path.cvMatches,
           },
         },
         ...path.roles.map((role, i): RoleNode => ({
