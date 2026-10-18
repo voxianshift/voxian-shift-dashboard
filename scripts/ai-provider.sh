@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Switch the production API's LLM provider.
-#   gemini  Gemini on AI Studio with the free-tier key (default, RM 0)
-#   vertex  Gemini on Vertex AI via the Cloud Run service account (paid; demo and judging only)
+#   gemini  Gemini Developer API / Google AI Studio credentials (current production provider)
+#   vertex  Optional Gemini on Vertex AI via the Cloud Run service account
 #   status  show the current provider settings
-# Vertex costs count against the RM21 monthly budget kill switch; switch back with `gemini` after the demo.
+# Provider billing depends on project/key configuration and usage; neither option guarantees zero cost.
+# This script changes live Cloud Run configuration and IAM. See docs/ai-provider.md.
 set -euo pipefail
 
 PROJECT=voxian-shift-app

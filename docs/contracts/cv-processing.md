@@ -62,7 +62,7 @@ These are product requirements, not permission to execute instructions contained
 - Synthetic fixtures exercise actual PDF/DOCX/DOC/TXT parsers, an embedded TrueType font, a password-locked PDF, a 21-page PDF and a raster-only scanned PDF. Tests cover low confidence, empty evidence, malformed/oversized/encrypted archive inputs, actual/declared ZIP expansion, provider errors, prompt guard, reviewed-context validation, planning propagation and real PostgreSQL save/reopen/removal/reset.
 - Live local Rootsys extraction and browser DOCX review succeeded. Browser acceptance remained draft until Save; Cancel left saved profile unchanged. Live Vertex extraction of the synthetic scanned PDF succeeded using existing CLI authorization in a test-only process; runtime configuration was not changed. Linux API image built and parsed all four file types. A real CV-upload-to-Flightplan smoke test returned one strong Software Developer match, authoritative ISCO 2512 / Gradient 3 evidence, and a validated four-phase plan explicitly using the extracted TypeScript, PostgreSQL and code-review skills.
 
-Production deployment is a separate action. The locally configured Gemini Developer API key was rejected during a synthetic test; this does not affect the working Rootsys local path or Vertex document understanding.
+Historical test note: a locally configured Gemini Developer API key was rejected during that synthetic test; this is not the current production provider status. Live Cloud Run configuration on 19 October 2026 selects Gemini Developer API (`CHAT_PROVIDER=gemini`). That configuration check does not itself verify a successful CV extraction. See [current AI provider reference](../ai-provider.md).
 
 ## Transport references
 

@@ -240,8 +240,8 @@ export default function ResourcesPage() {
           <p className={eyebrow}>03 / SYSTEM ARCHITECTURE</p>
           <h2 id="architecture-title">How this MVP works.</h2>
           <p>
-            Five layers, all on Google Cloud. The AI writes guidance; it never calculates your
-            exposure score.
+            Cloud Run and Cloud SQL power the app, with Gemini API (Google AI Studio) for AI
+            guidance. Exposure scores come from the deterministic scoring engine.
           </p>
           <ArchitectureDiagram />
         </section>

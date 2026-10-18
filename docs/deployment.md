@@ -2,13 +2,15 @@
 
 See [the audited architecture](../ARCHITECTURE.md) for local setup, storage ownership, migration ordering and the complete runtime flow.
 
-## Verified snapshot — 18 October 2026
+## AI and image snapshot — 19 October 2026
 
-Both Cloud Run services serve application commit `df08dec` with 100% traffic. Migrations 001–005 are applied to production. The API uses `pg` directly against Cloud SQL PostgreSQL 18. Current provider is `CHAT_PROVIDER=vertex`, `VERTEX_MODEL=gemini-2.5-flash`. Automated SQL backups report disabled.
+Live images are tagged `85afce23b6434042750a1d2735dbaf3293af591f`: web revision `voxian-web-00043-5nw`, API revision `voxian-api-00050-bcw`. Current AI provider is `CHAT_PROVIDER=gemini`, using `GEMINI_MODEL=gemini-3.8-flash` through Gemini Developer API (Google AI Studio credentials). `VERTEX_MODEL=gemini-2.5-flash` is configured but inactive. `CV_VECTOR_MODE` is unset, so optional Vertex CV-vector retrieval is off. See [AI provider reference](ai-provider.md). These observations verify configuration, not successful model responses or billing entitlement.
+
+Earlier infrastructure audit recorded migrations 001–005, direct `pg` access to Cloud SQL PostgreSQL 18 and disabled automated backups. Those database details were not re-audited on 19 October.
 
 Trial provisioning is recorded in the repository and instance metadata, but active billing entitlement and expiry remain unverified. Consult [official Cloud SQL trial terms](https://firebase.google.com/docs/sql-connect/pricing) and the project billing console; do not assume ongoing zero cost.
 
-**Estimated trial end: 16 January 2027**, based on live instance creation on 16 October 2026 and the published three-month trial period. Exact expiry and continued eligibility remain unverified; the API has no expiry field and console pages failed to load.
+**Console-reported standard-pricing start: 14 January 2027**, shown in the user-supplied Firebase Cloud SQL trial screenshot. This replaces the earlier 16 January estimate. Current invoices and continued eligibility were not independently rechecked; the database trial does not establish zero cost for AI or other services.
 
 ## Pipeline and historical setup
 
@@ -49,8 +51,8 @@ Project `voxian-shift-app`, region `asia-southeast1`, Cloud SQL instance `voxian
    ```sh
    gcloud run services update voxian-api --region asia-southeast1 \
      --add-cloudsql-instances voxian-shift-app:asia-southeast1:voxian-db \
-     --set-secrets DATABASE_URL=voxian-database-url:latest,ROOTSYS_API_KEY=voxian-rootsys-api-key:latest \
-     --set-env-vars WEB_ORIGIN=https://voxian-web-184581024855.asia-southeast1.run.app,CHAT_PROVIDER=rootsys,ROOTSYS_MODEL=glm-5.3-flashx
+     --update-secrets DATABASE_URL=voxian-database-url:latest,GEMINI_API_KEY=voxian-gemini-api-key:latest \
+     --update-env-vars WEB_ORIGIN=https://voxian-web-184581024855.asia-southeast1.run.app,CHAT_PROVIDER=gemini,GEMINI_MODEL=gemini-3.8-flash
    ```
 
    `WEB_ORIGIN` must match the URL people open exactly; the API rejects chat and role saves from any other origin.
@@ -61,16 +63,16 @@ Project `voxian-shift-app`, region `asia-southeast1`, Cloud SQL instance `voxian
 
 ## Notes
 
-- Hackathon rule is Google Cloud only. Rootsys is an external LLM; for the submission, switch to `CHAT_PROVIDER=gemini` with a Gemini key secret.
+- Production uses Gemini Developer API with server-side API-key credentials. Rootsys remains a legacy/local code option, not the selected deployed provider.
 - Cloud SQL stops when the RM21 monthly budget kill switch fires; restore with `gcloud sql instances patch voxian-db --activation-policy ALWAYS`.
 
 ## Status 2026-10-17
 
-All steps above were applied: API service account has Cloud SQL client, secret access and Vertex AI user; migrations 001–003 and the O*NET 31.0 import ran on `voxian-db`; `voxian-api` runs with the Cloud SQL socket, `DATABASE_URL` secret, `WEB_ORIGIN` and `CHAT_PROVIDER=vertex` (Gemini on Vertex AI via the service account, no API key). The Rootsys key secret is no longer used in production.
+Historical snapshot, superseded for AI provider configuration by the 19 October snapshot above. At that time, API service account has Cloud SQL client, secret access and Vertex AI user; migrations 001–003 and the O*NET 31.0 import ran on `voxian-db`; `voxian-api` runs with the Cloud SQL socket, `DATABASE_URL` secret, `WEB_ORIGIN` and `CHAT_PROVIDER=vertex` (Gemini on Vertex AI via the service account, no API key).
 
 ## AI provider switching
 
-As of 18 October 2026, production runs `CHAT_PROVIDER=vertex`. The Gemini key secret remains bound but is not how Vertex authenticates. The following script can intentionally switch providers; these commands change live configuration and, for Vertex, IAM permissions. Provider billing/quotas must be checked separately from the database trial:
+As of 19 October 2026, production runs `CHAT_PROVIDER=gemini` and uses server-side Gemini API credentials. Vertex remains an explicitly selectable alternative; its model environment variable alone does not activate it. The following script can intentionally switch providers; these commands change live configuration and, for Vertex, IAM permissions. Provider billing/quotas must be checked separately from the database trial:
 
 ```sh
 scripts/ai-provider.sh vertex   # enables Vertex AI, grants roles/aiplatform.user to voxian-api, sets CHAT_PROVIDER=vertex
@@ -78,4 +80,4 @@ scripts/ai-provider.sh status
 scripts/ai-provider.sh gemini   # selects AI Studio credentials and removes the Vertex role
 ```
 
-`VERTEX_MODEL` defaults to `gemini-2.5-flash`; override with `VERTEX_MODEL=... scripts/ai-provider.sh vertex`. Live audit confirmed the calendar-month budget, raised to RM21 (approximately US$5.15) on 18 October 2026, Pub/Sub topic, Eventarc trigger, Ready kill-switch handler and incoming budget-message logs. Latest observed report before the increase was RM0.22 of the old RM4 budget at 18 October 2026, 00:54:50 MYT. The budget amount, existing project filter, alert thresholds and Pub/Sub topic were verified after the increase. Threshold-crossing shutdown was not fired or verified. Budget automation is not a guaranteed hard spending cap; see [kill-switch details](../ARCHITECTURE.md#live-budget-kill-switch--verified-18-october-2026). Generated plans show "Generated by Gemini on Vertex AI" while it is active.
+`VERTEX_MODEL` defaults to `gemini-2.5-flash`; override with `VERTEX_MODEL=... scripts/ai-provider.sh vertex`. Live audit confirmed the calendar-month budget, raised to RM21 (approximately US$5.15) on 18 October 2026, Pub/Sub topic, Eventarc trigger, Ready kill-switch handler and incoming budget-message logs. Latest observed report before the increase was RM0.22 of the old RM4 budget at 18 October 2026, 00:54:50 MYT. The budget amount, existing project filter, alert thresholds and Pub/Sub topic were verified after the increase. Threshold-crossing shutdown was not fired or verified. Budget automation is not a guaranteed hard spending cap; see [kill-switch details](../ARCHITECTURE.md#live-budget-kill-switch--verified-18-october-2026). Generated plans use the selected provider label: "Gemini" for the current API provider, or "Gemini on Vertex AI" only when Vertex is explicitly selected.

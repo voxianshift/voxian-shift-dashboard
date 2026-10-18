@@ -1,5 +1,7 @@
 # CV skill alignment: evidence definitions and retrieval gate
 
+**Production status — 19 October 2026:** narrative AI uses Gemini Developer API (Google AI Studio credentials). `CV_VECTOR_MODE` is not set on the deployed API, so optional Vertex CV-vector retrieval described below is off. Lumi embedding calls follow the selected narrative provider; this separate CV-vector implementation still requires Vertex credentials when enabled. See [AI provider reference](../ai-provider.md).
+
 ## Current implementation
 
 All 300 occupation-specific skill labels (25 occupations × 4 strategies × 3 skills) produce deterministic requirement records through `apps/api/src/skill-requirements.ts`. A requirement ID hashes occupation, strategy and normalized label; display order changes do not change IDs. Changed definitions carry a new `skillRequirementsVersion`. The existing pathway catalogue remains the source for roles, branch descriptions and labels.

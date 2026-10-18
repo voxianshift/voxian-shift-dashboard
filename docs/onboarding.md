@@ -20,7 +20,7 @@ Guest endpoints: `GET/PUT /api/guest/profile`, `GET/PUT /api/guest/commitment`, 
 
 Your work in onboarding and the profile editor accept PDF, DOC, DOCX and UTF-8 TXT files up to 2 MB. PDF uploads are limited to 20 pages and extracted text to 64,000 characters. The server validates format signatures; DOCX actual and declared expanded archive content is bounded to 16 MB before parsing. Parsing uses PDFParse, Mammoth and word-extractor without executing document macros.
 
-`POST /api/onboarding/cv?format=pdf|doc|docx|txt` returns structured job titles, skills, duties, non-identifying employer context, keywords, AI extraction confidence and up to three catalogue matches. It uses the configured provider. Gemini/Vertex accepts PDF inline document input, including scanned pages; local text-only Rootsys requires a text-based CV. AI instructions embedded in documents are untrusted. Extraction confidence is a model estimate, not a calibrated probability or the SQL role-match percentage.
+`POST /api/onboarding/cv?format=pdf|doc|docx|txt` returns structured job titles, skills, duties, non-identifying employer context, keywords, AI extraction confidence and up to three catalogue matches. It uses the configured provider: production currently selects Gemini Developer API / Google AI Studio credentials (verified 19 October 2026). Both supported Gemini transports accept PDF inline document input, including scanned pages. AI instructions embedded in documents are untrusted. Extraction confidence is a model estimate, not a calibrated probability or the SQL role-match percentage.
 
 Confidence below 0.6, missing job titles or missing keywords returns `needs_review` with no occupations or career signals. No low-confidence data enters profile or planning. Unrelated chat payloads strip CV context. This is an in-request quarantine/fallback state, not a persistent raw-document queue.
 
@@ -58,11 +58,7 @@ ROOTSYS_MODEL=glm-5.3-flashx
 WEB_ORIGIN=http://localhost:3000
 ```
 
-Rootsys is the default even if `GEMINI_API_KEY` exists. Its [official setup](https://rootsys.cloud/setup) documents OpenAI-compatible `POST https://rootsys.cloud/v1/chat/completions` with Bearer authentication. The selected model appears in its [catalogue](https://rootsys.cloud/models). Requests use JSON-object output plus an explicit schema in the system message; the API independently validates the returned profile patch. Do not put provider secrets in the web environment or prefix them with `NEXT_PUBLIC_`.
-
-### Gemini for submission/demo
-
-Set `CHAT_PROVIDER=gemini`, `GEMINI_API_KEY`, and optionally `GEMINI_MODEL` in the API environment. Restart the API. Rootsys failures never automatically fall back to Gemini. These settings apply to the retained chat backend.
+Gemini Developer API (Google AI Studio credentials) is the current production provider and local default; `GEMINI_MODEL` optionally overrides the model. For Gemini on Vertex AI set `CHAT_PROVIDER=vertex` instead; it uses Application Default Credentials and needs no key. Requests use JSON output with a response schema; the API independently validates the returned profile patch. Do not put provider secrets in the web environment or prefix them with `NEXT_PUBLIC_`.
 
 Providers only extract draft preferences; they never set scores or confirm profiles. The user reviews and confirms before the Meter and Navigator use the profile. Home role search and the profile Sheet do not use the chat provider. No provider error bodies or keys are returned to the client.
 

@@ -63,12 +63,12 @@ const tiers: Tier[] = [
     ],
   },
   {
-    title: "AI · Gemini",
+    title: "AI · Gemini API",
     color: "var(--warning)",
     nodes: [
       {
         title: "Gemini 3.8 Flash · AI Studio",
-        lines: ["Key in Secret Manager", "Vertex AI switch kept for demos"],
+        lines: ["Gemini Developer API", "Server-side key in Secret Manager"],
         step: 4,
       },
       {

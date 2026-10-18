@@ -1,6 +1,6 @@
 # Voxian Shift architecture
 
-Audited on **18 October 2026, Asia/Kuala_Lumpur** against application revision `df08dec`, repository code, live Cloud Run configuration, Cloud SQL metadata, and aggregate catalogue counts. This describes the deployed MVP, including its limitations. Resource names and observed settings are a dated snapshot, not an infrastructure provisioning specification.
+Infrastructure and storage audit: **18 October 2026, Asia/Kuala_Lumpur**. AI provider and deployed image references refreshed from live Cloud Run on **19 October 2026**; see [current AI configuration](docs/ai-provider.md). Database and billing observations retain their original audit dates. This describes the deployed MVP, including its limitations. Resource names and observed settings are a dated snapshot, not an infrastructure provisioning specification.
 
 ## 1. What the app does
 
@@ -28,7 +28,7 @@ Provisioning records identify the Cloud SQL instance as a no-cost trial. Live me
 
 The documented Cloud SQL trial for eligible Blaze projects lasts three months with the default configuration. Configuration changes can end the trial, and standard charges apply afterward. See [official Cloud SQL trial terms](https://firebase.google.com/docs/sql-connect/pricing). Verify this project's entitlement, end date and actual charges in its billing console. This audit did not inspect invoices or trial eligibility. Do not treat an estimated date as a confirmed billing deadline or assume the whole app is free.
 
-**Estimated trial end: 16 January 2027.** The live Cloud SQL API reports creation at `2026-10-16T04:43:46.127Z` (16 October 2026, 12:43:46 MYT), and the project has billing enabled. Adding the published three-month trial period gives this planning estimate. The API exposes no expiry field; Firebase and Cloud console pages failed to load during the check. Active eligibility, exact expiry and any early termination remain unverified.
+**Console-reported pricing start: 14 January 2027.** User-supplied Firebase console screenshot shows the Cloud SQL no-cost-trial banner and this standard-pricing start date. It supersedes the earlier 16 January estimate derived from creation time. No instance settings were changed during cleanup. Current invoices and continued trial eligibility were not independently rechecked; do not treat the database trial as covering Gemini API or other Google Cloud services.
 
 ## 3. Runtime topology
 
@@ -41,7 +41,7 @@ flowchart LR
   API -->|pg TCP localhost:5433| PG[(Docker PostgreSQL 18)]
   PG --- Volume[Named pgdata volume]
   API --> Data[Versioned JSON datasets]
-  API -->|Configured provider only| AI[Rootsys / Gemini / Vertex AI]
+  API -->|Default configured provider: API key| AI[Gemini API / Google AI Studio]
 ```
 
 Only PostgreSQL runs in Docker during the normal local workflow. Web and API run as host Node processes. Docker publishes host port `5433` to database container port `5432`; `DATABASE_URL` used by the host API must use `5433`.
@@ -55,8 +55,7 @@ flowchart LR
   API -->|pg via attached Cloud SQL Unix socket| SQL[(Cloud SQL: voxian-db / voxian)]
   Secrets[Secret Manager] -->|DATABASE_URL and configured API secrets| API
   Secrets -->|GEMINI_API_KEY| API
-  API -->|API key: current provider| Gemini[Gemini on Google AI Studio]
-  API -.->|ADC token: demo switch only| Vertex[Gemini on Vertex AI]
+  API -->|API key: current provider| Gemini[Gemini API / Google AI Studio]
   Data[JSON datasets in API image] --> API
 ```
 
@@ -64,24 +63,24 @@ Browsers receive no PostgreSQL credentials or server AI keys.
 
 ### Observed deployment snapshot
 
-| Setting                                | Observed value                                                                                               |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Google Cloud project / region          | `voxian-shift-app` / `asia-southeast1`                                                                       |
-| Frontend URL                           | [voxian-web](https://voxian-web-184581024855.asia-southeast1.run.app)                                        |
-| API URL                                | [voxian-api](https://voxian-api-184581024855.asia-southeast1.run.app)                                        |
-| Deployed application revision          | Both images tagged `9f4c6edc6dc89374437e728178b2b6fa3681bcdb`                                                |
-| Web / API Cloud Run revisions          | `voxian-web-00034-f4f` / `voxian-api-00041-gh2`                                                              |
-| Readiness / traffic                    | Both Ready; 100% traffic to the revisions above                                                              |
-| Runtime identities                     | `voxian-web@voxian-shift-app.iam.gserviceaccount.com`; `voxian-api@voxian-shift-app.iam.gserviceaccount.com` |
-| Maximum instances / concurrency        | Each service: maximum 2 instances; concurrency 80                                                            |
-| Cloud SQL connection name              | `voxian-shift-app:asia-southeast1:voxian-db`                                                                 |
-| PostgreSQL database / API DB user      | `voxian` / `voxian_api`                                                                                      |
-| Database version / tier / availability | PostgreSQL 18; `db-f1-micro`; Enterprise edition; zonal                                                      |
-| Database state / activation policy     | `RUNNABLE` / `ALWAYS`                                                                                        |
-| Automated backups                      | `backupConfiguration.enabled=false`; no restore drill verified                                               |
-| Current production AI provider         | `CHAT_PROVIDER=gemini`, `GEMINI_MODEL=gemini-3.8-flash` (AI Studio, Tier 1 prepaid; switched 18 Oct 2026)    |
-| Database secret binding                | `DATABASE_URL` → `voxian-database-url:latest`                                                                |
-| AI secret binding                      | `GEMINI_API_KEY` → `voxian-gemini-api-key:latest`; active provider credential. Vertex role removed from SA   |
+| Setting                                | Observed value                                                                                                          |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Google Cloud project / region          | `voxian-shift-app` / `asia-southeast1`                                                                                  |
+| Frontend URL                           | [voxian-web](https://voxian-web-184581024855.asia-southeast1.run.app)                                                   |
+| API URL                                | [voxian-api](https://voxian-api-184581024855.asia-southeast1.run.app)                                                   |
+| Deployed application revision          | Both images tagged `85afce23b6434042750a1d2735dbaf3293af591f` (verified 19 October)                                     |
+| Web / API Cloud Run revisions          | `voxian-web-00043-5nw` / `voxian-api-00050-bcw` (verified 19 October)                                                   |
+| Readiness / traffic                    | Both Ready; 100% traffic to the revisions above                                                                         |
+| Runtime identities                     | `voxian-web@voxian-shift-app.iam.gserviceaccount.com`; `voxian-api@voxian-shift-app.iam.gserviceaccount.com`            |
+| Maximum instances / concurrency        | Each service: maximum 2 instances; concurrency 80                                                                       |
+| Cloud SQL connection name              | `voxian-shift-app:asia-southeast1:voxian-db`                                                                            |
+| PostgreSQL database / API DB user      | `voxian` / `voxian_api`                                                                                                 |
+| Database version / tier / availability | PostgreSQL 18; `db-f1-micro`; Enterprise edition; zonal                                                                 |
+| Database state / activation policy     | `RUNNABLE` / `ALWAYS`                                                                                                   |
+| Automated backups                      | `backupConfiguration.enabled=false`; no restore drill verified                                                          |
+| Current production AI provider         | `CHAT_PROVIDER=gemini`, `GEMINI_MODEL=gemini-3.8-flash` (Gemini Developer API / Google AI Studio; verified 19 Oct 2026) |
+| Database secret binding                | `DATABASE_URL` → `voxian-database-url:latest`                                                                           |
+| AI secret binding                      | `GEMINI_API_KEY` → `voxian-gemini-api-key:latest`; active provider credential. Prior audit recorded Vertex role removal |
 
 These settings can change independently of a Git commit. Provider defaults in example files are not proof of the live provider. The observed release completed in [deployment run 39106468363](https://github.com/voxianshift/voxian-shift-dashboard/actions/runs/39106468363).
 
@@ -363,7 +362,7 @@ The [API Dockerfile](apps/api/Dockerfile) installs production dependencies and r
 | `gemini`        | Server-side `GEMINI_API_KEY`                                          | `GEMINI_MODEL`; code default `gemini-3.8-flash` |
 | `vertex`        | Application Default Credentials; runtime service account on Cloud Run | `VERTEX_MODEL`; code default `gemini-2.5-flash` |
 
-These are implementation defaults, not a guarantee of provider/model availability. Production uses AI Studio (`gemini`) since 18 October 2026. [ai-provider.sh](scripts/ai-provider.sh) can switch production between Gemini and Vertex and changes service configuration/IAM; it is an operational mutation, not required for normal local development.
+These are implementation defaults, not a guarantee of provider/model availability. Production selects Gemini Developer API (`gemini`), verified 19 October 2026. `VERTEX_MODEL` remains configured but is inactive while `CHAT_PROVIDER=gemini`; it is not a second model used in parallel. Billing tier and model availability are not inferred from these environment variables. [ai-provider.sh](scripts/ai-provider.sh) can switch production between Gemini and Vertex and changes service configuration/IAM; it is an operational mutation, not required for normal local development.
 
 Gemini (AI Studio and Vertex) rejects complex response schemas with a bare `400 INVALID_ARGUMENT`: enums with more than about four values and large `maxItems` on nested object arrays. `geminiSchema` in [llm.ts](apps/api/src/llm.ts) strips enums over four values and `maxItems` over five from the wire schema; each caller's zod parse still enforces them. Before this fix the Navigator schema always failed on Gemini, so production silently fell back to one generic course per path. `402` (AI Studio prepaid credits depleted) and `429` map to `ProviderQuotaError`; plan generation reports it as a 503 quota message.
 
@@ -460,4 +459,4 @@ When changing routes, persistence, schemas, provider defaults, deployment steps 
 
 ### CV vector retrieval: local implementation update (18 October 2026)
 
-Local pgvector 0.8.7 supports guest-isolated CV evidence retrieval. Reference vectors are seeded for 300 requirements; reviewed CV phrases embed lazily through Vertex `gemini-embedding-001` (768 dimensions, semantic similarity), independently of the Rootsys narrative provider. Migration 006 creates separate reference/evidence tables and CV-change cleanup trigger. Guest deletion cascades evidence deletion; concurrent writes validate current saved CV revision under owner lock. `CV_VECTOR_MODE` defaults off; local active mode prunes candidates after the held-out synthetic retrieval gate passed. Shadow mode remains available for comparison. Active mode restricts citations to retrieved candidates and retains exhaustive fallback on retrieval failure. Production migration/configuration is not yet applied; enabling it there also needs `roles/aiplatform.user` back on the API service account, which `ai-provider.sh gemini` removes. See [CV alignment implementation and retrieval gate](docs/contracts/cv-skill-alignment.md).
+Production check on 19 October 2026 found no `CV_VECTOR_MODE` override, so this optional retrieval path is off by default. It must not be presented as an active production Vertex dependency. Local pgvector 0.8.7 supports guest-isolated CV evidence retrieval. Reference vectors are seeded for 300 requirements; reviewed CV phrases embed lazily through Vertex `gemini-embedding-001` (768 dimensions, semantic similarity), independently of the narrative provider. Migration 006 creates separate reference/evidence tables and CV-change cleanup trigger. Guest deletion cascades evidence deletion; concurrent writes validate current saved CV revision under owner lock. `CV_VECTOR_MODE` defaults off; local active mode prunes candidates after the held-out synthetic retrieval gate passed. Shadow mode remains available for comparison. Active mode restricts citations to retrieved candidates and retains exhaustive fallback on retrieval failure. Production migration/configuration is not yet applied; enabling it there also needs `roles/aiplatform.user` back on the API service account, which `ai-provider.sh gemini` removes. See [CV alignment implementation and retrieval gate](docs/contracts/cv-skill-alignment.md).
