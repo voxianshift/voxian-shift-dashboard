@@ -134,35 +134,35 @@ export function registerPlan(app: FastifyInstance, catalogue?: OccupationCatalog
             : pathCourseIds[input.strategyId]),
         ]),
       ]
-      // An empty enum is invalid JSON Schema (Vertex 400s), so drop resourceId when none apply.
       const task = planDraftSchema.shape.tasks.element
       const milestone = planDraftSchema.shape.milestones.element
-      const scopedResourceId = resourceIds.length
-        ? resourceIdSchema.extract(resourceIds).optional()
-        : undefined
       const phaseContent = planDraftSchema.shape.phases.element.omit({ id: true })
-      const responseSchema = planDraftSchema.extend({
-        phases: z.strictObject({
-          foundation: phaseContent,
-          intermediate: phaseContent,
-          advanced: phaseContent,
-          leadership: phaseContent,
-        }),
-        tasks: z
-          .array(
-            scopedResourceId
-              ? task.extend({ resourceId: scopedResourceId })
-              : task.omit({ resourceId: true }),
-          )
-          .max(30),
-        milestones: z
-          .array(
-            scopedResourceId
-              ? milestone.extend({ resourceId: scopedResourceId })
-              : milestone.omit({ resourceId: true }),
-          )
-          .max(20),
-      })
+      // An empty enum is invalid JSON Schema, so drop resourceId when none apply.
+      const draftWith = (resourceId?: z.ZodOptional) =>
+        planDraftSchema.extend({
+          phases: z.strictObject({
+            foundation: phaseContent,
+            intermediate: phaseContent,
+            advanced: phaseContent,
+            leadership: phaseContent,
+          }),
+          tasks: z
+            .array(resourceId ? task.extend({ resourceId }) : task.omit({ resourceId: true }))
+            .max(30),
+          milestones: z
+            .array(
+              resourceId ? milestone.extend({ resourceId }) : milestone.omit({ resourceId: true }),
+            )
+            .max(20),
+        })
+      const responseSchema = draftWith(
+        resourceIds.length ? resourceIdSchema.extract(resourceIds).optional() : undefined,
+      )
+      // Vertex 400s once the resourceId enum passes ~4 values (schema complexity limit), so the
+      // model gets a plain string; responseSchema.parse still enforces the scoped IDs.
+      const wireSchema = z.toJSONSchema(
+        draftWith(resourceIds.length ? z.string().max(40).optional() : undefined),
+      )
       const resources = Object.fromEntries(resourceIds.map((id) => [id, navigatorResources[id]]))
       const crosswalk = onetIsco[input.occupationCode as keyof typeof onetIsco]
       const unit = crosswalk ? iscoTasks[crosswalk.isco as keyof typeof iscoTasks] : undefined
@@ -219,7 +219,7 @@ export function registerPlan(app: FastifyInstance, catalogue?: OccupationCatalog
             config,
             systemPrompt + repair,
             context,
-            z.toJSONSchema(responseSchema),
+            wireSchema,
             8192,
             Math.max(1, deadline - Date.now()),
           )
