@@ -302,11 +302,19 @@ export function CommitDirectionDialog({
                                 <Input
                                   autoFocus
                                   aria-label={`${dayNames[day]} start time`}
-                                  type="time"
+                                  inputMode="numeric"
+                                  maxLength={5}
+                                  placeholder="HH:MM"
                                   value={timeDraft}
                                   onChange={(event) => setTimeDraft(event.target.value)}
                                   onBlur={(event) => {
-                                    const value = event.currentTarget.value
+                                    // Native type="time" follows the OS 12/24h locale; force 24h text.
+                                    const match = /^([01]?\d|2[0-3]):?([0-5]\d)$/.exec(
+                                      event.currentTarget.value.trim(),
+                                    )
+                                    const value = match
+                                      ? `${match[1]!.padStart(2, "0")}:${match[2]}`
+                                      : null
                                     if (value)
                                       setDayStartTimes((current) => ({ ...current, [day]: value }))
                                     setEditingDay(null)
@@ -322,7 +330,7 @@ export function CommitDirectionDialog({
                                       setEditingDay(null)
                                     }
                                   }}
-                                  className="h-6 w-[5ch] shrink-0 rounded-none border-0 bg-transparent p-0 font-mono text-[12px] leading-6 shadow-none focus-visible:ring-0 md:text-[12px] dark:bg-transparent [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-datetime-edit]:p-0 [&::-webkit-datetime-edit-ampm-field]:hidden"
+                                  className="h-6 w-[5ch] shrink-0 rounded-none border-0 bg-transparent p-0 font-mono text-[12px] leading-6 shadow-none focus-visible:ring-0 md:text-[12px] dark:bg-transparent"
                                 />
                                 <span>–{slotEnd(daySlots.at(-1)!)}</span>
                               </>

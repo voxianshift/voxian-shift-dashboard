@@ -134,7 +134,12 @@ export function registerPlan(app: FastifyInstance, catalogue?: OccupationCatalog
             : pathCourseIds[input.strategyId]),
         ]),
       ]
-      const scopedResourceId = resourceIdSchema.extract(resourceIds).optional()
+      // An empty enum is invalid JSON Schema (Vertex 400s), so drop resourceId when none apply.
+      const task = planDraftSchema.shape.tasks.element
+      const milestone = planDraftSchema.shape.milestones.element
+      const scopedResourceId = resourceIds.length
+        ? resourceIdSchema.extract(resourceIds).optional()
+        : undefined
       const phaseContent = planDraftSchema.shape.phases.element.omit({ id: true })
       const responseSchema = planDraftSchema.extend({
         phases: z.strictObject({
@@ -144,10 +149,18 @@ export function registerPlan(app: FastifyInstance, catalogue?: OccupationCatalog
           leadership: phaseContent,
         }),
         tasks: z
-          .array(planDraftSchema.shape.tasks.element.extend({ resourceId: scopedResourceId }))
+          .array(
+            scopedResourceId
+              ? task.extend({ resourceId: scopedResourceId })
+              : task.omit({ resourceId: true }),
+          )
           .max(30),
         milestones: z
-          .array(planDraftSchema.shape.milestones.element.extend({ resourceId: scopedResourceId }))
+          .array(
+            scopedResourceId
+              ? milestone.extend({ resourceId: scopedResourceId })
+              : milestone.omit({ resourceId: true }),
+          )
           .max(20),
       })
       const resources = Object.fromEntries(resourceIds.map((id) => [id, navigatorResources[id]]))
