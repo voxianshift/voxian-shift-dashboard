@@ -22,7 +22,7 @@ import {
   pathwayLevel,
 } from "./navigator-pathways.ts"
 import iscoTasks from "../data/isco-tasks.json" with { type: "json" }
-import onetIsco from "../data/onet-isco.json" with { type: "json" }
+import { iscoLinks as onetIsco } from "./isco-links.ts"
 import { chatConfig, completeJson, ProviderAuthError, ProviderQuotaError } from "./llm.ts"
 
 const strategyFocus = {

@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { Logo } from "@/components/logo"
-import { occupationSearchSchema, type OccupationMatch } from "@voxian/shared"
+import { libraryMatch, matchRoles, type OccupationMatch } from "@voxian/shared"
 import { toast } from "sonner"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { CvUpload } from "@/components/cv-upload"
@@ -45,7 +45,6 @@ export default function OnboardingPage() {
   const router = useRouter()
   const [index, setIndex] = useState(0)
   const [saving, setSaving] = useState(false)
-  const [matching, setMatching] = useState(false)
   const [error, setError] = useState("")
   const [roles, setRoles] = useState<OccupationMatch[]>([])
   const [fileName, setFileName] = useState("")
@@ -60,35 +59,19 @@ export default function OnboardingPage() {
     heading.current?.focus()
   }, [index])
 
-  async function matchWork() {
-    if (matching) return
-    setMatching(true)
+  function matchWork() {
     setError("")
-    try {
-      const response = await fetch(
-        `/api/occupations?q=${encodeURIComponent(profile.currentWork.trim())}`,
-        { signal: AbortSignal.timeout(10_000) },
-      )
-      if (!response.ok) {
-        const result = await response.json().catch(() => null)
-        throw new Error(
-          typeof result?.error === "string"
-            ? result.error
-            : "Role matching is unavailable. Try again.",
-        )
-      }
-      const result = occupationSearchSchema.parse(await response.json())
-      if (!result.occupations.length)
-        throw new Error("No close roles found. Try another title or a few words about your duties.")
-      setRoles(result.occupations)
-      update({ occupations: [], primaryOccupation: "", occupationNames: {} })
-      setFileName("")
-      setIndex(1)
-    } catch (failure) {
-      setError(failure instanceof Error ? failure.message : "Role matching failed. Try again.")
-    } finally {
-      setMatching(false)
+    const matches = matchRoles(profile.currentWork)
+      .map(libraryMatch)
+      .filter((role) => role !== null)
+    if (!matches.length) {
+      setError("No close roles found. Try another title, such as Bookkeeper or HR Recruiter.")
+      return
     }
+    setRoles(matches)
+    update({ occupations: [], primaryOccupation: "", occupationNames: {} })
+    setFileName("")
+    setIndex(1)
   }
 
   async function finish() {
@@ -157,14 +140,14 @@ export default function OnboardingPage() {
           className="mt-6"
           onSubmit={(event) => {
             event.preventDefault()
-            if (index === 0) void matchWork()
+            if (index === 0) matchWork()
             else if (canAdvanceOnboarding(index, profile)) {
               if (last) void finish()
               else setIndex(index + 1)
             }
           }}
         >
-          <fieldset disabled={saving || matching}>
+          <fieldset disabled={saving}>
             {index === 0 ? (
               <div className="space-y-5">
                 <label htmlFor="onboarding-name" className="block text-sm font-medium">
@@ -351,11 +334,6 @@ export default function OnboardingPage() {
               </>
             )}
           </fieldset>
-          {matching && (
-            <p role="status" className="mt-4 text-sm">
-              {index === 0 ? "Finding matching roles…" : "Loading…"}
-            </p>
-          )}
           {error && (
             <p role="alert" className="mt-4 text-sm text-destructive">
               {error}
@@ -367,7 +345,7 @@ export default function OnboardingPage() {
                 type="button"
                 variant="ghost"
                 className="mr-auto"
-                disabled={saving || matching}
+                disabled={saving}
                 onClick={() => {
                   setIndex(index - 1)
                   setError("")
@@ -377,19 +355,14 @@ export default function OnboardingPage() {
                 Back
               </Button>
             )}
-            <Button
-              type="submit"
-              disabled={saving || matching || !canAdvanceOnboarding(index, profile)}
-            >
+            <Button type="submit" disabled={saving || !canAdvanceOnboarding(index, profile)}>
               {saving
                 ? "Saving…"
-                : matching
-                  ? "Matching…"
-                  : last
-                    ? "Launch My Disruption Radar"
-                    : index === 0
-                      ? "Search roles"
-                      : "Continue"}
+                : last
+                  ? "Launch My Disruption Radar"
+                  : index === 0
+                    ? "Search roles"
+                    : "Continue"}
               <ArrowRight />
             </Button>
           </div>
