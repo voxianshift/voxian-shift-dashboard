@@ -1,6 +1,6 @@
 import { expect, test } from "vite-plus/test"
 import type { CvContext } from "@voxian/shared"
-import { cvAlignment } from "./cv-alignment"
+import { bestCvRole, cvAlignment } from "./cv-alignment"
 import { buildCareerNodes } from "./career-canvas"
 import { navigatorFixture } from "./navigator.fixture"
 
@@ -93,4 +93,17 @@ test("negative verdicts override keyword hits and fallback never infers skills f
   }
   expect(cvAlignment(["Security Code Review"], denied)).toBeNull()
   expect(cvAlignment(["Security Code Review"], denied, [])).toBeNull()
+})
+test("best CV role picks the role with the most overlapping CV words", () => {
+  expect(bestCvRole(navigatorFixture.paths)).toBeNull()
+  expect(bestCvRole(navigatorFixture.paths, { ...cv, confidence: 0.5 })).toBeNull()
+  expect(
+    bestCvRole(navigatorFixture.paths, {
+      ...cv,
+      jobTitles: ["QA Analyst"],
+      keywords: ["Software quality"],
+    }),
+  ).toBe("pivot-role-1")
+  expect(bestCvRole(navigatorFixture.paths, { ...cv, jobTitles: ["Chef"], keywords: ["Baking"] }))
+    .toBeNull()
 })

@@ -45,6 +45,7 @@ import {
 } from "@/lib/commitment"
 import { useNavigator } from "@/components/navigator-provider"
 import { NavigatorStatus } from "@/components/navigator-status"
+import { bestCvRole } from "@/lib/cv-alignment"
 import {
   buildCareerNodes,
   careerEdges,
@@ -383,6 +384,8 @@ function CanvasRoute() {
   const { data, status, profileKey } = useNavigator()
   const { profile } = useCareerProfile()
   if (status !== "ready" || !data) return <NavigatorStatus />
+  // With no explicit link target, open on the role that best fits the reviewed CV.
+  const cvRoleId = requestedPath || requestedRole ? null : bestCvRole(data.paths, profile.cvContext)
   // Derive default worldline from onboarding answers when no explicit path requested
   const defaultPathId = (() => {
     if (requestedPath) return data.paths.find((path) => path.id === requestedPath)?.id ?? null
@@ -397,11 +400,12 @@ function CanvasRoute() {
       key={`${profileKey}-${requestedPath ?? "all"}-${requestedRole}`}
       data={data}
       initialSelectedId={
-        defaultPathId &&
+        cvRoleId ??
+        (defaultPathId &&
         /^(0|[1-9]\d*)$/.test(requestedRole ?? "") &&
         data.paths.find((path) => path.id === defaultPathId)?.roles[Number(requestedRole)]
           ? `${defaultPathId}-role-${requestedRole}`
-          : defaultPathId
+          : defaultPathId)
       }
     />
   )

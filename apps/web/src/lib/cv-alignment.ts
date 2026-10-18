@@ -46,3 +46,38 @@ export function cvAlignment(
       }
     : null
 }
+
+const stopwords = new Set(
+  "and the for with from into your that this using based work role team data tools".split(" "),
+)
+const words = (values: string[]) =>
+  new Set(
+    values
+      .flatMap((value) => normalize(value).split(" "))
+      .filter((word) => word.length > 3 && !stopwords.has(word)),
+  )
+
+// ponytail: word-overlap heuristic between CV and each role's title/skills; swap for an AI ranking if fit feels off.
+export function bestCvRole(paths: CareerPath[], cv?: CvContext | null): string | null {
+  const evidence = cvEvidence(cv)
+  if (!evidence.length) return null
+  const cvWords = words([...evidence, ...cv!.jobTitles])
+  let best = { id: null as string | null, score: 0 }
+  for (const path of paths) {
+    if (path.coverage !== "available") continue
+    const pathBonus =
+      (cvAlignment(path.requiredSkills ?? [], cv, path.cvMatches)?.percentage ?? 0) / 100
+    for (const [index, role] of path.destinations.entries()) {
+      const hits = (values: string[]) => [...words(values)].filter((word) => cvWords.has(word))
+      const titleHits = hits([role.title])
+      // Title overlap counts double: a CV job title matching the role name is the strongest signal.
+      const score =
+        titleHits.length * 2 +
+        hits(role.skills ?? []).filter((word) => !titleHits.includes(word)).length
+      // Path alignment only breaks ties; a role needs at least one overlapping word to win.
+      if (score && score + pathBonus > best.score)
+        best = { id: `${path.id}-role-${index}`, score: score + pathBonus }
+    }
+  }
+  return best.id
+}
