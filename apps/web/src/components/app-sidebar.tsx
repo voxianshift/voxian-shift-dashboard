@@ -87,7 +87,7 @@ export function AppSidebar() {
           <AccountMenu />
           {!collapsed && (
             <>
-              <div className="flex-1 text-[14px]">
+              <div className="flex-1 text-[14px]" suppressHydrationWarning>
                 {profile.preferredName || "Your workspace"}
                 <p className="mt-0.5 text-[14px] text-muted-foreground">Guest · this device</p>
               </div>

@@ -33,7 +33,9 @@ export function AccountMenu() {
         aria-label="Account menu"
       >
         <Avatar>
-          <AvatarFallback className="bg-primary text-primary-foreground">{initials}</AvatarFallback>
+          <AvatarFallback suppressHydrationWarning className="bg-primary text-primary-foreground">
+            {initials}
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
