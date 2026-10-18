@@ -369,13 +369,13 @@ test("missing occupational task evidence stays unknown instead of blocking a rev
   try {
     const profile = {
       ...request().profile,
-      occupations: ["13-1199.06"],
-      primaryOccupation: "13-1199.06",
+      occupations: ["13-1199.07"],
+      primaryOccupation: "13-1199.07",
     }
     const response = await app.inject({
       method: "POST",
       url: "/plan",
-      payload: { ...request(), occupationCode: "13-1199.06", profile, destinationId: null },
+      payload: { ...request(), occupationCode: "13-1199.07", profile, destinationId: null },
     })
     expect(response.statusCode).toBe(200)
     expect(response.json().isco).toBeNull()

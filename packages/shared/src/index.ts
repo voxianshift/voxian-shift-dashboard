@@ -11,3 +11,5 @@ export * from "./plan.ts"
 export * from "./copilot.ts"
 export * from "./guest.ts"
 export * from "./cv.ts"
+
+export * from "./role-library.ts"

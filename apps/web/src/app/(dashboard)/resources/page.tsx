@@ -141,7 +141,9 @@ export default function ResourcesPage() {
                       Mapped to ISCO-08 {isco.isco} · {isco.iscoTitle}.{" "}
                       {isco.crosswalkMatch === "ai"
                         ? `AI-assisted occupation match: ${isco.mappingNote}. This mapping is an estimate, not an official crosswalk match.`
-                        : `ESCO–O*NET crosswalk match: ${isco.crosswalkMatch} · ${isco.mappingNote}. Occupation boundaries may differ.`}
+                        : isco.crosswalkMatch === "roleLibrary"
+                          ? `ISCO code from the Voxian Shift role library (ILO WP140) for ${isco.mappingNote}.`
+                          : `ESCO–O*NET crosswalk match: ${isco.crosswalkMatch} · ${isco.mappingNote}. Occupation boundaries may differ.`}
                     </p>
                   )}
                 </>

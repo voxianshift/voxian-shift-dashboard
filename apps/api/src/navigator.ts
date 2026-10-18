@@ -20,7 +20,7 @@ import { chatOwner } from "./chat-store.ts"
 import { StaleCvError, type CvVectorStore, type CvCandidates } from "./cv-vector-store.ts"
 import { chatConfig, completeJson } from "./llm.ts"
 import iscoTasks from "../data/isco-tasks.json" with { type: "json" }
-import onetIsco from "../data/onet-isco.json" with { type: "json" }
+import { iscoLinks as onetIsco } from "./isco-links.ts"
 import {
   lookupPathways,
   pathwayVersion,
