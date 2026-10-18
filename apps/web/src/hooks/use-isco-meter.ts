@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { baselineIdForOccupation, occupationCode, type CareerProfile } from "@voxian/shared"
 import { iscoMeterModel, type IscoMeterModel } from "@/lib/isco-meter"
 
 type Result = IscoMeterModel | "missing"
@@ -26,6 +27,13 @@ export function prefetchIscoMeter(code: string, title: string): Promise<Result> 
     pending.set(key, request)
   }
   return request
+}
+
+/** Warm the Meter for a profile; demonstration baselines are bundled and need no request. */
+export async function prefetchProfileMeter(profile: CareerProfile) {
+  const code = occupationCode(profile.primaryOccupation)
+  if (code && !baselineIdForOccupation(code))
+    await prefetchIscoMeter(code, profile.occupationNames[code] ?? "")
 }
 
 export function useIscoMeter(code: string, title: string, enabled: boolean) {

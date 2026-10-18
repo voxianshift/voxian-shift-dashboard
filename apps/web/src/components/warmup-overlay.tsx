@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from "react"
 import { Check, Compass, Gauge, LoaderCircle, UserRound } from "lucide-react"
-import { baselineIdForOccupation, occupationCode } from "@voxian/shared"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { useNavigator } from "@/components/navigator-provider"
-import { prefetchIscoMeter } from "@/hooks/use-isco-meter"
+import { prefetchProfileMeter } from "@/hooks/use-isco-meter"
 import { cn } from "@/lib/utils"
 
 /** Set by onboarding just before it routes into the dashboard. */
@@ -45,11 +44,8 @@ export function WarmupOverlay() {
 
   useEffect(() => {
     if (!active || !ready) return
-    const code = occupationCode(profile.primaryOccupation)
-    // Demonstration baselines are bundled; only catalogue occupations need the API model.
-    if (!code || baselineIdForOccupation(code)) return setMeterDone(true)
-    void prefetchIscoMeter(code, profile.occupationNames[code] ?? "").then(() => setMeterDone(true))
-  }, [active, ready, profile.primaryOccupation, profile.occupationNames])
+    void prefetchProfileMeter(profile).then(() => setMeterDone(true))
+  }, [active, ready, profile])
 
   const done = [ready, meterDone, navigator.status !== "loading"]
   // Reveal completed steps one at a time so each stage is readable, even when data is cached.

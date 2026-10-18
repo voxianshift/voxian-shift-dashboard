@@ -1,7 +1,12 @@
 "use client"
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
-import { navigatorContext, navigatorResultSchema, type NavigatorResult } from "@voxian/shared"
+import {
+  navigatorContext,
+  navigatorResultSchema,
+  type CareerProfile,
+  type NavigatorResult,
+} from "@voxian/shared"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { hasMeterInputs } from "@/lib/onboarding"
 
@@ -20,19 +25,69 @@ const NavigatorContext = createContext<{
 } | null>(null)
 const storageKey = "voxian-navigator-v3-cv-vector-active1"
 
+function navigatorKeys(profile: CareerProfile) {
+  const context = navigatorContext(profile)
+  // Weekly hours, flexibility and timeline shape the schedule and plan, not which directions fit,
+  // so editing them (e.g. from the commit dialog) must not regenerate paths or remount the page.
+  return {
+    key: JSON.stringify({ ...context, hours: "", flexibility: "", timeline: "" }),
+    latest: JSON.stringify(context),
+  }
+}
+
+// Shared across mounts so onboarding can start the request before the dashboard renders.
+const pending = new Map<string, Promise<NavigatorResult>>()
+function requestPaths(key: string, latest: string) {
+  let request = pending.get(key)
+  if (!request) {
+    request = (async () => {
+      const response = await fetch("/api/navigator/paths", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: AbortSignal.timeout(65_000),
+        body: JSON.stringify({ profile: JSON.parse(latest) }),
+      })
+      const body = await response.json()
+      if (!response.ok)
+        throw new Error(
+          typeof body.error === "string"
+            ? body.error.slice(0, 200)
+            : "Your paths could not be loaded.",
+        )
+      const data = navigatorResultSchema.parse(body)
+      if (data.occupationCode !== JSON.parse(key).primaryOccupation)
+        throw new Error("Your profile changed. Try again.")
+      try {
+        if (data.generationStatus !== "unavailable")
+          sessionStorage.setItem(storageKey, JSON.stringify({ key, data }))
+      } catch {
+        /* Paths remain available for this visit. */
+      }
+      return data
+    })()
+    pending.set(key, request)
+    // Failed or finished requests leave the map; the session cache serves later mounts.
+    void request.catch(() => {}).finally(() => pending.delete(key))
+  }
+  return request
+}
+
+/** Start loading paths for a just-saved profile, e.g. while onboarding hands off to the dashboard. */
+export function prefetchNavigator(profile: CareerProfile) {
+  if (!hasMeterInputs(profile)) return
+  const { key, latest } = navigatorKeys(profile)
+  void requestPaths(key, latest).catch(() => {})
+}
+
 export function NavigatorProvider({ children }: { children: ReactNode }) {
   const { profile, ready } = useCareerProfile()
   const valid = hasMeterInputs(profile)
-  const context = navigatorContext(profile)
-  const latest = JSON.stringify(context)
-  // Weekly hours, flexibility and timeline shape the schedule and plan, not which directions fit,
-  // so editing them (e.g. from the commit dialog) must not regenerate paths or remount the page.
-  const key = JSON.stringify({ ...context, hours: "", flexibility: "", timeline: "" })
+  const { key, latest } = navigatorKeys(profile)
   const [attempt, setAttempt] = useState(0)
   const [state, setState] = useState<NavigatorState>({ key: "", status: "loading" })
   useEffect(() => {
     if (!ready || !valid) return
-    const controller = new AbortController()
+    let active = true
     async function load() {
       if (attempt === 0) {
         try {
@@ -50,32 +105,10 @@ export function NavigatorProvider({ children }: { children: ReactNode }) {
       }
       setState({ key, status: "loading" })
       try {
-        const response = await fetch("/api/navigator/paths", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          signal: AbortSignal.any([controller.signal, AbortSignal.timeout(65_000)]),
-          body: JSON.stringify({ profile: JSON.parse(latest) }),
-        })
-        const body = await response.json()
-        if (!response.ok)
-          throw new Error(
-            typeof body.error === "string"
-              ? body.error.slice(0, 200)
-              : "Your paths could not be loaded.",
-          )
-        const data = navigatorResultSchema.parse(body)
-        if (data.occupationCode !== JSON.parse(key).primaryOccupation)
-          throw new Error("Your profile changed. Try again.")
-        if (controller.signal.aborted) return
-        setState({ key, status: "ready", data })
-        try {
-          if (data.generationStatus !== "unavailable")
-            sessionStorage.setItem(storageKey, JSON.stringify({ key, data }))
-        } catch {
-          /* Paths remain available for this visit. */
-        }
+        const data = await requestPaths(key, latest)
+        if (active) setState({ key, status: "ready", data })
       } catch (error) {
-        if (!controller.signal.aborted)
+        if (active)
           setState({
             key,
             status: "error",
@@ -84,7 +117,9 @@ export function NavigatorProvider({ children }: { children: ReactNode }) {
       }
     }
     void load()
-    return () => controller.abort()
+    return () => {
+      active = false
+    }
   }, [key, ready, valid, attempt])
   const current = state.key === key ? state : { key, status: "loading" as const }
   return (

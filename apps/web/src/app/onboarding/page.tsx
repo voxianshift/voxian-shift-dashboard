@@ -1,6 +1,8 @@
 "use client"
 
 import { warmupFlag } from "@/components/warmup-overlay"
+import { prefetchNavigator } from "@/components/navigator-provider"
+import { prefetchProfileMeter } from "@/hooks/use-isco-meter"
 import { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowLeft, ArrowRight, Compass } from "lucide-react"
@@ -95,6 +97,9 @@ export default function OnboardingPage() {
       const saved = await saveOccupations(profile)
       if (!(await completeOnboarding(saved)))
         throw new Error("Complete your role and learning preferences first.")
+      // Start the slow requests now; the dashboard loader and pages pick up the same promises.
+      prefetchNavigator(saved)
+      void prefetchProfileMeter(saved)
       try {
         sessionStorage.setItem(warmupFlag, "1")
       } catch {
