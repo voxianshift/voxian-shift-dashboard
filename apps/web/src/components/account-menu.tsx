@@ -38,7 +38,7 @@ export function AccountMenu() {
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
+      <DropdownMenuContent side="right" align="end" sideOffset={8} className="w-56">
         <DropdownMenuLabel className="font-normal">
           <p className="font-medium text-foreground">{name}</p>
           <p className="truncate text-xs text-muted-foreground">Profile saved in this tab</p>
