@@ -27,8 +27,10 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="h-[68px] justify-center px-4">
-        <div className="flex items-center justify-between gap-2">
+      <SidebarHeader className={`h-[68px] justify-center ${collapsed ? "px-0" : "px-4"}`}>
+        <div
+          className={`flex items-center gap-2 ${collapsed ? "justify-center" : "justify-between"}`}
+        >
           <Link
             href="/home"
             aria-label="Voxian Shift home"
@@ -62,7 +64,7 @@ export function AppSidebar() {
           ))}
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter className="gap-4 p-4">
+      <SidebarFooter className={`gap-4 ${collapsed ? "items-center px-0 py-4" : "p-4"}`}>
         <SidebarTracker
           collapsed={collapsed}
           fallback={
@@ -87,7 +89,7 @@ export function AppSidebar() {
             <span className="size-1.5 rounded-full bg-success" /> Research prototype · v0.1
           </div>
         )}
-        <div className="flex items-center gap-2.5">
+        <div className={`flex items-center gap-2.5 ${collapsed ? "justify-center" : ""}`}>
           <AccountMenu />
           {!collapsed && (
             <>
