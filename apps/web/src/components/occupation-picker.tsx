@@ -133,7 +133,7 @@ export function OccupationPicker({
             {role.match !== undefined && (
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <span className="shrink-0 cursor-help rounded-full bg-mauve-soft px-2 py-0.5 text-[12px] font-medium text-mauve-ink tabular-nums">
+                  <span className="shrink-0 cursor-help rounded-full bg-brand-soft px-2 py-0.5 text-[12px] font-medium text-brand-ink tabular-nums">
                     {role.match}% match
                   </span>
                 </TooltipTrigger>

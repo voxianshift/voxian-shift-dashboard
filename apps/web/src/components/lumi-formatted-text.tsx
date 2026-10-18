@@ -31,7 +31,7 @@ function CodeBlock({ className, children }: { className?: string; children: Reac
   return (
     <div className="my-2.5 overflow-hidden rounded-lg border border-border/70 bg-zinc-950 text-zinc-100 shadow-xs">
       <div className="flex items-center justify-between border-b border-zinc-800 bg-zinc-900/90 px-3 py-1.5 text-[11px] text-zinc-400">
-        <span className="font-mono uppercase tracking-wider text-[10px] text-cyan-400">
+        <span className="font-mono uppercase tracking-wider text-[10px] text-cyan-700 dark:text-cyan-400">
           {language}
         </span>
         <button
@@ -42,8 +42,8 @@ function CodeBlock({ className, children }: { className?: string; children: Reac
         >
           {copied ? (
             <>
-              <Check className="size-3 text-emerald-400" />
-              <span className="text-emerald-400">Copied</span>
+              <Check className="size-3 text-emerald-700 dark:text-emerald-400" />
+              <span className="text-emerald-700 dark:text-emerald-400">Copied</span>
             </>
           ) : (
             <>

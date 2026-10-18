@@ -5,7 +5,8 @@ import { prefetchNavigator } from "@/components/navigator-provider"
 import { prefetchProfileMeter } from "@/hooks/use-isco-meter"
 import { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, ArrowRight, Compass } from "lucide-react"
+import { ArrowLeft, ArrowRight } from "lucide-react"
+import { Logo } from "@/components/logo"
 import { occupationSearchSchema, type OccupationMatch } from "@voxian/shared"
 import { toast } from "sonner"
 import { useCareerProfile } from "@/components/career-profile-provider"
@@ -124,7 +125,7 @@ export default function OnboardingPage() {
     <main className="flex min-h-dvh items-center justify-center bg-background px-6 py-10 text-foreground sm:py-16">
       <div className="w-full max-w-2xl">
         <div className="mb-8 flex items-center gap-2 text-sm font-semibold">
-          <Compass className="size-5" /> Voxian Shift
+          <Logo className="size-6" /> Voxian Shift
         </div>
         <div className="mb-6 flex items-center justify-between gap-4 border-b pb-4">
           <p className="text-xs tracking-widest text-muted-foreground">
@@ -137,7 +138,7 @@ export default function OnboardingPage() {
             {onboardingSteps.map((item, position) => (
               <span
                 key={item.title}
-                className={`h-1.5 w-5 rounded-full ${position <= index ? "bg-mauve-deep dark:bg-white" : "bg-muted"}`}
+                className={`h-1.5 w-5 rounded-full ${position <= index ? "bg-brand-deep dark:bg-white" : "bg-muted"}`}
               />
             ))}
           </div>
@@ -275,7 +276,7 @@ export default function OnboardingPage() {
                 ].map((option) => (
                   <label
                     key={option.value}
-                    className="flex cursor-pointer items-start gap-3 rounded-xl border p-4 has-checked:border-mauve-deep has-checked:bg-mauve-tint-soft dark:has-checked:border-white dark:has-checked:bg-white/5"
+                    className="flex cursor-pointer items-start gap-3 rounded-xl border p-4 has-checked:border-brand-deep has-checked:bg-brand-tint-soft dark:has-checked:border-white dark:has-checked:bg-white/5"
                   >
                     <input
                       className="mt-1"

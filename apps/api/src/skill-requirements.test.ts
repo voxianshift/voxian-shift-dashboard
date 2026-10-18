@@ -2,6 +2,7 @@ import { expect, test } from "vite-plus/test"
 import { cvAssessmentSchema, pathIdSchema } from "@voxian/shared"
 import { curatedOccupationCodes } from "./navigator-pathways.ts"
 import { skillRequirements, supportedCvMatches } from "./skill-requirements.ts"
+import frozen from "../data/evaluations/cv-frozen-requirements.json" with { type: "json" }
 import diagnostic from "../data/evaluations/cv-skill-matching.json" with { type: "json" }
 
 test("every curated skill has a stable unique requirement and traceable context", () => {
@@ -20,7 +21,7 @@ test("every curated skill has a stable unique requirement and traceable context"
   )
   expect(skillRequirements("99-9999.00", "automate")).toEqual([])
   for (const example of diagnostic.cases)
-    expect(requirements.some((item) => item.label === example.label)).toBe(true)
+    expect(frozen.requirements.some((item) => item.label === example.label)).toBe(true)
 })
 test("only a single supported verdict with exact current evidence can count", () => {
   const requirements = skillRequirements("15-1252.00", "automate")
@@ -49,9 +50,8 @@ test("held-out labels are separate from development fixtures and use untuned def
   const { default: holdout } = await import("../data/evaluations/cv-skill-holdout.json", {
     with: { type: "json" },
   })
-  const requirements = curatedOccupationCodes.flatMap((code) =>
-    pathIdSchema.options.flatMap((id) => skillRequirements(code, id)),
-  )
+  const requirements = frozen.requirements
+  expect(frozen.frozenImplementation).toBe(holdout.frozenImplementation)
   expect(holdout.frozenImplementation).toBe("c3d2158")
   expect(holdout.cases).toHaveLength(40)
   expect(new Set(holdout.cases.map((item) => item.id)).size).toBe(40)

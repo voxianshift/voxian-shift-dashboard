@@ -12,7 +12,6 @@ import {
   navigatorStrategies,
   navigatorResources,
   pathCourseIds,
-  resourceIdSchema,
 } from "@voxian/shared"
 import type { OccupationCatalogue } from "./occupation-catalogue.ts"
 import {
@@ -59,7 +58,8 @@ Return tasks for exactly the supplied active first-month day IDs, once each; no 
 Return goals with IDs day-30, day-60, day-90 once each: measurable practice or portfolio outcomes achievable within the budget. firstStep is one action doable in the first scheduled week. Use synthetic/anonymised samples; do not require sharing sensitive employer or customer data.
 Hard length limits: summary ≤ 400 characters (2–3 sentences), firstStep ≤ 200, every action, deliverable, task, milestone action and goal outcome ≤ 200, every doneWhen ≤ 120.
 Every task and milestone has doneWhen: one checkable result the learner can see when the session is finished (a file, list, draft or note), sized to that session's minutes. No grades, scores or certificates as doneWhen.
-Use only supplied resource IDs. Attach the best-fitting supplied resource to most tasks and milestones, matching the phase (learning modules early, practice and portfolio resources later); omit resourceId entirely only when none fits, never null or an empty string. No URLs or new course names. Follow the selected strategy: Pivot starts with validating adjacent work, Create with mapping governance, ethics or oversight needs in the field, Hybrid with retaining human responsibilities in the same field, Automate with operating or configuring AI replacing current tasks. Do not assert a person has high automation risk, low transferability or a lower-exposure destination without supporting evidence. Hybrid is not a literal measured 50/50 split.`
+Use only supplied resource IDs. Attach the best-fitting supplied resource to most tasks and milestones, matching the phase (learning modules early, practice and portfolio resources later); omit resourceId entirely only when none fits, never null or an empty string. No URLs or new course names. Follow the selected strategy: Pivot starts with validating adjacent work, Create with mapping governance, ethics or oversight needs in the field, Hybrid with retaining human responsibilities in the same field, Automate with operating or configuring AI replacing current tasks. Do not assert a person has high automation risk, low transferability or a lower-exposure destination without supporting evidence. Hybrid is not a literal measured 50/50 split.
+Role guidance: pathway.destinations hold the target role's dayToDay activities, humanEdge, key skills and learningResources; the role's learning resources are supplied as role-N resource IDs. Distribute them across the weeks in order: foundation tasks build the key skills with role learning resources (free before paid), intermediate and advanced weeks practise each dayToDay activity on synthetic samples, and leadership weeks combine them into a deliverable that shows the humanEdge. Prefer a fitting role-N resource over a generic one, cite each role resource at least once when the schedule has room, and never imply a paid resource is required.`
 
 class ResourceCoverageError extends Error {}
 function exactIds(items: { id: string }[], expected: readonly string[]) {
@@ -157,15 +157,29 @@ export function registerPlan(app: FastifyInstance, catalogue?: OccupationCatalog
             )
             .max(20),
         })
+      // Source-provided resources for the chosen role, or for every role on this strategy.
+      const roleResources = [
+        ...new Map(
+          (destination ? [destination] : mapping.destinations)
+            .flatMap((role) => role.learningResources ?? [])
+            .map((resource) => [`${resource.title}|${resource.href}`, resource]),
+        ).values(),
+      ]
+        .slice(0, 10)
+        .map((resource, index) => ({ id: `role-${index + 1}`, ...resource }))
+      const pickIds = [...resourceIds, ...roleResources.map((resource) => resource.id)]
+      const resources = {
+        ...Object.fromEntries(resourceIds.map((id) => [id, navigatorResources[id]])),
+        ...Object.fromEntries(roleResources.map(({ id, ...resource }) => [id, resource])),
+      }
       const responseSchema = draftWith(
-        resourceIds.length ? resourceIdSchema.extract(resourceIds).optional() : undefined,
+        pickIds.length ? z.enum(pickIds as [string, ...string[]]).optional() : undefined,
       )
       // Vertex 400s once the resourceId enum passes ~4 values (schema complexity limit), so the
       // model gets a plain string; responseSchema.parse still enforces the scoped IDs.
       const wireSchema = z.toJSONSchema(
-        draftWith(resourceIds.length ? z.string().max(40).optional() : undefined),
+        draftWith(pickIds.length ? z.string().max(40).optional() : undefined),
       )
-      const resources = Object.fromEntries(resourceIds.map((id) => [id, navigatorResources[id]]))
       const crosswalk = onetIsco[input.occupationCode as keyof typeof onetIsco]
       const unit = crosswalk ? iscoTasks[crosswalk.isco as keyof typeof iscoTasks] : undefined
       const context = {
@@ -251,7 +265,7 @@ export function registerPlan(app: FastifyInstance, catalogue?: OccupationCatalog
           // Soft check: one repair attempt for thin resource coverage, then accept the plan.
           if (
             !attempt &&
-            resourceIds.length &&
+            pickIds.length &&
             picks.filter((item) => item.resourceId).length < picks.length * 0.6
           )
             throw new ResourceCoverageError(
@@ -327,6 +341,7 @@ export function registerPlan(app: FastifyInstance, catalogue?: OccupationCatalog
           day,
           outcome: validatedDraft.goals.find((goal) => goal.id === `day-${day}`)!.outcome,
         })),
+        roleResources,
       })
       stage = "schedule"
       validatePlanSchedule(plan)

@@ -1,4 +1,7 @@
 .navigator-canvas {
+  /* Light grey canvas; dark mode is dark blue below */
+  --navigator-bg: #f1f5f9;
+  --navigator-dots: #94a3b899;
   --navigator-focus-fill: 8%;
   --navigator-glow: 20%;
   --navigator-glow-strong: 20%;
@@ -8,6 +11,8 @@
   --navigator-line-glow-idle: 0.03;
 }
 .dark .navigator-canvas {
+  --navigator-bg: #050a18;
+  --navigator-dots: #22d3ee1a;
   --navigator-focus-fill: 14%;
   --navigator-glow: 100%;
   --navigator-glow-strong: 65%;

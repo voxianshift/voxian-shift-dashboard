@@ -6,9 +6,9 @@ import { cn } from "@/lib/utils"
 
 type Level = "High" | "Medium" | "Low"
 const levelColor: Record<Level, string> = {
-  High: "text-[#758879]",
-  Medium: "text-[#9a7b4f]",
-  Low: "text-[#a1655f]",
+  High: "text-success",
+  Medium: "text-amber-700 dark:text-amber-400",
+  Low: "text-destructive",
 }
 const cell = "relative px-4 pb-[23px] pt-4"
 

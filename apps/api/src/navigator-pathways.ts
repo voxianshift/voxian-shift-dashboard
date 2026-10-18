@@ -1,42 +1,49 @@
 import { z } from "zod"
-import { pathIdSchema, occupationCodeSchema, type StrategyId } from "@voxian/shared"
+import {
+  pathIdSchema,
+  occupationCodeSchema,
+  navigatorDestinationSchema,
+  type StrategyId,
+} from "@voxian/shared"
 import families from "../data/navigator-families.json" with { type: "json" }
 import data from "../data/navigator-pathways.json" with { type: "json" }
 
 const pathwaySchema = z.object({
   title: z.string().min(1).max(100),
+  orientation: z.string().min(1).max(200).optional(),
   description: z.string().min(1).max(1000),
   humanEdge: z.string().min(1).max(500),
   skills: z.array(z.string().min(1).max(100)).min(3).max(5),
   firstStep: z.string().min(1).max(300),
-  destinations: z
-    .array(
-      z.object({
-        id: z.string().min(1).max(100),
-        title: z.string().min(1).max(120),
-        kind: z.literal("curated_pathway"),
-        occupationCode: z.null(),
-      }),
-    )
-    .min(1),
+  destinations: z.array(navigatorDestinationSchema).min(1),
 })
-const occupationsSchema = z.record(
-  occupationCodeSchema,
-  z.object({
-    prototypeRole: z.string(),
-    strategies: z.partialRecord(pathIdSchema, pathwaySchema),
+const roleSchema = z.object({
+  prototypeRole: z.string(),
+  sourceTitle: z.string(),
+  sourceIsco: z.string(),
+  sourceBand: z.enum(["G1", "G2", "G3", "G4"]),
+  sourceAutomationScore: z.number().min(0).max(100),
+  strategies: z.object({
+    automate: pathwaySchema,
+    hybrid: pathwaySchema,
+    pivot: pathwaySchema,
+    create: pathwaySchema,
   }),
-)
+})
+const occupationsSchema = z.record(occupationCodeSchema, roleSchema)
 const catalogue = z
   .object({
     version: z.string(),
     source: z.string(),
     reviewNotes: z.string(),
     occupations: occupationsSchema,
+    unmappedRoles: z.record(z.string(), roleSchema),
+    sourceSha256: z.string().length(64),
   })
   .parse(data)
-// Only occupations with prototype v2.3.8 branches are supported in search and the Navigator.
+// Search requires a reviewed O*NET mapping; unmapped source roles remain preserved separately.
 export const curatedOccupationCodes = Object.keys(catalogue.occupations)
+export const unmappedRoleLibrary = catalogue.unmappedRoles
 
 export const pathwayVersion = `${catalogue.version}+${curatedOccupationCodes.length}-curated+${families.version}`
 export const pathwaySource = catalogue.source
@@ -82,12 +89,12 @@ export function pathwayRationale(strategy: StrategyId, occupationCode?: string) 
     return "Family-level exploration template, not an occupation-specific destination match. Validate task relevance, prerequisites and permitted scope; lower exposure, transferability and market demand are unverified."
   return {
     automate:
-      "Prototype maps this occupation to workflow automation practice; validate technical prerequisites before a transition.",
+      "Role library maps this occupation to workflow automation practice; validate technical prerequisites before a transition.",
     hybrid:
-      "Prototype maps this occupation to combining domain judgment with AI tools; this is an exploration pathway, not proven career fit.",
+      "Role library maps this occupation to combining domain judgment with AI tools; this is an exploration pathway, not proven career fit.",
     pivot:
-      "Prototype proposes adjacent work drawing on domain knowledge; entry requirements and transferability need individual validation.",
+      "Role library proposes adjacent work drawing on domain knowledge; entry requirements and transferability need individual validation.",
     create:
-      "Prototype maps this occupation to roles creating new value in AI governance, ethics or oversight; requirements and fit need individual validation.",
+      "Role library maps this occupation to roles creating new value in AI governance, ethics or oversight; requirements and fit need individual validation.",
   }[strategy]
 }

@@ -2,9 +2,10 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ArrowUpRight, AudioLines, ChevronUp } from "lucide-react"
+import { ArrowUpRight, ChevronUp } from "lucide-react"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { AccountMenu } from "@/components/account-menu"
+import { Logo } from "@/components/logo"
 import { SidebarTracker } from "@/components/sidebar-tracker"
 import {
   Sidebar,
@@ -26,15 +27,17 @@ export function AppSidebar() {
   const collapsed = state === "collapsed" && !isMobile
 
   return (
-    <Sidebar collapsible="icon" className="[--sidebar:#fafafa] dark:[--sidebar:#1b1b1b]">
-      <SidebarHeader className="h-[68px] justify-center px-4">
-        <div className="flex items-center justify-between gap-2">
+    <Sidebar collapsible="icon">
+      <SidebarHeader className={`h-[68px] justify-center ${collapsed ? "px-0" : "px-4"}`}>
+        <div
+          className={`flex items-center gap-2 ${collapsed ? "justify-center" : "justify-between"}`}
+        >
           <Link
             href="/home"
             aria-label="Voxian Shift home"
             className="flex items-center gap-2.5 whitespace-nowrap"
           >
-            <AudioLines className="size-6 shrink-0" strokeWidth={1.5} />
+            <Logo />
             {!collapsed && (
               <span className="text-[16px] font-semibold tracking-[-.3px]">
                 VOXIAN <span className="font-normal">SHIFT</span>
@@ -62,7 +65,7 @@ export function AppSidebar() {
           ))}
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter className="gap-4 p-4">
+      <SidebarFooter className={`gap-4 ${collapsed ? "items-center px-0 py-4" : "p-4"}`}>
         <SidebarTracker
           collapsed={collapsed}
           fallback={
@@ -84,10 +87,10 @@ export function AppSidebar() {
         />
         {!collapsed && (
           <div className="flex items-center gap-2 text-[13px] text-muted-foreground">
-            <span className="size-1.5 rounded-full bg-[#809488]" /> Research prototype · v0.1
+            <span className="size-1.5 rounded-full bg-success" /> Research prototype · v0.1
           </div>
         )}
-        <div className="flex items-center gap-2.5">
+        <div className={`flex items-center gap-2.5 ${collapsed ? "justify-center" : ""}`}>
           <AccountMenu />
           {!collapsed && (
             <>

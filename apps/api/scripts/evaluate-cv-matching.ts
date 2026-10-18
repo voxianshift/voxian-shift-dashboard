@@ -1,13 +1,9 @@
 import { writeFile, mkdir } from "node:fs/promises"
 import { z } from "zod"
-import { cvAssessmentSchema, pathIdSchema } from "@voxian/shared"
+import { cvAssessmentSchema } from "@voxian/shared"
 import { chatConfig, completeJson } from "../src/llm.ts"
-import { curatedOccupationCodes } from "../src/navigator-pathways.ts"
-import {
-  cvMatchingPrompt,
-  skillRequirements,
-  skillRequirementsVersion,
-} from "../src/skill-requirements.ts"
+import frozen from "../data/evaluations/cv-frozen-requirements.json" with { type: "json" }
+import { cvMatchingPrompt, skillRequirementsVersion } from "../src/skill-requirements.ts"
 import data from "../data/evaluations/cv-skill-matching.json" with { type: "json" }
 
 const cases = z
@@ -21,9 +17,7 @@ const cases = z
     }),
   )
   .parse(data.cases)
-const catalogue = curatedOccupationCodes.flatMap((code) =>
-  pathIdSchema.options.flatMap((id) => skillRequirements(code, id)),
-)
+const catalogue = frozen.requirements
 const schema = z
   .strictObject({ assessments: z.array(cvAssessmentSchema).length(cases.length) })
   .refine(
@@ -36,7 +30,7 @@ if (!process.argv.includes("--live")) {
     if (!catalogue.some((item) => item.label === example.label))
       throw new Error(`Missing requirement: ${example.id}`)
   console.log(
-    `Validated ${cases.length} synthetic cases; 300 requirement records. Use --live to run two provider requests.`,
+    `Validated ${cases.length} synthetic cases; ${catalogue.length} frozen historical requirement records. Use --live to run two provider requests.`,
   )
 } else {
   const config = chatConfig()
@@ -103,6 +97,7 @@ if (!process.argv.includes("--live")) {
     provider: config.label,
     model: config.model,
     requirementsVersion: skillRequirementsVersion,
+    frozenImplementation: frozen.frozenImplementation,
     casesVersion: data.version,
     limitation: data.provenance,
     retrievalGate:

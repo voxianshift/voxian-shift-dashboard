@@ -3,6 +3,7 @@
 import {
   generatedPlanSchema,
   navigatorResources,
+  planResource,
   learningPhases,
   type PlanScheduleInput,
   courseList,
@@ -169,6 +170,28 @@ export function Roadmap({
     }
   }
   const courses = courseList(selected, targetRole)
+  // Shown courses come straight from the role library JSON; the model never picks them.
+  const libraryCourses = [
+    ...new Map(
+      (targetRole === null ? selected.destinations : [selected.destinations[targetRole]!])
+        .flatMap((role) => role?.learningResources ?? [])
+        .map((resource) => [`${resource.title}|${resource.href}`, resource]),
+    ).values(),
+  ].map((resource) => ({
+    title: resource.title,
+    href: resource.href,
+    cost: resource.cost,
+    detail: resource.note
+      .replace(/\[homepage-only\]\s*/g, "")
+      .replace(/^\(([^()]*)\)$/, "$1")
+      .trim(),
+    note: "",
+    mustHave: false,
+    forRole: targetRole !== null,
+  }))
+  const shownCourses = libraryCourses.length
+    ? libraryCourses
+    : courses.map((course) => ({ ...course, detail: `${course.provider} · ${course.type}` }))
   const [phaseOverride, setPhaseOverride] = useState(0)
   function setActivePhase(index: number) {
     setPhaseOverride(index)
@@ -324,7 +347,7 @@ export function Roadmap({
                 </p>
                 <Link href="/home">Update your profile</Link>
               </div>
-              <div className="relative grid grid-cols-[1fr_2fr] gap-[65px] border-y bg-[radial-gradient(circle,#b69aa929_1px,transparent_1px)] bg-size-[16px_16px] px-10 py-8 max-[700px]:grid-cols-1 max-[700px]:gap-[25px] max-[700px]:px-2.5 max-[700px]:py-[25px]">
+              <div className="relative grid grid-cols-[1fr_2fr] gap-[65px] border-y bg-[radial-gradient(circle,var(--brand-dots)_1px,transparent_1px)] bg-size-[16px_16px] px-10 py-8 max-[700px]:grid-cols-1 max-[700px]:gap-[25px] max-[700px]:px-2.5 max-[700px]:py-[25px]">
                 <svg
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-0 size-full max-[700px]:hidden"
@@ -368,7 +391,7 @@ export function Roadmap({
                     ))}
                 </svg>
                 <div className="flex flex-col items-center justify-center text-center text-[16px] leading-[1.7]">
-                  <Compass strokeWidth={1} className="size-8 text-[#a28a9a]" />
+                  <Compass strokeWidth={1} className="size-8 text-brand" />
                   <span className={cn(eyebrow, "mt-3")}>YOU ARE HERE</span>
                   <p>{data.roleTitle}</p>
                   <span className={cn(smallTag, "mt-3")}>DAY 0</span>
@@ -384,7 +407,7 @@ export function Roadmap({
                       }}
                       className={cn(
                         "relative z-10 flex items-center gap-4 rounded-xl border bg-background p-[17px] text-left",
-                        branch === i && "border-mauve bg-mauve-tint",
+                        branch === i && "border-brand bg-brand-tint",
                       )}
                     >
                       <GitBranch className="size-5" strokeWidth={1.3} />
@@ -446,7 +469,7 @@ export function Roadmap({
                     aria-pressed={targetRole === index}
                     className={cn(
                       "h-auto min-h-10 whitespace-normal text-left text-[14px]",
-                      targetRole === index && "border-mauve bg-mauve-tint",
+                      targetRole === index && "border-brand bg-brand-tint",
                     )}
                     onClick={() => {
                       setTargetRole(targetRole === index ? null : index)
@@ -648,16 +671,22 @@ export function Roadmap({
                             />
                           </div>
                           <p>{day.task}</p>
-                          {day.resourceId && (
-                            <a
-                              className="mt-1 block underline"
-                              href={navigatorResources[day.resourceId].href}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              {navigatorResources[day.resourceId].title}
-                            </a>
-                          )}
+                          {(() => {
+                            const resource = planResource(plan.plan, day.resourceId)
+                            if (!resource) return null
+                            return resource.href ? (
+                              <a
+                                className="mt-1 block underline"
+                                href={resource.href}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                {resource.title}
+                              </a>
+                            ) : (
+                              <p className="mt-1">{resource.title}</p>
+                            )
+                          })()}
                           <p className="text-muted-foreground">
                             {day.minutes} min · sessions: {day.sessions.join(" + ")} min
                           </p>
@@ -729,18 +758,22 @@ export function Roadmap({
                             </div>
                           </div>
                           <p className="mt-2 text-sm leading-relaxed">{milestone.action}</p>
-                          {milestone.resourceId && (
-                            <a
-                              className="mt-3 inline-flex items-center gap-1.5 text-[12px] underline underline-offset-3"
-                              href={navigatorResources[milestone.resourceId].href}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <BookOpen className="size-3.5" />
-                              {navigatorResources[milestone.resourceId].title}
-                              <ArrowUpRight className="size-3" />
-                            </a>
-                          )}
+                          {(() => {
+                            const resource = planResource(plan.plan, milestone.resourceId)
+                            if (!resource) return null
+                            return (
+                              <a
+                                className="mt-3 inline-flex items-center gap-1.5 text-[12px] underline underline-offset-3"
+                                href={resource.href ?? undefined}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                <BookOpen className="size-3.5" />
+                                {resource.title}
+                                {resource.href && <ArrowUpRight className="size-3" />}
+                              </a>
+                            )
+                          })()}
                         </div>
                       </li>
                     ))}
@@ -768,20 +801,21 @@ export function Roadmap({
                 : `Courses for ${selected.roles[targetRole]}`}
             </h2>
             <p className="mt-2 text-[14px] text-muted-foreground">
-              Must have picks are the most valuable for your profile.{" "}
-              {targetRole === null
-                ? "Choose a role above to see courses for that role."
-                : "Role-specific courses follow the must haves."}
+              {libraryCourses.length
+                ? targetRole === null
+                  ? "Courses from the role library for every role on this path. Choose a role above to narrow them."
+                  : "Courses from the role library for this role."
+                : "Must have picks are the most valuable for your profile. Choose a role above to see courses for that role."}
             </p>
             <ul className="mt-4 grid grid-cols-2 gap-3 max-[700px]:grid-cols-1">
-              {courses.map((course) => (
-                <li key={course.href}>
+              {shownCourses.map((course) => (
+                <li key={`${course.title}|${course.href}`}>
                   <a
-                    href={course.href}
+                    href={course.href ?? undefined}
                     target="_blank"
                     rel="noreferrer"
                     className={cn(
-                      "group flex h-full flex-col rounded-xl border p-4 transition-colors hover:border-mauve focus-visible:outline-2 focus-visible:outline-ring",
+                      "group flex h-full flex-col rounded-xl border p-4 transition-colors hover:border-brand focus-visible:outline-2 focus-visible:outline-ring",
                       course.mustHave && "border-foreground/40",
                     )}
                   >
@@ -800,24 +834,27 @@ export function Roadmap({
                       >
                         {course.cost}
                       </Badge>
-                      <span className="text-[12px] text-muted-foreground">
-                        {course.provider} · {course.type}
-                      </span>
+                      <span className="text-[12px] text-muted-foreground">{course.detail}</span>
                     </span>
                     <span className="mt-2.5 flex items-start justify-between gap-3 text-[15px] font-medium">
                       {course.title}
-                      <ArrowUpRight className="mt-0.5 size-4 shrink-0" />
+                      {course.href && <ArrowUpRight className="mt-0.5 size-4 shrink-0" />}
                     </span>
-                    <span className="mt-1.5 text-[14px] leading-relaxed text-muted-foreground">
-                      {course.note}
-                    </span>
+                    {course.note && (
+                      <span className="mt-1.5 text-[14px] leading-relaxed text-muted-foreground">
+                        {course.note}
+                      </span>
+                    )}
                   </a>
                 </li>
               ))}
             </ul>
             <p className="mt-3 text-[12px] text-muted-foreground">
-              Official provider links checked October 2026. Fees, availability and eligibility can
-              change. Credentials do not guarantee employment.
+              {libraryCourses.length
+                ? "Resources from role library v6."
+                : "Official provider links checked October 2026."}{" "}
+              Fees, availability and eligibility can change. Credentials do not guarantee
+              employment.
             </p>
           </section>
         </div>
@@ -876,7 +913,7 @@ function phaseClass(index: number, active: number) {
     index % 2 === 1 && "border-l max-[700px]:border-l-0",
     index >= 2 && "border-t",
     index === 1 && "max-[700px]:border-t",
-    index === active && "bg-mauve-tint",
+    index === active && "bg-brand-tint",
   )
 }
 

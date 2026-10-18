@@ -6,6 +6,7 @@ import {
   navigatorDraftSchema,
   navigatorResultSchema,
   navigatorResources,
+  libraryProject,
   navigatorStrategies,
   pathIdSchema,
   movementPreferenceSchema,
@@ -54,6 +55,7 @@ Use supplied occupationalEvidence task-level exposures and transferableSkills as
 Family-level templates are broad exploration activities, not specific job matches: do not imply their taxonomy proves suitability or lower exposure. Use actual occupation tasks when supplied; do not invent tasks where evidence is missing.
 Apply supplied strategy meanings: Automate stays in the field operating/supervising/configuring AI; Hybrid retains human judgment, relationships and creativity while AI handles automatable tasks; Pivot redirects underlying skills toward different work with lower exposure to be validated; Create moves into roles that generate new value AI can't replicate, such as governance, ethics and oversight of AI in the field. High risk, low transferability and lower destination exposure require evidence; never infer them from the strategy label. Hybrid is not a measured 50/50 split. If destination titles do not establish fit, acknowledge that limitation without renaming them.
 Describe human judgment concretely; acknowledge learning prerequisites and transition costs in tradeoff. Respect time, risk and income constraints. Propose a small bridge project with synthetic/anonymised data and an achievable first-week action. Never promise promotion, income or employment, invent statistics or calculate exposure scores.
+Return destinationProjects with one bridge project for each supplied destinationId, in order. Ground each in that destination's own dayToDay, skills and humanEdge from the role library: practise one listed day-to-day activity on synthetic or anonymised data, apply one listed key skill, and name who could give feedback. Fit the user's time and risk constraints, keep it to one or two sentences, and do not reuse the same project across destinations. Never invent tools or activities absent from that destination's entry.
 Choose 1–3 resourceIds from the reviewed catalogue only. Supply destinationResources with reviewed resourceIds for each supplied destinationId when a role-specific course fits; never invent a destination ID. Do not invent URLs or call a reference/module a certification.`
 
 export function registerNavigator(
@@ -136,6 +138,7 @@ export function registerNavigator(
             "Review your occupation selection or explore another supported strategy.",
           resources: [navigatorResources.learn],
           roleResources: destinations.map(() => []),
+          roleProjects: destinations.map(libraryProject),
         }
       })
       const selected = parsed.data.selectedStrategyId
@@ -249,12 +252,20 @@ export function registerNavigator(
               )
             )
               throw new Error("Provider supplied resources for an unknown destination")
+            if (
+              narrative.destinationProjects.some(
+                (pick) =>
+                  !path.destinations.some((destination) => destination.id === pick.destinationId),
+              )
+            )
+              throw new Error("Provider supplied a project for an unknown destination")
           }
           paths = paths.map((path) => {
             if (path.coverage === "unsupported") return path
             const {
               destinationIds: _ids,
               destinationResources,
+              destinationProjects,
               resourceIds,
               cvAssessments,
               ...narrative
@@ -269,6 +280,11 @@ export function registerNavigator(
                 useVectors ? candidates!.byRequirement : undefined,
               ),
               resources: [...new Set(resourceIds)].map((id) => navigatorResources[id]),
+              roleProjects: path.destinations.map(
+                (destination) =>
+                  destinationProjects.find((pick) => pick.destinationId === destination.id)
+                    ?.project ?? libraryProject(destination),
+              ),
               roleResources: path.destinations.map((destination) =>
                 [
                   ...new Set(

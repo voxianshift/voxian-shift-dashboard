@@ -268,7 +268,7 @@ export function CommitDirectionDialog({
           />
           <section
             aria-label="Your weekly schedule"
-            className="rounded-lg bg-muted p-3 text-[14px]"
+            className="rounded-xl border border-border bg-background p-4 text-[14px]"
           >
             <p className="font-medium">Your weekly slots</p>
             <div className="mt-1 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-[12px]">
@@ -290,7 +290,7 @@ export function CommitDirectionDialog({
                 return (
                   <li
                     key={day}
-                    className={`rounded-lg border p-3 ${daySlots.length ? "border-foreground/40 bg-background" : "border-foreground/20 text-muted-foreground"}`}
+                    className={`rounded-lg border p-3 ${daySlots.length ? "border-brand/60 bg-card text-foreground ring-1 ring-brand/20" : "border-border bg-muted/40 text-muted-foreground"}`}
                   >
                     <p className="font-medium">{dayNames[day]}</p>
                     {daySlots.length ? (

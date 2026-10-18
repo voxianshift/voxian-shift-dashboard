@@ -7,9 +7,17 @@ export type LumiMascotProps = {
   className?: string
   size?: "xs" | "sm" | "md" | "lg" | number
   animated?: boolean
+  lean?: number
+  dragging?: boolean
 }
 
-export function LumiMascot({ className, size = "md", animated = true }: LumiMascotProps) {
+export function LumiMascot({
+  className,
+  size = "md",
+  animated = true,
+  lean = 0,
+  dragging = false,
+}: LumiMascotProps) {
   const id = useId().replace(/:/g, "")
 
   const sizeClasses = {
@@ -25,14 +33,15 @@ export function LumiMascot({ className, size = "md", animated = true }: LumiMasc
   return (
     <div
       className={cn("relative flex items-center justify-center shrink-0 select-none", className)}
-      style={dimensions}
+      style={{ ...dimensions, transform: `rotate(${lean}deg) scale(${dragging ? 1.04 : 1})` }}
+      data-lumi-dragging={dragging || undefined}
     >
       <svg
         viewBox="0 -16 120 172"
         className={cn(
           "overflow-visible drop-shadow-[0_12px_24px_rgba(0,0,0,0.35)]",
           typeof size === "string" ? sizeClasses[size] : "",
-          animated && "animate-pulse duration-[3000ms]",
+          animated && !dragging && "animate-lumi-hover motion-reduce:animate-none",
         )}
         style={dimensions}
         aria-hidden="true"
@@ -79,7 +88,10 @@ export function LumiMascot({ className, size = "md", animated = true }: LumiMasc
             strokeLinecap="round"
             fill="none"
           />
-          <g transform="translate(59.96, -8.00)">
+          <g
+            transform="translate(59.96, -8.00)"
+            className={animated ? "animate-lumi-beacon motion-reduce:animate-none" : undefined}
+          >
             <circle cx="0" cy="0" r="5" fill="#00f2fe" opacity={0.6} />
             <circle cx="0" cy="0" r="4.6" fill="#00f2fe" filter={`url(#lumiCyanGlow-${id})`} />
             <circle cx="0" cy="0" r="2.2" fill="#ffffff" />
@@ -88,7 +100,7 @@ export function LumiMascot({ className, size = "md", animated = true }: LumiMasc
         </g>
 
         {/* Left Arm Rig: pinned to shoulder (21, 52) */}
-        <g style={{ transformOrigin: "21px 52px" }}>
+        <g style={{ transformOrigin: "21px 52px", transform: `rotate(${-lean * 1.4}deg)` }}>
           <path
             d="M 21 52 C 11 62, 11 78, 16 92 C 18 95.5, 23 95.5, 25 91 C 26.5 80, 24.5 66, 23.5 53 C 23 50.5, 21.5 50.5, 21 52 Z"
             fill={`url(#lumiArmPearlGrad-${id})`}
@@ -133,7 +145,11 @@ export function LumiMascot({ className, size = "md", animated = true }: LumiMasc
           />
 
           {/* Arch eyes */}
-          <g filter={`url(#lumiCyanGlow-${id})`}>
+          <g
+            filter={`url(#lumiCyanGlow-${id})`}
+            className={animated ? "animate-lumi-blink motion-reduce:animate-none" : undefined}
+            style={{ transformOrigin: "60px 44px" }}
+          >
             <path
               d="M 42 45 Q 49 37 56 45"
               fill="none"
@@ -190,7 +206,7 @@ export function LumiMascot({ className, size = "md", animated = true }: LumiMasc
         </g>
 
         {/* Right Arm Rig: pinned to shoulder (99, 52) */}
-        <g style={{ transformOrigin: "99px 52px" }}>
+        <g style={{ transformOrigin: "99px 52px", transform: `rotate(${-lean * 1.1}deg)` }}>
           <path
             d="M 99 52 C 109 62, 109 78, 104 92 C 102 95.5, 97 95.5, 95 91 C 93.5 80, 95.5 66, 96.5 53 C 97 50.5, 98.5 50.5, 99 52 Z"
             fill={`url(#lumiArmPearlGrad-${id})`}

@@ -6,6 +6,7 @@ import {
   validatePlanSchedule,
   commitmentSchema,
 } from "@voxian/shared"
+import { lookupPathways } from "./navigator-pathways.ts"
 import { buildApp } from "./app.ts"
 import type { OccupationCatalogue } from "./occupation-catalogue.ts"
 
@@ -27,7 +28,7 @@ const catalogue: OccupationCatalogue = {
 const request = () => ({
   occupationCode: occupation.code,
   strategyId: "pivot",
-  destinationId: "software_dev-pivot-1",
+  destinationId: lookupPathways(occupation.code).pivot!.destinations[0]!.id,
   pace: "lean",
   profile: navigatorContext({
     ...emptyProfile,
@@ -108,11 +109,15 @@ test("all four strategies use grounded destinations and code-owned schedule/cont
   })
   const app = buildApp({ catalogue })
   try {
-    for (const strategyId of ["automate", "hybrid", "pivot", "create"]) {
+    for (const strategyId of ["automate", "hybrid", "pivot", "create"] as const) {
       const response = await app.inject({
         method: "POST",
         url: "/plan",
-        payload: { ...request(), strategyId, destinationId: `software_dev-${strategyId}-1` },
+        payload: {
+          ...request(),
+          strategyId,
+          destinationId: lookupPathways(occupation.code)[strategyId]!.destinations[0]!.id,
+        },
         remoteAddress: `127.0.0.${fetch.mock.calls.length + 1}`,
       })
       expect(response.statusCode).toBe(200)
@@ -236,7 +241,11 @@ test("invalid destination, occupation, schedule and legacy free-text requests fa
     const cases = [
       {},
       { ...request(), destinationId: "invented" },
-      { ...request(), strategyId: "create", destinationId: "software_dev-pivot-1" },
+      {
+        ...request(),
+        strategyId: "create",
+        destinationId: lookupPathways(occupation.code).pivot!.destinations[0]!.id,
+      },
       { ...request(), occupationCode: "11-1011.00" },
       { ...request(), schedule: { ...request().schedule, startDate: "2026-02-30" } },
       { ...request(), schedule: { ...request().schedule, timeZone: "invalid" } },
@@ -289,6 +298,42 @@ test("strategy-level selection is grounded without inventing a target and preser
     expect(response.json().plan.profileRevision).toMatch(/^[a-f0-9]{64}$/)
     const input = JSON.parse(JSON.parse(fetch.mock.calls[0]![1]!.body).messages[1].content)
     expect(input.pathway.destinations.length).toBeGreaterThan(1)
+  } finally {
+    await app.close()
+  }
+})
+
+test("selected role's v6 learning resources are offered as role IDs and kept on the plan", async () => {
+  const fetch = mockProvider((draft) => {
+    draft.tasks[0].resourceId = "role-1"
+  })
+  const app = buildApp({ catalogue })
+  try {
+    const response = await app.inject({ method: "POST", url: "/plan", payload: request() })
+    expect(response.statusCode).toBe(200)
+    const destination = lookupPathways(occupation.code).pivot!.destinations[0]!
+    const plan = flightPlanSchema.parse(response.json().plan)
+    expect(plan.roleResources.map(({ id: _id, ...resource }) => resource)).toEqual(
+      destination.learningResources,
+    )
+    expect(plan.firstMonth.find((day) => day.task)!.resourceId).toBe("role-1")
+    const input = JSON.parse(JSON.parse(fetch.mock.calls[0]![1]!.body).messages[1].content)
+    expect(input.resources["role-1"].title).toBe(destination.learningResources![0]!.title)
+    expect(input.pathway.destinations[0].dayToDay).toEqual(destination.dayToDay)
+  } finally {
+    await app.close()
+  }
+})
+
+test("role resource IDs beyond the supplied list are rejected", async () => {
+  mockProvider((draft) => {
+    draft.tasks[0].resourceId = "role-9"
+  })
+  const app = buildApp({ catalogue })
+  try {
+    expect(
+      (await app.inject({ method: "POST", url: "/plan", payload: request() })).statusCode,
+    ).toBe(502)
   } finally {
     await app.close()
   }
@@ -400,7 +445,7 @@ test("prototype occupation destinations generate validated plans in every strate
     catalogue: { ...catalogue, search: async (code) => (code === support.code ? [support] : []) },
   })
   try {
-    for (const strategyId of ["automate", "hybrid", "pivot", "create"]) {
+    for (const strategyId of ["automate", "hybrid", "pivot", "create"] as const) {
       const base = request()
       const response = await app.inject({
         method: "POST",
@@ -409,7 +454,7 @@ test("prototype occupation destinations generate validated plans in every strate
           ...base,
           occupationCode: support.code,
           strategyId,
-          destinationId: `cs_rep-${strategyId}-3`,
+          destinationId: lookupPathways(support.code)[strategyId]!.destinations.at(-1)!.id,
           profile: {
             ...base.profile,
             occupations: [support.code],
@@ -420,7 +465,9 @@ test("prototype occupation destinations generate validated plans in every strate
       expect(response.statusCode).toBe(200)
       const plan = flightPlanSchema.parse(response.json().plan)
       expect(plan.occupationCode).toBe(support.code)
-      expect(plan.destinationId).toBe(`cs_rep-${strategyId}-3`)
+      expect(plan.destinationId).toBe(
+        lookupPathways(support.code)[strategyId]!.destinations.at(-1)!.id,
+      )
       expect(() => validatePlanSchedule(plan)).not.toThrow()
     }
   } finally {
@@ -435,7 +482,7 @@ test("family options use same resolver in Navigator and Plan and reject another 
     catalogue: { ...catalogue, search: async (code) => (code === family.code ? [family] : []) },
   })
   try {
-    for (const strategyId of ["automate", "hybrid", "pivot", "create"]) {
+    for (const strategyId of ["automate", "hybrid", "pivot", "create"] as const) {
       const base = request()
       const payload = {
         ...base,

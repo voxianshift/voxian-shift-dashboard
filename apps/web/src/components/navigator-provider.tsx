@@ -23,7 +23,7 @@ const NavigatorContext = createContext<{
   profileKey: string
   retry: () => void
 } | null>(null)
-const storageKey = "voxian-navigator-v3-cv-vector-active1"
+const storageKey = "voxian-navigator-v3-cv-vector-active1-roles-v6"
 
 function navigatorKeys(profile: CareerProfile) {
   const context = navigatorContext(profile)

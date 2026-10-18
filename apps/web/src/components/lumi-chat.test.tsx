@@ -119,7 +119,8 @@ test("renders LumiSidebar empty state with starter questions", () => {
     createElement(LumiChatProvider, null, createElement(LumiSidebar)),
   )
   expect(html).toContain("Lumi Copilot")
-  expect(html).toContain("Hi, I&#x27;m Lumi")
+  expect(html).not.toContain("Hi, I&#x27;m Lumi")
+  expect(html).toContain("lumiBodyGrad-")
   expect(html).toContain("Suggested Questions")
   expect(html).toContain("What does G2 mean?")
   expect(html).toContain("Show me my best path")
@@ -172,4 +173,20 @@ test("renders LumiToolCallBadge in running and completed states", () => {
   expect(completedHtml).toContain("get_occupation_tasks")
   expect(completedHtml).toContain("Loaded 5 tasks")
   expect(completedHtml).toContain("✓")
+})
+
+test("floating-size Lumi exposes motion rigs and can disable decorative animation", () => {
+  const moving = renderToStaticMarkup(
+    createElement(LumiMascot, { size: 72, lean: 8, dragging: true }),
+  )
+  expect(moving).toContain("width:72px")
+  expect(moving).toContain('data-lumi-dragging="true"')
+  expect(moving).toContain("rotate(-11.2deg)")
+  expect(moving).toContain("animate-lumi-beacon")
+  expect(moving).toContain("animate-lumi-blink")
+  expect(moving).toContain("motion-reduce:animate-none")
+  const still = renderToStaticMarkup(createElement(LumiMascot, { animated: false }))
+  expect(still).not.toContain("animate-lumi-beacon")
+  expect(still).not.toContain("animate-lumi-blink")
+  expect(still).not.toContain("animate-lumi-hover")
 })

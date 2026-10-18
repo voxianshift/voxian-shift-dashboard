@@ -129,7 +129,7 @@ export default function HomePage() {
           </fieldset>
         ) : (
           <div className="flex items-start gap-4">
-            <Gauge className="mt-1 size-6 shrink-0 text-mauve-deep" aria-hidden="true" />
+            <Gauge className="mt-1 size-6 shrink-0 text-brand-deep" aria-hidden="true" />
             <div>
               <p className="text-[13px] text-muted-foreground">Your main role</p>
               <p className="mt-1 text-[20px] font-medium leading-snug">{roleName}</p>

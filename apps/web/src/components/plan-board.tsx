@@ -1,6 +1,6 @@
 "use client"
 
-import { navigatorResources } from "@voxian/shared"
+import { planResource } from "@voxian/shared"
 import { ArrowUpRight, Check, Lock, Undo2 } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -23,10 +23,10 @@ const tabs: { id: BoardStatus; label: string; empty: string }[] = [
   { id: "past", label: "Past", empty: "Logged sessions will appear here." },
 ]
 const badge: Record<BoardStatus, string> = {
-  inProgress: "border-sky-500/30 bg-sky-500/10 text-sky-700 dark:text-sky-300",
-  missed: "border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-300",
+  inProgress: "border-brand/40 bg-brand/10 text-brand-ink",
+  missed: "border-destructive/40 bg-destructive/10 text-destructive",
   upcoming: "border-foreground/20 text-muted-foreground",
-  past: "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+  past: "border-success/40 bg-success/10 text-success",
 }
 
 const shortDate = (date: string) =>
@@ -79,7 +79,7 @@ export function PlanBoard({
   const initial = tabs.find(({ id }) => counts[id])?.id ?? "upcoming"
 
   function action(item: BoardItem) {
-    const resource = item.resourceId && navigatorResources[item.resourceId]
+    const resource = planResource(commitment.plan?.plan, item.resourceId)
     if (item.status === "missed") {
       const date = item.dates.find((day) => day < today && !done.has(day))!
       return (
@@ -103,7 +103,7 @@ export function PlanBoard({
           {logLocked ? "Unlocks 30 min before session" : "Log session"}
         </Button>
       )
-    if (item.status === "upcoming" && resource)
+    if (item.status === "upcoming" && resource?.href)
       return (
         <Button size="sm" variant="outline" asChild>
           <a href={resource.href} target="_blank" rel="noreferrer">
@@ -165,7 +165,10 @@ export function PlanBoard({
                         <p className="mt-1 text-[13px] text-muted-foreground">
                           Main resources:{" "}
                           {phase.resources
-                            .map((resourceId) => navigatorResources[resourceId].title)
+                            .map(
+                              (resourceId) =>
+                                planResource(commitment.plan?.plan, resourceId)?.title,
+                            )
                             .join(" · ")}
                         </p>
                       )}
@@ -176,7 +179,7 @@ export function PlanBoard({
                   )
                 })}
                 {tabItems.map((item) => {
-                  const resource = item.resourceId && navigatorResources[item.resourceId]
+                  const resource = planResource(commitment.plan?.plan, item.resourceId)
                   const phase = phases[item.phase]
                   return (
                     <li key={item.id} className="flex flex-col gap-2 rounded-lg border p-4">
@@ -204,7 +207,7 @@ export function PlanBoard({
                             {item.suggested ? "Suggested for this phase" : "Recommended resource"}
                           </p>
                           <a
-                            href={resource.href}
+                            href={resource.href ?? undefined}
                             target="_blank"
                             rel="noreferrer"
                             className="mt-0.5 inline-flex items-center gap-1 font-medium underline-offset-4 hover:underline"
@@ -212,9 +215,13 @@ export function PlanBoard({
                             {resource.title} <ArrowUpRight className="size-3.5" />
                           </a>
                           <p className="text-[12px] text-muted-foreground">
-                            {resource.provider} · {resource.type} · {resource.cost}
+                            {resource.detail} · {resource.cost}
                           </p>
-                          <p className="mt-1 text-[12px] text-muted-foreground">{resource.note}</p>
+                          {resource.note && (
+                            <p className="mt-1 text-[12px] text-muted-foreground">
+                              {resource.note}
+                            </p>
+                          )}
                         </div>
                       )}
                       <div className="mt-auto flex justify-end">{action(item)}</div>

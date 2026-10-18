@@ -2,9 +2,9 @@ import { Badge } from "@/components/ui/badge"
 import { attendanceStatus } from "@/lib/commitment"
 
 const colors = {
-  "On track": "border-sky-500/30 bg-sky-500/10 text-sky-700 dark:text-sky-300",
-  Attended: "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
-  Missed: "border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-300",
+  "On track": "border-brand/40 bg-brand/10 text-brand-ink",
+  Attended: "border-success/40 bg-success/10 text-success",
+  Missed: "border-destructive/40 bg-destructive/10 text-destructive",
 }
 
 export function AttendanceBadge({ status }: { status: ReturnType<typeof attendanceStatus> }) {

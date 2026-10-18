@@ -10,9 +10,12 @@ import { LumiToolCallBadge } from "@/components/lumi-tool-call-badge"
 import { Button } from "@/components/ui/button"
 import Orb from "@/components/ui/orb"
 import { cn } from "@/lib/utils"
+import { clampLumiPosition, lumiTriggerSize, stepLumiSpring } from "@/lib/lumi-motion"
 
 export function LumiMobileTrigger() {
   const {
+    isOpen,
+    setIsOpen,
     isMobileOpen,
     setIsMobileOpen,
     messages,
@@ -23,26 +26,73 @@ export function LumiMobileTrigger() {
   } = useLumiChat()
 
   const [position, setPosition] = useState<{ x: number; y: number } | null>(null)
+  const [dragging, setDragging] = useState(false)
+  const [lean, setLean] = useState(0)
   const isDraggingRef = useRef(false)
-  const dragStartRef = useRef<{ x: number; y: number; startPosX: number; startPosY: number }>({
-    x: 0,
-    y: 0,
-    startPosX: 0,
-    startPosY: 0,
-  })
   const hasMovedRef = useRef(false)
+  const frameRef = useRef(0)
+  const reducedMotionRef = useRef(false)
+  const springRef = useRef({ angle: 0, velocity: 0, target: 0 })
+  const dragStartRef = useRef({ x: 0, y: 0, startPosX: 0, startPosY: 0, lastX: 0, time: 0 })
 
-  // Default initial position at bottom-right of screen
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const defaultX = window.innerWidth - 68
-      const defaultY = window.innerHeight - 100
-      setPosition({ x: defaultX, y: defaultY })
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const updateMotion = () => {
+      reducedMotionRef.current = motion.matches
+      if (motion.matches) {
+        cancelAnimationFrame(frameRef.current)
+        frameRef.current = 0
+        springRef.current = { angle: 0, velocity: 0, target: 0 }
+        setLean(0)
+      }
+    }
+    const resize = () => {
+      setPosition((current) =>
+        clampLumiPosition(
+          current?.x ?? window.innerWidth - lumiTriggerSize.width - 16,
+          current?.y ?? window.innerHeight - lumiTriggerSize.height - 80,
+          window.innerWidth,
+          window.innerHeight,
+        ),
+      )
+    }
+    updateMotion()
+    resize()
+    motion.addEventListener("change", updateMotion)
+    window.addEventListener("resize", resize)
+    return () => {
+      cancelAnimationFrame(frameRef.current)
+      motion.removeEventListener("change", updateMotion)
+      window.removeEventListener("resize", resize)
     }
   }, [])
 
-  const handlePointerDown = (e: PointerEvent<HTMLDivElement>) => {
-    if (!position) return
+  const animateSway = () => {
+    if (reducedMotionRef.current || frameRef.current) return
+    let previous = performance.now()
+    const tick = (now: number) => {
+      const spring = springRef.current
+      const next = stepLumiSpring(
+        spring.angle,
+        spring.velocity,
+        spring.target,
+        (now - previous) / 1000,
+      )
+      previous = now
+      Object.assign(spring, next)
+      setLean(next.angle)
+      if (Math.abs(next.angle - spring.target) > 0.01 || Math.abs(next.velocity) > 0.01) {
+        frameRef.current = requestAnimationFrame(tick)
+      } else {
+        frameRef.current = 0
+        setLean(spring.target)
+      }
+    }
+    frameRef.current = requestAnimationFrame(tick)
+  }
+
+  const handlePointerDown = (e: PointerEvent<HTMLButtonElement>) => {
+    if (!position || !e.isPrimary || e.button !== 0) return
     isDraggingRef.current = true
     hasMovedRef.current = false
     dragStartRef.current = {
@@ -50,49 +100,46 @@ export function LumiMobileTrigger() {
       y: e.clientY,
       startPosX: position.x,
       startPosY: position.y,
+      lastX: e.clientX,
+      time: e.timeStamp,
     }
-    ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
+    e.currentTarget.setPointerCapture(e.pointerId)
   }
 
-  const handlePointerMove = (e: PointerEvent<HTMLDivElement>) => {
+  const handlePointerMove = (e: PointerEvent<HTMLButtonElement>) => {
     if (!isDraggingRef.current) return
-    const dx = e.clientX - dragStartRef.current.x
-    const dy = e.clientY - dragStartRef.current.y
-
+    const start = dragStartRef.current
+    const dx = e.clientX - start.x
+    const dy = e.clientY - start.y
     if (Math.hypot(dx, dy) > 6) {
       hasMovedRef.current = true
+      setDragging(true)
     }
-
-    const newX = dragStartRef.current.startPosX + dx
-    const newY = dragStartRef.current.startPosY + dy
-
-    // Clamp to window bounds
-    const clampedX = Math.max(12, Math.min(window.innerWidth - 60, newX))
-    const clampedY = Math.max(60, Math.min(window.innerHeight - 80, newY))
-
-    setPosition({ x: clampedX, y: clampedY })
+    if (!hasMovedRef.current) return
+    setPosition(
+      clampLumiPosition(
+        start.startPosX + dx,
+        start.startPosY + dy,
+        window.innerWidth,
+        window.innerHeight,
+      ),
+    )
+    const velocity = (e.clientX - start.lastX) / Math.max(1, e.timeStamp - start.time)
+    springRef.current.target = Math.max(-16, Math.min(16, velocity * 9))
+    start.lastX = e.clientX
+    start.time = e.timeStamp
+    animateSway()
   }
 
-  const handlePointerUp = (e: PointerEvent<HTMLDivElement>) => {
+  const finishDrag = (e: PointerEvent<HTMLButtonElement>, cancelled = false) => {
     if (!isDraggingRef.current) return
     isDraggingRef.current = false
-    try {
-      ;(e.target as HTMLElement).releasePointerCapture(e.pointerId)
-    } catch {
-      /* ignore */
-    }
-
-    if (!hasMovedRef.current) {
-      // Tap detected! Open mobile drawer
-      setIsMobileOpen(true)
-      return
-    }
-
-    // Drag ended: Snap to nearest edge (left or right)
-    if (position) {
-      const snapX = position.x < window.innerWidth / 2 ? 16 : window.innerWidth - 68
-      setPosition((prev) => (prev ? { x: snapX, y: prev.y } : null))
-    }
+    setDragging(false)
+    if (cancelled) hasMovedRef.current = true
+    if (e.currentTarget.hasPointerCapture(e.pointerId))
+      e.currentTarget.releasePointerCapture(e.pointerId)
+    springRef.current.target = 0
+    animateSway()
   }
 
   const [input, setInput] = useState("")
@@ -113,27 +160,63 @@ export function LumiMobileTrigger() {
 
   return (
     <>
-      {/* Floating Draggable Mascot Trigger */}
+      {/* One floating control works with mouse, touch and keyboard. */}
       {position && !isMobileOpen && (
-        <div
+        <button
+          type="button"
+          aria-label="Open Lumi chat"
+          aria-describedby="lumi-drag-hint"
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
+          onPointerUp={(e) => finishDrag(e)}
+          onPointerCancel={(e) => finishDrag(e, true)}
+          onLostPointerCapture={(e) => finishDrag(e, true)}
+          onClick={(e) => {
+            if (hasMovedRef.current && e.detail !== 0) return
+            if (window.matchMedia("(min-width: 1024px)").matches) setIsOpen(true)
+            else setIsMobileOpen(true)
+          }}
+          onKeyDown={(e) => {
+            const step = e.shiftKey ? 32 : 16
+            const moves: Record<string, [number, number]> = {
+              ArrowLeft: [-step, 0],
+              ArrowRight: [step, 0],
+              ArrowUp: [0, -step],
+              ArrowDown: [0, step],
+            }
+            const move = moves[e.key]
+            if (!move) return
+            e.preventDefault()
+            setPosition(
+              clampLumiPosition(
+                position.x + move[0],
+                position.y + move[1],
+                window.innerWidth,
+                window.innerHeight,
+              ),
+            )
+          }}
           style={{
             transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
             touchAction: "none",
+            width: lumiTriggerSize.width,
+            height: lumiTriggerSize.height,
           }}
-          className="fixed top-0 left-0 z-50 lg:hidden cursor-grab active:cursor-grabbing select-none"
+          className={cn(
+            "fixed top-0 left-0 z-40 grid place-items-center rounded-2xl bg-transparent cursor-grab active:cursor-grabbing select-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring",
+            isOpen && "lg:hidden",
+          )}
         >
-          <div className="relative flex items-center justify-center size-13 rounded-full bg-card/90 border border-cyan-500/40 shadow-xl backdrop-blur-md">
-            <LumiMascot size="xs" />
-            <span className="absolute -top-1 -right-1 flex size-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-              <span className="relative inline-flex rounded-full size-3 bg-cyan-500" />
+          <div className="pointer-events-none flex flex-col items-center gap-1 animate-lumi-arrive motion-reduce:animate-none">
+            <LumiMascot size={72} lean={lean} dragging={dragging} />
+            <span className="rounded-full border border-brand/30 bg-card/95 px-3 py-1 text-[11px] font-mono font-bold text-brand-ink shadow-sm">
+              LUMI
             </span>
           </div>
-        </div>
+          <span id="lumi-drag-hint" className="sr-only">
+            Drag anywhere or use arrow keys to move. Press Enter to open Lumi.
+          </span>
+        </button>
       )}
 
       {/* Mobile Bottom Sheet Drawer */}
@@ -150,7 +233,6 @@ export function LumiMobileTrigger() {
               <div className="w-10 h-1 rounded-full bg-muted-foreground/30 mb-2" />
               <div className="w-full flex items-center justify-between pb-2.5">
                 <div className="flex items-center gap-2">
-                  <LumiMascot size="xs" />
                   <div>
                     <span className="text-[14px] font-semibold text-foreground">Lumi Copilot</span>
                     <span className="ml-1.5 rounded-full bg-cyan-500/15 px-1.5 py-0.2 text-[10px] font-medium text-cyan-700 dark:text-cyan-400">
@@ -185,10 +267,7 @@ export function LumiMobileTrigger() {
             <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-0 text-[13px]">
               {messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-4 text-center">
-                  <LumiMascot size="sm" />
-                  <h4 className="mt-2 text-[14px] font-semibold text-foreground">
-                    Hi, I&apos;m Lumi
-                  </h4>
+                  <LumiMascot size={72} />
                   <p className="mt-1 text-[12px] text-muted-foreground px-4">
                     Your AI career copilot on this page.
                   </p>
