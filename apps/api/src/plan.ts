@@ -322,7 +322,8 @@ export function registerPlan(app: FastifyInstance, catalogue?: OccupationCatalog
       request.log.warn(
         {
           stage,
-          reason: error instanceof Error ? error.name : "UnknownError",
+          reason:
+            error instanceof Error ? `${error.constructor.name}: ${error.message}` : "UnknownError",
           issues:
             error instanceof z.ZodError
               ? error.issues.map(({ code, path }) => ({ code, path }))

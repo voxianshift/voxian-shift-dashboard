@@ -135,7 +135,9 @@ export async function completeJson(
       throw new ProviderAuthError(`${config.label} credentials were not accepted`)
     if (response.status === 429 || providerError.data?.error?.status === "RESOURCE_EXHAUSTED")
       throw new ProviderQuotaError(`${config.label} quota exceeded or rate limited`)
-    throw new Error(`AI provider unavailable (${response.status})`)
+    throw new Error(
+      `AI provider unavailable (${response.status} ${providerError.data?.error.status ?? ""}): ${providerError.data?.error.message?.slice(0, 200) ?? ""}`,
+    )
   }
   const raw = await response.json()
   const text = gemini
