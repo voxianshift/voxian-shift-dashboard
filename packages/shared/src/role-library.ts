@@ -42,7 +42,7 @@ export function libraryMatch(role: LibraryRole): OccupationMatch | null {
   return {
     code: role.occupationCode,
     title: role.title,
-    description: `ILO WP140 · ISCO-08 ${role.isco} · ${role.gradient}`,
+    description: `ILO WP140 · ISCO-08 ${role.isco}`,
     category: `ISCO-08 ${role.isco}`,
     sourceVersion: "v2.4.1",
     baselineId: null,
