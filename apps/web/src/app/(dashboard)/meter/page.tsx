@@ -92,24 +92,37 @@ function ArcGauge({ score, gradient }: { score: number; gradient: string }) {
         </defs>
         {/* Background track */}
         <circle
-          cx={cx} cy={cy} r={r}
-          fill="none" stroke="#1e293b" strokeWidth="14"
+          cx={cx}
+          cy={cy}
+          r={r}
+          fill="none"
+          stroke="#1e293b"
+          strokeWidth="14"
           strokeDasharray={`${arcLen} ${circumference}`}
           strokeDashoffset={dashOffset}
           strokeLinecap="round"
         />
         {/* Dim gradient track */}
         <circle
-          cx={cx} cy={cy} r={r}
-          fill="none" stroke={`url(#${gradId}-grad)`} strokeWidth="14"
+          cx={cx}
+          cy={cy}
+          r={r}
+          fill="none"
+          stroke={`url(#${gradId}-grad)`}
+          strokeWidth="14"
           strokeDasharray={`${arcLen} ${circumference}`}
           strokeDashoffset={dashOffset}
-          strokeLinecap="round" opacity="0.25"
+          strokeLinecap="round"
+          opacity="0.25"
         />
         {/* Progress arc */}
         <circle
-          cx={cx} cy={cy} r={r}
-          fill="none" stroke={`url(#${gradId}-grad)`} strokeWidth="14"
+          cx={cx}
+          cy={cy}
+          r={r}
+          fill="none"
+          stroke={`url(#${gradId}-grad)`}
+          strokeWidth="14"
           strokeDasharray={`${filled} ${circumference}`}
           strokeDashoffset={dashOffset}
           strokeLinecap="round"
@@ -118,11 +131,61 @@ function ArcGauge({ score, gradient }: { score: number; gradient: string }) {
       </svg>
       {/* Zone labels, no rotation */}
       <svg viewBox="0 0 208 208" className="absolute inset-0 w-full h-full">
-        <text x="22"  y="170" fill="#10b981" fontSize="8" fontFamily="monospace" textAnchor="middle" opacity="0.7">Safe</text>
-        <text x="30"  y="60"  fill="#06b6d4" fontSize="8" fontFamily="monospace" textAnchor="middle" opacity="0.7">G1–2</text>
-        <text x="104" y="18"  fill="#f59e0b" fontSize="8" fontFamily="monospace" textAnchor="middle" fontWeight="bold">G3</text>
-        <text x="178" y="60"  fill="#f43f5e" fontSize="8" fontFamily="monospace" textAnchor="middle" opacity="0.7">G4</text>
-        <text x="186" y="170" fill="#9f1239" fontSize="8" fontFamily="monospace" textAnchor="middle" opacity="0.7">Max</text>
+        <text
+          x="22"
+          y="170"
+          fill="#10b981"
+          fontSize="8"
+          fontFamily="monospace"
+          textAnchor="middle"
+          opacity="0.7"
+        >
+          Safe
+        </text>
+        <text
+          x="30"
+          y="60"
+          fill="#06b6d4"
+          fontSize="8"
+          fontFamily="monospace"
+          textAnchor="middle"
+          opacity="0.7"
+        >
+          G1–2
+        </text>
+        <text
+          x="104"
+          y="18"
+          fill="#f59e0b"
+          fontSize="8"
+          fontFamily="monospace"
+          textAnchor="middle"
+          fontWeight="bold"
+        >
+          G3
+        </text>
+        <text
+          x="178"
+          y="60"
+          fill="#f43f5e"
+          fontSize="8"
+          fontFamily="monospace"
+          textAnchor="middle"
+          opacity="0.7"
+        >
+          G4
+        </text>
+        <text
+          x="186"
+          y="170"
+          fill="#9f1239"
+          fontSize="8"
+          fontFamily="monospace"
+          textAnchor="middle"
+          opacity="0.7"
+        >
+          Max
+        </text>
       </svg>
       {/* Center readout */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
@@ -133,7 +196,13 @@ function ArcGauge({ score, gradient }: { score: number; gradient: string }) {
           {ILO_GRADIENTS[gradient as keyof typeof ILO_GRADIENTS]?.label ?? "Gradient"}
         </span>
         <span className="text-[9px] font-semibold mt-0.5" style={{ color: gradeColor + "cc" }}>
-          {score >= 70 ? "High" : score >= 50 ? "Moderate–High" : score >= 30 ? "Moderate" : "Lower"}
+          {score >= 70
+            ? "High"
+            : score >= 50
+              ? "Moderate–High"
+              : score >= 30
+                ? "Moderate"
+                : "Lower"}
         </span>
       </div>
     </div>
@@ -165,7 +234,11 @@ function Meter() {
   const escalations = focus === "escalations"
 
   if (!ready)
-    return <p className="p-8 text-[16px]" role="status">Loading your profile…</p>
+    return (
+      <p className="p-8 text-[16px]" role="status">
+        Loading your profile…
+      </p>
+    )
 
   if (!example && !confirmed && canConfirmProfile(profile)) {
     const draftRole = occupationModels.find(
@@ -192,8 +265,12 @@ function Meter() {
           </p>
         </section>
         <div className="flex flex-wrap gap-3">
-          <Button onClick={() => confirm()}>Calculate my Meter <ArrowRight /></Button>
-          <Button variant="outline" onClick={() => setEditing(true)}>Edit my profile</Button>
+          <Button onClick={() => confirm()}>
+            Calculate my Meter <ArrowRight />
+          </Button>
+          <Button variant="outline" onClick={() => setEditing(true)}>
+            Edit my profile
+          </Button>
         </div>
         <ProfileSheet open={editing} onOpenChange={setEditing} />
       </div>
@@ -201,7 +278,11 @@ function Meter() {
   }
 
   if (useIsco && isco === null)
-    return <p className="p-8 text-[16px]" role="status">Loading your Meter…</p>
+    return (
+      <p className="p-8 text-[16px]" role="status">
+        Loading your Meter…
+      </p>
+    )
 
   if (!role)
     return (
@@ -257,11 +338,7 @@ function Meter() {
   const gradientInfo = ILO_GRADIENTS[gradient as keyof typeof ILO_GRADIENTS]
 
   const scoreColor =
-    score >= 60
-      ? "text-rose-400"
-      : score >= 40
-        ? "text-amber-400"
-        : "text-emerald-400"
+    score >= 60 ? "text-rose-400" : score >= 40 ? "text-amber-400" : "text-emerald-400"
 
   const scoreLabel =
     score >= 60 ? "High exposure" : score >= 40 ? "Moderate exposure" : "Low exposure"
@@ -324,9 +401,7 @@ function Meter() {
                   {gradientTag}
                 </span>
               </div>
-              <div className="mb-1 text-base font-bold text-white">
-                {scoreLabel}
-              </div>
+              <div className="mb-1 text-base font-bold text-white">{scoreLabel}</div>
               <p className="text-xs leading-relaxed text-muted-foreground">
                 {iscoRole
                   ? `ILO WP140 (May 2025) places ${iscoRole.iscoTitle ?? iscoRole.isco} in the ${gradientTag.toLowerCase()} — ${gradientInfo?.meaning ?? "based on task-level AI capability scores"}.`
@@ -336,9 +411,7 @@ function Meter() {
             <div className="mt-4 border-t border-border pt-3" aria-live="polite">
               <div className="mb-1.5 flex items-center justify-between font-mono text-[9px] text-muted-foreground">
                 <span>Not Exposed</span>
-                <span className="font-bold text-amber-400">
-                  {score.toFixed(1)} / 100
-                </span>
+                <span className="font-bold text-amber-400">{score.toFixed(1)} / 100</span>
                 <span>Max</span>
               </div>
               <div className="relative h-2 overflow-hidden rounded-full bg-border">
@@ -376,18 +449,35 @@ function Meter() {
               <svg viewBox="0 0 200 40" className="h-10 w-full">
                 <path
                   d="M 10 35 Q 50 35 80 28 Q 110 20 130 10 Q 155 2 190 2"
-                  fill="none" stroke="#1e293b" strokeWidth="2"
+                  fill="none"
+                  stroke="#1e293b"
+                  strokeWidth="2"
                 />
                 <path
                   d="M 10 35 Q 50 35 80 28 Q 110 20 130 10 Q 155 2 190 2"
-                  fill="none" stroke="#06b6d4" strokeWidth="2" strokeDasharray="5 3" opacity="0.5"
+                  fill="none"
+                  stroke="#06b6d4"
+                  strokeWidth="2"
+                  strokeDasharray="5 3"
+                  opacity="0.5"
                 />
                 <circle cx="65" cy="31" r="4" fill="#00f2fe" />
-                <text x="68" y="26" fill="#00f2fe" fontSize="7" fontFamily="monospace" fontWeight="bold">
+                <text
+                  x="68"
+                  y="26"
+                  fill="#00f2fe"
+                  fontSize="7"
+                  fontFamily="monospace"
+                  fontWeight="bold"
+                >
                   S_adj emerging
                 </text>
-                <text x="10" y="40" fill="#475569" fontSize="6" fontFamily="monospace">Minimal</text>
-                <text x="150" y="40" fill="#475569" fontSize="6" fontFamily="monospace">Mature</text>
+                <text x="10" y="40" fill="#475569" fontSize="6" fontFamily="monospace">
+                  Minimal
+                </text>
+                <text x="150" y="40" fill="#475569" fontSize="6" fontFamily="monospace">
+                  Mature
+                </text>
               </svg>
               <p className="mt-1 font-mono text-[10px] text-muted-foreground">
                 Adoption model · engine v0.2 · signals triangulated
@@ -408,8 +498,8 @@ function Meter() {
               </div>
               <div className="mb-1 text-base font-bold text-white">Indonesia: Data Pending</div>
               <p className="text-xs leading-relaxed text-muted-foreground">
-                No verified local employment outcome data available. Global signals show net headcount
-                contraction in transactional roles, partially offset by role redefinition.
+                No verified local employment outcome data available. Global signals show net
+                headcount contraction in transactional roles, partially offset by role redefinition.
               </p>
             </div>
             <div className="mt-4 flex items-start gap-2 border-t border-border pt-3">
@@ -447,7 +537,12 @@ function Meter() {
               ].map(([label, value, color]) => (
                 <div key={label} className="flex items-center justify-between text-xs">
                   <span className="flex items-center gap-2 text-muted-foreground">
-                    <span className={cn("inline-block h-2.5 w-2.5 rounded-full", color === "text-emerald-400" ? "bg-emerald-400" : "bg-rose-400")} />
+                    <span
+                      className={cn(
+                        "inline-block h-2.5 w-2.5 rounded-full",
+                        color === "text-emerald-400" ? "bg-emerald-400" : "bg-rose-400",
+                      )}
+                    />
                     {label}
                   </span>
                   <span className={cn("font-mono font-bold", color)}>{value}</span>
@@ -472,7 +567,10 @@ function Meter() {
             variant="ghost"
             size="sm"
             className="text-slate-400 hover:text-foreground"
-            onClick={() => { setOverrideFocus(null); setOverrideRole(null) }}
+            onClick={() => {
+              setOverrideFocus(null)
+              setOverrideRole(null)
+            }}
           >
             <RotateCcw className="mr-1 h-3.5 w-3.5" /> Reset
           </Button>
@@ -489,7 +587,10 @@ function Meter() {
                   variant="outline"
                   key={model.id}
                   aria-pressed={role.id === model.id}
-                  onClick={() => { setOverrideRole(model.id); setOverrideFocus(null) }}
+                  onClick={() => {
+                    setOverrideRole(model.id)
+                    setOverrideFocus(null)
+                  }}
                 >
                   {model.title}
                 </Button>
@@ -534,7 +635,9 @@ function Meter() {
         {iscoRole && (
           <details className="mt-3 text-[11px] text-muted-foreground">
             <summary className="cursor-pointer font-mono">Source & mapping</summary>
-            <p className="mt-2">ILO WP140 (2025) · Equal task weights. Task-mix controls do not apply.</p>
+            <p className="mt-2">
+              ILO WP140 (2025) · Equal task weights. Task-mix controls do not apply.
+            </p>
             <p className="mt-1">
               {iscoRole.crosswalkMatch === "ai"
                 ? `AI-assisted ISCO mapping: ${iscoRole.mappingNote}`
@@ -550,7 +653,10 @@ function Meter() {
           <span>Task Breakdown</span>
           <span>Weight / AI Capability</span>
         </div>
-        <div className="rounded-b-2xl border border-border bg-background/80 px-5" aria-live="polite">
+        <div
+          className="rounded-b-2xl border border-border bg-background/80 px-5"
+          aria-live="polite"
+        >
           {tasks.map((task, i) => (
             <div
               key={task.name}
@@ -577,7 +683,9 @@ function Meter() {
               <div className="w-24 shrink-0 text-right font-mono text-[12px]">
                 <span className="text-foreground/70">
                   {Math.round(weights[i]! * 100)}%{" "}
-                  <span className="text-muted-foreground">/ {Math.round(task.exposure * 100)}%</span>
+                  <span className="text-muted-foreground">
+                    / {Math.round(task.exposure * 100)}%
+                  </span>
                 </span>
                 <div className="mt-1.5 h-[3px] overflow-hidden rounded-full bg-border">
                   <div
@@ -591,7 +699,10 @@ function Meter() {
         </div>
         <div className="flex justify-between px-5 py-3 font-mono text-[11px] text-muted-foreground">
           <span>E = 100 × Σ(wᵢ × eᵢ)</span>
-          <Link href="/resources" className="flex items-center gap-1 hover:text-cyan-400 transition-colors">
+          <Link
+            href="/resources"
+            className="flex items-center gap-1 hover:text-cyan-400 transition-colors"
+          >
             See the math <ArrowUpRight className="h-3 w-3" />
           </Link>
         </div>
@@ -608,10 +719,9 @@ function Meter() {
           </p>
           <p className="text-[11px] leading-relaxed text-muted-foreground">
             Most evidence records predate the 2024 Indonesia-specific deployment wave for AI tools.
-            The overall confidence is{" "}
-            <span className="text-rose-400 font-semibold">Low</span> not because the global signal
-            is weak, but because the regional recency gap has not been closed. This will upgrade
-            automatically as new verified records are ingested.{" "}
+            The overall confidence is <span className="text-rose-400 font-semibold">Low</span> not
+            because the global signal is weak, but because the regional recency gap has not been
+            closed. This will upgrade automatically as new verified records are ingested.{" "}
             <span className="text-amber-400">
               Voxian does not inflate confidence to appear more decisive.
             </span>

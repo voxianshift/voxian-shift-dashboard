@@ -10,7 +10,12 @@ export type LumiMascotProps = {
   idleFloat?: boolean
 }
 
-export function LumiMascot({ className, size = "md", animated = true, idleFloat = false }: LumiMascotProps) {
+export function LumiMascot({
+  className,
+  size = "md",
+  animated = true,
+  idleFloat = false,
+}: LumiMascotProps) {
   const id = useId().replace(/:/g, "")
 
   const sizeClasses = {
@@ -93,7 +98,12 @@ export function LumiMascot({ className, size = "md", animated = true, idleFloat 
         </g>
 
         {/* Left Arm Rig: pinned to shoulder (21, 52) */}
-        <g style={{ transformOrigin: "21px 52px", animation: idleFloat ? "lumi-arm-idle 4.2s ease-in-out infinite 0.6s" : undefined }}>
+        <g
+          style={{
+            transformOrigin: "21px 52px",
+            animation: idleFloat ? "lumi-arm-idle 4.2s ease-in-out infinite 0.6s" : undefined,
+          }}
+        >
           <path
             d="M 21 52 C 11 62, 11 78, 16 92 C 18 95.5, 23 95.5, 25 91 C 26.5 80, 24.5 66, 23.5 53 C 23 50.5, 21.5 50.5, 21 52 Z"
             fill={`url(#lumiArmPearlGrad-${id})`}
@@ -195,7 +205,14 @@ export function LumiMascot({ className, size = "md", animated = true, idleFloat 
         </g>
 
         {/* Right Arm Rig: pinned to shoulder (99, 52) */}
-        <g style={{ transformOrigin: "99px 52px", animation: idleFloat ? "lumi-arm-idle 4.2s ease-in-out reverse infinite 1.2s" : undefined }}>
+        <g
+          style={{
+            transformOrigin: "99px 52px",
+            animation: idleFloat
+              ? "lumi-arm-idle 4.2s ease-in-out reverse infinite 1.2s"
+              : undefined,
+          }}
+        >
           <path
             d="M 99 52 C 109 62, 109 78, 104 92 C 102 95.5, 97 95.5, 95 91 C 93.5 80, 95.5 66, 96.5 53 C 97 50.5, 98.5 50.5, 99 52 Z"
             fill={`url(#lumiArmPearlGrad-${id})`}

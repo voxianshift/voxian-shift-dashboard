@@ -1,7 +1,7 @@
 "use client"
 
 import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react"
-import { useTheme } from "next-themes"
+
 import { toast } from "sonner"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
@@ -62,23 +62,30 @@ function scoreWorldline(strengths: string[], risk: string[]): number {
   const r = risk.join(" ").toLowerCase()
   // Strength signals
   if (s.includes("solving") || s.includes("organis") || s.includes("spotting")) {
-    scores[0] += 3; scores[1] += 1
+    scores[0] += 3
+    scores[1] += 1
   }
   if (s.includes("trust") || s.includes("build")) {
-    scores[1] += 3; scores[2] += 2
+    scores[1] += 3
+    scores[2] += 2
   }
   if (s.includes("creat") || s.includes("innovat")) {
-    scores[3] += 3; scores[2] += 2
+    scores[3] += 3
+    scores[2] += 2
   }
   // Risk signals
   if (r.includes("small") || r.includes("current job") || r.includes("conservative")) {
-    scores[1] += 3; scores[0] += 1
+    scores[1] += 3
+    scores[0] += 1
   }
   if (r.includes("open to related") || r.includes("balanced") || r.includes("moderate")) {
-    scores[2] += 3; scores[1] += 1
+    scores[2] += 3
+    scores[1] += 1
   }
   if (r.includes("bigger change") || r.includes("bold") || r.includes("high")) {
-    scores[0] += 2; scores[3] += 2; scores[2] += 1
+    scores[0] += 2
+    scores[3] += 2
+    scores[2] += 1
   }
   return scores.indexOf(Math.max(...scores))
 }
@@ -438,7 +445,7 @@ function NavigatorCanvas({
     }
   }, [data.occupationCode, params])
   const sprint = timelineSprint(profile.timeline) ?? profile.hours === "5+ hours"
-  const { resolvedTheme } = useTheme()
+
   const careerPaths = data.paths
   const careerNodes = buildCareerNodes(careerPaths, data.roleTitle, profile.cvContext)
   const [selectedId, setSelectedId] = useState<string | null>(initialSelectedId)
@@ -702,7 +709,9 @@ function NavigatorCanvas({
                   </div>
                 </section>
                 <section className="rounded-xl border border-border bg-muted p-4">
-                  <h3 className="mb-2 text-[15px] font-medium text-foreground">Why this fits your profile</h3>
+                  <h3 className="mb-2 text-[15px] font-medium text-foreground">
+                    Why this fits your profile
+                  </h3>
                   <p className="text-[15px] leading-relaxed text-muted-foreground">
                     {selected.why}
                   </p>

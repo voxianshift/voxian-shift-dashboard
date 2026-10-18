@@ -6,13 +6,7 @@ import { MAIN_NAV } from "@/lib/nav"
 import { cn } from "@/lib/utils"
 
 // Show a subset of nav items in the mobile bottom bar
-const MOBILE_NAV = [
-  "The Meter",
-  "The Curve",
-  "The Navigator",
-  "The Tracker",
-  "Methodology & Proof",
-]
+const MOBILE_NAV = ["The Meter", "The Curve", "The Navigator", "The Tracker", "Methodology & Proof"]
 
 export function MobileBottomNav() {
   const pathname = usePathname()

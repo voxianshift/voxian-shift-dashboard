@@ -34,12 +34,19 @@ export function LumiMobileTrigger() {
   // Whether intro is done (idle state)
   const [introDone, setIntroDone] = useState(false)
   // Chassis transform for the intro (translates the whole wrapper)
-  const [chassisTransform, setChassisTransform] = useState("translate3d(-300px, 180px, 0) rotate(14deg)")
+  const [chassisTransform, setChassisTransform] = useState(
+    "translate3d(-300px, 180px, 0) rotate(14deg)",
+  )
   const [chassisTransition, setChassisTransition] = useState("none")
 
   const wrapperRef = useRef<HTMLDivElement>(null)
   const isDraggingRef = useRef(false)
-  const dragStartRef = useRef<{ x: number; y: number; startPosX: number; startPosY: number }>({ x: 0, y: 0, startPosX: 0, startPosY: 0 })
+  const dragStartRef = useRef<{ x: number; y: number; startPosX: number; startPosY: number }>({
+    x: 0,
+    y: 0,
+    startPosX: 0,
+    startPosY: 0,
+  })
   const hasMovedRef = useRef(false)
   const armRef = useRef<ArmRef>({ el: null, timeouts: [] })
 
@@ -94,7 +101,10 @@ export function LumiMobileTrigger() {
         setArmRotation(-28, 0)
 
         // Arm: spring forward as Lumi decelerates
-        const t1 = setTimeout(() => setArmRotation(6, 500, "cubic-bezier(0.34, 1.56, 0.64, 1)"), 500)
+        const t1 = setTimeout(
+          () => setArmRotation(6, 500, "cubic-bezier(0.34, 1.56, 0.64, 1)"),
+          500,
+        )
         // Arm: settle
         const t2 = setTimeout(() => setArmRotation(0, 200, "ease-out"), 1350)
         // Wave sequence after landing
@@ -157,7 +167,11 @@ export function LumiMobileTrigger() {
   const handlePointerUp = (e: PointerEvent<HTMLDivElement>) => {
     if (!isDraggingRef.current) return
     isDraggingRef.current = false
-    try { (e.target as HTMLElement).releasePointerCapture(e.pointerId) } catch { /* ignore */ }
+    try {
+      ;(e.target as HTMLElement).releasePointerCapture(e.pointerId)
+    } catch {
+      /* ignore */
+    }
 
     if (!hasMovedRef.current) {
       // Tap → open chat
@@ -236,11 +250,7 @@ export function LumiMobileTrigger() {
               )}
               {/* Mascot */}
               <div ref={mascotRef}>
-                <LumiMascot
-                  size="sm"
-                  animated={false}
-                  idleFloat={introDone}
-                />
+                <LumiMascot size="sm" animated={false} idleFloat={introDone} />
               </div>
               {/* Label bubble */}
               <div
@@ -274,14 +284,27 @@ export function LumiMobileTrigger() {
                   <LumiMascot size="xs" idleFloat />
                   <div>
                     <span className="text-[14px] font-semibold text-foreground">Lumi Copilot</span>
-                    <span className="ml-1.5 rounded-full bg-cyan-500/15 px-1.5 py-0.5 text-[10px] font-medium text-cyan-400">AI</span>
+                    <span className="ml-1.5 rounded-full bg-cyan-500/15 px-1.5 py-0.5 text-[10px] font-medium text-cyan-400">
+                      AI
+                    </span>
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
-                  <Button size="icon-xs" variant="ghost" title="Clear chat" onClick={clearMessages} disabled={messages.length === 0 || isLoading}>
+                  <Button
+                    size="icon-xs"
+                    variant="ghost"
+                    title="Clear chat"
+                    onClick={clearMessages}
+                    disabled={messages.length === 0 || isLoading}
+                  >
                     <RotateCcw className="size-3.5" />
                   </Button>
-                  <Button size="icon-xs" variant="ghost" title="Close" onClick={() => setIsMobileOpen(false)}>
+                  <Button
+                    size="icon-xs"
+                    variant="ghost"
+                    title="Close"
+                    onClick={() => setIsMobileOpen(false)}
+                  >
                     <X className="size-4" />
                   </Button>
                 </div>
@@ -293,13 +316,23 @@ export function LumiMobileTrigger() {
               {messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-4 text-center">
                   <LumiMascot size="sm" idleFloat />
-                  <h4 className="mt-2 text-[14px] font-semibold text-foreground">Hi, I&apos;m Lumi</h4>
-                  <p className="mt-1 text-[12px] text-muted-foreground px-4">Your AI career copilot on this page.</p>
+                  <h4 className="mt-2 text-[14px] font-semibold text-foreground">
+                    Hi, I&apos;m Lumi
+                  </h4>
+                  <p className="mt-1 text-[12px] text-muted-foreground px-4">
+                    Your AI career copilot on this page.
+                  </p>
                   <div className="mt-4 w-full space-y-1.5 text-left">
-                    <div className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground px-1">Suggested Questions</div>
+                    <div className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground px-1">
+                      Suggested Questions
+                    </div>
                     {suggestedQuestions.map((q) => (
-                      <button key={q} type="button" onClick={() => void sendMessage(q)}
-                        className="w-full text-left rounded-lg border border-border/70 bg-background/80 p-2.5 text-[12px] text-foreground flex items-center justify-between">
+                      <button
+                        key={q}
+                        type="button"
+                        onClick={() => void sendMessage(q)}
+                        className="w-full text-left rounded-lg border border-border/70 bg-background/80 p-2.5 text-[12px] text-foreground flex items-center justify-between"
+                      >
                         <span>{q}</span>
                         <ChevronRight className="size-3.5 text-muted-foreground shrink-0 ml-2" />
                       </button>
@@ -309,30 +342,48 @@ export function LumiMobileTrigger() {
               ) : (
                 <>
                   {messages.map((m) => (
-                    <div key={m.id} className={cn("flex flex-col", m.role === "user" ? "items-end" : "items-start")}>
-                      <div className={cn("rounded-xl px-3 py-2 max-w-[88%] leading-relaxed",
-                        m.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted/60 text-foreground border border-border/60")}>
+                    <div
+                      key={m.id}
+                      className={cn(
+                        "flex flex-col",
+                        m.role === "user" ? "items-end" : "items-start",
+                      )}
+                    >
+                      <div
+                        className={cn(
+                          "rounded-xl px-3 py-2 max-w-[88%] leading-relaxed",
+                          m.role === "user"
+                            ? "bg-primary text-primary-foreground"
+                            : "bg-muted/60 text-foreground border border-border/60",
+                        )}
+                      >
                         {m.role === "user" ? (
                           <p className="whitespace-pre-wrap">{m.text}</p>
                         ) : (
                           <>
                             {m.toolCalls && m.toolCalls.length > 0 && (
                               <div className="mb-2 space-y-1">
-                                {m.toolCalls.map((tc, idx) => <LumiToolCallBadge key={`${tc.name}-${idx}`} toolCall={tc} />)}
+                                {m.toolCalls.map((tc, idx) => (
+                                  <LumiToolCallBadge key={`${tc.name}-${idx}`} toolCall={tc} />
+                                ))}
                               </div>
                             )}
-                            {m.text ? <LumiFormattedText text={m.text} /> :
-                              m.toolCalls && m.toolCalls.some((t) => t.status === "running") ? null : (
-                                <div className="flex items-center gap-2 py-0.5 text-muted-foreground">
-                                  <Orb variant="pulse" size={14} />
-                                  <span className="text-[12px]">Lumi is thinking…</span>
-                                </div>
-                              )}
+                            {m.text ? (
+                              <LumiFormattedText text={m.text} />
+                            ) : m.toolCalls &&
+                              m.toolCalls.some((t) => t.status === "running") ? null : (
+                              <div className="flex items-center gap-2 py-0.5 text-muted-foreground">
+                                <Orb variant="pulse" size={14} />
+                                <span className="text-[12px]">Lumi is thinking…</span>
+                              </div>
+                            )}
                           </>
                         )}
                         {m.actions && m.actions.length > 0 && (
                           <div className="mt-1 space-y-1.5">
-                            {m.actions.map((act, i) => <LumiActionCard key={`${act.type}-${i}`} action={act} />)}
+                            {m.actions.map((act, i) => (
+                              <LumiActionCard key={`${act.type}-${i}`} action={act} />
+                            ))}
                           </div>
                         )}
                       </div>
@@ -354,8 +405,13 @@ export function LumiMobileTrigger() {
               <div className="px-3 pt-1 pb-2 border-t border-border/50 bg-background/40">
                 <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar">
                   {suggestedQuestions.map((q) => (
-                    <button key={q} type="button" disabled={isLoading} onClick={() => void sendMessage(q)}
-                      className="rounded-full shrink-0 border border-border/70 bg-background/80 px-2.5 py-1 text-[11px] text-muted-foreground">
+                    <button
+                      key={q}
+                      type="button"
+                      disabled={isLoading}
+                      onClick={() => void sendMessage(q)}
+                      className="rounded-full shrink-0 border border-border/70 bg-background/80 px-2.5 py-1 text-[11px] text-muted-foreground"
+                    >
                       {q}
                     </button>
                   ))}
@@ -365,11 +421,27 @@ export function LumiMobileTrigger() {
 
             {/* Input Bar */}
             <div className="p-3 border-t border-border bg-background">
-              <form onSubmit={(e) => { e.preventDefault(); handleSend() }} className="flex items-center gap-2">
-                <input type="text" value={input} onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask Lumi anything…" disabled={isLoading}
-                  className="flex-1 rounded-md border border-input bg-muted/40 px-3 py-1.5 text-[13px] placeholder:text-muted-foreground focus:outline-hidden focus:ring-1 focus:ring-ring" />
-                <Button type="submit" size="icon-sm" disabled={!input.trim() || isLoading} className="size-8 shrink-0">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  handleSend()
+                }}
+                className="flex items-center gap-2"
+              >
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Ask Lumi anything…"
+                  disabled={isLoading}
+                  className="flex-1 rounded-md border border-input bg-muted/40 px-3 py-1.5 text-[13px] placeholder:text-muted-foreground focus:outline-hidden focus:ring-1 focus:ring-ring"
+                />
+                <Button
+                  type="submit"
+                  size="icon-sm"
+                  disabled={!input.trim() || isLoading}
+                  className="size-8 shrink-0"
+                >
                   <Send className="size-3.5" />
                 </Button>
               </form>

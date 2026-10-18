@@ -99,18 +99,40 @@
   --animate-lumi-antenna: lumi-antenna 2.8s ease-in-out infinite;
 
   @keyframes lumi-float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-9px); }
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-9px);
+    }
   }
   @keyframes lumi-arm-idle {
-    0%, 100% { transform: rotate(0deg); }
-    30% { transform: rotate(-6deg); }
-    70% { transform: rotate(4deg); }
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    30% {
+      transform: rotate(-6deg);
+    }
+    70% {
+      transform: rotate(4deg);
+    }
   }
   @keyframes lumi-antenna {
-    0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.9; }
-    40% { transform: rotate(-4deg) scale(1.15); opacity: 1; }
-    70% { transform: rotate(3deg) scale(0.95); opacity: 0.8; }
+    0%,
+    100% {
+      transform: rotate(0deg) scale(1);
+      opacity: 0.9;
+    }
+    40% {
+      transform: rotate(-4deg) scale(1.15);
+      opacity: 1;
+    }
+    70% {
+      transform: rotate(3deg) scale(0.95);
+      opacity: 0.8;
+    }
   }
 
   /* Lumi thinking orb (components/ui/orb.tsx) */
@@ -318,7 +340,7 @@
   --sidebar-primary-foreground: #050810;
   --sidebar-accent: #0b1628;
   --sidebar-accent-foreground: #e2e8f0;
-  --sidebar-border: rgba(148, 163, 184, 0.10);
+  --sidebar-border: rgba(148, 163, 184, 0.1);
   --sidebar-ring: #00f2fe;
 }
 
