@@ -113,13 +113,13 @@ export function registerCv(app: FastifyInstance, catalogue?: OccupationCatalogue
           .send({ error: "CV understanding is unavailable. Search your job title instead." })
       const scanned = text.replace(/\s/g, "").length < 20
       const document =
-        query.data.format === "pdf" && ["vertex", "gemini"].includes(config.provider)
+        query.data.format === "pdf"
           ? { mimeType: "application/pdf" as const, data: request.body.toString("base64") }
           : undefined
       if (scanned && !document)
         return reply.code(422).send({
           error:
-            "This CV has no readable text. Scanned PDFs require Gemini/Vertex document understanding. Use a text PDF, DOC, DOCX, or TXT file, or search your job title.",
+            "This CV has no readable text. Use a PDF, or a text DOC, DOCX, or TXT file, or search your job title.",
         })
       try {
         // Only work evidence is retained after explicit review; raw documents/text are never stored.

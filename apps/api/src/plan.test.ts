@@ -80,17 +80,19 @@ function narrative(input: any) {
 }
 function mockProvider(change?: (draft: any, input: any) => void) {
   const fetch = vi.fn().mockImplementation((_url, options) => {
-    const input = JSON.parse(JSON.parse(options.body).messages[1].content)
+    const input = JSON.parse(JSON.parse(options.body).contents[0].parts[0].text)
     const draft = narrative(input)
     change?.(draft, input)
-    return Response.json({ choices: [{ message: { content: JSON.stringify(draft) } }] })
+    return Response.json({
+      candidates: [{ content: { parts: [{ text: JSON.stringify(draft) }] } }],
+    })
   })
   vi.stubGlobal("fetch", fetch)
   return fetch
 }
 beforeEach(() => {
-  vi.stubEnv("CHAT_PROVIDER", "rootsys")
-  vi.stubEnv("ROOTSYS_API_KEY", "test-only")
+  vi.stubEnv("CHAT_PROVIDER", "gemini")
+  vi.stubEnv("GEMINI_API_KEY", "test-only")
   vi.stubEnv("DATABASE_URL", "")
 })
 afterEach(() => {
@@ -145,7 +147,9 @@ test("all four strategies use grounded destinations and code-owned schedule/cont
       expect(plan.firstMonth.filter((d) => d.kind === "task").every((d) => d.minutes === 20)).toBe(
         true,
       )
-      const input = JSON.parse(JSON.parse(fetch.mock.calls.at(-1)![1]!.body).messages[1].content)
+      const input = JSON.parse(
+        JSON.parse(fetch.mock.calls.at(-1)![1]!.body).contents[0].parts[0].text,
+      )
       expect(input.evidence.tasks.length).toBeGreaterThan(0)
       expect(input.skillContext.userStatedStrengths).toEqual(["Coding"])
       expect(input.profile.goals).toEqual(["Stability"])
@@ -296,7 +300,7 @@ test("strategy-level selection is grounded without inventing a target and preser
     expect(response.statusCode).toBe(200)
     expect(response.json().plan).toMatchObject({ destinationId: null, selectedRole: null })
     expect(response.json().plan.profileRevision).toMatch(/^[a-f0-9]{64}$/)
-    const input = JSON.parse(JSON.parse(fetch.mock.calls[0]![1]!.body).messages[1].content)
+    const input = JSON.parse(JSON.parse(fetch.mock.calls[0]![1]!.body).contents[0].parts[0].text)
     expect(input.pathway.destinations.length).toBeGreaterThan(1)
   } finally {
     await app.close()
@@ -317,7 +321,7 @@ test("selected role's v6 learning resources are offered as role IDs and kept on 
       destination.learningResources,
     )
     expect(plan.firstMonth.find((day) => day.task)!.resourceId).toBe("role-1")
-    const input = JSON.parse(JSON.parse(fetch.mock.calls[0]![1]!.body).messages[1].content)
+    const input = JSON.parse(JSON.parse(fetch.mock.calls[0]![1]!.body).contents[0].parts[0].text)
     expect(input.resources["role-1"].title).toBe(destination.learningResources![0]!.title)
     expect(input.pathway.destinations[0].dayToDay).toEqual(destination.dayToDay)
   } finally {
@@ -385,7 +389,7 @@ test("missing occupational task evidence stays unknown instead of blocking a rev
 })
 
 test("missing configuration and catalogue have explicit service errors", async () => {
-  vi.stubEnv("ROOTSYS_API_KEY", "")
+  vi.stubEnv("GEMINI_API_KEY", "")
   const app = buildApp({ catalogue })
   const missing = buildApp()
   try {
@@ -412,7 +416,9 @@ test("one bounded schema repair can recover an extra phase without weakening cov
     expect(response.statusCode).toBe(200)
     expect(fetch).toHaveBeenCalledTimes(2)
     const second = JSON.parse(fetch.mock.calls[1]![1]!.body)
-    expect(second.messages[0].content).toContain("Repair the previous schema/coverage failure")
+    expect(second.systemInstruction.parts[0].text).toContain(
+      "Repair the previous schema/coverage failure",
+    )
     expect(response.json().plan.phases).toHaveLength(4)
     expect(() => validatePlanSchedule(response.json().plan)).not.toThrow()
   } finally {
@@ -430,7 +436,7 @@ test("thin resource coverage gets one repair, then the plan is accepted as-is", 
     expect(response.statusCode).toBe(200)
     expect(fetch).toHaveBeenCalledTimes(2)
     const second = JSON.parse(fetch.mock.calls[1]![1]!.body)
-    expect(second.messages[0].content).toContain("at least 60% of tasks and milestones")
+    expect(second.systemInstruction.parts[0].text).toContain("at least 60% of tasks and milestones")
     const task = response.json().plan.firstMonth.find((day: any) => day.kind === "task")
     expect(task.doneWhen).toBe("One page of feedback notes saved.")
   } finally {
@@ -495,7 +501,9 @@ test("family options use same resolver in Navigator and Plan and reject another 
       expect(response.statusCode).toBe(200)
       const plan = flightPlanSchema.parse(response.json().plan)
       expect(plan.destinationId).toBe(payload.destinationId)
-      const input = JSON.parse(JSON.parse(fetch.mock.calls.at(-1)![1]!.body).messages[1].content)
+      const input = JSON.parse(
+        JSON.parse(fetch.mock.calls.at(-1)![1]!.body).contents[0].parts[0].text,
+      )
       expect(input.pathway.limitation).toContain("Family-level exploration template")
       const wrong = await app.inject({
         method: "POST",
@@ -556,7 +564,7 @@ test("custom daily allocation survives generation with four named phase sections
     expect(response.json().plan.schedule.dayMinutes).toEqual({ 6: 90, 0: 150 })
     expect(() => validatePlanSchedule(response.json().plan)).not.toThrow()
     const provider = JSON.parse(fetch.mock.calls[0]![1]!.body)
-    expect(provider.messages[0].content).toContain(
+    expect(provider.systemInstruction.parts[0].text).toContain(
       "Return phases as an object with exactly four keys",
     )
     expect(response.json().plan.phases.map((phase: any) => phase.id)).toEqual([
@@ -594,7 +602,7 @@ test("reviewed CV evidence reaches planning while low-confidence input is reject
       payload: { ...request(), profile: { ...request().profile, cvContext: cv } },
     })
     expect(response.statusCode).toBe(200)
-    const sent = JSON.parse(JSON.parse(fetch.mock.calls[0]![1]!.body).messages[1].content)
+    const sent = JSON.parse(JSON.parse(fetch.mock.calls[0]![1]!.body).contents[0].parts[0].text)
     expect(sent.skillContext.cvKeywords).toEqual(cv.keywords)
     expect(sent.skillContext.reviewedCvExperience).toEqual(cv.workHistory)
     expect(sent.skillContext.userStatedStrengths).toEqual(request().profile.strengths)

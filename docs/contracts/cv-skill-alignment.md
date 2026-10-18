@@ -32,7 +32,7 @@ Run the label-only versus defined-requirements comparison (two provider requests
 pnpm --filter @voxian/api cv:evaluate --live
 ```
 
-Recorded single run on 18 October 2026 used Rootsys `glm-5.3-flashx`:
+Recorded single run on 18 October 2026, made with a non-Google development model that has since been removed (re-run with Gemini before citing these figures):
 
 | Diagnostic                   | Label-only | Defined requirements |
 | ---------------------------- | ---------: | -------------------: |
@@ -62,7 +62,7 @@ Keep direct evidence verification as the default. Pgvector candidate retrieval i
 
 - Local database image: `pgvector/pgvector:0.8.7-pg18-trixie`, retaining the existing PostgreSQL 18 volume. Both old and new images reported PostgreSQL 18.6 / Debian trixie. A private pre-change dump was saved outside the repository under the user's Codex backups directory. Three existing guest profiles survived the change.
 - Migration `006_cv_vectors.sql` installs `vector` and adds `skill_requirement_vectors` plus `cv_evidence_vectors`. No HNSW index: bounded exact cosine search uses owner, current CV revision, model and reference content hash filters.
-- Vertex `gemini-embedding-001`, `SEMANTIC_SIMILARITY`, 768 dimensions. Uses application-default/service-account credentials independently of the narrative provider (`CHAT_PROVIDER` remains Rootsys locally). Region defaults to `us-central1`, overridable through `CV_EMBEDDING_REGION`. Model/task/dimensionality are part of cache identity; invalid dimensions/nonfinite or zero vectors are rejected.
+- Vertex `gemini-embedding-001`, `SEMANTIC_SIMILARITY`, 768 dimensions. Uses application-default/service-account credentials independently of the narrative provider (`CHAT_PROVIDER` selects Gemini or Vertex for narrative output). Region defaults to `us-central1`, overridable through `CV_EMBEDDING_REGION`. Model/task/dimensionality are part of cache identity; invalid dimensions/nonfinite or zero vectors are rejected.
 - All 300 reference vectors are seeded locally. Reference changes invalidate affected embeddings by input-content hash. Reviewed CV skills, keywords and duties embed on first Navigator retrieval, then reuse guest-owned cached vectors. Unreviewed/client-only CV revisions are not persisted; saved profile ownership/revision is checked before provider work and again under transaction lock before writes.
 - Six concurrent embedding requests maximum, bounded batch size and timeouts. Concurrent requests for the same owner/CV/requirements share pending preparation. No API key/token/CV phrase is logged.
 - Retrieval returns three closest phrases per requirement plus exact label/alias hits. Similarity retrieves candidates only; the LLM must still produce a supported verdict with a verbatim allowed citation. Active mode removes the full CV context from the provider profile, restricts global evidence to candidate union, and verifies every supported quote against that requirement's candidates. It never turns cosine similarity into a percentage.

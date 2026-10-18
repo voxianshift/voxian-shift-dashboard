@@ -21,7 +21,6 @@ Project `voxian-shift-app`, region `asia-southeast1`, Cloud SQL instance `voxian
 - Secret Manager API enabled.
 - Cloud SQL user `voxian_api` on `voxian-db` (random password, not stored anywhere except the secret below).
 - Secret `voxian-database-url`: `postgresql://voxian_api:…@localhost/voxian?host=/cloudsql/voxian-shift-app:asia-southeast1:voxian-db` (Cloud Run Unix socket form).
-- Secret `voxian-rootsys-api-key`: copy of the local `ROOTSYS_API_KEY`.
 
 ## Applied 2026-10-17 (kept for re-runs)
 
@@ -31,7 +30,6 @@ Project `voxian-shift-app`, region `asia-southeast1`, Cloud SQL instance `voxian
    SA=voxian-api@voxian-shift-app.iam.gserviceaccount.com
    gcloud projects add-iam-policy-binding voxian-shift-app --member=serviceAccount:$SA --role=roles/cloudsql.client --condition=None
    gcloud secrets add-iam-policy-binding voxian-database-url --member=serviceAccount:$SA --role=roles/secretmanager.secretAccessor
-   gcloud secrets add-iam-policy-binding voxian-rootsys-api-key --member=serviceAccount:$SA --role=roles/secretmanager.secretAccessor
    ```
 
 2. Migrate and import O*NET into Cloud SQL from your machine through the Cloud SQL Auth Proxy (`brew install cloud-sql-proxy`). `DATABASE_URL` uses the proxy port and the `voxian_api` password from the secret:
@@ -49,8 +47,8 @@ Project `voxian-shift-app`, region `asia-southeast1`, Cloud SQL instance `voxian
    ```sh
    gcloud run services update voxian-api --region asia-southeast1 \
      --add-cloudsql-instances voxian-shift-app:asia-southeast1:voxian-db \
-     --set-secrets DATABASE_URL=voxian-database-url:latest,ROOTSYS_API_KEY=voxian-rootsys-api-key:latest \
-     --set-env-vars WEB_ORIGIN=https://voxian-web-184581024855.asia-southeast1.run.app,CHAT_PROVIDER=rootsys,ROOTSYS_MODEL=glm-5.3-flashx
+     --set-secrets DATABASE_URL=voxian-database-url:latest \
+     --set-env-vars WEB_ORIGIN=https://voxian-web-184581024855.asia-southeast1.run.app,CHAT_PROVIDER=vertex
    ```
 
    `WEB_ORIGIN` must match the URL people open exactly; the API rejects chat and role saves from any other origin.
@@ -61,12 +59,12 @@ Project `voxian-shift-app`, region `asia-southeast1`, Cloud SQL instance `voxian
 
 ## Notes
 
-- Hackathon rule is Google Cloud only. Rootsys is an external LLM; for the submission, switch to `CHAT_PROVIDER=gemini` with a Gemini key secret.
+- Hackathon rule is Google Cloud only: the API supports only Gemini (AI Studio) and Gemini on Vertex AI.
 - Cloud SQL stops when the RM21 monthly budget kill switch fires; restore with `gcloud sql instances patch voxian-db --activation-policy ALWAYS`.
 
 ## Status 2026-10-17
 
-All steps above were applied: API service account has Cloud SQL client, secret access and Vertex AI user; migrations 001–003 and the O*NET 31.0 import ran on `voxian-db`; `voxian-api` runs with the Cloud SQL socket, `DATABASE_URL` secret, `WEB_ORIGIN` and `CHAT_PROVIDER=vertex` (Gemini on Vertex AI via the service account, no API key). The Rootsys key secret is no longer used in production.
+All steps above were applied: API service account has Cloud SQL client, secret access and Vertex AI user; migrations 001–003 and the O*NET 31.0 import ran on `voxian-db`; `voxian-api` runs with the Cloud SQL socket, `DATABASE_URL` secret, `WEB_ORIGIN` and `CHAT_PROVIDER=vertex` (Gemini on Vertex AI via the service account, no API key).
 
 ## AI provider switching
 

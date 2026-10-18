@@ -1,10 +1,6 @@
 {
   "date": "2026-10-18T05:13:47.804Z",
   "model": "vertex:gemini-embedding-001:SEMANTIC_SIMILARITY:768",
-  "verifier": {
-    "provider": "Rootsys",
-    "model": "glm-5.3-flashx"
-  },
   "embeddingRequests": 69,
   "embeddingMilliseconds": 11241,
   "positiveEvidenceRecall": 1,

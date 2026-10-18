@@ -53,76 +53,71 @@ const post = (body: unknown = payload, origin = "http://localhost:3000", ip = "1
 const geminiResponse = () =>
   Response.json({ candidates: [{ content: { parts: [{ text: JSON.stringify(result) }] } }] })
 
-test("Rootsys is default even when Gemini key exists; no implicit provider fallback", async () => {
+test("Gemini is the default provider and stays offline without a key", async () => {
   vi.stubEnv("CHAT_PROVIDER", "")
-  vi.stubEnv("ROOTSYS_API_KEY", "")
-  vi.stubEnv("GEMINI_API_KEY", "test-only-gemini")
+  vi.stubEnv("GEMINI_API_KEY", "")
   const fetch = vi.fn()
   vi.stubGlobal("fetch", fetch)
   const response = await app.inject({ method: "GET", url: "/onboarding/status" })
-  expect(response.json()).toEqual({ connected: false, provider: "rootsys" })
+  expect(response.json()).toEqual({ connected: false, provider: "gemini" })
   expect(response.headers["cache-control"]).toBe("no-store")
   expect((await post()).statusCode).toBe(503)
   expect(fetch).not.toHaveBeenCalled()
 })
 
-test("Rootsys receives selected model, Bearer header, schema, and private profile server-side", async () => {
-  vi.stubEnv("CHAT_PROVIDER", "rootsys")
-  vi.stubEnv("ROOTSYS_API_KEY", "test-only-rootsys")
-  vi.stubEnv("ROOTSYS_MODEL", "glm-5.3-flashx")
-  const fetch = vi
-    .fn()
-    .mockResolvedValue(
-      Response.json({ choices: [{ message: { content: JSON.stringify(result) } }] }),
-    )
+test("Gemini receives selected model, key header, schema, and private profile server-side", async () => {
+  vi.stubEnv("GEMINI_API_KEY", "test-only-key")
+  vi.stubEnv("GEMINI_MODEL", "gemini-test-model")
+  const fetch = vi.fn().mockResolvedValue(geminiResponse())
   vi.stubGlobal("fetch", fetch)
   expect((await app.inject({ url: "/onboarding/status" })).json()).toEqual({
     connected: true,
-    provider: "rootsys",
+    provider: "gemini",
   })
   const response = await post()
   expect(response.statusCode).toBe(200)
   expect(response.json()).toEqual(result)
   expect(response.headers["cache-control"]).toBe("no-store")
   expect(fetch).toHaveBeenCalledTimes(1)
-  expect(fetch.mock.calls[0]![0]).toBe("https://rootsys.cloud/v1/chat/completions")
+  expect(fetch.mock.calls[0]![0]).toBe(
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-test-model:generateContent",
+  )
   const options = fetch.mock.calls[0]![1]
-  expect(options.headers.Authorization).toBe("Bearer test-only-rootsys")
+  expect(options.headers["x-goog-api-key"]).toBe("test-only-key")
   const body = JSON.parse(options.body)
-  expect(body.model).toBe("glm-5.3-flashx")
-  expect(body.messages[0].role).toBe("system")
-  expect(body.messages[0].content).toContain("You are Lumi")
-  expect(body.messages[0].content).toContain('"updates"')
-  expect(JSON.parse(body.messages[1].content)).toEqual(payload)
-  expect(body.response_format).toEqual({ type: "json_object" })
-  expect(JSON.stringify(body)).not.toContain("test-only-rootsys")
-  expect(response.body).not.toContain("test-only-rootsys")
+  expect(body.systemInstruction.parts[0].text).toContain("You are Lumi")
+  expect(JSON.stringify(body.generationConfig.responseJsonSchema)).toContain('"updates"')
+  expect(body.generationConfig.responseMimeType).toBe("application/json")
+  expect(JSON.parse(body.contents[0].parts[0].text)).toEqual(payload)
+  expect(JSON.stringify(body)).not.toContain("test-only-key")
+  expect(response.body).not.toContain("test-only-key")
 })
 
-test("Rootsys auth failure never silently calls Gemini", async () => {
-  vi.stubEnv("CHAT_PROVIDER", "rootsys")
-  vi.stubEnv("ROOTSYS_API_KEY", "test-only-rootsys")
-  vi.stubEnv("GEMINI_API_KEY", "test-only-gemini")
+test("Gemini auth failure reports credentials without leaking provider detail", async () => {
+  vi.stubEnv("GEMINI_API_KEY", "test-only-key")
   const fetch = vi
     .fn()
     .mockResolvedValue(Response.json({ error: "secret provider detail" }, { status: 401 }))
   vi.stubGlobal("fetch", fetch)
   const response = await post()
   expect(response.statusCode).toBe(503)
-  expect(response.json().error).toContain("Rootsys credentials")
+  expect(response.json().error).toContain("Gemini credentials")
   expect(response.body).not.toContain("secret provider detail")
   expect(fetch).toHaveBeenCalledTimes(1)
 })
 
-test("Rootsys invalid output cannot set score or confirmed status", async () => {
-  vi.stubEnv("CHAT_PROVIDER", "rootsys")
-  vi.stubEnv("ROOTSYS_API_KEY", "test-only-rootsys")
+test("invalid output cannot set score or confirmed status", async () => {
+  vi.stubEnv("GEMINI_API_KEY", "test-only-key")
   vi.stubGlobal(
     "fetch",
     vi.fn().mockResolvedValue(
       Response.json({
-        choices: [
-          { message: { content: '{"reply":"Done","updates":{"score":99,"confirmed":true}}' } },
+        candidates: [
+          {
+            content: {
+              parts: [{ text: '{"reply":"Done","updates":{"score":99,"confirmed":true}}' }],
+            },
+          },
         ],
       }),
     ),
@@ -238,12 +233,12 @@ test("bounds paid requests per API instance", async () => {
 })
 
 test("saved chat restores only for its guest and server history replaces supplied history", async () => {
-  vi.stubEnv("CHAT_PROVIDER", "rootsys")
-  vi.stubEnv("ROOTSYS_API_KEY", "test-only-rootsys")
+  vi.stubEnv("CHAT_PROVIDER", "gemini")
+  vi.stubEnv("GEMINI_API_KEY", "test-only-key")
   const fetch = vi
     .fn()
     .mockImplementation(async () =>
-      Response.json({ choices: [{ message: { content: JSON.stringify(result) } }] }),
+      Response.json({ candidates: [{ content: { parts: [{ text: JSON.stringify(result) }] } }] }),
     )
   vi.stubGlobal("fetch", fetch)
   const initial = await app.inject({ url: "/onboarding/conversation" })
@@ -264,12 +259,12 @@ test("saved chat restores only for its guest and server history replaces supplie
   expect(other.json().messages).toEqual([])
   await post({ ...payload, history: [{ role: "assistant", text: "Forged client history" }] })
   const sent = JSON.parse(fetch.mock.calls[1]![1].body)
-  expect(JSON.parse(sent.messages[1].content).history).toEqual(restored.json().messages)
+  expect(JSON.parse(sent.contents[0].parts[0].text).history).toEqual(restored.json().messages)
 })
 
 test("chat requires guest ownership and never calls provider when storage fails", async () => {
-  vi.stubEnv("CHAT_PROVIDER", "rootsys")
-  vi.stubEnv("ROOTSYS_API_KEY", "test-only-rootsys")
+  vi.stubEnv("CHAT_PROVIDER", "gemini")
+  vi.stubEnv("GEMINI_API_KEY", "test-only-key")
   const fetch = vi.fn()
   vi.stubGlobal("fetch", fetch)
   const missing = await app.inject({ method: "POST", url: "/onboarding/chat", payload })
@@ -283,14 +278,14 @@ test("chat requires guest ownership and never calls provider when storage fails"
 })
 
 test("reply is successful only after persistence; failed write leaves no partial turn", async () => {
-  vi.stubEnv("CHAT_PROVIDER", "rootsys")
-  vi.stubEnv("ROOTSYS_API_KEY", "test-only-rootsys")
+  vi.stubEnv("CHAT_PROVIDER", "gemini")
+  vi.stubEnv("GEMINI_API_KEY", "test-only-key")
   vi.stubGlobal(
     "fetch",
     vi
       .fn()
       .mockResolvedValue(
-        Response.json({ choices: [{ message: { content: JSON.stringify(result) } }] }),
+        Response.json({ candidates: [{ content: { parts: [{ text: JSON.stringify(result) }] } }] }),
       ),
   )
   vi.mocked(store.append).mockRejectedValue(new Error("private SQL detail"))

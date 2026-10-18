@@ -114,8 +114,8 @@ test("occupation routes validate input and isolate guest selections", async () =
   }
 })
 test("Lumi returns catalogue suggestions without confirming occupation or accepting invented IDs", async () => {
-  vi.stubEnv("CHAT_PROVIDER", "rootsys")
-  vi.stubEnv("ROOTSYS_API_KEY", "test-only")
+  vi.stubEnv("CHAT_PROVIDER", "gemini")
+  vi.stubEnv("GEMINI_API_KEY", "test-only")
   const store: ChatStore = {
     history: async () => [],
     append: async () => {},
@@ -125,13 +125,17 @@ test("Lumi returns catalogue suggestions without confirming occupation or accept
   const app = buildApp({ chatStore: store, catalogue: memoryCatalogue() })
   const fetch = vi.fn().mockResolvedValue(
     Response.json({
-      choices: [
+      candidates: [
         {
-          message: {
-            content: JSON.stringify({
-              reply: "Tell me about your daily work.",
-              updates: { currentWork: "Software developer" },
-            }),
+          content: {
+            parts: [
+              {
+                text: JSON.stringify({
+                  reply: "Tell me about your daily work.",
+                  updates: { currentWork: "Software developer" },
+                }),
+              },
+            ],
           },
         },
       ],
@@ -156,10 +160,14 @@ test("Lumi returns catalogue suggestions without confirming occupation or accept
     expect(response.json().updates.occupations).toBeUndefined()
     fetch.mockResolvedValue(
       Response.json({
-        choices: [
+        candidates: [
           {
-            message: {
-              content: JSON.stringify({ reply: "Done", updates: { occupations: ["15-1252.00"] } }),
+            content: {
+              parts: [
+                {
+                  text: JSON.stringify({ reply: "Done", updates: { occupations: ["15-1252.00"] } }),
+                },
+              ],
             },
           },
         ],

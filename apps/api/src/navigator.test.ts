@@ -48,7 +48,7 @@ function catalogue(): OccupationCatalogue {
   }
 }
 function completion(body: unknown) {
-  return Response.json({ choices: [{ message: { content: JSON.stringify(body) } }] })
+  return Response.json({ candidates: [{ content: { parts: [{ text: JSON.stringify(body) }] } }] })
 }
 function draft() {
   const mappings = lookupPathways(developer.code)
@@ -74,8 +74,8 @@ function draft() {
   }
 }
 beforeEach(() => {
-  vi.stubEnv("CHAT_PROVIDER", "rootsys")
-  vi.stubEnv("ROOTSYS_API_KEY", "test-only")
+  vi.stubEnv("CHAT_PROVIDER", "gemini")
+  vi.stubEnv("GEMINI_API_KEY", "test-only")
   vi.stubEnv("DATABASE_URL", "")
 })
 afterEach(() => {
@@ -115,7 +115,7 @@ test("destinations and titles are backend lookups while narrative uses confirmed
     )
     expect(body.paths[3]!.destinations).toEqual(lookupPathways(developer.code).create!.destinations)
     const input = JSON.parse(
-      JSON.parse(fetch.mock.calls[0]![1]!.body as string).messages[1].content,
+      JSON.parse(fetch.mock.calls[0]![1]!.body as string).contents[0].parts[0].text,
     )
     expect(input.profile).toEqual(context)
     expect(input.occupationalEvidence.status).toBe("available")
@@ -221,7 +221,7 @@ test("provider title injection is stripped and repeated generation preserves des
 })
 
 test("no key retains reviewed roles; missing mapping makes no AI call and invents nothing", async () => {
-  vi.stubEnv("ROOTSYS_API_KEY", "")
+  vi.stubEnv("GEMINI_API_KEY", "")
   const fetch = vi.fn()
   vi.stubGlobal("fetch", fetch)
   const app = buildApp({ catalogue: catalogue() })
@@ -235,7 +235,7 @@ test("no key retains reviewed roles; missing mapping makes no AI call and invent
     expect(response.json().paths[0].destinations).toEqual(
       lookupPathways(developer.code).automate!.destinations,
     )
-    vi.stubEnv("ROOTSYS_API_KEY", "test-only")
+    vi.stubEnv("GEMINI_API_KEY", "test-only")
     const missing = await app.inject({
       method: "POST",
       url: "/navigator/paths",
@@ -284,7 +284,7 @@ test("invalid or foreign requests never call provider", async () => {
   }
 })
 test("all reviewed source mappings return valid grounded fallback results without provider", async () => {
-  vi.stubEnv("ROOTSYS_API_KEY", "")
+  vi.stubEnv("GEMINI_API_KEY", "")
   const { default: data } = await import("../data/navigator-pathways.json", {
     with: { type: "json" },
   })
@@ -318,7 +318,7 @@ test("all reviewed source mappings return valid grounded fallback results withou
 
 test("missing task evidence stays unknown while reviewed Create remains available", async () => {
   const fetch = vi.fn().mockImplementation((_url, options) => {
-    const input = JSON.parse(JSON.parse(options.body).messages[1].content)
+    const input = JSON.parse(JSON.parse(options.body).contents[0].parts[0].text)
     expect(input.occupationalEvidence).toMatchObject({
       status: "unavailable",
       mapping: null,
@@ -419,7 +419,7 @@ test("invented destination-specific resource IDs cannot bypass grounded lookup",
 })
 
 test("prototype occupation returns fixed coverage for all four strategies without an LLM", async () => {
-  vi.stubEnv("ROOTSYS_API_KEY", "")
+  vi.stubEnv("GEMINI_API_KEY", "")
   const app = buildApp({ catalogue: catalogue() })
   try {
     const response = await app.inject({
@@ -444,7 +444,7 @@ test("prototype occupation returns fixed coverage for all four strategies withou
 })
 
 test("family-only occupation gets transparent fixed exploration options without provider", async () => {
-  vi.stubEnv("ROOTSYS_API_KEY", "")
+  vi.stubEnv("GEMINI_API_KEY", "")
   const app = buildApp({ catalogue: catalogue() })
   try {
     const response = await app.inject({
@@ -523,7 +523,7 @@ test("semantic matches retain only fixed requirements backed by reviewed CV evid
       { skill, evidence: "Reviewed tool experience", reason: "Equivalent tool experience" },
     ])
     const input = JSON.parse(
-      JSON.parse(fetch.mock.calls[0]![1]!.body as string).messages[1].content,
+      JSON.parse(fetch.mock.calls[0]![1]!.body as string).contents[0].parts[0].text,
     )
     expect(input.cvEvidence).toEqual(["Reviewed tool experience", "Development"])
     const noCv = await app.inject({
@@ -582,7 +582,7 @@ test("vector candidates constrain active evidence; failures retain exhaustive CV
     })
     expect(response.statusCode).toBe(200)
     const input = JSON.parse(
-      JSON.parse(fetch.mock.calls[0]![1]!.body as string).messages[1].content,
+      JSON.parse(fetch.mock.calls[0]![1]!.body as string).contents[0].parts[0].text,
     )
     expect(candidates).toHaveBeenCalledOnce()
     expect(input.profile).not.toHaveProperty("cvContext")
@@ -596,7 +596,7 @@ test("vector candidates constrain active evidence; failures retain exhaustive CV
       payload: { profile },
     })
     const fallback = JSON.parse(
-      JSON.parse(fetch.mock.calls[1]![1]!.body as string).messages[1].content,
+      JSON.parse(fetch.mock.calls[1]![1]!.body as string).contents[0].parts[0].text,
     )
     expect(fallback.profile.cvContext).toEqual(profile.cvContext)
     expect(fallback.cvEvidence).toContain("Unrelated evidence")

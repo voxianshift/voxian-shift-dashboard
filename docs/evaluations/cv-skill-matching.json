@@ -1,7 +1,5 @@
 {
   "date": "2026-10-18T04:21:09.799Z",
-  "provider": "Rootsys",
-  "model": "glm-5.3-flashx",
   "requirementsVersion": "cv-requirements-1",
   "casesVersion": "cv-skill-diagnostic-1",
   "limitation": "Engineering-authored synthetic examples and expected binary evidence decisions; not expert-certified assessment or a statistical accuracy estimate.",

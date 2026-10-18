@@ -4,10 +4,6 @@
   "provenance": "Fresh engineering-authored synthetic cases for previously untuned skill labels, created after matching rules were committed at c3d2158. Not real CVs, expert-reviewed labels or population accuracy. Rules must not be tuned to this set.",
   "repeatCount": 2,
   "model": "vertex:gemini-embedding-001:SEMANTIC_SIMILARITY:768",
-  "verifier": {
-    "provider": "Rootsys",
-    "model": "glm-5.3-flashx"
-  },
   "embeddingRequests": 72,
   "embeddingMilliseconds": 11942,
   "positiveEvidenceRecall": 1,

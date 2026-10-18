@@ -41,7 +41,7 @@ flowchart LR
   API -->|pg TCP localhost:5433| PG[(Docker PostgreSQL 18)]
   PG --- Volume[Named pgdata volume]
   API --> Data[Versioned JSON datasets]
-  API -->|Configured provider only| AI[Rootsys / Gemini / Vertex AI]
+  API -->|Configured provider only| AI[Gemini / Vertex AI]
 ```
 
 Only PostgreSQL runs in Docker during the normal local workflow. Web and API run as host Node processes. Docker publishes host port `5433` to database container port `5432`; `DATABASE_URL` used by the host API must use `5433`.
@@ -359,7 +359,6 @@ The [API Dockerfile](apps/api/Dockerfile) installs production dependencies and r
 
 | `CHAT_PROVIDER` | Credentials                                                           | Model selection                                 |
 | --------------- | --------------------------------------------------------------------- | ----------------------------------------------- |
-| `rootsys`       | Server-side `ROOTSYS_API_KEY`                                         | `ROOTSYS_MODEL`; code default `glm-5.3-flashx`  |
 | `gemini`        | Server-side `GEMINI_API_KEY`                                          | `GEMINI_MODEL`; code default `gemini-3.8-flash` |
 | `vertex`        | Application Default Credentials; runtime service account on Cloud Run | `VERTEX_MODEL`; code default `gemini-2.5-flash` |
 
@@ -460,4 +459,4 @@ When changing routes, persistence, schemas, provider defaults, deployment steps 
 
 ### CV vector retrieval: local implementation update (18 October 2026)
 
-Local pgvector 0.8.7 supports guest-isolated CV evidence retrieval. Reference vectors are seeded for 300 requirements; reviewed CV phrases embed lazily through Vertex `gemini-embedding-001` (768 dimensions, semantic similarity), independently of the Rootsys narrative provider. Migration 006 creates separate reference/evidence tables and CV-change cleanup trigger. Guest deletion cascades evidence deletion; concurrent writes validate current saved CV revision under owner lock. `CV_VECTOR_MODE` defaults off; local active mode prunes candidates after the held-out synthetic retrieval gate passed. Shadow mode remains available for comparison. Active mode restricts citations to retrieved candidates and retains exhaustive fallback on retrieval failure. Production migration/configuration is not yet applied; enabling it there also needs `roles/aiplatform.user` back on the API service account, which `ai-provider.sh gemini` removes. See [CV alignment implementation and retrieval gate](docs/contracts/cv-skill-alignment.md).
+Local pgvector 0.8.7 supports guest-isolated CV evidence retrieval. Reference vectors are seeded for 300 requirements; reviewed CV phrases embed lazily through Vertex `gemini-embedding-001` (768 dimensions, semantic similarity), independently of the narrative provider. Migration 006 creates separate reference/evidence tables and CV-change cleanup trigger. Guest deletion cascades evidence deletion; concurrent writes validate current saved CV revision under owner lock. `CV_VECTOR_MODE` defaults off; local active mode prunes candidates after the held-out synthetic retrieval gate passed. Shadow mode remains available for comparison. Active mode restricts citations to retrieved candidates and retains exhaustive fallback on retrieval failure. Production migration/configuration is not yet applied; enabling it there also needs `roles/aiplatform.user` back on the API service account, which `ai-provider.sh gemini` removes. See [CV alignment implementation and retrieval gate](docs/contracts/cv-skill-alignment.md).
