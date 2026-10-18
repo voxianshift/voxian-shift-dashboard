@@ -170,6 +170,28 @@ export function Roadmap({
     }
   }
   const courses = courseList(selected, targetRole)
+  // Shown courses come straight from the role library JSON; the model never picks them.
+  const libraryCourses = [
+    ...new Map(
+      (targetRole === null ? selected.destinations : [selected.destinations[targetRole]!])
+        .flatMap((role) => role?.learningResources ?? [])
+        .map((resource) => [`${resource.title}|${resource.href}`, resource]),
+    ).values(),
+  ].map((resource) => ({
+    title: resource.title,
+    href: resource.href,
+    cost: resource.cost,
+    detail: resource.note
+      .replace(/\[homepage-only\]\s*/g, "")
+      .replace(/^\(([^()]*)\)$/, "$1")
+      .trim(),
+    note: "",
+    mustHave: false,
+    forRole: targetRole !== null,
+  }))
+  const shownCourses = libraryCourses.length
+    ? libraryCourses
+    : courses.map((course) => ({ ...course, detail: `${course.provider} · ${course.type}` }))
   const [phaseOverride, setPhaseOverride] = useState(0)
   function setActivePhase(index: number) {
     setPhaseOverride(index)
@@ -779,16 +801,17 @@ export function Roadmap({
                 : `Courses for ${selected.roles[targetRole]}`}
             </h2>
             <p className="mt-2 text-[14px] text-muted-foreground">
-              Must have picks are the most valuable for your profile.{" "}
-              {targetRole === null
-                ? "Choose a role above to see courses for that role."
-                : "Role-specific courses follow the must haves."}
+              {libraryCourses.length
+                ? targetRole === null
+                  ? "Courses from the role library for every role on this path. Choose a role above to narrow them."
+                  : "Courses from the role library for this role."
+                : "Must have picks are the most valuable for your profile. Choose a role above to see courses for that role."}
             </p>
             <ul className="mt-4 grid grid-cols-2 gap-3 max-[700px]:grid-cols-1">
-              {courses.map((course) => (
-                <li key={course.href}>
+              {shownCourses.map((course) => (
+                <li key={`${course.title}|${course.href}`}>
                   <a
-                    href={course.href}
+                    href={course.href ?? undefined}
                     target="_blank"
                     rel="noreferrer"
                     className={cn(
@@ -811,24 +834,27 @@ export function Roadmap({
                       >
                         {course.cost}
                       </Badge>
-                      <span className="text-[12px] text-muted-foreground">
-                        {course.provider} · {course.type}
-                      </span>
+                      <span className="text-[12px] text-muted-foreground">{course.detail}</span>
                     </span>
                     <span className="mt-2.5 flex items-start justify-between gap-3 text-[15px] font-medium">
                       {course.title}
-                      <ArrowUpRight className="mt-0.5 size-4 shrink-0" />
+                      {course.href && <ArrowUpRight className="mt-0.5 size-4 shrink-0" />}
                     </span>
-                    <span className="mt-1.5 text-[14px] leading-relaxed text-muted-foreground">
-                      {course.note}
-                    </span>
+                    {course.note && (
+                      <span className="mt-1.5 text-[14px] leading-relaxed text-muted-foreground">
+                        {course.note}
+                      </span>
+                    )}
                   </a>
                 </li>
               ))}
             </ul>
             <p className="mt-3 text-[12px] text-muted-foreground">
-              Official provider links checked October 2026. Fees, availability and eligibility can
-              change. Credentials do not guarantee employment.
+              {libraryCourses.length
+                ? "Resources from role library v6."
+                : "Official provider links checked October 2026."}{" "}
+              Fees, availability and eligibility can change. Credentials do not guarantee
+              employment.
             </p>
           </section>
         </div>

@@ -334,7 +334,9 @@ export function planResource(
       title: role.title,
       href: role.href,
       cost: role.cost,
-      detail: role.note.replace(/^\(|\)$/g, "") || "Role resource",
+      detail:
+        role.note.replace(/\[homepage-only\]\s*/g, "").replace(/^\(([^()]*)\)$/, "$1") ||
+        "Role resource",
     }
   )
 }
