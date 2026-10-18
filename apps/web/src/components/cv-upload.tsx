@@ -137,8 +137,8 @@ export function CvUpload({
             <p className="text-muted-foreground">{result.extraction.keywords.join(" · ")}</p>
           </div>
           <p className="text-xs text-muted-foreground">
-            These details personalize your plan. You still choose your occupation; AI does not set
-            your exposure score.
+            These details personalize your plan. Your main role is set to the closest match and you
+            can change it; AI does not set your exposure score.
           </p>
           <div className="flex flex-wrap gap-2">
             <Button

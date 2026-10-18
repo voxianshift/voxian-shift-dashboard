@@ -208,11 +208,14 @@ export default function OnboardingPage() {
                       return
                     }
                     setRoles(matches)
+                    // Matches arrive closest-first; preselect the top one, the next step lets the user change it.
+                    const closest = matches[0]!
                     update({
                       cvContext: context,
-                      occupations: [],
-                      primaryOccupation: "",
-                      occupationNames: {},
+                      occupations: [closest.code],
+                      primaryOccupation: closest.code,
+                      occupationNames: { [closest.code]: closest.title },
+                      currentWork: closest.title,
                     })
                     setFileName(filename)
                     setError("")

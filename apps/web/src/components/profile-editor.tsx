@@ -88,14 +88,23 @@ export function ProfileEditor({
                 <OccupationPicker profile={profile} onChange={update} />
                 <CvUpload
                   onAccept={(context, matches) => {
-                    update({ cvContext: context })
-                    setCvMatches(matches)
+                    // Matches arrive closest-first; the top one becomes the main role, others stay as alternatives.
+                    const [closest, ...others] = matches
+                    update({
+                      cvContext: context,
+                      ...(closest && {
+                        occupations: [closest.code],
+                        primaryOccupation: closest.code,
+                        occupationNames: { [closest.code]: closest.title },
+                      }),
+                    })
+                    setCvMatches(others)
                   }}
                 />
                 {cvMatches.length > 0 && (
                   <div className="space-y-2">
                     <p className="text-sm font-medium">
-                      CV role suggestions · choose only if it fits
+                      Other close matches from your CV
                     </p>
                     {cvMatches.map((role) => (
                       <Button
