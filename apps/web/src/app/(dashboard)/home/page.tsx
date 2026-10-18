@@ -7,33 +7,26 @@ import { toast } from "sonner"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { OccupationPicker } from "@/components/occupation-picker"
 import { ProfileSheet } from "@/components/profile-sheet"
+import { ResetProfileDialog } from "@/components/reset-profile-dialog"
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
 import { hasMeterInputs, mergeProfile, type CareerProfile } from "@/lib/onboarding"
 import { occupationModels } from "@/lib/occupations"
 import { eyebrow } from "@/lib/styles"
 
 export default function HomePage() {
-  const { profile, ready, storageAvailable, saveOccupations, confirm, reset } = useCareerProfile()
+  const { profile, ready, storageAvailable, saveOccupations, confirm } = useCareerProfile()
   const router = useRouter()
   const [draft, setDraft] = useState<CareerProfile | null>(null)
   const [changingRoles, setChangingRoles] = useState(false)
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [clearing, setClearing] = useState(false)
   const [resetOpen, setResetOpen] = useState(false)
   const [pickerVersion, setPickerVersion] = useState(0)
   const candidate = draft ?? profile
   const savedRole = hasMeterInputs(profile)
   const canContinue = hasMeterInputs(candidate)
   const choosing = !savedRole || changingRoles
-  const busy = saving || clearing
+  const busy = saving
   const roleName =
     candidate.occupationNames[candidate.primaryOccupation] ??
     occupationModels.find((role) => role.id === candidate.primaryOccupation)?.title ??
@@ -52,27 +45,6 @@ export default function HomePage() {
       })
     } finally {
       setSaving(false)
-    }
-  }
-
-  async function resetProfile(scope: "profile" | "all") {
-    if (busy) return
-    setClearing(true)
-    try {
-      await reset(scope)
-      setDraft(null)
-      setChangingRoles(false)
-      setEditing(false)
-      setPickerVersion((version) => version + 1)
-      setResetOpen(false)
-      toast.success(scope === "all" ? "Profile and saved chats reset" : "Profile restarted")
-    } catch {
-      toast.error("Could not reset your profile", {
-        description:
-          "Your information is kept on this screen. Check your connection and try again.",
-      })
-    } finally {
-      setClearing(false)
     }
   }
 
@@ -192,50 +164,16 @@ export default function HomePage() {
           Changes aren’t saved yet. Use Retry to save your preferences.
         </p>
       )}
-      <Dialog
+      <ResetProfileDialog
         open={resetOpen}
-        onOpenChange={(open) => {
-          if (!clearing) setResetOpen(open)
+        onOpenChange={setResetOpen}
+        onReset={() => {
+          setDraft(null)
+          setChangingRoles(false)
+          setEditing(false)
+          setPickerVersion((version) => version + 1)
         }}
-      >
-        <DialogContent showCloseButton={!clearing} className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-[22px]">Start again?</DialogTitle>
-            <DialogDescription className="text-[15px] leading-relaxed">
-              Choose what to reset. These changes cannot be undone.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="space-y-2 rounded-lg border p-4">
-              <h3 className="text-[16px] font-medium">Restart profile</h3>
-              <p className="text-[14px] leading-relaxed text-muted-foreground">
-                Remove your saved profile and roles, then choose your role again. Keep your plan,
-                progress and saved chats.
-              </p>
-              <Button variant="outline" disabled={clearing} onClick={() => resetProfile("profile")}>
-                Restart profile
-              </Button>
-            </div>
-            <div className="space-y-2 rounded-lg border p-4">
-              <h3 className="text-[16px] font-medium">Reset everything</h3>
-              <p className="text-[14px] leading-relaxed text-muted-foreground">
-                Remove this browser’s saved profile, roles, plan, progress and saved chats.
-              </p>
-              <Button variant="destructive" disabled={clearing} onClick={() => resetProfile("all")}>
-                Reset everything
-              </Button>
-            </div>
-          </div>
-          {clearing && (
-            <p role="status" className="text-[14px] text-muted-foreground">
-              Resetting your information…
-            </p>
-          )}
-          <Button variant="ghost" disabled={clearing} onClick={() => setResetOpen(false)}>
-            Cancel
-          </Button>
-        </DialogContent>
-      </Dialog>
+      />
       <ProfileSheet
         open={editing}
         onOpenChange={setEditing}
