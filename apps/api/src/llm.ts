@@ -30,6 +30,25 @@ export function chatConfig(): ChatConfig | null {
   return null
 }
 
+/**
+ * Gemini/Vertex reject complex response schemas with a bare INVALID_ARGUMENT: enums past ~4
+ * values (5 resource IDs) or large maxItems on nested object arrays (20 CV assessments × 4 paths).
+ * Drop both from the wire schema; callers' zod parse still enforces them and prompts state limits.
+ */
+export function geminiSchema(schema: unknown): unknown {
+  if (Array.isArray(schema)) return schema.map(geminiSchema)
+  if (!schema || typeof schema !== "object") return schema
+  return Object.fromEntries(
+    Object.entries(schema)
+      .filter(
+        ([key, value]) =>
+          !(key === "enum" && Array.isArray(value) && value.length > 4) &&
+          !(key === "maxItems" && typeof value === "number" && value > 5),
+      )
+      .map(([key, value]) => [key, geminiSchema(value)]),
+  )
+}
+
 export class ProviderAuthError extends Error {}
 export class ProviderQuotaError extends Error {}
 export class ProviderTimeoutError extends Error {}
@@ -82,7 +101,7 @@ export async function completeJson(
                 ],
                 generationConfig: {
                   responseMimeType: "application/json",
-                  responseJsonSchema: schema,
+                  responseJsonSchema: geminiSchema(schema),
                   maxOutputTokens: maxTokens,
                   // Structured extraction, not reasoning: thinking would eat the output budget
                   thinkingConfig: { thinkingBudget: 0 },
@@ -133,7 +152,12 @@ export async function completeJson(
       providerError.data.error.details?.some((detail) => detail.reason === "API_KEY_INVALID")
     if (invalidKey || response.status === 401 || response.status === 403)
       throw new ProviderAuthError(`${config.label} credentials were not accepted`)
-    if (response.status === 429 || providerError.data?.error?.status === "RESOURCE_EXHAUSTED")
+    // 402: AI Studio prepaid credits depleted.
+    if (
+      response.status === 402 ||
+      response.status === 429 ||
+      providerError.data?.error?.status === "RESOURCE_EXHAUSTED"
+    )
       throw new ProviderQuotaError(`${config.label} quota exceeded or rate limited`)
     throw new Error(
       `AI provider unavailable (${response.status} ${providerError.data?.error.status ?? ""}): ${providerError.data?.error.message?.slice(0, 200) ?? ""}`,

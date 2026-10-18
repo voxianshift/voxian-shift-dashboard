@@ -24,7 +24,7 @@ import {
 } from "./navigator-pathways.ts"
 import iscoTasks from "../data/isco-tasks.json" with { type: "json" }
 import onetIsco from "../data/onet-isco.json" with { type: "json" }
-import { chatConfig, completeJson, ProviderAuthError } from "./llm.ts"
+import { chatConfig, completeJson, ProviderAuthError, ProviderQuotaError } from "./llm.ts"
 
 const strategyFocus = {
   automate: [
@@ -334,6 +334,10 @@ export function registerPlan(app: FastifyInstance, catalogue?: OccupationCatalog
     } catch (error) {
       if (error instanceof ProviderAuthError)
         return reply.code(503).send({ error: `${config.label} credentials were not accepted.` })
+      if (error instanceof ProviderQuotaError)
+        return reply
+          .code(503)
+          .send({ error: "The AI service is out of quota or busy. Try again in a few minutes." })
       request.log.warn(
         {
           stage,
