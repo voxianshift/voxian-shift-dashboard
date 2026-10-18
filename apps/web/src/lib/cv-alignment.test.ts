@@ -104,6 +104,7 @@ test("best CV role picks the role with the most overlapping CV words", () => {
       keywords: ["Software quality"],
     }),
   ).toBe("pivot-role-1")
-  expect(bestCvRole(navigatorFixture.paths, { ...cv, jobTitles: ["Chef"], keywords: ["Baking"] }))
-    .toBeNull()
+  expect(
+    bestCvRole(navigatorFixture.paths, { ...cv, jobTitles: ["Chef"], keywords: ["Baking"] }),
+  ).toBeNull()
 })

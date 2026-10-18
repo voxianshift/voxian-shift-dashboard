@@ -103,9 +103,7 @@ export function ProfileEditor({
                 />
                 {cvMatches.length > 0 && (
                   <div className="space-y-2">
-                    <p className="text-sm font-medium">
-                      Other close matches from your CV
-                    </p>
+                    <p className="text-sm font-medium">Other close matches from your CV</p>
                     {cvMatches.map((role) => (
                       <Button
                         key={role.code}

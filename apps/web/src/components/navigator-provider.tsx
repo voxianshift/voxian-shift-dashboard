@@ -149,7 +149,11 @@ export function useNavigator() {
   const context = useContext(NavigatorContext)
   // Suspense boundaries (e.g. useSearchParams pages) hydrate after this provider has loaded paths;
   // render what the server rendered until hydrated, or React throws a hydration mismatch.
-  const hydrated = useSyncExternalStore(noSubscribe, () => true, () => false)
+  const hydrated = useSyncExternalStore(
+    noSubscribe,
+    () => true,
+    () => false,
+  )
   if (!context) throw new Error("Navigator provider missing")
   return hydrated ? context : { ...context, status: "loading" as const, data: undefined }
 }
