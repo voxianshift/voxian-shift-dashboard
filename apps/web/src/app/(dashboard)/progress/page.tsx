@@ -88,7 +88,7 @@ export default function ProgressPage() {
   if (!commitment)
     return (
       <div className={editorialPage}>
-        <PanelHeading kicker="04 / PROGRESS" title="Show up for your next move.">
+        <PanelHeading kicker="04 / THE TRACKER" title="Show up for your next move.">
           Choose a direction in Navigator and pick when you like to learn. Your schedule and
           progress appear here.
         </PanelHeading>
@@ -149,7 +149,7 @@ function Progress({
     options.find((option) => option.value === value)?.label ?? value
   return (
     <div className={editorialPage}>
-      <PanelHeading kicker="04 / PROGRESS" title="Show up for your next move.">
+      <PanelHeading kicker="04 / THE TRACKER" title="Show up for your next move.">
         Small, regular sessions add up. Log each one to keep your streak going.
       </PanelHeading>
       <section className="flex flex-wrap items-start justify-between gap-4 rounded-xl border p-5">

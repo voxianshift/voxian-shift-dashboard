@@ -55,6 +55,34 @@ import {
   type RoleNode,
 } from "@/lib/career-canvas"
 
+// Map onboarding answers to the recommended worldline index (0=automate,1=hybrid,2=pivot,3=create)
+function scoreWorldline(strengths: string[], risk: string[]): number {
+  const scores = [0, 0, 0, 0]
+  const s = strengths.join(" ").toLowerCase()
+  const r = risk.join(" ").toLowerCase()
+  // Strength signals
+  if (s.includes("solving") || s.includes("organis") || s.includes("spotting")) {
+    scores[0] += 3; scores[1] += 1
+  }
+  if (s.includes("trust") || s.includes("build")) {
+    scores[1] += 3; scores[2] += 2
+  }
+  if (s.includes("creat") || s.includes("innovat")) {
+    scores[3] += 3; scores[2] += 2
+  }
+  // Risk signals
+  if (r.includes("small") || r.includes("current job") || r.includes("conservative")) {
+    scores[1] += 3; scores[0] += 1
+  }
+  if (r.includes("open to related") || r.includes("balanced") || r.includes("moderate")) {
+    scores[2] += 3; scores[1] += 1
+  }
+  if (r.includes("bigger change") || r.includes("bold") || r.includes("high")) {
+    scores[0] += 2; scores[3] += 2; scores[2] += 1
+  }
+  return scores.indexOf(Math.max(...scores))
+}
+
 const strategyHelp: Record<string, string> = {
   automate: "Use AI to automate routine work in your field.",
   hybrid: "Combine your human strengths with AI tools.",
@@ -256,11 +284,12 @@ function ObstacleEdge({ id, data, style, markerEnd }: EdgeProps) {
   const active = data?.active === true
   return (
     <>
+      {/* Halo glow */}
       <path
         d={path}
         fill="none"
         stroke={style?.stroke}
-        strokeWidth={active ? 10 : 5}
+        strokeWidth={active ? 14 : 5}
         opacity={active ? "var(--navigator-line-glow)" : "var(--navigator-line-glow-idle)"}
         strokeLinecap="round"
         pointerEvents="none"
@@ -269,11 +298,17 @@ function ObstacleEdge({ id, data, style, markerEnd }: EdgeProps) {
       <BaseEdge
         id={id}
         path={path}
-        style={{ ...style, strokeDasharray: "none", strokeLinecap: "round" }}
+        style={{
+          ...style,
+          strokeDasharray: active ? "none" : "6 6",
+          strokeLinecap: "round",
+          opacity: active ? 1 : 0.5,
+        }}
         markerEnd={markerEnd}
       />
       {active && (
         <>
+          {/* Primary energy pulse */}
           <path
             d={path}
             fill="none"
@@ -285,6 +320,21 @@ function ObstacleEdge({ id, data, style, markerEnd }: EdgeProps) {
             pointerEvents="none"
             aria-hidden="true"
           />
+          {/* Second staggered energy wave */}
+          <path
+            d={path}
+            fill="none"
+            stroke={style?.stroke}
+            strokeWidth="2"
+            opacity=".45"
+            strokeLinecap="round"
+            strokeDasharray="8 40"
+            className="navigator-energy"
+            style={{ animationDelay: "0.8s", animationDuration: "1.9s" }}
+            pointerEvents="none"
+            aria-hidden="true"
+          />
+          {/* Spark overlay */}
           <path
             d={path}
             fill="none"
@@ -328,18 +378,27 @@ function CanvasRoute() {
   const requestedPath = params.get("path")
   const requestedRole = params.get("role")
   const { data, status, profileKey } = useNavigator()
+  const { profile } = useCareerProfile()
   if (status !== "ready" || !data) return <NavigatorStatus />
-  const initialPathId = data.paths.find((path) => path.id === requestedPath)?.id ?? null
+  // Derive default worldline from onboarding answers when no explicit path requested
+  const defaultPathId = (() => {
+    if (requestedPath) return data.paths.find((path) => path.id === requestedPath)?.id ?? null
+    const idx = scoreWorldline(
+      Array.isArray(profile.strengths) ? profile.strengths : [],
+      profile.risk ? [profile.risk] : [],
+    )
+    return data.paths[idx]?.id ?? data.paths[0]?.id ?? null
+  })()
   return (
     <NavigatorCanvas
       key={`${profileKey}-${requestedPath ?? "all"}-${requestedRole}`}
       data={data}
       initialSelectedId={
-        initialPathId &&
+        defaultPathId &&
         /^(0|[1-9]\d*)$/.test(requestedRole ?? "") &&
-        data.paths.find((path) => path.id === initialPathId)?.roles[Number(requestedRole)]
-          ? `${initialPathId}-role-${requestedRole}`
-          : initialPathId
+        data.paths.find((path) => path.id === defaultPathId)?.roles[Number(requestedRole)]
+          ? `${defaultPathId}-role-${requestedRole}`
+          : defaultPathId
       }
     />
   )

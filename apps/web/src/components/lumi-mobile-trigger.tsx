@@ -126,12 +126,26 @@ export function LumiMobileTrigger() {
           }}
           className="fixed top-0 left-0 z-50 lg:hidden cursor-grab active:cursor-grabbing select-none"
         >
-          <div className="relative flex items-center justify-center size-13 rounded-full bg-card/90 border border-cyan-500/40 shadow-xl backdrop-blur-md">
-            <LumiMascot size="xs" />
-            <span className="absolute -top-1 -right-1 flex size-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-              <span className="relative inline-flex rounded-full size-3 bg-cyan-500" />
-            </span>
+          <div className="relative flex flex-col items-center gap-1 pointer-events-auto">
+            {/* LUMI chat bubble indicator */}
+            <div className="bg-[#0b1628]/95 border border-cyan-800/50 rounded-2xl px-2.5 py-1.5 shadow-lg backdrop-blur-xl"
+                 style={{ boxShadow: "0 4px 20px rgba(0,242,254,0.15)" }}>
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-cyan-500 flex items-center justify-center shrink-0">
+                  <span className="w-1 h-1 rounded-full bg-white" />
+                </span>
+                <span className="text-[10px] font-mono font-bold text-cyan-400">LUMI-01</span>
+                <span className="text-[9px] font-mono text-slate-500 bg-slate-800/60 px-1 rounded">beta</span>
+              </div>
+            </div>
+            {/* Mascot */}
+            <div className="relative">
+              <LumiMascot size="xs" />
+              <span className="absolute -top-1 -right-1 flex size-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
+                <span className="relative inline-flex rounded-full size-2.5 bg-cyan-500" />
+              </span>
+            </div>
           </div>
         </div>
       )}
