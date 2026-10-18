@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   output: "standalone",
   // Trace files from the monorepo root so packages/shared is included
   outputFileTracingRoot: fileURLToPath(new URL("../..", import.meta.url)),
+  async redirects() {
+    return [{ source: "/", destination: "/onboarding", permanent: false }]
+  },
   async rewrites() {
     return [
       {
@@ -16,6 +19,11 @@ const nextConfig: NextConfig = {
   },
   cacheComponents: true,
   partialPrefetching: true,
+  experimental: {
+    // Dashboard pages are gated on client-side profile state and can't prerender, so only
+    // validate segments that opt in with `export const instant`.
+    instantInsights: { validationLevel: "manual-warning" },
+  },
   turbopack: {
     rules: {
       "*.css": {
