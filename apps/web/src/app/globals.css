@@ -237,7 +237,6 @@
   --brand: #0891b2;
   --brand-ink: #0e7490;
   --brand-dots: #0891b229;
-  --scrollbar-thumb: #93c5fd;
 
   /* Brand */
   --primary: #0e7490;
@@ -312,7 +311,6 @@
   --brand: #00f2fe;
   --brand-ink: #67e8f9;
   --brand-dots: #00f2fe29;
-  --scrollbar-thumb: #13244a;
 
   /* Brand */
   --primary: #00f2fe;
@@ -364,8 +362,6 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    scrollbar-color: var(--scrollbar-thumb) transparent;
-    scrollbar-width: thin;
   }
   body {
     @apply bg-background text-base text-foreground;

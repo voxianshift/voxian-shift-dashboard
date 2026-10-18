@@ -323,7 +323,7 @@ function Meter() {
           </div>
           <div>
             <span className="font-mono text-[15px] font-bold text-cyan-700 dark:text-cyan-300">
-              ILO Working Paper 140 · May 2025 · {iscoRole.title}
+              ILO Working Paper 140 · May 2025 · {iscoRole.iscoTitle ?? iscoRole.isco}
             </span>
             <p className="mt-0.5 text-[14px] text-muted-foreground">
               Deterministic Adoption Engine · {iscoRole.gradient} classification ·{" "}
@@ -375,7 +375,7 @@ function Meter() {
               <div className="mb-1 text-[18px] font-bold text-foreground">{scoreLabel}</div>
               <p className="text-[15px] leading-relaxed text-muted-foreground">
                 {iscoRole
-                  ? `ILO WP140 (May 2025) places ${iscoRole.title} in the ${gradientTag.toLowerCase()} — ${gradientInfo?.meaning ?? "based on task-level AI capability scores"}.`
+                  ? `ILO WP140 (May 2025) places ${iscoRole.iscoTitle ?? iscoRole.isco} in the ${gradientTag.toLowerCase()} — ${gradientInfo?.meaning ?? "based on task-level AI capability scores"}.`
                   : "Illustrative demo inputs based on task-level AI capability scores."}
               </p>
             </div>
@@ -621,9 +621,7 @@ function Meter() {
             <p className="mt-1">
               {iscoRole.crosswalkMatch === "ai"
                 ? `AI-assisted ISCO mapping: ${iscoRole.mappingNote}`
-                : iscoRole.crosswalkMatch === "roleLibrary"
-                  ? `Voxian Shift role library (ILO WP140): ${iscoRole.mappingNote}`
-                  : `ESCO–O*NET crosswalk (${iscoRole.crosswalkMatch}): ${iscoRole.mappingNote}`}
+                : `ESCO–O*NET crosswalk (${iscoRole.crosswalkMatch}): ${iscoRole.mappingNote}`}
             </p>
           </details>
         )}

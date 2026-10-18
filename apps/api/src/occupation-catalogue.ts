@@ -5,7 +5,7 @@ import { occupationCodeSchema, occupationMatchSchema, type OccupationMatch } fro
 import { chatOwner, newChatOwner } from "./chat-store.ts"
 import { chatConfig, completeJson } from "./llm.ts"
 import iscoTasks from "../data/isco-tasks.json" with { type: "json" }
-import { iscoLinks as onetIsco } from "./isco-links.ts"
+import onetIsco from "../data/onet-isco.json" with { type: "json" }
 import { curatedOccupationCodes } from "./navigator-pathways.ts"
 
 class UnknownOccupationError extends Error {}
@@ -147,13 +147,13 @@ export function registerOccupations(app: FastifyInstance, catalogue?: Occupation
     }
   })
   // Meter data: O*NET code -> ISCO-08 unit -> ILO task-level exposure scores.
-  // Library roles and exact/close ESCO crosswalk matches are used as-is; weak or missing ones ask the LLM.
+  // Exact/close ESCO crosswalk matches are used as-is; weak or missing ones ask the LLM.
   app.get("/occupations/:code/meter", async (request, reply) => {
     const parsed = z.object({ code: occupationCodeSchema }).safeParse(request.params)
     if (!parsed.success) return reply.code(400).send({ error: "Unknown occupation code." })
     const code = parsed.data.code
     const link = onetIsco[code as keyof typeof onetIsco]
-    const strong = link && ["exactMatch", "closeMatch", "roleLibrary"].includes(link.match)
+    const strong = link && ["exactMatch", "closeMatch"].includes(link.match)
     const ai = strong ? null : await aiIsco(code, catalogue).catch(() => null)
     const isco = ai?.isco ?? link?.isco
     const unit = isco ? iscoUnit(isco) : undefined

@@ -1,8 +1,8 @@
 "use client"
 
-import { useState, useId, useRef } from "react"
+import { useEffect, useState, useId, useRef } from "react"
 import { Info, X } from "lucide-react"
-import { libraryMatch, matchRoles, occupationCode, type OccupationMatch } from "@voxian/shared"
+import { occupationCode, occupationSearchSchema, type OccupationMatch } from "@voxian/shared"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import type { CareerProfile } from "@/lib/onboarding"
@@ -23,13 +23,41 @@ export function OccupationPicker({
   const [query, setQuery] = useState(
     suggestions.length || profile.occupations.length ? "" : profile.currentWork,
   )
+  const [results, setResults] = useState<OccupationMatch[]>([])
+  const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">("idle")
+  const [attempt, setAttempt] = useState(0)
   const term = query.trim()
-  const results =
-    term.length >= 2
-      ? matchRoles(term, 5)
-          .map(libraryMatch)
-          .filter((role) => role !== null)
-      : []
+  useEffect(() => {
+    if (term.length < 2) {
+      setStatus("idle")
+      setResults([])
+      return
+    }
+    const controller = new AbortController()
+    setStatus("loading")
+    const timer = setTimeout(() => {
+      fetch(`/api/occupations?q=${encodeURIComponent(term)}`, {
+        signal: AbortSignal.any([controller.signal, AbortSignal.timeout(8000)]),
+      })
+        .then(async (response) => {
+          if (!response.ok) throw new Error("Search unavailable")
+          return occupationSearchSchema.parse(await response.json())
+        })
+        .then((data) => {
+          if (!controller.signal.aborted) {
+            setResults(data.occupations)
+            setStatus("ready")
+          }
+        })
+        .catch(() => {
+          if (!controller.signal.aborted) setStatus("error")
+        })
+    }, 300)
+    return () => {
+      clearTimeout(timer)
+      controller.abort()
+    }
+  }, [term, attempt])
   // Legacy multi-role profiles without a main role show no selection until one role is chosen.
   const selected = occupationCode(
     profile.primaryOccupation || (profile.occupations.length === 1 ? profile.occupations[0]! : ""),
@@ -70,6 +98,8 @@ export function OccupationPicker({
             aria-label="Clear job title search"
             onClick={() => {
               setQuery("")
+              setResults([])
+              setStatus("idle")
               searchInput.current?.focus()
             }}
           >
@@ -78,9 +108,22 @@ export function OccupationPicker({
         )}
       </div>
       <p className={fieldHelp}>Choose the one role that takes most of your time.</p>
-      {term.length >= 2 && !results.length && (
+      {status === "loading" && (
+        <p role="status" className={fieldHelp}>
+          Searching occupations…
+        </p>
+      )}
+      {status === "error" && (
+        <div role="alert">
+          <p className={fieldHelp}>Search is unavailable. Your current selections are kept.</p>
+          <Button type="button" variant="outline" onClick={() => setAttempt((value) => value + 1)}>
+            Retry search
+          </Button>
+        </div>
+      )}
+      {status === "ready" && !results.length && (
         <p className={fieldHelp}>
-          No close matches. Try another title, such as Bookkeeper or HR Recruiter.
+          No close matches. Try another title or a few words describing your duties.
         </p>
       )}
       {matches.map((role) => (
@@ -135,13 +178,13 @@ export function OccupationPicker({
       <Tooltip>
         <TooltipTrigger asChild>
           <button type="button" className={`${fieldHelp} inline-flex items-center gap-1`}>
-            <Info className="size-3.5" /> Source: Voxian Shift role library · ILO WP140
+            <Info className="size-3.5" /> Source: O*NET® 31.0 (US)
           </button>
         </TooltipTrigger>
         <TooltipContent className="max-w-72 text-[13px] leading-relaxed">
-          27 roles from the Voxian Shift role library, each with its ILO WP140 ISCO-08 code. Each
-          role links to an O*NET® 31.0 occupation (U.S. Department of Labor, Employment and Training
-          Administration, adapted under CC BY 4.0), not endorsed by USDOL/ETA.
+          Occupation data from the O*NET® 31.0 Database, U.S. Department of Labor, Employment and
+          Training Administration, adapted under CC BY 4.0. Voxian adds matching and illustrative
+          exposure models, not endorsed by USDOL/ETA. US classification; titles may differ locally.
         </TooltipContent>
       </Tooltip>
     </section>

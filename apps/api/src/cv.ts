@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify"
 import { inflateRawSync } from "node:zlib"
 import { z } from "zod"
-import { cvExtractionSchema, libraryMatch, matchRoles, type CvExtraction } from "@voxian/shared"
+import { cvExtractionSchema, type CvExtraction } from "@voxian/shared"
 import { chatConfig, completeJson, ProviderAuthError } from "./llm.ts"
 import type { OccupationCatalogue } from "./occupation-catalogue.ts"
 
@@ -147,7 +147,7 @@ export function registerCv(app: FastifyInstance, catalogue?: OccupationCatalogue
             occupations: [],
             provider: config.label,
           }
-        const occupations = matchCv(extraction)
+        const occupations = await matchCv(extraction, catalogue)
         return { status: "ready", extraction, occupations, provider: config.label }
       } catch (failure) {
         if (failure instanceof ProviderAuthError)
@@ -167,12 +167,20 @@ const cvPrompt = `Extract only explicitly supported career evidence from the sup
 Extract job titles (most recent first), skills, work history with job title, duties and non-identifying employer context such as industry/team type, and career keywords. Do not retain names, contact details, street addresses, employer/client names, IDs, age, protected traits or medical/financial information. Do not invent qualifications, dates, skills, seniority or employment. Use exact short phrases from the document wherever possible. Unclear/missing fields use empty arrays or an empty employerContext.
 confidence is an extraction quality estimate, not calibrated probability or role fit: use below 0.6 for unreadable, ambiguous, instruction-only or non-CV documents. Keep job titles <=6, skills <=20, work history <=6 with <=5 duties each, keywords <=24. Each detail <=180 characters. Return only the schema's JSON fields.`
 
-// The prototype's 27 library roles are the only selectable baselines; titles outrank broad keywords.
-function matchCv(extraction: CvExtraction) {
-  const byTitle = extraction.jobTitles.slice(0, 3).flatMap((title) => matchRoles(title, 1))
-  const roles = byTitle.length ? byTitle : matchRoles(extraction.keywords.slice(0, 12).join(" "), 3)
-  return [...new Map(roles.map((role) => [role.id, role])).values()]
-    .map(libraryMatch)
-    .filter((role) => role !== null)
-    .slice(0, 3)
+async function matchCv(extraction: CvExtraction, catalogue: OccupationCatalogue) {
+  // Titles are searched separately so names/contact headings cannot dominate a long CV query.
+  const matches = new Map<string, Awaited<ReturnType<OccupationCatalogue["search"]>>[number]>()
+  const titles = (
+    await Promise.all(extraction.jobTitles.slice(0, 3).map((title) => catalogue.search(title, 3)))
+  ).flat()
+  // Prefer strong title evidence; broad CV keywords otherwise surface unrelated duties/aliases.
+  const strong = titles.filter((role) => (role.match ?? 0) >= 60)
+  const candidates = strong.length
+    ? strong
+    : [...titles, ...(await catalogue.search(extraction.keywords.slice(0, 12).join(" "), 3))]
+  for (const role of candidates) {
+    const previous = matches.get(role.code)
+    if (!previous || (role.match ?? 0) > (previous.match ?? 0)) matches.set(role.code, role)
+  }
+  return [...matches.values()].sort((a, b) => (b.match ?? 0) - (a.match ?? 0)).slice(0, 3)
 }
