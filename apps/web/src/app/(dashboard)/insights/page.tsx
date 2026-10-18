@@ -42,16 +42,21 @@ const scenarios = [
     action: "Map one process. Define when a person takes over.",
   },
   {
-    id: "oversight",
-    name: "More oversight",
-    label: "Accountability",
-    color: "#10b981",
+    id: "japac",
+    name: "Regional JAPAC",
+    label: "Regional JAPAC Context",
+    color: "#a855f7",
     path: "M330 215 C500 205 640 190 850 174",
     longer: "M330 215 C490 204 650 182 850 148",
-    headline: "Human review stays central.",
-    detail: "Where errors matter, AI needs evidence, approval, and accountability.",
-    signals: ["Required approvals", "Auditable AI outputs", "Trust-led tool choices"],
-    action: "Create a checklist for reviewing or overriding AI outputs.",
+    headline: "Relationships slow full replacement.",
+    detail:
+      "Relationship-based commerce in Southeast Asia dampens full replacement. Hybrid models, with people handling empathy and trust, stay common in enterprise deployments.",
+    signals: [
+      "People own client relationships",
+      "AI supports, people sign off",
+      "Trust shapes adoption pace",
+    ],
+    action: "List the client or stakeholder moments in your work that rely on trust.",
   },
 ] as const
 
