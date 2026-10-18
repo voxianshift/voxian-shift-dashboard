@@ -148,12 +148,12 @@ function Progress({
   const label = (value: string, options: readonly { value: string; label: string }[]) =>
     options.find((option) => option.value === value)?.label ?? value
   return (
-    <div className="bg-[#050810] text-slate-100 min-h-[calc(100dvh-48px)]">
+    <div className="bg-background text-foreground min-h-[calc(100dvh-48px)]">
     <div className={editorialPage}>
       <PanelHeading kicker="04 / THE TRACKER" title="Show up for your next move.">
         Small, regular sessions add up. Log each one to keep your streak going.
       </PanelHeading>
-      <section className="flex flex-wrap items-start justify-between gap-4 rounded-2xl border border-slate-800/80 bg-[#0b1628]/60 p-5">
+      <section className="flex flex-wrap items-start justify-between gap-4 rounded-2xl border border-border bg-card/60 p-5">
         <div>
           <div className="flex flex-wrap items-center gap-3">
             <p className={eyebrow}>YOUR COMMITMENT</p>
@@ -185,7 +185,7 @@ function Progress({
 
       <section
         aria-label="Today"
-        className="mt-4 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-slate-800/80 bg-[#0b1628]/60 p-5"
+        className="mt-4 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-border bg-card/60 p-5"
       >
         <div className="max-w-[720px]">
           <p className={eyebrow}>
@@ -268,7 +268,7 @@ function Progress({
       </Suspense>
 
       <div className="mt-4 grid grid-cols-[auto_1fr] gap-4 max-[900px]:grid-cols-1">
-        <section aria-labelledby="activity-title" className="min-w-0 rounded-2xl border border-slate-800/80 bg-[#0b1628]/60 p-5">
+        <section aria-labelledby="activity-title" className="min-w-0 rounded-2xl border border-border bg-card/60 p-5">
           <h2 id="activity-title" className="text-[18px] tracking-[-0.4px]">
             Learning activity
           </h2>
@@ -301,7 +301,7 @@ function Progress({
         </dl>
       </div>
 
-      <section aria-labelledby="slots-title" className="mt-6 rounded-2xl border border-slate-800/80 bg-[#0b1628]/60 p-5">
+      <section aria-labelledby="slots-title" className="mt-6 rounded-2xl border border-border bg-card/60 p-5">
         <div className="flex flex-wrap items-center gap-2">
           <h2
             id="slots-title"
@@ -339,7 +339,7 @@ function Progress({
           {slots.map((slot) => (
             <li
               key={`${slot.day}-${slot.start}`}
-              className="flex justify-between gap-3 rounded-xl border border-slate-800/60 bg-slate-900/60 px-4 py-3 text-[14px]"
+              className="flex justify-between gap-3 rounded-xl border border-border bg-muted px-4 py-3 text-[14px]"
             >
               <span className="font-medium">{dayNames[slot.day]}</span>
               <span className="flex flex-wrap items-center justify-end gap-x-3 gap-y-1">
@@ -401,9 +401,9 @@ function Progress({
 
 function Stat({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-slate-800/80 bg-[#0b1628]/60 p-4">
-      <dt className="text-[13px] text-slate-400">{label}</dt>
-      <dd className="mt-1 text-[22px] font-medium tracking-[-0.5px] text-slate-100">{value}</dd>
+    <div className="rounded-2xl border border-border bg-card/60 p-4">
+      <dt className="text-[13px] text-muted-foreground">{label}</dt>
+      <dd className="mt-1 text-[22px] font-medium tracking-[-0.5px] text-foreground">{value}</dd>
     </div>
   )
 }

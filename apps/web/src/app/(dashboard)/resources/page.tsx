@@ -71,12 +71,12 @@ export default function ResourcesPage() {
       : []),
   ]
   return (
-    <div className="bg-[#050810] text-slate-100 min-h-[calc(100dvh-48px)]">
+    <div className="bg-background text-foreground min-h-[calc(100dvh-48px)]">
     <div className={editorialPage}>
       <PanelHeading kicker="METHODOLOGY & PROOF" title="Trust starts with showing our work.">
         See the inputs behind your Meter, how we calculate it, and where the evidence ends.
       </PanelHeading>
-      <section className="mb-7 rounded-2xl border border-slate-800/80 bg-[#0b1628]/60 p-6" aria-label="Your Meter evidence">
+      <section className="mb-7 rounded-2xl border border-border bg-card/60 p-6" aria-label="Your Meter evidence">
         <p className={eyebrow}>YOUR CURRENT BASELINE</p>
         {!ready ? (
           <p role="status" className="mt-3">
@@ -148,14 +148,14 @@ export default function ResourcesPage() {
           </>
         )}
       </section>
-      <div className="flex items-center gap-5 rounded-2xl border border-cyan-900/40 bg-[#050d1a] p-6 text-cyan-300">
+      <div className="flex items-center gap-5 rounded-2xl border border-cyan-900/40 bg-background p-6 text-cyan-300">
         <Calculator className="size-7 shrink-0 text-cyan-400" strokeWidth={1} />
         <div>
           <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-cyan-600 mb-2">EXPOSURE MODEL / VERSION {SCORING_VERSION}</p>
           <p className="my-2.5 font-mono text-[25px] max-[700px]:text-[18px] text-cyan-300">
             E = 100 × Σ(wᵢ × eᵢ) / Σwᵢ
           </p>
-          <p className="text-[14px] text-slate-400">
+          <p className="text-[14px] text-muted-foreground">
             Task weight × exposure estimate, normalized across the selected occupation.
           </p>
         </div>
@@ -168,7 +168,7 @@ export default function ResourcesPage() {
             and task-mix overrides on the Meter are not saved to your profile.
           </p>
           <div className="overflow-x-auto">
-            <table className="mt-5 w-full text-left text-[15px] [&_td]:border-b [&_td]:border-slate-800/60 [&_td]:px-3 [&_td]:py-3.5 [&_th]:border-b [&_th]:border-slate-800/60 [&_th]:px-3 [&_th]:py-3.5 [&_th]:font-medium">
+            <table className="mt-5 w-full text-left text-[15px] [&_td]:border-b [&_td]:border-border [&_td]:px-3 [&_td]:py-3.5 [&_th]:border-b [&_th]:border-border [&_th]:px-3 [&_th]:py-3.5 [&_th]:font-medium">
               <caption className="mb-3 text-left">
                 {title} · {demo ? "Illustrative estimates" : "ILO task data"}
               </caption>
@@ -242,7 +242,7 @@ export default function ResourcesPage() {
             href={source.href}
             target="_blank"
             rel="noreferrer"
-            className="flex items-center justify-between gap-4 border-b border-slate-800/60 py-5 hover:text-cyan-400 transition-colors"
+            className="flex items-center justify-between gap-4 border-b border-border py-5 hover:text-cyan-400 transition-colors"
           >
             <span>
               <strong className="text-[16px] font-medium">{source.title}</strong>
