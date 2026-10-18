@@ -341,12 +341,13 @@ test("saved plan sheet keeps chosen pace and hides exploration controls", () => 
   expect(html).toContain("Track my progress")
 })
 
-test("Navigator opens full map without an overlapping details panel", () => {
+test("Navigator opens the default strategy details when no path is requested", () => {
   state.data = { ...navigatorFixture, recommendedPathId: "pivot" }
   const html = renderToStaticMarkup(
     createElement(SidebarProvider, null, createElement(NavigatorPage)),
   )
-  expect(html).not.toContain('id="role-details-title"')
+  expect(html).toContain('id="role-details-title"')
+  expect(html).toContain(navigatorFixture.paths[0]!.title.replaceAll("&", "&amp;"))
   expect(html).toContain("View full plan")
 })
 

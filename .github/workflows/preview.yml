@@ -1,30 +1,44 @@
-name: Preview Deploy
+name: Deploy preview
 
 on:
   workflow_dispatch:
-  push:
-    branches-ignore: [main]
+    inputs:
+      branch:
+        description: Fork branch or commit to deploy to the shared preview
+        required: true
+        default: main
+        type: string
 
 concurrency:
-  group: preview-${{ github.ref_name }}
-  cancel-in-progress: true
+  group: deploy-preview
+  cancel-in-progress: false
 
 permissions:
   contents: read
-  id-token: write
 
+# This fork deploys only to preview resources. Production uses a separate identity.
 env:
   REGION: asia-southeast1
-  REGISTRY: asia-southeast1-docker.pkg.dev/voxian-shift-app/voxian
-  WIF_PROVIDER: projects/184581024855/locations/global/workloadIdentityPools/github/providers/github
-  DEPLOYER: voxian-deployer@voxian-shift-app.iam.gserviceaccount.com
+  PROJECT: voxian-shift-app
+  REGISTRY: asia-southeast1-docker.pkg.dev/voxian-shift-app/voxian-preview
+  WIF_PROVIDER: projects/184581024855/locations/global/workloadIdentityPools/github/providers/github-preview
+  DEPLOYER: voxian-preview-deployer@voxian-shift-app.iam.gserviceaccount.com
   API_BASE_URL: https://voxian-api-preview-184581024855.asia-southeast1.run.app
+  WEB_URL: https://voxian-web-preview-184581024855.asia-southeast1.run.app
 
 jobs:
   check:
+    if: github.repository == 'vertexian-id/voxian-shift-dashboard'
     runs-on: ubuntu-latest
+    outputs:
+      revision: ${{ steps.source.outputs.revision }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.branch }}
+          persist-credentials: false
+      - id: source
+        run: echo "revision=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - uses: pnpm/action-setup@v6
         with:
           version: 12.11.2
@@ -32,46 +46,42 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
-      - run: pnpm install
+      - run: pnpm install --frozen-lockfile
       - run: pnpm exec vp run ready
 
   deploy:
     needs: check
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        app: [api, web]
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      REVISION: ${{ needs.check.outputs.revision }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.check.outputs.revision }}
+          persist-credentials: false
       - uses: google-github-actions/auth@v3
         with:
           workload_identity_provider: ${{ env.WIF_PROVIDER }}
           service_account: ${{ env.DEPLOYER }}
       - uses: google-github-actions/setup-gcloud@v3
       - run: gcloud auth configure-docker asia-southeast1-docker.pkg.dev --quiet
-      - name: Build and push image
+      - name: Build and deploy preview API
         run: |
-          docker build -f apps/${{ matrix.app }}/Dockerfile \
-            --build-arg API_BASE_URL=$API_BASE_URL \
-            -t $REGISTRY/${{ matrix.app }}-preview:${{ github.sha }} .
-          docker push $REGISTRY/${{ matrix.app }}-preview:${{ github.sha }}
-      - name: Deploy to Cloud Run (preview)
+          docker build -f apps/api/Dockerfile -t "$REGISTRY/api:$REVISION" .
+          docker push "$REGISTRY/api:$REVISION"
+          gcloud run deploy voxian-api-preview --image "$REGISTRY/api:$REVISION" --region "$REGION" --project "$PROJECT" --quiet
+          curl --fail --retry 3 "$API_BASE_URL/health"
+      - name: Build and deploy preview web
         run: |
-          gcloud run deploy voxian-${{ matrix.app }}-preview \
-            --image $REGISTRY/${{ matrix.app }}-preview:${{ github.sha }} \
-            --region $REGION \
-            --allow-unauthenticated \
-            --quiet
-
-  summary:
-    needs: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print preview URLs
+          docker build -f apps/web/Dockerfile --build-arg API_BASE_URL="$API_BASE_URL" -t "$REGISTRY/web:$REVISION" .
+          docker push "$REGISTRY/web:$REVISION"
+          gcloud run deploy voxian-web-preview --image "$REGISTRY/web:$REVISION" --region "$REGION" --project "$PROJECT" --quiet
+          curl --fail --retry 3 --output /dev/null "$WEB_URL/onboarding"
+      - name: Preview URL
         run: |
-          echo "### Preview deployment ready" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Service | URL |" >> $GITHUB_STEP_SUMMARY
-          echo "|---------|-----|" >> $GITHUB_STEP_SUMMARY
-          echo "| Web | https://voxian-web-preview-184581024855.asia-southeast1.run.app |" >> $GITHUB_STEP_SUMMARY
-          echo "| API | https://voxian-api-preview-184581024855.asia-southeast1.run.app |" >> $GITHUB_STEP_SUMMARY
+          echo "### Shared preview" >> "$GITHUB_STEP_SUMMARY"
+          echo "[$WEB_URL]($WEB_URL)" >> "$GITHUB_STEP_SUMMARY"
+          echo "Source commit: $REVISION" >> "$GITHUB_STEP_SUMMARY"

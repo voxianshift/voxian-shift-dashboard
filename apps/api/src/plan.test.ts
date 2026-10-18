@@ -6,6 +6,7 @@ import {
   validatePlanSchedule,
   commitmentSchema,
 } from "@voxian/shared"
+import { lookupPathways } from "./navigator-pathways.ts"
 import { buildApp } from "./app.ts"
 import type { OccupationCatalogue } from "./occupation-catalogue.ts"
 
@@ -108,7 +109,7 @@ test("all four strategies use grounded destinations and code-owned schedule/cont
   })
   const app = buildApp({ catalogue })
   try {
-    for (const strategyId of ["automate", "hybrid", "pivot", "create"]) {
+    for (const strategyId of ["automate", "hybrid", "pivot", "create"] as const) {
       const response = await app.inject({
         method: "POST",
         url: "/plan",
@@ -400,7 +401,7 @@ test("prototype occupation destinations generate validated plans in every strate
     catalogue: { ...catalogue, search: async (code) => (code === support.code ? [support] : []) },
   })
   try {
-    for (const strategyId of ["automate", "hybrid", "pivot", "create"]) {
+    for (const strategyId of ["automate", "hybrid", "pivot", "create"] as const) {
       const base = request()
       const response = await app.inject({
         method: "POST",
@@ -409,7 +410,7 @@ test("prototype occupation destinations generate validated plans in every strate
           ...base,
           occupationCode: support.code,
           strategyId,
-          destinationId: `cs_rep-${strategyId}-3`,
+          destinationId: lookupPathways(support.code)[strategyId]!.destinations.at(-1)!.id,
           profile: {
             ...base.profile,
             occupations: [support.code],
@@ -420,7 +421,9 @@ test("prototype occupation destinations generate validated plans in every strate
       expect(response.statusCode).toBe(200)
       const plan = flightPlanSchema.parse(response.json().plan)
       expect(plan.occupationCode).toBe(support.code)
-      expect(plan.destinationId).toBe(`cs_rep-${strategyId}-3`)
+      expect(plan.destinationId).toBe(
+        lookupPathways(support.code)[strategyId]!.destinations.at(-1)!.id,
+      )
       expect(() => validatePlanSchedule(plan)).not.toThrow()
     }
   } finally {
@@ -435,7 +438,7 @@ test("family options use same resolver in Navigator and Plan and reject another 
     catalogue: { ...catalogue, search: async (code) => (code === family.code ? [family] : []) },
   })
   try {
-    for (const strategyId of ["automate", "hybrid", "pivot", "create"]) {
+    for (const strategyId of ["automate", "hybrid", "pivot", "create"] as const) {
       const base = request()
       const payload = {
         ...base,

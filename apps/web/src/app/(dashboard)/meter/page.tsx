@@ -188,7 +188,10 @@ function ArcGauge({ score, gradient }: { score: number; gradient: string }) {
         </text>
       </svg>
       {/* Center readout */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
+      <div
+        data-meter-score={score}
+        className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none"
+      >
         <span className="text-3xl font-black font-mono leading-none" style={{ color: gradeColor }}>
           {gradient}
         </span>

@@ -1,5 +1,5 @@
 {
-  "version": "prototype-v2.3.8-branches-1",
+  "version": "fork-preview-branches-2",
   "source": "Voxian Shift prototype v2.3.8 ROLE_BRANCHES (team-approved curated branches for 25 occupations; mapped to O*NET 31.0 codes).",
   "reviewNotes": "Branch names, foundation descriptions, human edges, skills and destination roles copied verbatim from prototype v2.3.8. The fourth branch (Create) uses the prototype's governance and ethics roles. Content Moderator and Call Centre Team Leader are excluded pending O*NET codes. Curated prototype labels, not verified vacancies or validated transitions.",
   "occupations": {
@@ -7,7 +7,7 @@
       "prototypeRole": "cs_rep",
       "strategies": {
         "automate": {
-          "title": "",
+          "title": "AI Customer Service Specialist",
           "description": "While basic queries are increasingly handled by chatbots, someone needs to build the conversation flows, maintain the knowledge base, and monitor where AI is failing customers. This role sits between service and product, owning the quality of automated customer experience.",
           "humanEdge": "Identifies the emotional subtext in failed interactions that pure intent-classification misses -- \"frustrated but not cancelling yet\" vs. \"on the verge of churning\"",
           "skills": ["AI Workflow Design", "Quality Assurance", "Service Analytics"],
@@ -40,7 +40,7 @@
           ]
         },
         "hybrid": {
-          "title": "",
+          "title": "Senior Customer Service Specialist",
           "description": "As AI handles routine queries, the interactions that reach human agents are the complex, emotional, or ambiguous ones requiring genuine judgment. A Senior Specialist handles the hardest cases, sets the standard for the team, and owns customer recovery for high-risk situations.",
           "humanEdge": "Reads the emotional arc of a customer complaint and knows exactly when to shift from problem-solving mode to empathy mode -- a timing judgment that is unscriptable",
           "skills": [
@@ -77,7 +77,7 @@
           ]
         },
         "pivot": {
-          "title": "",
+          "title": "Retail Service Coach",
           "description": "Retail businesses -- especially in SEA's omnichannel market (Tokopedia, Shopee, offline stores) -- need trainers who can help frontline staff deliver consistent, high-quality customer experiences.",
           "humanEdge": "Coaches in the moment -- observing a floor interaction and giving feedback in a 5-minute debrief that immediately improves the next interaction",
           "skills": ["Cross-Functional Transfer", "Empathy at Scale", "Domain Reskilling"],
@@ -98,7 +98,7 @@
           ]
         },
         "create": {
-          "title": "",
+          "title": "Head of Customer Experience",
           "description": "A Head of CX owns the entire customer experience strategy across all touchpoints -- digital, human, and AI-mediated. For someone who has operated in service and understands the full customer journey, this is the path to building and leading a function.",
           "humanEdge": "Translates diffuse customer feedback into a coherent strategic narrative that convinces the board to invest in customer experience",
           "skills": [
@@ -253,7 +253,7 @@
       "prototypeRole": "bank_teller",
       "strategies": {
         "automate": {
-          "title": "",
+          "title": "Digital Banking Operations Analyst",
           "description": "As banks accelerate automation of routine transactions, this role manages the backend systems that replace teller windows—ensuring AI-driven platforms run accurately and compliantly. You become the human guarantor of the machines that replaced your previous role. • Monitor real-time transaction dashboards in Temenos or FIS core banking systems for anomalies or flagging events • Run daily reconciliation scripts (SQL + Excel pivot) to close cash position reports • Escalate edge-case transactions (",
           "humanEdge": "Human judgment, relationships and contextual understanding remain irreplaceable.",
           "skills": ["Financial Technology Tools", "Data Reconciliation", "Compliance Automation"],
@@ -286,7 +286,7 @@
           ]
         },
         "hybrid": {
-          "title": "",
+          "title": "Community Banking Relationship Associate",
           "description": "Credit unions and community banks are deliberately preserving human-staffed branches as a competitive differentiator — this role combines digital fluency with the relational warmth that mass-market banks have automated away. • Open and service accounts using Fiserv or Jack Henry core banking platform while narrating the process to new customers • Conduct annual relationship reviews using a structured financial needs questionnaire in the CRM • Proactively call 5–10 flagged customers weekly (life ",
           "humanEdge": "Human judgment, relationships and contextual understanding remain irreplaceable.",
           "skills": [
@@ -317,7 +317,7 @@
           ]
         },
         "pivot": {
-          "title": "",
+          "title": "Wealth & Insurance Advisor",
           "description": "Learn to assess client financial risk profiles and recommend appropriate insurance and savings products using AI-assisted planning tools.",
           "humanEdge": "Human conversations about mortality, health, and family security that require deep empathy.",
           "skills": ["Risk Profiling", "Insurance Product Knowledge", "Needs Analysis"],
@@ -344,7 +344,7 @@
           ]
         },
         "create": {
-          "title": "",
+          "title": "Financial Literacy Content Creator",
           "description": "A growing creator economy exists around personal finance — and former bank tellers have authentic street-level credibility that resonates with audiences who distrust institutional finance content. • Script and produce weekly short-form content on TikTok/Instagram/YouTube covering banking tips, savings hacks, credit basics • Research trending financial questions using AnswerThePublic and Google Trends • Manage editorial calendar and content pipeline in Notion or Trello • Monetize via brand sponso",
           "humanEdge": "Human judgment, relationships and contextual understanding remain irreplaceable.",
           "skills": [
@@ -612,7 +612,7 @@
       "prototypeRole": "payroll_hr",
       "strategies": {
         "automate": {
-          "title": "",
+          "title": "Payroll System Specialist",
           "description": "Modern payroll in Indonesia is increasingly managed through integrated HRIS platforms (Talenta, Gadjian, SAP HCM), but someone still needs to own the system configuration, BPJS reconciliation, and edge case handling that keeps every employee paid accurately and on time.",
           "humanEdge": "Detects the payroll calculation error that the system passed but that doesn't look right for an employee who recently changed departments or roles -- a pattern recognition requiring knowledge of the employee's history",
           "skills": ["HRIS Automation", "Payroll System Mastery", "Compliance Monitoring"],
@@ -639,7 +639,7 @@
           ]
         },
         "hybrid": {
-          "title": "",
+          "title": "HR Business Partner",
           "description": "As payroll and HR administration become increasingly automated, the professionals who thrive are those who can translate workforce data into people strategy and build genuine relationships with the managers and employees they serve.",
           "humanEdge": "Earns the trust of both management and employees by being reliably discreet -- a position that cannot be automated because it depends entirely on human relationships built over time",
           "skills": ["HR Business Partnering", "Employee Relations", "Strategic People Operations"],
@@ -672,7 +672,7 @@
           ]
         },
         "pivot": {
-          "title": "",
+          "title": "Recruiter (In-House)",
           "description": "In-house recruitment draws directly on the people instincts, system knowledge, and organizational navigation skills of an HR generalist -- with a more commercial, metrics-driven focus. In Indonesia's talent-competitive market (tech, fintech, startup sectors), a recruiter who understands payroll and total compensation structures is uniquely valuable. Indonesia's labor law complexity creates a specialized market for compliance professionals who understand UU Ketenagakerjaan, BPJS requirements, and",
           "humanEdge": "Detects candidate red flags in an interview that a skills-matching algorithm misses -- inconsistency between resume and verbal account, cultural fit signals, motivation authenticity",
           "skills": ["Cross-Domain Transfer", "Compliance Intuition", "People-Centered Design"],
@@ -693,7 +693,7 @@
           ]
         },
         "create": {
-          "title": "",
+          "title": "Chief People Officer (Scale-up)",
           "description": "For a senior HR professional with both operational depth and strategic breadth, the CPO track at a growing company offers the opportunity to design the entire people function -- from culture to compensation to org design -- as the company scales from 50 to 500 employees.",
           "humanEdge": "Makes the judgment calls on culture that cannot be delegated to frameworks or consultants -- what behavior is acceptable, what is not, and where the line sits for this specific organization and stage",
           "skills": ["Strategic Workforce Design", "Systems Architecture", "People Innovation"],
@@ -1221,7 +1221,7 @@
       "prototypeRole": "sales_rep",
       "strategies": {
         "automate": {
-          "title": "",
+          "title": "Revenue Operations Analyst",
           "description": "Sales teams generate enormous amounts of pipeline data that AI tools can now surface as actionable signals. A Revenue Operations Analyst owns the systems that ensure every rep is working the right deals at the right time, using AI to eliminate guesswork from forecasting and territory management.",
           "humanEdge": "Interprets why a deal is stalling through relationship context that no dashboard captures -- the sales rep who went dark, the champion who changed roles",
           "skills": ["CRM Automation", "AI Prospecting Tools", "Revenue Analytics"],
@@ -1254,7 +1254,7 @@
           ]
         },
         "hybrid": {
-          "title": "",
+          "title": "Key Account Manager",
           "description": "In a world where basic sales tasks are automated, the accounts that still require a human are the large, complex, relationship-dependent ones. A Key Account Manager owns a small number of high-value clients, serving as their internal champion within the vendor and their trusted advisor on category strategy.",
           "humanEdge": "Maintains multi-year relationships with senior buyers who make seven-figure decisions based on trust, not just ROI calculations",
           "skills": ["Consultative Selling", "Relationship Intelligence", "AI-Assisted Research"],
@@ -1287,7 +1287,7 @@
           ]
         },
         "pivot": {
-          "title": "",
+          "title": "Business Development Representative (SaaS/Tech)",
           "description": "A sales rep's most transferable asset when switching industries is prospecting discipline and pipeline management. A BDR role in a high-growth SaaS company offers structured training and a clear pathway into account executive or product roles within 12-18 months.",
           "humanEdge": "Converts cold outreach into warm conversations by finding genuine relevance in a prospect's situation -- a judgment that goes beyond automation sequencing",
           "skills": ["Cross-Industry Translation", "Learning Agility", "Domain Reskilling"],
@@ -1308,7 +1308,7 @@
           ]
         },
         "create": {
-          "title": "",
+          "title": "Commercial Director",
           "description": "A Commercial Director owns the full revenue engine -- sales, partnerships, and pricing strategy -- for a business unit or company. This is the path from contributor to architect, responsible for building the team, the system, and the strategy simultaneously.",
           "humanEdge": "Makes judgment calls on which markets, segments, and deals are worth pursuing -- resource allocation decisions requiring commercial pattern recognition built from years of wins and losses",
           "skills": [
@@ -1737,7 +1737,7 @@
       "prototypeRole": "accountant",
       "strategies": {
         "automate": {
-          "title": "",
+          "title": "Financial Reporting Specialist",
           "description": "As AI tools handle more of the routine bookkeeping and data entry that accountants once spent hours on, the premium shifts to the professional who can interpret the numbers, identify anomalies, and tell a clear financial story to decision-makers.",
           "humanEdge": "Identifies the unusual transaction that the reconciliation algorithm clears but that a trained eye recognizes as suspicious -- fraud detection remains a human instinct",
           "skills": [
@@ -1774,7 +1774,7 @@
           ]
         },
         "hybrid": {
-          "title": "",
+          "title": "Finance Business Partner",
           "description": "A Finance Business Partner is embedded within a business unit -- sales, operations, product -- acting as the financial conscience of the team. This role requires equal parts technical accounting and business communication.",
           "humanEdge": "Builds enough trust with business unit leaders to be told what's really happening before it shows up in the numbers -- enabling early intervention on financial risks",
           "skills": ["Business Partnership", "Financial Storytelling", "Advisory Communication"],
@@ -1801,7 +1801,7 @@
           ]
         },
         "pivot": {
-          "title": "",
+          "title": "Operations Finance Manager (Startup)",
           "description": "Fast-growing startups in SEA often need their first real finance professional at the Series A or B stage -- someone who can build financial infrastructure from scratch: chart of accounts, ERP implementation, investor reporting, and cash management.",
           "humanEdge": "Brings accounting discipline to an environment where \"figure it out\" is the culture, without being so process-heavy that the startup loses its agility",
           "skills": ["Cross-Sector Application", "Financial Translation", "Domain Learning"],
@@ -1822,7 +1822,7 @@
           ]
         },
         "create": {
-          "title": "",
+          "title": "CFO (Scale-up)",
           "description": "For an experienced accountant with management experience, the CFO track at a growth-stage company offers the opportunity to be the architect of the entire financial operation -- investor relations, capital allocation, team building, and strategic planning.",
           "humanEdge": "Earns investor confidence by combining financial rigor with commercial judgment -- investors fund CFOs they believe can both build controls and think strategically",
           "skills": [
@@ -1993,7 +1993,7 @@
       "prototypeRole": "insurance_claims",
       "strategies": {
         "automate": {
-          "title": "",
+          "title": "Claims Automation Analyst",
           "description": "As insurers deploy AI to auto-adjudicate routine claims, this role manages the exception queue — the complex, borderline, and contested claims that automation cannot reliably resolve. • Monitor AI adjudication pipelines in Guidewire ClaimCenter or Duck Creek for misclassified or stalled claims • Review medical bills and contractor estimates flagged for cost outlier analysis • Run comparative analytics in Excel/Tableau to identify processing bottleneck patterns • Update claims business rules docu",
           "humanEdge": "Human judgment, relationships and contextual understanding remain irreplaceable.",
           "skills": ["Claims Automation Platforms", "AI Fraud Detection", "Complex Case Triage"],
@@ -2020,7 +2020,7 @@
           ]
         },
         "hybrid": {
-          "title": "",
+          "title": "Claims Resolution Specialist",
           "description": "Insurance companies need specialists who can manage the human side of difficult claims — injured parties, bereaved families, small business owners in distress — while efficiently navigating the digital claims infrastructure. • Own a portfolio of 30–50 complex or contested claims end-to-end in Guidewire or Salesforce Financial Services • Conduct weekly status calls with claimants, attorneys, and repair/medical vendors • Negotiate settlements within authority limits using reserve analysis and cove",
           "humanEdge": "Human judgment, relationships and contextual understanding remain irreplaceable.",
           "skills": ["Claimant Advocacy", "Complex Case Navigation", "Digital Claims Tools"],
@@ -2041,7 +2041,7 @@
           ]
         },
         "pivot": {
-          "title": "",
+          "title": "Insurance Innovation Lead",
           "description": "Develop insurance product innovation skills: parametric insurance design, embedded insurance distribution, usage-based product development, and InsurTech partnership models.",
           "humanEdge": "Claims experience that ensures innovative products pay when customers genuinely need them.",
           "skills": [
@@ -2072,7 +2072,7 @@
           ]
         },
         "create": {
-          "title": "",
+          "title": "Independent Insurance Consultant",
           "description": "Insurance consultants advise businesses and individuals on coverage strategy, vendor selection, and claims management — a practice built on the exact expertise developed in claims processing. • Conduct coverage gap analyses for small business clients using policy review checklists • Negotiate on clients' behalf with carriers during claims disputes or renewal cycles • Develop risk management recommendations in written report format for client presentations • Build referral network through broker ",
           "humanEdge": "Human judgment, relationships and contextual understanding remain irreplaceable.",
           "skills": ["Insurtech Innovation", "Independent Practice", "Content Authority"],
@@ -2368,7 +2368,7 @@
       "prototypeRole": "digital_marketer",
       "strategies": {
         "automate": {
-          "title": "",
+          "title": "Marketing Automation Specialist",
           "description": "As AI takes over ad copy generation and basic campaign execution, the strategists who build and optimize the automation infrastructure become disproportionately valuable. • Build and optimize email workflows in HubSpot, Klaviyo, or Marketo triggered by behavioral signals • Configure lead scoring models and nurture sequences for B2B pipeline development • A/B test subject lines, CTAs, and send timing across segmented audiences • Analyze campaign performance reports and adjust automation logic bas",
           "humanEdge": "Human judgment, relationships and contextual understanding remain irreplaceable.",
           "skills": [
@@ -2399,7 +2399,7 @@
           ]
         },
         "hybrid": {
-          "title": "",
+          "title": "Brand Strategist",
           "description": "As AI commoditizes performance marketing, companies are competing on brand — and brand strategy requires human taste, cultural intelligence, and creative judgment that automation cannot synthesize. • Facilitate brand positioning workshops with leadership teams using frameworks like Simon Sinek's WHY or Jobs To Be Done • Develop brand voice guides, visual identity briefs, and messaging architecture documents • Audit brand consistency across all channels and surface misalignment findings in presen",
           "humanEdge": "Human judgment, relationships and contextual understanding remain irreplaceable.",
           "skills": ["Brand Strategy", "Community Marketing", "Relationship-Led Growth"],
@@ -2426,7 +2426,7 @@
           ]
         },
         "pivot": {
-          "title": "",
+          "title": "Brand Strategy Director",
           "description": "Build brand strategy skills: brand architecture design, consumer insight research, cultural trend mapping, AI-augmented creative strategy, and brand measurement frameworks.",
           "humanEdge": "Cultural intuition about how brand decisions resonate beyond demographic data.",
           "skills": [
@@ -2457,7 +2457,7 @@
           ]
         },
         "create": {
-          "title": "",
+          "title": "Fractional CMO / Marketing Consultant",
           "description": "Senior marketing expertise on a fractional basis is a growing market — small and mid-sized companies need strategic marketing leadership they can't afford to hire full-time. • Lead monthly marketing strategy sessions with 2–4 client leadership teams • Build 90-day growth roadmaps covering channel mix, campaign calendar, and team structure • Oversee agency and contractor relationships on clients' behalf • Track and report against marketing OKRs in weekly async updates using Loom and Notion • Prov",
           "humanEdge": "Human judgment, relationships and contextual understanding remain irreplaceable.",
           "skills": [
@@ -2622,7 +2622,7 @@
       "prototypeRole": "data_analyst",
       "strategies": {
         "automate": {
-          "title": "",
+          "title": "Analytics Engineer",
           "description": "As AI automates routine reporting, data analysts who can build the infrastructure that feeds those reports — dbt models, data pipelines, semantic layers — become foundational to every data org. • Build and maintain dbt models that transform raw warehouse data (Snowflake/BigQuery) into analytics-ready tables • Document data lineage and model logic in dbt docs for team reference • Write SQL tests and data quality checks to validate pipeline outputs • Collaborate with business stakeholders to trans",
           "humanEdge": "Human judgment, relationships and contextual understanding remain irreplaceable.",
           "skills": ["AI-Augmented Analysis", "Advanced SQL", "ML-Assisted Reporting"],
@@ -2649,7 +2649,7 @@
           ]
         },
         "hybrid": {
-          "title": "",
+          "title": "Insights Analyst",
           "description": "Companies increasingly need analysts who can bridge between automated data pipelines and human decision-makers — turning raw outputs into clear, actionable narrative recommendations. • Conduct weekly data review sessions with product and marketing teams presenting trend analysis in Tableau or Looker • Write analytical narrative reports translating statistical findings into business implications • Design A/B test frameworks and interpret results for product teams using Google Optimize or Statsig ",
           "humanEdge": "Human judgment, relationships and contextual understanding remain irreplaceable.",
           "skills": ["Stakeholder Analytics", "Data Communication", "Strategic Insight Generation"],
@@ -2670,7 +2670,7 @@
           ]
         },
         "pivot": {
-          "title": "",
+          "title": "Analytics Product Manager",
           "description": "Build analytics PM skills: metric framework design (OKRs, HEART, North Star), analytics product roadmapping, data product strategy, and cross-functional analytics leadership.",
           "humanEdge": "Analyst credibility that grounds PM decisions in what data actually shows.",
           "skills": [
@@ -2701,7 +2701,7 @@
           ]
         },
         "create": {
-          "title": "",
+          "title": "Freelance Data Analyst / Consultant",
           "description": "The market for independent analytics consultants is growing as companies prefer flexible expertise over full-time hires — building a solo practice around specialized domain knowledge is increasingly viable. • Scope and deliver analytics projects (dashboards, models, data audits) for 2–4 clients simultaneously • Build proposals and project scopes in Notion or Google Docs, pricing by deliverable or retainer • Manage client communication via Slack and Zoom, presenting findings in weekly stakeholder",
           "humanEdge": "Human judgment, relationships and contextual understanding remain irreplaceable.",
           "skills": [
