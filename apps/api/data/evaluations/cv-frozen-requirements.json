@@ -1,0 +1,356 @@
+{
+  "frozenImplementation": "c3d2158",
+  "provenance": "Original definitions for historical synthetic diagnostics; this snapshot does not validate the fork's changed skill catalogue.",
+  "requirements": [
+    {
+      "id": "skill-4b839d0eba7f1ee857eb",
+      "label": "GitHub Copilot / Claude Code",
+      "definition": "Use an AI coding assistant to generate or edit code within a development workflow.",
+      "exclusions": "Integrating a hosted model into an application does not establish use of a coding assistant.",
+      "aliases": ["GitHub Copilot", "Claude Code", "Cursor"],
+      "context": "Master AI-assisted coding workflows using GitHub Copilot, Claude Code, and Cursor. Build expertise in validating AI-generated code for security, correctness, and performance.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-e1d98cf2712917a3b5d2",
+      "label": "Prompt Engineering for Code",
+      "definition": "Design and refine prompts specifically for generating, reviewing or debugging code.",
+      "exclusions": "General API integration, ordinary coding, or non-code prompts do not establish code prompting.",
+      "aliases": ["AI code prompting", "code generation prompts"],
+      "context": "Master AI-assisted coding workflows using GitHub Copilot, Claude Code, and Cursor. Build expertise in validating AI-generated code for security, correctness, and performance.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-d17f4a6b6765e1ce565a",
+      "label": "Security Code Review",
+      "definition": "Review source code for vulnerabilities or apply security-specific checks and remediation.",
+      "exclusions": "General code quality review or the adjective secure alone is insufficient.",
+      "aliases": ["secure code review", "vulnerability review", "SAST review"],
+      "context": "Master AI-assisted coding workflows using GitHub Copilot, Claude Code, and Cursor. Build expertise in validating AI-generated code for security, correctness, and performance.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-4d05442b1987d65dfe92",
+      "label": "Python ML Libraries",
+      "definition": "Apply Python machine learning libraries to training, evaluating or using ML models.",
+      "exclusions": "JavaScript development or calls to hosted AI APIs alone are insufficient.",
+      "aliases": ["scikit-learn", "PyTorch", "TensorFlow"],
+      "context": "Build ML-integrated applications, design inference pipelines, and deploy models to production using cloud ML platforms and MLOps tools.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-37845286bc6c69fc44df",
+      "label": "Model APIs (Vertex AI, Bedrock)",
+      "definition": "Integrate hosted machine learning model APIs into an application. Listed platforms are examples, not mandatory vendors.",
+      "exclusions": "Ordinary REST APIs, database APIs or general cloud deployment alone are insufficient.",
+      "aliases": ["Gemini API", "Claude API", "OpenAI API", "Vertex AI", "Amazon Bedrock"],
+      "context": "Build ML-integrated applications, design inference pipelines, and deploy models to production using cloud ML platforms and MLOps tools.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-93eb867b0bda3f15352c",
+      "label": "MLOps Fundamentals",
+      "definition": "Apply practices for model deployment, versioning, monitoring, evaluation or reproducible ML pipelines.",
+      "exclusions": "Ordinary web CI/CD, Docker or model API consumption alone does not establish MLOps.",
+      "aliases": ["model monitoring", "model registry", "ML pipeline"],
+      "context": "Build ML-integrated applications, design inference pipelines, and deploy models to production using cloud ML platforms and MLOps tools.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-bd8bc7eed9bc6440a3ab",
+      "label": "Product Discovery",
+      "definition": "Investigate customer problems and validate product opportunities through discovery research or experiments.",
+      "exclusions": "Implementing a specified feature or managing assigned development tasks alone is insufficient.",
+      "aliases": ["customer discovery", "product hypothesis testing"],
+      "context": "Transition from dev to PM for AI-powered products. Learn product discovery, user research, and roadmapping specific to AI feature development.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-8b9ecd5cf1239bebbf6c",
+      "label": "User Research",
+      "definition": "Conduct user interviews, usability studies or other systematic research into user needs and behavior.",
+      "exclusions": "Implementing Figma designs or describing work as UI/UX alone does not establish research.",
+      "aliases": ["usability testing", "user interviews"],
+      "context": "Transition from dev to PM for AI-powered products. Learn product discovery, user research, and roadmapping specific to AI feature development.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-d4d636c3ebd5e95e51aa",
+      "label": "AI Feature Roadmapping",
+      "definition": "Prioritize and sequence AI product features using goals, dependencies, customer evidence and delivery constraints.",
+      "exclusions": "Building an AI feature or coordinating a migration alone is insufficient.",
+      "aliases": ["AI product roadmap", "AI feature prioritization"],
+      "context": "Transition from dev to PM for AI-powered products. Learn product discovery, user research, and roadmapping specific to AI feature development.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-581de59ab533cfd76e8e",
+      "label": "Prompt Injection Testing",
+      "definition": "Test AI systems with adversarial instructions to identify prompt injection vulnerabilities.",
+      "exclusions": "Ordinary prompting, AI integration or application security alone is insufficient.",
+      "aliases": ["LLM prompt injection testing", "jailbreak testing"],
+      "context": "Apply software engineering skills to AI safety: build safety evaluation frameworks, conduct adversarial testing (jailbreaking, prompt injection), and implement safety guardrails.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-bba7b655a849d58d53e1",
+      "label": "Safety Eval Frameworks",
+      "definition": "Build or apply structured evaluations of AI safety behavior and guardrails.",
+      "exclusions": "General software unit tests or ordinary model accuracy evaluation alone are insufficient.",
+      "aliases": ["AI safety evaluations", "LLM safety benchmarks"],
+      "context": "Apply software engineering skills to AI safety: build safety evaluation frameworks, conduct adversarial testing (jailbreaking, prompt injection), and implement safety guardrails.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-9ff572abf1928e711be2",
+      "label": "Interpretability Tools",
+      "definition": "Apply tools that explain or inspect machine learning model behavior or predictions.",
+      "exclusions": "Logging web requests, ordinary debugging or displaying AI output is insufficient.",
+      "aliases": ["SHAP", "LIME", "model explainability"],
+      "context": "Apply software engineering skills to AI safety: build safety evaluation frameworks, conduct adversarial testing (jailbreaking, prompt injection), and implement safety guardrails.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-5fba528b371d89d17a81",
+      "label": "Power BI / Tableau",
+      "definition": "Build or maintain business intelligence visualizations using Power BI or Tableau; either tool satisfies this alternative.",
+      "exclusions": "A custom React chart alone does not establish experience with these BI tools.",
+      "aliases": ["Power BI", "Tableau"],
+      "context": "Build operational dashboards in Power BI or Tableau, replacing manual report generation with automated visual insights.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-3e7f8bfbddde510aa4e0",
+      "label": "Xero / QuickBooks Online",
+      "definition": "Use Xero or QuickBooks Online for bookkeeping or accounting workflows; either tool satisfies this alternative.",
+      "exclusions": "Generic finance software development does not establish hands-on bookkeeping tool experience.",
+      "aliases": ["Xero", "QuickBooks Online", "QBO"],
+      "context": "Transition from manual bookkeeping to AI-augmented accounting platforms. Master exception handling, rule-based automation validation, and anomaly review.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-683c7c8690c1829d2b99",
+      "label": "IFRS Fundamentals",
+      "definition": "Apply or demonstrate knowledge of International Financial Reporting Standards in financial reporting.",
+      "exclusions": "General bookkeeping or use of accounting software alone is insufficient.",
+      "aliases": ["International Financial Reporting Standards", "IFRS"],
+      "context": "Build expertise in financial statement preparation, internal control testing, and consolidated reporting aligned with IFRS/GAAP standards.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-424ef4dfb693580f50ad",
+      "label": "Digital KYC",
+      "definition": "Carry out or implement digital identity verification and customer due diligence workflows.",
+      "exclusions": "Ordinary account login or contact data entry alone is insufficient.",
+      "aliases": ["electronic KYC", "eKYC", "digital customer due diligence"],
+      "context": "Transition from manual teller operations to digital banking platforms, fraud monitoring dashboards, and fintech API interfaces.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-f9930fe177cf0b23a433",
+      "label": "Active Listening",
+      "definition": "Elicit and confirm another person's concerns through attentive listening, clarification and reflection.",
+      "exclusions": "A communication skills label or attendance at meetings alone is insufficient.",
+      "aliases": ["reflective listening", "clarifying customer concerns"],
+      "context": "Take ownership of top-tier escalated disputes requiring discretion, authority and human accountability.",
+      "definitionSource": "authored-evidence-rule",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-c1536031dc93291dbb22",
+      "label": "eDiscovery Management",
+      "definition": "Applied eDiscovery Management within Legal Technology Specialist.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Learn to operate AI-assisted contract review platforms (Ironclad, Kira, Lexis+AI), validate AI-extracted contract clauses, and manage eDiscovery workflows.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-b988e37bde24559a1580",
+      "label": "Clause Risk Assessment",
+      "definition": "Applied Clause Risk Assessment within Legal Technology Specialist.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Learn to operate AI-assisted contract review platforms (Ironclad, Kira, Lexis+AI), validate AI-extracted contract clauses, and manage eDiscovery workflows.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-707d6e520902cd0e7b20",
+      "label": "Obligation Mapping",
+      "definition": "Applied Obligation Mapping within Contract Intelligence Lead.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Use LLM-based drafting tools to prepare first-draft contracts, identify unusual risk clauses, and generate obligation checklists for legal review.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-86831e18941bdf7b6d69",
+      "label": "Structured Interviewing",
+      "definition": "Applied Structured Interviewing within Ethical Hiring & DEI Lead.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Audit hiring pipelines for demographic bias, design structured interview frameworks, and implement inclusive job description tooling.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-d7aec50f7509a6dca1bf",
+      "label": "Bias Audit Methodology",
+      "definition": "Applied Bias Audit Methodology within Ethical Hiring & DEI Lead.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Audit hiring pipelines for demographic bias, design structured interview frameworks, and implement inclusive job description tooling.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-fcb0cb0767486fed3f9e",
+      "label": "Supply Chain Risk Mapping",
+      "definition": "Applied Supply Chain Risk Mapping within Supply Chain Resilience Officer.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Map supply chain vulnerabilities using AI risk tools, design business continuity protocols, and implement ESG supplier compliance frameworks.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-413abcf59589958fd670",
+      "label": "Demand Planning Fundamentals",
+      "definition": "Applied Demand Planning Fundamentals within Supply Chain AI Analyst.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Use AI-powered TMS/WMS platforms to optimize routing, predict demand, and identify supply chain disruption signals before they cascade.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-ce0b871f8c1733ff9635",
+      "label": "Stress Testing Frameworks",
+      "definition": "Applied Stress Testing Frameworks within Systemic Risk Officer.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Develop systemic risk analysis skills: macro stress testing, contagion modeling, AI model risk governance, and Basel regulatory capital framework expertise.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-52b142bfd3bd77d53879",
+      "label": "Performance Attribution",
+      "definition": "Applied Performance Attribution within Portfolio Manager.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Build portfolio management capability: asset allocation, risk budgeting, factor exposure management, and client investment policy statement design.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-2be95ed2dbb383b084e6",
+      "label": "Model Risk Management",
+      "definition": "Applied Model Risk Management within Systemic Risk Officer.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Develop systemic risk analysis skills: macro stress testing, contagion modeling, AI model risk governance, and Basel regulatory capital framework expertise.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-db9252fa09a96ffb5666",
+      "label": "LMS Administration (Canvas/Moodle)",
+      "definition": "Applied LMS Administration (Canvas/Moodle) within EdTech Facilitator.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Modernize teaching with EdTech: LMS platforms (Canvas, Moodle), AI tutoring tools, adaptive learning design, accessibility standards (WCAG), and learning analytics.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-6de5cddc5c3475ac0761",
+      "label": "Learning Science (Cognitive Load, Spaced Practice)",
+      "definition": "Applied Learning Science (Cognitive Load, Spaced Practice) within Education Innovation Lead.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Develop education innovation skills: EdTech product design, learning science application, program impact evaluation, and education-industry partnership development.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-5e80a3ba9a725388ea20",
+      "label": "Impact Evaluation Frameworks",
+      "definition": "Applied Impact Evaluation Frameworks within Education Innovation Lead.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Develop education innovation skills: EdTech product design, learning science application, program impact evaluation, and education-industry partnership development.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-2c807161ca880dd7d49c",
+      "label": "A/B Testing Design & Analysis",
+      "definition": "Applied A/B Testing Design & Analysis within Growth Intelligence Analyst.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Build growth intelligence capability: A/B and multivariate testing, predictive LTV modeling, cohort analysis, media mix modeling (MMM), and causal inference for marketing.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-3051862bc68be35b78bb",
+      "label": "Predictive LTV Modeling",
+      "definition": "Applied Predictive LTV Modeling within Growth Intelligence Analyst.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Build growth intelligence capability: A/B and multivariate testing, predictive LTV modeling, cohort analysis, media mix modeling (MMM), and causal inference for marketing.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-477421389c24b34100cf",
+      "label": "Privacy-First Marketing Design",
+      "definition": "Applied Privacy-First Marketing Design within Advertising Ethics Lead.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Build advertising ethics expertise: privacy-first marketing design, GDPR/CCPA ad compliance, dark pattern identification, AI-generated ad content disclosure, and vulnerable audience protection.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-5b2df9f29f76de5db800",
+      "label": "TMS / WMS Systems",
+      "definition": "Applied TMS / WMS Systems within Supply Chain AI Analyst.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Use AI-powered TMS/WMS platforms to optimize routing, predict demand, and identify supply chain disruption signals before they cascade.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    },
+    {
+      "id": "skill-aec7b757a68e0b6b7a5d",
+      "label": "EU AI Act",
+      "definition": "Applied EU AI Act within AI Law & Policy Advisor.",
+      "exclusions": "Related tasks, goals, negated experience and occupation titles alone are insufficient; evidence must establish the named competency.",
+      "aliases": [],
+      "context": "Study AI-specific legal frameworks (EU AI Act, model liability, IP ownership in generated content) and advise on compliant AI deployment.",
+      "definitionSource": "catalogue-label-and-context",
+      "version": "cv-requirements-1"
+    }
+  ]
+}

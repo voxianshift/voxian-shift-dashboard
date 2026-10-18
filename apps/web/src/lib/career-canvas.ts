@@ -52,42 +52,42 @@ export type RoleNode = Node<
 >
 
 // Fixed branch bands match the reference, with compact pills and room for labels.
-// Fan layout: worldlines diverge from a central origin, matching the HTML prototype's
-// organic branching style rather than a tidy column.
-const fanYOffsets = [-260, -85, 85, 260] // vertical offset per worldline from canvas center
-
 export function buildCareerNodes(
   careerPaths: CareerPath[],
   roleTitle: string,
   cv?: CvContext | null,
 ): RoleNode[] {
-  const destRowHeight = 88
-  const worldlineX = 400
-  const destX = 820
-
-  // Center Y: deep enough that the lowest branch's destination nodes don't clip
-  const maxDests = Math.max(...careerPaths.map((p) => p.roles.length))
-  const centerY = Math.abs(fanYOffsets[0]!) + Math.ceil(maxDests / 2) * destRowHeight + 60
-
+  const rowHeight = 100
+  const branchRows = careerPaths.map((path) =>
+    Math.max(
+      3,
+      path.roles.length <= 4 ? path.roles.length : Math.ceil(path.roles.length / roleGridColumns),
+    ),
+  )
+  const totalHeight = branchRows.reduce((sum, rows) => sum + rows * rowHeight + 64, 0)
+  let offset = 0
   return [
     {
       id: "start",
       type: "role",
-      position: { x: 0, y: centerY - 120 },
+      position: { x: 0, y: totalHeight / 2 - 120 },
       width: 220,
       height: 240,
       selectable: false,
       focusable: false,
       data: { title: roleTitle, subtitle: "Day 0 Baseline", color: "#00f2fe", kind: "start" },
     },
-    ...careerPaths.flatMap((path, pathIndex): RoleNode[] => {
-      const wlY = centerY + (fanYOffsets[pathIndex] ?? pathIndex * 170)
+    ...careerPaths.flatMap((path): RoleNode[] => {
+      const rows = branchRows[careerPaths.indexOf(path)]!
+      const center = offset + ((rows - 1) * rowHeight) / 2 + 32
+      const firstRow = offset
+      offset += rows * rowHeight + 64
       const color = strategyColors[path.id] ?? path.color
       return [
         {
           id: path.id,
           type: "role",
-          position: { x: worldlineX, y: wlY - 90 },
+          position: { x: 420, y: center - 90 },
           width: 260,
           height: 260,
           ariaLabel: `Explore ${path.title}`,
@@ -111,20 +111,19 @@ export function buildCareerNodes(
             cvMatches: path.cvMatches,
           },
         },
-        ...path.roles.map((role, i): RoleNode => {
-          // Spread destination nodes around the worldline's Y center
-          const totalSpan = (path.roles.length - 1) * destRowHeight
-          const roleY = wlY - totalSpan / 2 + i * destRowHeight
-          return {
-            id: `${path.id}-role-${i}`,
-            type: "role",
-            position: { x: destX, y: roleY - 32 },
-            width: 320,
-            height: 64,
-            ariaLabel: `Explore ${role}`,
-            data: { title: role, subtitle: "", color, kind: "role", pathId: path.id },
-          }
-        }),
+        ...path.roles.map((role, i): RoleNode => ({
+          id: `${path.id}-role-${i}`,
+          type: "role",
+          position: {
+            x: 880 + (path.roles.length <= 4 ? 0 : i % roleGridColumns) * 440,
+            y:
+              firstRow + (path.roles.length <= 4 ? i : Math.floor(i / roleGridColumns)) * rowHeight,
+          },
+          width: 320,
+          height: 64,
+          ariaLabel: `Explore ${role}`,
+          data: { title: role, subtitle: "", color, kind: "role", pathId: path.id },
+        })),
       ]
     }),
   ]
