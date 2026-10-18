@@ -3,7 +3,7 @@ import {
   pathCourseIds,
   weeklyDayMinutes,
   type FlightPlan,
-  type ResourceId,
+  type PlanResourceId,
 } from "@voxian/shared"
 import { guestRequest } from "@/lib/guest-data"
 import { type FlightSegment } from "@/lib/flight-plan"
@@ -17,6 +17,7 @@ export type Plan = {
   firstMonth?: FlightPlan["firstMonth"]
   milestones?: FlightPlan["milestones"]
   goals?: FlightPlan["goals"]
+  roleResources?: FlightPlan["roleResources"]
   profileRevision?: string
   contractVersion?: 3
   occupationCode?: string
@@ -312,7 +313,7 @@ export type BoardItem = {
   phase: number
   title: string
   doneWhen?: string
-  resourceId?: ResourceId
+  resourceId?: PlanResourceId
   /** True when the AI picked no resource and the card shows the phase's usual one instead. */
   suggested: boolean
   /** Scheduled session dates inside this task or milestone window. */
@@ -327,7 +328,7 @@ export type BoardPhase = {
   status: Exclude<BoardStatus, "missed">
   done: number
   total: number
-  resources: ResourceId[]
+  resources: PlanResourceId[]
 }
 
 /** Phases plus first-month tasks and later milestones, each with a status for today. */
@@ -355,8 +356,8 @@ export function planBoard(commitment: Commitment, today: string) {
       .filter((milestone) => milestone.minutes > 0)
       .map((milestone) => ({ ...milestone, title: milestone.action })),
   ]
-  const usual = (picks: (ResourceId | undefined)[]) => {
-    const counts = new Map<ResourceId, number>()
+  const usual = (picks: (PlanResourceId | undefined)[]) => {
+    const counts = new Map<PlanResourceId, number>()
     for (const id of picks) if (id) counts.set(id, (counts.get(id) ?? 0) + 1)
     return [...counts].sort((a, b) => b[1] - a[1]).map(([id]) => id)
   }

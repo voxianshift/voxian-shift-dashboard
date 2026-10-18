@@ -3,6 +3,7 @@
 import {
   generatedPlanSchema,
   navigatorResources,
+  planResource,
   learningPhases,
   type PlanScheduleInput,
   courseList,
@@ -648,16 +649,22 @@ export function Roadmap({
                             />
                           </div>
                           <p>{day.task}</p>
-                          {day.resourceId && (
-                            <a
-                              className="mt-1 block underline"
-                              href={navigatorResources[day.resourceId].href}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              {navigatorResources[day.resourceId].title}
-                            </a>
-                          )}
+                          {(() => {
+                            const resource = planResource(plan.plan, day.resourceId)
+                            if (!resource) return null
+                            return resource.href ? (
+                              <a
+                                className="mt-1 block underline"
+                                href={resource.href}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                {resource.title}
+                              </a>
+                            ) : (
+                              <p className="mt-1">{resource.title}</p>
+                            )
+                          })()}
                           <p className="text-muted-foreground">
                             {day.minutes} min · sessions: {day.sessions.join(" + ")} min
                           </p>
@@ -729,18 +736,22 @@ export function Roadmap({
                             </div>
                           </div>
                           <p className="mt-2 text-sm leading-relaxed">{milestone.action}</p>
-                          {milestone.resourceId && (
-                            <a
-                              className="mt-3 inline-flex items-center gap-1.5 text-[12px] underline underline-offset-3"
-                              href={navigatorResources[milestone.resourceId].href}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <BookOpen className="size-3.5" />
-                              {navigatorResources[milestone.resourceId].title}
-                              <ArrowUpRight className="size-3" />
-                            </a>
-                          )}
+                          {(() => {
+                            const resource = planResource(plan.plan, milestone.resourceId)
+                            if (!resource) return null
+                            return (
+                              <a
+                                className="mt-3 inline-flex items-center gap-1.5 text-[12px] underline underline-offset-3"
+                                href={resource.href ?? undefined}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                <BookOpen className="size-3.5" />
+                                {resource.title}
+                                {resource.href && <ArrowUpRight className="size-3" />}
+                              </a>
+                            )
+                          })()}
                         </div>
                       </li>
                     ))}

@@ -1,5 +1,11 @@
 import { z } from "zod"
-import { navigatorContextSchema, pathIdSchema, resourceIdSchema } from "./navigator.ts"
+import {
+  navigatorContextSchema,
+  navigatorDestinationSchema,
+  navigatorResources,
+  pathIdSchema,
+  resourceIdSchema,
+} from "./navigator.ts"
 import { occupationCodeSchema } from "./occupations.ts"
 
 const text = (max: number) => z.string().trim().min(1).max(max)
@@ -138,7 +144,15 @@ export function buildPlanSchedule(input: PlanScheduleInput, horizon: 90 | 120) {
   })
   return { firstMonth, milestones }
 }
-const resourcePick = { resourceId: resourceIdSchema.optional() }
+// Plans cite reviewed resources or the selected role's source-provided resources (role-1…role-10).
+export const roleResourceIdSchema = z.string().regex(/^role-(?:[1-9]|10)$/)
+export const planResourceIdSchema = z.union([resourceIdSchema, roleResourceIdSchema])
+export type PlanResourceId = z.infer<typeof planResourceIdSchema>
+export const roleResourceSchema = navigatorDestinationSchema.shape.learningResources
+  .unwrap()
+  .element.extend({ id: roleResourceIdSchema })
+export type RoleResource = z.infer<typeof roleResourceSchema>
+const resourcePick = { resourceId: planResourceIdSchema.optional() }
 export const planDraftSchema = z.object({
   summary: text(500),
   firstStep: text(240),
@@ -205,7 +219,7 @@ export const flightPlanSchema = z.object({
         sessions: z.array(z.number().int().positive()).max(1440),
         task: text(220).nullable(),
         doneWhen: text(140).optional(),
-        resourceId: resourceIdSchema.optional(),
+        resourceId: planResourceIdSchema.optional(),
       }),
     )
     .length(30),
@@ -219,7 +233,7 @@ export const flightPlanSchema = z.object({
         action: text(220),
         doneWhen: text(140).optional(),
         minutes: z.number().int().nonnegative(),
-        resourceId: resourceIdSchema.optional(),
+        resourceId: planResourceIdSchema.optional(),
       }),
     )
     .max(20),
@@ -228,6 +242,8 @@ export const flightPlanSchema = z.object({
       z.object({ day: z.union([z.literal(30), z.literal(60), z.literal(90)]), outcome: text(220) }),
     )
     .length(3),
+  // Absent on plans saved before role resources existed.
+  roleResources: z.array(roleResourceSchema).max(10).default([]),
 })
 export type FlightPlan = z.infer<typeof flightPlanSchema>
 export const generatedPlanSchema = z
@@ -286,7 +302,39 @@ export function validatePlanSchedule(plan: FlightPlan) {
     )
       throw new Error("Phase dates differ from schedule")
   }
+  const roleIds = new Set(plan.roleResources.map((resource) => resource.id))
+  if (roleIds.size !== plan.roleResources.length) throw new Error("Duplicate role resource ID")
+  for (const entry of [...plan.firstMonth, ...plan.milestones])
+    if (
+      entry.resourceId &&
+      !(entry.resourceId in navigatorResources) &&
+      !roleIds.has(entry.resourceId)
+    )
+      throw new Error("Plan cites an unknown resource")
   if (JSON.stringify(plan.goals.map((goal) => goal.day)) !== JSON.stringify([30, 60, 90]))
     throw new Error("Goal dates differ from schedule")
   return plan
+}
+
+/** Display fields for a plan resource ID, whether reviewed or from the selected role. */
+export function planResource(
+  plan: { roleResources?: RoleResource[] } | undefined,
+  id: PlanResourceId | undefined,
+):
+  | { title: string; href: string | null; cost: "Free" | "Paid"; detail: string; note?: string }
+  | undefined {
+  if (!id) return undefined
+  if (id in navigatorResources) {
+    const known = navigatorResources[id as keyof typeof navigatorResources]
+    return { ...known, detail: `${known.provider} · ${known.type}` }
+  }
+  const role = plan?.roleResources?.find((resource) => resource.id === id)
+  return (
+    role && {
+      title: role.title,
+      href: role.href,
+      cost: role.cost,
+      detail: role.note.replace(/^\(|\)$/g, "") || "Role resource",
+    }
+  )
 }

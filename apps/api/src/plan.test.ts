@@ -303,6 +303,42 @@ test("strategy-level selection is grounded without inventing a target and preser
   }
 })
 
+test("selected role's v6 learning resources are offered as role IDs and kept on the plan", async () => {
+  const fetch = mockProvider((draft) => {
+    draft.tasks[0].resourceId = "role-1"
+  })
+  const app = buildApp({ catalogue })
+  try {
+    const response = await app.inject({ method: "POST", url: "/plan", payload: request() })
+    expect(response.statusCode).toBe(200)
+    const destination = lookupPathways(occupation.code).pivot!.destinations[0]!
+    const plan = flightPlanSchema.parse(response.json().plan)
+    expect(plan.roleResources.map(({ id: _id, ...resource }) => resource)).toEqual(
+      destination.learningResources,
+    )
+    expect(plan.firstMonth.find((day) => day.task)!.resourceId).toBe("role-1")
+    const input = JSON.parse(JSON.parse(fetch.mock.calls[0]![1]!.body).messages[1].content)
+    expect(input.resources["role-1"].title).toBe(destination.learningResources![0]!.title)
+    expect(input.pathway.destinations[0].dayToDay).toEqual(destination.dayToDay)
+  } finally {
+    await app.close()
+  }
+})
+
+test("role resource IDs beyond the supplied list are rejected", async () => {
+  mockProvider((draft) => {
+    draft.tasks[0].resourceId = "role-9"
+  })
+  const app = buildApp({ catalogue })
+  try {
+    expect(
+      (await app.inject({ method: "POST", url: "/plan", payload: request() })).statusCode,
+    ).toBe(502)
+  } finally {
+    await app.close()
+  }
+})
+
 test("known but unoffered courses cannot be silently added to a plan", async () => {
   mockProvider((draft) => {
     draft.tasks[0].resourceId = "web"
