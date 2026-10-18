@@ -40,6 +40,7 @@ export type Commitment = {
   sprint: boolean
   hours: string
   timeOfDay: TimeOfDay
+  dayStartTimes?: Partial<Record<number, string>>
   days: StudyDays
   /** Local calendar date (YYYY-MM-DD) of day 1. */
   startDate: string
@@ -56,7 +57,7 @@ export type Commitment = {
 export const timeOfDayOptions = [
   { value: "morning", label: "Morning person", hint: "Early slots before work" },
   { value: "night", label: "Night owl learner", hint: "Late evening slots" },
-  { value: "flexible", label: "Flexible hours", hint: "Lunch or early evening" },
+  { value: "flexible", label: "Flexible hours", hint: "Choose a time for each day" },
 ] as const
 export const studyDayOptions = [
   { value: "weekdays", label: "Weekdays", hint: "Shorter sessions, Monday to Friday" },
@@ -112,7 +113,9 @@ export function commitmentSlots(commitment: Commitment) {
   if (schedule)
     return weeklyDayMinutes(schedule).flatMap(({ day, minutes }) => {
       const result: Slot[] = []
-      const start = starts[commitment.timeOfDay][day === 0 || day === 6 ? "weekend" : "weekday"]
+      const start =
+        (commitment.timeOfDay === "flexible" && commitment.dayStartTimes?.[day]) ||
+        starts[commitment.timeOfDay][day === 0 || day === 6 ? "weekend" : "weekday"]
       const [hour, minute] = start.split(":").map(Number) as [number, number]
       let offset = 0
       for (let remaining = minutes; remaining > 0; remaining -= schedule.sessionLimitMinutes) {
@@ -132,7 +135,11 @@ export function commitmentSlots(commitment: Commitment) {
     commitment.timeOfDay,
     commitment.days,
     commitment.shortSessions,
-  )
+  ).map((slot) => ({
+    ...slot,
+    start:
+      (commitment.timeOfDay === "flexible" && commitment.dayStartTimes?.[slot.day]) || slot.start,
+  }))
 }
 
 type SchedulePrefs = { hours: string; flexibility: string }
@@ -259,4 +266,33 @@ export async function saveCommitment(commitment: Commitment | null) {
   } catch {
     /* Legacy cache only. */
   }
+}
+
+export function planToday(commitment: Commitment, now = new Date()) {
+  const timeZone = commitment.plan?.plan.schedule?.timeZone
+  return timeZone
+    ? new Intl.DateTimeFormat("en-CA", {
+        timeZone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).format(now)
+    : localDate(now)
+}
+
+export function attendanceStatus(dates: string[], completed: string[], today: string) {
+  const attended = new Set(completed)
+  if (dates.length && dates.every((date) => attended.has(date))) return "Attended"
+  return dates.some((date) => date < today && !attended.has(date)) ? "Missed" : "On track"
+}
+
+/** Overdue learning stays in its phase until attendance is recorded. */
+export function learningPhase(commitment: Commitment, today: string) {
+  const days = planDays(commitment)
+  const pending = days.find((day) => day.slot && !day.done && day.date <= today)
+  const current = days.find((day) => day.date === today)
+  return currentPhase(
+    commitment,
+    pending?.dayNumber ?? current?.dayNumber ?? (today < commitment.startDate ? 1 : days.length),
+  )
 }

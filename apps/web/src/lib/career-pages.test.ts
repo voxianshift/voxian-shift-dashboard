@@ -6,6 +6,7 @@ function renderToStaticMarkup(element: Parameters<typeof renderMarkup>[0]) {
 }
 import { beforeEach, expect, test, vi } from "vite-plus/test"
 import {
+  buildPlanSchedule,
   navigatorResultSchema,
   emptyProfile,
   navigatorContext,
@@ -89,9 +90,9 @@ test("plan view lists at least five courses with must-have and cost badges", () 
 test("plan view shows a flight plan for the first phase by default", () => {
   state.query = "path=pivot"
   const html = renderToStaticMarkup(createElement(RoadmapPage))
-  expect(html).toContain("FLIGHT PLAN · PHASE 01 · DAYS 1–30")
-  expect(html).toContain("D1–D15")
-  expect(html).toContain("D16–D30")
+  expect(html).toContain("FLIGHT PLAN · PHASE 01 · W1–W5")
+  expect(html).toContain("W1–W3")
+  expect(html).toContain("W3–W5")
   expect(html).toContain("Module:")
   expect(html.match(/aria-controls="flight-plan"/g)).toHaveLength(4)
   // Committing to a direction generates the plan; there is no separate generate button.
@@ -276,6 +277,38 @@ test("saved plan sheet keeps chosen pace and hides exploration controls", () => 
           plan: {
             summary: "Saved generated plan",
             firstStep: "Start saved task",
+            milestones: [
+              {
+                id: "intermediate-31",
+                phaseId: "intermediate",
+                startDay: 31,
+                endDay: 37,
+                minutes: 60,
+                action: "Review your project with a practitioner.",
+                resourceId: "learn",
+              },
+              {
+                id: "intermediate-38",
+                phaseId: "intermediate",
+                startDay: 38,
+                endDay: 44,
+                minutes: 0,
+                action: "Hidden empty milestone",
+              },
+            ],
+            firstMonth: buildPlanSchedule(
+              {
+                startDate: "2026-10-19",
+                timeZone: "Asia/Kuala_Lumpur",
+                weeklyMinutes: 60,
+                studyDays: [1],
+                sessionLimitMinutes: 90,
+              },
+              90,
+            ).firstMonth.map((day) => ({
+              ...day,
+              task: day.kind === "task" ? "Practice scheduled skill" : null,
+            })),
             phases: [
               {
                 title: "Foundation",
@@ -293,10 +326,19 @@ test("saved plan sheet keeps chosen pace and hides exploration controls", () => 
   )
   expect(html).toContain("Saved generated plan")
   expect(html).toContain("Saved action")
+  expect(html).toContain('aria-label="Week 1"')
+  expect(html).toContain('aria-label="Week 5"')
+  expect(html).toContain("Practice scheduled skill")
+  expect(html).toContain('aria-labelledby="weekly-milestones-title"')
+  expect(html).toContain("Review your project with a practitioner.")
+  expect(html).toContain("group-last:invisible")
+  expect(html).not.toContain("Hidden empty milestone")
+  expect(html).not.toContain("Rest day")
+  expect(html).not.toContain("2026-10-20")
   expect(html).toContain("90 days")
   expect(html).not.toContain("Paced · 120 days")
   expect(html).not.toContain("Target role options")
-  expect(html).toContain("View progress")
+  expect(html).toContain("Track my progress")
 })
 
 test("Navigator opens full map without an overlapping details panel", () => {
@@ -361,4 +403,19 @@ test("full destination arrays validate and render every role, with deep links be
   html = renderToStaticMarkup(createElement(SidebarProvider, null, createElement(NavigatorPage)))
   expect(html.match(/id="role-details-title"[^>]*>(.*?)<\/h2>/)?.[1]).toBe("Expanded option 7")
   expect(html).not.toContain("more options</h2>")
+})
+
+test("header phase selection controls the flight-plan focus", () => {
+  const html = renderToStaticMarkup(
+    createElement(Roadmap, {
+      data: navigatorFixture,
+      requestedPath: "pivot",
+      requestedRole: null,
+      profileKey: "profile",
+      phaseIndex: 2,
+      onPhaseChange: () => {},
+    }),
+  )
+  expect(html).toContain("FLIGHT PLAN · PHASE 03")
+  expect(html).not.toContain("FLIGHT PLAN · PHASE 01")
 })

@@ -23,17 +23,22 @@ import {
   Star,
 } from "lucide-react"
 import { toast } from "sonner"
+import { AttendanceBadge } from "@/components/attendance-badge"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { PanelHeading } from "@/components/radar-panel"
 import {
   loadCommitment,
+  saveCommitment,
+  planToday,
+  planDays,
+  attendanceStatus,
   timelineSprint,
   type Commitment,
   type GeneratedPlan,
 } from "@/lib/commitment"
 import { CommitDirectionDialog } from "@/components/commit-direction-dialog"
-import { defaultFlightPlan, phaseRanges } from "@/lib/flight-plan"
+import { defaultFlightPlan, phaseRanges, weekLabel } from "@/lib/flight-plan"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
@@ -77,12 +82,18 @@ export function Roadmap({
   requestedRole,
   profileKey,
   savedCommitment,
+  phaseIndex,
+  onPhaseChange,
+  onAttendanceChange,
 }: {
   data: NavigatorResult
   requestedPath: string | null
   requestedRole: string | null
   profileKey: string
   savedCommitment?: Commitment
+  phaseIndex?: number
+  onPhaseChange?: (index: number) => void
+  onAttendanceChange?: (commitment: Commitment) => void
 }) {
   const { profile } = useCareerProfile()
   const branches = data.paths.map((path) => ({ ...path, name: path.title, fit: path.focus }))
@@ -130,8 +141,39 @@ export function Roadmap({
       ? commitment.plan
       : undefined
   const plan = generated?.key === planKey ? generated : (committedPlan ?? null)
+  const [savingAttendance, setSavingAttendance] = useState(false)
+  const [attendanceError, setAttendanceError] = useState("")
+  const today = commitment ? planToday(commitment) : ""
+  const scheduledDays = commitment ? planDays(commitment).filter((day) => day.slot) : []
+  const completed = commitment?.completed ?? []
+  async function markAttended(date: string) {
+    if (
+      !commitment ||
+      savingAttendance ||
+      date > today ||
+      completed.includes(date) ||
+      !scheduledDays.some((day) => day.date === date)
+    )
+      return
+    setSavingAttendance(true)
+    setAttendanceError("")
+    const next = { ...commitment, completed: [...completed, date] }
+    try {
+      await saveCommitment(next)
+      setCommitment(next)
+      onAttendanceChange?.(next)
+    } catch {
+      setAttendanceError("Attendance couldn’t be saved. Try again.")
+    } finally {
+      setSavingAttendance(false)
+    }
+  }
   const courses = courseList(selected, targetRole)
-  const [phaseOverride, setActivePhase] = useState(0)
+  const [phaseOverride, setPhaseOverride] = useState(0)
+  function setActivePhase(index: number) {
+    setPhaseOverride(index)
+    onPhaseChange?.(index)
+  }
   const roleTargets = targetRole === null ? selected.roles : [selected.roles[targetRole]!]
   const flightPlans = plan
     ? plan.plan.phases.map((phase) => phase.flightPlan)
@@ -147,7 +189,7 @@ export function Roadmap({
         const [start, end] = phaseRanges(sprint)[i]!
         return { title: m.title, days: `Days ${start}–${end}` }
       })
-  const activePhase = Math.min(phaseOverride, phaseLabels.length - 1)
+  const activePhase = Math.min(phaseIndex ?? phaseOverride, phaseLabels.length - 1)
   async function generatePlan(schedule: PlanScheduleInput): Promise<GeneratedPlan> {
     const response = await fetch("/api/plan", {
       method: "POST",
@@ -177,28 +219,35 @@ export function Roadmap({
         plan.plan.summary,
         ...plan.plan.phases.map(
           (ph) =>
-            `## ${ph.days}: ${ph.title}\n${ph.focus}\n${ph.actions.map((a) => `- ${a}`).join("\n")}\nDeliverable: ${ph.deliverable}\n\nFlight plan:\n${ph.flightPlan.map((f) => `- ${f.days}: ${f.focus}${f.module ? ` (Module: ${f.module})` : ""}`).join("\n")}`,
+            `## ${weekLabel(ph.days)}: ${ph.title}\n${ph.focus}\n${ph.actions.map((a) => `- ${a}`).join("\n")}\nDeliverable: ${ph.deliverable}\n\nFlight plan:\n${ph.flightPlan.map((f) => `- ${weekLabel(f.days)}: ${f.focus}${f.module ? ` (Module: ${f.module})` : ""}`).join("\n")}`,
         ),
         ...(plan.plan.firstMonth
           ? [
-              "## First 30 days",
-              ...plan.plan.firstMonth.map(
-                (day) =>
-                  `${day.localDate} (Day ${day.day}): ${day.kind === "rest" ? "Rest" : `${day.task} (${day.minutes} min; sessions ${day.sessions.join(" + ")})`}`,
-              ),
+              "## First month · weekly tasks",
+              ...plan.plan.firstMonth
+                .filter((day) => day.kind === "task")
+                .map(
+                  (day) =>
+                    `${weekLabel(String(day.day))} · ${day.localDate}: ${day.task} (${day.minutes} min; sessions ${day.sessions.join(" + ")})`,
+                ),
             ]
           : []),
         ...(plan.plan.milestones
           ? [
               "## Later milestones",
-              ...plan.plan.milestones.map(
-                (milestone) =>
-                  `Days ${milestone.startDay}–${milestone.endDay}: ${milestone.action} (${milestone.minutes} min)`,
-              ),
+              ...plan.plan.milestones
+                .filter((milestone) => milestone.minutes > 0)
+                .map(
+                  (milestone) =>
+                    `${weekLabel(`${milestone.startDay}–${milestone.endDay}`)}: ${milestone.action} (${milestone.minutes} min)`,
+                ),
             ]
           : []),
         ...(plan.plan.goals
-          ? ["## Goals", ...plan.plan.goals.map((goal) => `Day ${goal.day}: ${goal.outcome}`)]
+          ? [
+              "## Goals",
+              ...plan.plan.goals.map((goal) => `${weekLabel(String(goal.day))}: ${goal.outcome}`),
+            ]
           : []),
         `This week: ${plan.plan.firstStep}`,
         `Generated by ${plan.provider} from your saved profile. Guidance, not a guarantee.`,
@@ -409,13 +458,30 @@ export function Roadmap({
               </div>
             </>
           )}
-          <div className="grid grid-cols-2 border-y max-[700px]:grid-cols-1 max-[700px]:gap-[15px]">
+          <div className="grid grid-cols-2 border-b max-[700px]:grid-cols-1 max-[700px]:gap-[15px]">
             {plan
               ? plan.plan.phases.map((ph, i) => (
                   <section key={ph.title} className={phaseClass(i, activePhase)}>
-                    <span className={eyebrow}>
-                      PHASE 0{i + 1} · {ph.days.toUpperCase()}
-                    </span>
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className={eyebrow}>
+                        PHASE 0{i + 1} · {weekLabel(ph.days)}
+                      </span>
+                      <AttendanceBadge
+                        status={attendanceStatus(
+                          scheduledDays
+                            .filter((day) => {
+                              const range = ph.days.match(/\d+/g)?.map(Number)
+                              return (
+                                day.dayNumber >= (ph.startDay ?? range?.[0] ?? 1) &&
+                                day.dayNumber <= (ph.endDay ?? range?.at(-1) ?? (sprint ? 90 : 120))
+                              )
+                            })
+                            .map((day) => day.date),
+                          completed,
+                          today,
+                        )}
+                      />
+                    </div>
                     <h3 className="mt-3.5 mb-2.5 text-[15px]">
                       <PhaseButton index={i} active={activePhase} onSelect={setActivePhase}>
                         {ph.title}
@@ -435,7 +501,7 @@ export function Roadmap({
               : learningPhases.map((m, i) => (
                   <section key={m.title} className={phaseClass(i, activePhase)}>
                     <span className={eyebrow}>
-                      PHASE 0{i + 1} · {phaseLabels[i]!.days.toUpperCase()}
+                      PHASE 0{i + 1} · {weekLabel(phaseLabels[i]!.days)}
                     </span>
                     <h3 className="mt-3.5 mb-2.5 text-[15px]">
                       <PhaseButton index={i} active={activePhase} onSelect={setActivePhase}>
@@ -458,8 +524,7 @@ export function Roadmap({
             className="mt-5 rounded-xl border p-5 max-[700px]:p-4"
           >
             <p className={eyebrow}>
-              FLIGHT PLAN · PHASE 0{activePhase + 1} ·{" "}
-              {phaseLabels[activePhase]!.days.toUpperCase()}
+              FLIGHT PLAN · PHASE 0{activePhase + 1} · {weekLabel(phaseLabels[activePhase]!.days)}
             </p>
             <h3 id="flight-plan-title" className="mt-[5px] text-[18px] tracking-[-0.4px]">
               {phaseLabels[activePhase]!.title}
@@ -472,11 +537,11 @@ export function Roadmap({
                 const course = courses.find((item) => item.title === segment.module)
                 return (
                   <li
-                    key={segment.days}
+                    key={weekLabel(segment.days)}
                     className="grid grid-cols-[96px_16px_1fr] gap-x-3 max-[700px]:grid-cols-[72px_16px_1fr]"
                   >
                     <span className="pt-0.5 font-mono text-[13px] text-muted-foreground">
-                      {segment.days}
+                      {weekLabel(segment.days)}
                     </span>
                     <span aria-hidden="true" className="flex flex-col items-center">
                       <span className="mt-1.5 size-2.5 shrink-0 rounded-full bg-foreground" />
@@ -510,11 +575,16 @@ export function Roadmap({
             </ol>
           </section>
           {plan && (
-            <div className="mt-5 bg-muted p-[18px] text-[14px] leading-[1.8]">
-              <p>{plan.plan.summary}</p>
-              <p className="mt-2">
-                <span className="font-medium">This week:</span> {plan.plan.firstStep}
-              </p>
+            <section
+              aria-labelledby="plan-overview-title"
+              className="mt-5 rounded-xl bg-muted p-[18px] text-[14px] leading-[1.8]"
+            >
+              <h3 id="plan-overview-title" className="font-medium">
+                Plan overview
+              </h3>
+              <p className="mt-2 text-muted-foreground">{plan.plan.summary}</p>
+              <h4 className="mt-4 font-medium">First step this week</h4>
+              <p className="mt-1">{plan.plan.firstStep}</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Button
                   variant="outline"
@@ -523,7 +593,7 @@ export function Roadmap({
                     navigator.clipboard.writeText(planText).then(() => toast.success("Plan copied"))
                   }
                 >
-                  <Copy /> Copy plan
+                  <Copy /> Copy plan text
                 </Button>
                 <Button
                   variant="outline"
@@ -537,61 +607,150 @@ export function Roadmap({
                     URL.revokeObjectURL(url)
                   }}
                 >
-                  <Download /> Download .md
+                  <Download /> Download plan (.md)
                 </Button>
               </div>
               <p className="mt-3 text-[12px] text-muted-foreground">
                 Generated by {plan.provider} from your saved work and preferences. Guidance, not a
                 guarantee; adjust to your situation.
               </p>
-            </div>
+            </section>
           )}
           {plan?.plan.firstMonth && (
-            <section className="mt-6" aria-label="First 30 days">
-              <h2 className="text-xl">Your first 30 days</h2>
+            <section className="mt-6" aria-label="First month weekly tasks">
+              <h2 className="text-xl">Your first weeks</h2>
+              {attendanceError && (
+                <p role="alert" className="mt-2 text-sm text-destructive">
+                  {attendanceError}
+                </p>
+              )}
               <p className="mt-2 text-sm text-muted-foreground">
                 {plan.plan.schedule?.weeklyMinutes} minutes/week · {plan.plan.schedule?.timeZone}.
-                Rest days carry no work.
               </p>
-              <ol className="mt-3 grid gap-2 sm:grid-cols-2">
-                {plan.plan.firstMonth.map((day) => (
-                  <li key={day.id} className="rounded-lg border p-3 text-sm">
-                    <strong>
-                      {day.localDate} · Day {day.day}
-                    </strong>
-                    <p>{day.kind === "rest" ? "Rest day" : day.task}</p>
-                    {day.resourceId && (
-                      <a
-                        className="mt-1 block underline"
-                        href={navigatorResources[day.resourceId].href}
-                        target="_blank"
-                        rel="noreferrer"
+              {Array.from(
+                Map.groupBy(
+                  plan.plan.firstMonth.filter((day) => day.kind === "task"),
+                  (day) => Math.ceil(day.day / 7),
+                ),
+                ([week, tasks]) => (
+                  <section key={week} aria-label={`Week ${week}`} className="mt-4">
+                    <h3 className="font-mono font-medium">W{week}</h3>
+                    <ol className="mt-3 grid gap-4 sm:grid-cols-2">
+                      {tasks.map((day) => (
+                        <li
+                          key={day.id}
+                          className="space-y-3 rounded-lg border p-4 text-sm leading-relaxed"
+                        >
+                          <div className="flex flex-wrap items-center justify-between gap-2">
+                            <strong>{day.localDate}</strong>
+                            <AttendanceBadge
+                              status={attendanceStatus([day.localDate], completed, today)}
+                            />
+                          </div>
+                          <p>{day.task}</p>
+                          {day.resourceId && (
+                            <a
+                              className="mt-1 block underline"
+                              href={navigatorResources[day.resourceId].href}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {navigatorResources[day.resourceId].title}
+                            </a>
+                          )}
+                          <p className="text-muted-foreground">
+                            {day.minutes} min · sessions: {day.sessions.join(" + ")} min
+                          </p>
+                          {day.localDate <= today && !completed.includes(day.localDate) && (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              disabled={savingAttendance}
+                              aria-label={`Mark ${day.localDate} attended`}
+                              className="mt-3"
+                              onClick={() => markAttended(day.localDate)}
+                            >
+                              <Check /> Mark attended
+                            </Button>
+                          )}
+                        </li>
+                      ))}
+                    </ol>
+                  </section>
+                ),
+              )}
+              <section aria-labelledby="weekly-milestones-title" className="mt-8">
+                <h3 id="weekly-milestones-title" className="text-lg font-medium">
+                  Later weekly milestones
+                </h3>
+                <p className="mt-1 text-sm text-muted-foreground">One focused outcome at a time.</p>
+                <ol className="mt-4">
+                  {plan.plan.milestones
+                    ?.filter((milestone) => milestone.minutes > 0)
+                    .map((milestone) => (
+                      <li
+                        key={milestone.id}
+                        className="group grid grid-cols-[76px_1fr] gap-4 sm:grid-cols-[100px_1fr]"
                       >
-                        {navigatorResources[day.resourceId].title}
-                      </a>
-                    )}
-                    {day.kind === "task" && (
-                      <p className="text-muted-foreground">
-                        {day.minutes} min · sessions: {day.sessions.join(" + ")} min
-                      </p>
-                    )}
-                  </li>
-                ))}
-              </ol>
-              <h3 className="mt-5 font-medium">Later weekly milestones</h3>
-              <ul className="mt-2 space-y-2 text-sm">
-                {plan.plan.milestones?.map((milestone) => (
-                  <li key={milestone.id}>
-                    Days {milestone.startDay}–{milestone.endDay} · {milestone.minutes} min:{" "}
-                    {milestone.action}
-                  </li>
-                ))}
-              </ul>
+                        <div className="flex flex-col items-center">
+                          <span className="flex min-h-9 w-full items-center justify-center rounded-lg border bg-muted px-2 font-mono text-[12px] font-medium">
+                            {weekLabel(`${milestone.startDay}–${milestone.endDay}`)}
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            className="my-1 min-h-4 w-px flex-1 bg-border group-last:invisible"
+                          />
+                        </div>
+                        <div className="mb-4 rounded-xl border bg-card p-4 text-card-foreground">
+                          <div className="flex flex-wrap items-center justify-between gap-2">
+                            <span className="text-[11px] font-medium tracking-wide text-muted-foreground">
+                              {
+                                learningPhases.find((phase) => phase.id === milestone.phaseId)
+                                  ?.title
+                              }
+                            </span>
+                            <div className="flex flex-wrap items-center gap-2">
+                              <AttendanceBadge
+                                status={attendanceStatus(
+                                  scheduledDays
+                                    .filter(
+                                      (day) =>
+                                        day.dayNumber >= milestone.startDay &&
+                                        day.dayNumber <= milestone.endDay,
+                                    )
+                                    .map((day) => day.date),
+                                  completed,
+                                  today,
+                                )}
+                              />
+                              <span className="rounded-md bg-muted px-2 py-1 text-[12px] tabular-nums text-muted-foreground">
+                                {milestone.minutes} min
+                              </span>
+                            </div>
+                          </div>
+                          <p className="mt-2 text-sm leading-relaxed">{milestone.action}</p>
+                          {milestone.resourceId && (
+                            <a
+                              className="mt-3 inline-flex items-center gap-1.5 text-[12px] underline underline-offset-3"
+                              href={navigatorResources[milestone.resourceId].href}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <BookOpen className="size-3.5" />
+                              {navigatorResources[milestone.resourceId].title}
+                              <ArrowUpRight className="size-3" />
+                            </a>
+                          )}
+                        </div>
+                      </li>
+                    ))}
+                </ol>
+              </section>
               <h3 className="mt-5 font-medium">Measurable goals</h3>
               <ul className="mt-2 space-y-2 text-sm">
                 {plan.plan.goals?.map((goal) => (
                   <li key={goal.day}>
-                    Day {goal.day}: {goal.outcome}
+                    {weekLabel(String(goal.day))}: {goal.outcome}
                   </li>
                 ))}
               </ul>
@@ -678,7 +837,7 @@ export function Roadmap({
               {commitment?.pathId === selected.id ? (
                 <Button asChild>
                   <Link href="/progress">
-                    <Check /> View progress
+                    <Check /> Track my progress
                   </Link>
                 </Button>
               ) : (
@@ -714,7 +873,9 @@ export function Roadmap({
 function phaseClass(index: number, active: number) {
   return cn(
     "relative px-5 py-6 transition-colors max-[700px]:px-4 max-[700px]:py-5",
-    index > 0 && "border-l max-[700px]:border-t max-[700px]:border-l-0",
+    index % 2 === 1 && "border-l max-[700px]:border-l-0",
+    index >= 2 && "border-t",
+    index === 1 && "max-[700px]:border-t",
     index === active && "bg-mauve-tint",
   )
 }

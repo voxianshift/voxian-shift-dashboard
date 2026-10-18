@@ -135,3 +135,76 @@ test("validated schedules keep exact budgets, split short sessions and preserve 
     301,
   )
 })
+
+test("flexible daily start times survive validation and apply to every session", async () => {
+  const { commitmentSchema } = await import("@voxian/shared")
+  const flexible: Commitment = {
+    ...commitment,
+    timeOfDay: "flexible",
+    dayStartTimes: { 1: "18:00", 3: "07:30", 5: "16:00" },
+    plan: {
+      provider: "Test",
+      plan: {
+        summary: "Plan",
+        firstStep: "Start",
+        phases: [
+          {
+            title: "Learn",
+            days: "1–90",
+            focus: "Practice",
+            actions: [],
+            deliverable: "Work",
+            flightPlan: [],
+          },
+        ],
+        schedule: {
+          startDate: commitment.startDate,
+          timeZone: "Asia/Kuala_Lumpur",
+          weeklyMinutes: 360,
+          studyDays: [1, 3, 5],
+          sessionLimitMinutes: 90,
+        },
+      },
+    },
+  }
+  expect(commitmentSchema.parse(flexible).dayStartTimes).toEqual(flexible.dayStartTimes)
+  const slots = commitmentSlots(flexible)
+  expect(slots.filter((slot) => slot.day === 1).map((slot) => slot.start)).toEqual([
+    "18:00",
+    "19:30",
+  ])
+  expect(slots.find((slot) => slot.day === 3)?.start).toBe("07:30")
+  expect(commitmentSlots({ ...flexible, timeOfDay: "morning" })[0]?.start).toBe("06:30")
+  for (const dayStartTimes of [{ 7: "10:00" }, { 1: "24:00" }, { 1: "bad" }])
+    expect(commitmentSchema.safeParse({ ...flexible, dayStartTimes }).success).toBe(false)
+  const { calendarIcs } = await import("./calendar")
+  expect(calendarIcs(flexible)).toContain("DTSTART:20261019T180000")
+  expect(calendarIcs(flexible)).toContain("DTSTART:20261021T073000")
+})
+
+test("attendance distinguishes upcoming, attended, and overdue learning", async () => {
+  const { attendanceStatus } = await import("./commitment")
+  const dates = ["2026-10-19", "2026-10-21"]
+  expect(attendanceStatus(dates, [], "2026-10-18")).toBe("On track")
+  expect(attendanceStatus(dates, [], "2026-10-19")).toBe("On track")
+  expect(attendanceStatus(dates, [], "2026-10-20")).toBe("Missed")
+  expect(attendanceStatus(dates, [dates[0]!], "2026-10-20")).toBe("On track")
+  expect(attendanceStatus(dates, dates, "2026-10-22")).toBe("Attended")
+  expect(attendanceStatus(dates, [dates[1]!], "2026-10-22")).toBe("Missed")
+})
+
+test("missed attendance holds learning phase until earlier sessions are attended", async () => {
+  const { learningPhase } = await import("./commitment")
+  const today = "2026-11-20"
+  const pending = { ...commitment, completed: [] }
+  expect(learningPhase(pending, today)).toBe(0)
+  const earlier = planDays(pending)
+    .filter((day) => day.slot && day.dayNumber <= 20)
+    .map((day) => day.date)
+  expect(learningPhase({ ...pending, completed: earlier }, today)).toBe(1)
+  const allDue = planDays(pending)
+    .filter((day) => day.slot && day.date <= today)
+    .map((day) => day.date)
+  expect(learningPhase({ ...pending, completed: allDue }, today)).toBe(1)
+  expect(learningPhase(pending, "2027-01-20")).toBe(0)
+})

@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useTheme } from "next-themes"
 import { toast } from "sonner"
+import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, X } from "lucide-react"
 import {
@@ -21,6 +22,13 @@ import "@xyflow/react/dist/style.css"
 import "@/components/navigator-effects.css"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Button } from "@/components/ui/button"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { useSidebar } from "@/components/ui/sidebar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
@@ -337,6 +345,7 @@ function NavigatorCanvas({
   const params = useSearchParams()
   const [commitOpen, setCommitOpen] = useState(false)
   const [planOpen, setPlanOpen] = useState(false)
+  const [planPhase, setPlanPhase] = useState(0)
   const [commitment, setCommitment] = useState<Commitment | null>(null)
   useEffect(() => {
     let active = true
@@ -706,7 +715,13 @@ function NavigatorCanvas({
               </TabsContent>
             </Tabs>
             <footer className="shrink-0 border-t bg-popover px-6 py-4 max-[650px]:px-4">
-              {selected.coverage === "available" ? (
+              {commitment?.plan ? (
+                <Button asChild className="h-auto min-h-11 w-full whitespace-normal">
+                  <Link href="/progress">
+                    Track my progress <ArrowRight />
+                  </Link>
+                </Button>
+              ) : selected.coverage === "available" ? (
                 <Button
                   onClick={() => setCommitOpen(true)}
                   className="h-auto min-h-11 w-full whitespace-normal"
@@ -737,9 +752,37 @@ function NavigatorCanvas({
         />
       )}
       <Sheet open={planOpen} onOpenChange={setPlanOpen}>
-        <SheetContent side="bottom" className="data-[side=bottom]:h-[92dvh] gap-0 rounded-t-xl">
+        <SheetContent
+          side="bottom"
+          className="data-[side=bottom]:h-[92dvh] gap-0 rounded-t-xl [--border:color-mix(in_srgb,var(--foreground)_20%,var(--background))]"
+        >
           <SheetHeader className="shrink-0 border-b pr-14">
-            <SheetTitle>Your full plan</SheetTitle>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <SheetTitle>Your full plan</SheetTitle>
+              {commitment?.plan && (
+                <Select
+                  value={String(Math.min(planPhase, commitment.plan.plan.phases.length - 1))}
+                  onValueChange={(value) => {
+                    setPlanPhase(Number(value))
+                    document.getElementById("flight-plan")?.scrollIntoView({ block: "start" })
+                  }}
+                >
+                  <SelectTrigger
+                    aria-label="Navigate plan phase"
+                    className="w-full sm:w-auto sm:max-w-[280px]"
+                  >
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {commitment.plan.plan.phases.map((phase, index) => (
+                      <SelectItem key={index} value={String(index)}>
+                        Phase 0{index + 1} · {phase.title}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            </div>
             <SheetDescription>
               Review your phases, daily tasks, milestones and learning resources.
             </SheetDescription>
@@ -760,6 +803,9 @@ function NavigatorCanvas({
                 }
                 profileKey={profileKey}
                 savedCommitment={commitment}
+                phaseIndex={planPhase}
+                onPhaseChange={setPlanPhase}
+                onAttendanceChange={setCommitment}
               />
             )}
           </div>

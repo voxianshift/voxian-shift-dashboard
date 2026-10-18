@@ -379,24 +379,29 @@ function Meter() {
         <PanelHeading variant="panel" kicker="YOUR NEXT MOVE" title="Build on your strengths">
           Find skills worth building next.
         </PanelHeading>
-        <div className="relative flex items-center justify-between gap-2.5 overflow-hidden bg-mauve-wash px-6 py-[22px]">
+        <div className="relative flex items-center justify-between gap-2.5 overflow-hidden bg-mauve-wash px-6 py-[22px] dark:bg-muted">
           <div>
-            <p className="relative z-1 text-[16px] text-[#3d343a]">Turn insight into action.</p>
-            <span className="mt-1.5 block text-[14px] text-[#7a6d75]">
+            <p className="relative z-1 text-[16px] text-[#3d343a] dark:text-foreground">
+              Turn insight into action.
+            </p>
+            <span className="mt-1.5 block text-[14px] text-[#7a6d75] dark:text-muted-foreground">
               Start with your human strengths.
             </span>
             <Link
               href="/roadmap"
-              className="relative z-1 mt-[11px] flex items-center gap-1.5 text-[14px] text-[#78516c]"
+              className="relative z-1 mt-[11px] flex items-center gap-1.5 text-[14px] text-[#78516c] dark:text-foreground"
             >
               Explore career paths <ArrowRight className="size-3.5" />
             </Link>
           </div>
           <div
-            className="grid size-[87px] shrink-0 -rotate-20 place-items-center rounded-full border border-[#c6b0bf] outline outline-offset-[9px] outline-[#d6c3d0] max-[1100px]:hidden"
+            className="grid size-[87px] shrink-0 -rotate-20 place-items-center rounded-full border border-[#c6b0bf] outline outline-offset-[9px] outline-[#d6c3d0] max-[1100px]:hidden dark:border-border dark:outline-border"
             aria-hidden="true"
           >
-            <Fingerprint className="size-[51px] text-[#b49eae]" strokeWidth={0.8} />
+            <Fingerprint
+              className="size-[51px] text-[#b49eae] dark:text-muted-foreground"
+              strokeWidth={0.8}
+            />
           </div>
         </div>
         <RadarEvidence

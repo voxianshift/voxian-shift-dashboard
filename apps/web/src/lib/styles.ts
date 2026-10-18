@@ -5,7 +5,7 @@ export const eyebrow =
   "text-[13px] font-medium leading-[1.6] tracking-[1.25px] text-muted-foreground"
 
 export const smallTag =
-  "whitespace-nowrap bg-mauve-soft px-1.5 py-[3px] text-[12px] tracking-[0.45px] text-mauve-ink"
+  "whitespace-nowrap bg-mauve-soft px-1.5 py-[3px] text-[12px] tracking-[0.45px] text-mauve-ink dark:bg-muted dark:text-foreground"
 
 export const fieldHelp = "text-[13px] leading-[1.7] text-muted-foreground"
 

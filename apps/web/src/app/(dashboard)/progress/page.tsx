@@ -13,16 +13,18 @@ import {
   Flame,
   Pencil,
 } from "lucide-react"
+import { AttendanceBadge } from "@/components/attendance-badge"
 import { Button } from "@/components/ui/button"
 import { PanelHeading } from "@/components/radar-panel"
 import { CommitDirectionDialog } from "@/components/commit-direction-dialog"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { MILESTONES } from "@/lib/mock"
 import {
-  currentPhase,
+  learningPhase,
+  planToday,
+  attendanceStatus,
   dayNames,
   loadCommitment,
-  localDate,
   planDays,
   saveCommitment,
   slotEnd,
@@ -102,27 +104,21 @@ function Progress({
   const { profile } = useCareerProfile()
   // Legacy slots follow live preferences; validated plans retain their confirmed schedule until replanned.
   const commitment = withProfile(saved, profile)
-  const today = commitment.plan?.plan.schedule
-    ? new Intl.DateTimeFormat("en-CA", {
-        timeZone: commitment.plan.plan.schedule.timeZone,
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      }).format(new Date())
-    : localDate(new Date())
+  const today = planToday(commitment)
   const days = planDays(commitment)
   const todayDay = days.find((day) => day.date === today)
   const dayNumber = todayDay?.dayNumber ?? (today < commitment.startDate ? 0 : days.length + 1)
-  const phase = currentPhase(commitment, Math.max(1, dayNumber))
+  const phase = learningPhase(commitment, today)
+  const missed = days.filter((day) => day.slot && !day.done && day.date < today)
   const due = days.filter((day) => day.slot && day.date <= today)
-  const doneCount = days.filter((day) => day.done).length
+  const doneCount = days.filter((day) => day.slot && day.done).length
   const slots = commitmentSlots(commitment)
   const todayFocus = commitment.flightPlan?.find((segment) => {
     const [start, end] = segment.days.replace(/D/g, "").split("–").map(Number)
     return dayNumber >= start! && dayNumber <= end!
   })
   async function toggle(date: string) {
-    if (saving) return
+    if (saving || date > today || !days.some((day) => day.date === date && day.slot)) return
     const completed = commitment.completed.includes(date)
       ? commitment.completed.filter((item) => item !== date)
       : [...commitment.completed, date]
@@ -147,7 +143,16 @@ function Progress({
       </PanelHeading>
       <section className="flex flex-wrap items-start justify-between gap-4 rounded-xl border p-5">
         <div>
-          <p className={eyebrow}>YOUR COMMITMENT</p>
+          <div className="flex flex-wrap items-center gap-3">
+            <p className={eyebrow}>YOUR COMMITMENT</p>
+            <AttendanceBadge
+              status={attendanceStatus(
+                days.filter((day) => day.slot).map((day) => day.date),
+                commitment.completed,
+                today,
+              )}
+            />
+          </div>
           <h2 className="mt-1 text-[22px] tracking-[-0.5px]">{commitment.direction}</h2>
           <p className="mt-1 text-[14px] text-muted-foreground">
             {commitment.role ? `${commitment.role} · ` : ""}
@@ -174,17 +179,19 @@ function Progress({
       >
         <div className="max-w-[720px]">
           <p className={eyebrow}>
-            {dayNumber === 0
-              ? "STARTS SOON"
-              : dayNumber > days.length
-                ? "PLAN COMPLETE"
-                : `DAY ${dayNumber} OF ${days.length} · PHASE 0${phase + 1} · ${(commitment.plan?.plan.phases[phase]?.title ?? MILESTONES[Math.min(phase, 2)]!.phase).toUpperCase()}`}
+            {missed.length > 0
+              ? `CATCH UP · PHASE 0${phase + 1}`
+              : dayNumber === 0
+                ? "STARTS SOON"
+                : dayNumber > days.length
+                  ? "PLAN COMPLETE"
+                  : `DAY ${dayNumber} OF ${days.length} · PHASE 0${phase + 1} · ${(commitment.plan?.plan.phases[phase]?.title ?? MILESTONES[Math.min(phase, 2)]!.phase).toUpperCase()}`}
           </p>
           <p className="mt-1.5 text-[16px]">
             {todayDay?.slot
               ? `Today's sessions: ${(todayDay.slots ?? [todayDay.slot]).map((slot) => `${slot.start}–${slotEnd(slot)} (${slot.minutes} min)`).join(", ")}.`
               : todayDay
-                ? "No session scheduled today. Rest, or log an extra one."
+                ? "No session scheduled today."
                 : dayNumber > days.length
                   ? "You reached the end of your plan. Review what you built and choose what is next."
                   : "Your plan starts soon."}
@@ -201,7 +208,7 @@ function Progress({
             </p>
           )}
         </div>
-        {todayDay && (
+        {todayDay?.slot && (
           <Button
             variant={todayDay.done ? "outline" : "default"}
             aria-pressed={todayDay.done}
@@ -214,6 +221,23 @@ function Progress({
         )}
       </section>
 
+      {missed.length > 0 && (
+        <section
+          aria-label="Missed learning"
+          className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-red-500/30 bg-red-500/5 p-4"
+        >
+          <div>
+            <AttendanceBadge status="Missed" />
+            <p className="mt-2 text-sm">
+              {missed.length} learning day{missed.length === 1 ? "" : "s"} to catch up. Attend
+              missed sessions to advance your phase.
+            </p>
+          </div>
+          <Button variant="outline" disabled={saving} onClick={() => toggle(missed[0]!.date)}>
+            <Check /> Mark {missed[0]!.date} attended
+          </Button>
+        </section>
+      )}
       {saveError && (
         <p role="alert" className="mt-3 text-sm text-destructive">
           {saveError}
@@ -226,7 +250,7 @@ function Progress({
             Learning activity
           </h2>
           <p className="mt-0.5 text-[13px] text-muted-foreground">
-            Select a past day to log or undo a session.
+            Select a scheduled day to mark attendance or undo it.
           </p>
           <fieldset disabled={saving}>
             <Heatmap days={days} today={today} onToggle={toggle} />
@@ -362,8 +386,8 @@ function cellClass(day: PlanDay, today: string) {
       ? "bg-success"
       : day.slot
         ? day.date < today
-          ? "bg-muted-foreground/30"
-          : "bg-success/15 ring-1 ring-success/40 ring-inset"
+          ? "bg-red-500/60"
+          : "bg-sky-500/20 ring-1 ring-sky-500/50 ring-inset"
         : "bg-muted",
     day.date === today && "outline-2 outline-offset-1 outline-foreground",
   )
@@ -401,7 +425,7 @@ function Heatmap({
             {week.map((day, d) =>
               !day ? (
                 <span key={d} className={cellBase} aria-hidden="true" />
-              ) : day.date <= today ? (
+              ) : day.slot && day.date <= today ? (
                 <button
                   key={day.date}
                   type="button"
@@ -431,9 +455,9 @@ function Heatmap({
 function Legend() {
   const items = [
     ["bg-muted", "No session"],
-    ["bg-success/15 ring-1 ring-success/40 ring-inset", "Planned"],
-    ["bg-muted-foreground/30", "Missed"],
-    ["bg-success", "Logged"],
+    ["bg-sky-500/20 ring-1 ring-sky-500/50 ring-inset", "On track"],
+    ["bg-red-500/60", "Missed"],
+    ["bg-success", "Attended"],
   ]
   return (
     <ul className="mt-3 flex flex-wrap gap-4 text-[12px] text-muted-foreground">
