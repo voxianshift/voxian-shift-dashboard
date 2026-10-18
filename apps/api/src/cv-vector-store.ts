@@ -17,6 +17,7 @@ export type CvCandidates = {
   evidenceCount: number
   byRequirement: Record<string, string[]>
 }
+export class StaleCvError extends Error {}
 export interface CvVectorStore {
   candidates(owner: string, cv: CvContext, requirements: SkillRequirement[]): Promise<CvCandidates>
   seed(requirements: SkillRequirement[]): Promise<number>
@@ -40,7 +41,7 @@ export function createCvVectorStore(
       [owner],
     )
     if (!result.rows[0]?.cv || cvRevision(result.rows[0].cv) !== revision)
-      throw new Error("CV revision no longer current")
+      throw new StaleCvError("CV revision no longer current")
   }
   async function cachedRequirements(requirements: SkillRequirement[]) {
     const result = await pool.query<{ requirement_id: string; content_hash: string }>(
@@ -108,7 +109,7 @@ export function createCvVectorStore(
             [owner],
           )
           if (!savedProfile.rows[0]?.cv || cvRevision(savedProfile.rows[0].cv) !== revision)
-            throw new Error("CV changed during embedding")
+            throw new StaleCvError("CV changed during embedding")
           for (const [index, item] of missing.entries())
             await client.query(
               "INSERT INTO skill_requirement_vectors(requirement_id,model,content_hash,version,embedding) VALUES($1,$2,$3,$4,$5::vector) ON CONFLICT(requirement_id,model) DO UPDATE SET content_hash=EXCLUDED.content_hash,version=EXCLUDED.version,embedding=EXCLUDED.embedding",
@@ -169,8 +170,10 @@ export function createCvVectorStore(
             return [item.id, [...new Set([...closest, ...exact])]]
           }),
         )
-        if (requirements.some((item) => !byRequirement[item.id]?.length))
+        if (requirements.some((item) => !byRequirement[item.id]?.length)) {
+          await current(owner, revision)
           throw new Error("Incomplete CV candidate retrieval")
+        }
         return { model: embeddings.model, evidenceCount: evidence.length, byRequirement }
       })()
       pending.set(key, operation)

@@ -10,7 +10,7 @@ The Navigator's existing provider request receives complete requirement records 
 
 The browser calculates supported requirements / distinct fixed requirements, rounded to an integer. When assessments exist, negative verdicts override keyword matches. When the provider is unavailable, fallback only accepts exact explicitly extracted skill labels or existing explicit aliases, never keyword/duty substring hits that may express negation or learning goals. No CV or qualifying evidence means no percentage. Source quotes and reasons remain visible in the tooltip. Profile/CV revisions invalidate existing Navigator context caches.
 
-Accepted CV context remains in guest profile JSONB. Optional vector retrieval now adds separate reference and guest-owned evidence vectors through migration 006; raw CV files remain unstored. Lumi memory tables are not used for CV matching. Local pgvector is enabled; production deployment/configuration is unchanged.
+Accepted CV context remains in guest profile JSONB. Optional vector retrieval now adds separate reference and guest-owned evidence vectors through migration 006; raw CV files remain unstored. Lumi memory tables are not used for CV matching. Local pgvector is enabled and active candidate retrieval was enabled after the frozen-rule holdout check below; production deployment/configuration is unchanged.
 
 ## Diagnostic evaluation
 
@@ -47,7 +47,7 @@ Label-only matching missed Cursor as an alternative coding assistant and Gemini/
 
 For a selected occupation, direct matching includes all 12 requirements and up to 74 deduplicated CV skill/keyword/duty phrases. There is no candidate retrieval truncation: all supplied pairs are available to the judge. Vectors cannot increase candidate coverage beyond that; they could reduce context by pruning candidates, at the cost of potential missed evidence and an embedding call. This diagnostic improved definitions and verdict quality; it did **not** test embeddings or vector ranking, and does not prove vectors would be worse.
 
-Keep direct evidence verification as the default. Pgvector candidate retrieval is implemented and running locally in shadow mode. Before activating candidate pruning for production:
+Keep direct evidence verification as the default. Pgvector candidate retrieval is implemented; local mode moved from shadow to active after the held-out synthetic check below. Before activating candidate pruning for production:
 
 1. Create an independent held-out set with domain-reviewed positive, adjacent, negated and missing-evidence examples; record per-domain precision/recall and supported citation validity over repeated runs.
 2. Compare exact/alias, direct semantic and hybrid vector-candidate + verifier systems on the same set. Optimize supported-match precision first; do not choose a universal cosine cutoff without measurements.
@@ -67,7 +67,7 @@ Keep direct evidence verification as the default. Pgvector candidate retrieval i
 - Six concurrent embedding requests maximum, bounded batch size and timeouts. Concurrent requests for the same owner/CV/requirements share pending preparation. No API key/token/CV phrase is logged.
 - Retrieval returns three closest phrases per requirement plus exact label/alias hits. Similarity retrieves candidates only; the LLM must still produce a supported verdict with a verbatim allowed citation. Active mode removes the full CV context from the provider profile, restricts global evidence to candidate union, and verifies every supported quote against that requirement's candidates. It never turns cosine similarity into a percentage.
 - Profile CV replacement/removal transactionally clears derived vectors through a database trigger. Guest reset deletes the profile and cascades evidence deletion. In-flight embedding writes recheck ownership/revision after acquiring the same owner advisory lock as profile save/reset, preventing deleted evidence from being resurrected. Other preference changes retain valid vectors.
-- Default `CV_VECTOR_MODE=off`: no vector provider work. Local `.env` is set to `shadow`, which measures candidate coverage while preserving exhaustive verification. `active` enables candidate pruning after validation. Missing extension/migration, unavailable credentials/provider, stale CV revision or failed retrieval falls back to exhaustive matching. Cloud Run has not been changed.
+- Default `CV_VECTOR_MODE=off`: no vector provider work. Local `.env` is now set to `active` following held-out synthetic validation. `shadow` measures candidate coverage while preserving exhaustive verification. `active` enables candidate pruning after validation. Missing extension/migration, unavailable credentials/provider, stale CV revision or failed retrieval falls back to exhaustive matching. Cloud Run has not been changed.
 
 Setup/run commands:
 
@@ -99,3 +99,31 @@ This passes the _synthetic diagnostic_ recall/error/input-size gate. It does not
 Verified tests cover real PostgreSQL owner isolation, cache reuse, reference changes, preference-only edits, CV removal, reset/deletion, deletion during an in-flight embedding, valid Vertex request/response shapes, active candidate constraints and exhaustive fallback. Existing Lumi JSONB fallback is unchanged; migration 004 does not convert old Lumi embeddings even after pgvector becomes available.
 
 Implementation references: [Vertex text embedding request/response contract](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/model-reference/text-embeddings-api), [pgvector exact cosine search and PostgreSQL 18 images](https://github.com/pgvector/pgvector), [Cloud SQL supported extensions](https://docs.cloud.google.com/sql/docs/postgres/extensions).
+
+## Frozen-rule held-out check and local activation
+
+Implementation and matching rules were committed as `c3d2158` before authoring `apps/api/data/evaluations/cv-skill-holdout.json`. These 40 fresh synthetic cases cover 18 labels absent from the development diagnostic and all use untuned catalogue/context definitions. Tests enforce separation from development labels. No matching definition or prompt was changed to improve held-out results.
+
+Run two repeats per strategy:
+
+```sh
+pnpm --filter @voxian/api cv:evaluate-retrieval --live --holdout
+```
+
+[Recorded held-out results](../evaluations/cv-vector-holdout.json):
+
+| Measure                              |                            Result |
+| ------------------------------------ | --------------------------------: |
+| Positive evidence retrieval          |                           18 / 18 |
+| Exhaustive correct decisions         |           39 / 40 in both repeats |
+| Candidate-verifier correct decisions |             40 / 40, then 39 / 40 |
+| False positives / invalid citations  |                0 / 0 in every run |
+| Verifier input characters            | 50,477 → 29,794 (41.0% reduction) |
+| Cold embedding requests / elapsed    |                      72 / 11.94 s |
+| Cached database retrieval, mean      |                           21.8 ms |
+
+The remaining conservative miss concerns whether a described litigation-hold/document-review workflow establishes eDiscovery management. It was left unchanged rather than fitting the rules to the holdout. Synthetic labels remain engineering-authored rather than independently expert-reviewed; no population accuracy or paid-token savings claim follows from these results. More real-world/domain-reviewed testing remains necessary before production activation.
+
+The diagnostic retrieval gate passed across both repeats: no evidence loss, no increase in false-positive/negative decisions, zero invalid citations, and over 20% input reduction. Local `.env` was switched to `CV_VECTOR_MODE=active` for MVP testing. Production remains default-off and was not deployed or migrated by this task. Active matching retains exhaustive fallback for infrastructure failures. A stale/deleted/replaced CV now returns HTTP 409 instead of passing old CV context to the provider, and embedding preparation time is deducted from the provider timeout so the overall generation budget remains within the browser's 65-second request window.
+
+Local active browser smoke check confirmed 60 accepted CV phrases reduced to 13 supplied evidence candidates; Hybrid alignment remained 33%. Aggregate API telemetry confirmed `CV vector retrieval applied`, and no source phrase or owner identifier was logged in that event. All 241 tests passed, including real PostgreSQL storage/isolation checks. Production activation and real-CV domain validation remain outside this local rollout.

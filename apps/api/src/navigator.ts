@@ -16,7 +16,7 @@ import {
 } from "@voxian/shared"
 import type { OccupationCatalogue } from "./occupation-catalogue.ts"
 import { chatOwner } from "./chat-store.ts"
-import type { CvVectorStore, CvCandidates } from "./cv-vector-store.ts"
+import { StaleCvError, type CvVectorStore, type CvCandidates } from "./cv-vector-store.ts"
 import { chatConfig, completeJson } from "./llm.ts"
 import iscoTasks from "../data/isco-tasks.json" with { type: "json" }
 import onetIsco from "../data/onet-isco.json" with { type: "json" }
@@ -157,6 +157,7 @@ export function registerNavigator(
             .header("Retry-After", "60")
             .send({ error: "Navigator is busy. Try again in a minute." })
         quota.count++
+        const generationStarted = Date.now()
         try {
           let candidates: CvCandidates | undefined
           const vectorMode = process.env.CV_VECTOR_MODE
@@ -171,7 +172,11 @@ export function registerNavigator(
           ) {
             try {
               candidates = await vectors.candidates(owner, profile.cvContext, requirements)
-            } catch {
+            } catch (error) {
+              if (error instanceof StaleCvError)
+                return reply
+                  .code(409)
+                  .send({ error: "Your CV changed. Refresh to load your current profile." })
               request.log.warn("CV vector retrieval unavailable; exhaustive evidence retained")
             }
           }
@@ -224,7 +229,7 @@ export function registerNavigator(
             },
             z.toJSONSchema(navigatorDraftSchema),
             8192,
-            60_000,
+            Math.max(5000, 60_000 - (Date.now() - generationStarted)),
           )
           const draft = navigatorDraftSchema.parse(JSON.parse(raw))
           for (const path of paths) {
@@ -277,6 +282,11 @@ export function registerNavigator(
           summary = draft.summary
           provider = config.label
           generationStatus = "personalized"
+          if (useVectors)
+            request.log.info(
+              { evidenceCount: evidence.length, candidateCount: suppliedEvidence.length },
+              "CV vector retrieval applied",
+            )
           if (candidates && vectorMode === "shadow") {
             const supported = paths.flatMap((path) => path.cvMatches ?? [])
             const covered = supported.filter((match) =>

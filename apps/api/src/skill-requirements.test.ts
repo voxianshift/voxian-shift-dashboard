@@ -44,3 +44,22 @@ test("only a single supported verdict with exact current evidence can count", ()
   expect(supportedCvMatches([supported, supported], requirements, evidence)).toEqual([])
   expect(cvAssessmentSchema.safeParse({ ...supported, percentage: 99 }).success).toBe(false)
 })
+
+test("held-out labels are separate from development fixtures and use untuned definitions", async () => {
+  const { default: holdout } = await import("../data/evaluations/cv-skill-holdout.json", {
+    with: { type: "json" },
+  })
+  const requirements = curatedOccupationCodes.flatMap((code) =>
+    pathIdSchema.options.flatMap((id) => skillRequirements(code, id)),
+  )
+  expect(holdout.frozenImplementation).toBe("c3d2158")
+  expect(holdout.cases).toHaveLength(40)
+  expect(new Set(holdout.cases.map((item) => item.id)).size).toBe(40)
+  for (const example of holdout.cases) {
+    expect(diagnostic.cases.some((item) => item.label === example.label)).toBe(false)
+    expect(requirements.find((item) => item.label === example.label)?.definitionSource).toBe(
+      "catalogue-label-and-context",
+    )
+    expect(example.evidence.every((phrase) => phrase.length <= 180)).toBe(true)
+  }
+})

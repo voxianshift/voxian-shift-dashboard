@@ -556,3 +556,44 @@ test("vector candidates constrain active evidence; failures retain exhaustive CV
     await app.close()
   }
 })
+
+test("deleted or replaced CV does not fall back to sending stale evidence to provider", async () => {
+  const { StaleCvError } = await import("./cv-vector-store.ts")
+  vi.stubEnv("CV_VECTOR_MODE", "active")
+  const fetch = vi.fn()
+  vi.stubGlobal("fetch", fetch)
+  const app = buildApp({
+    catalogue: catalogue(),
+    cvVectorStore: {
+      candidates: async () => {
+        throw new StaleCvError("CV changed")
+      },
+      seed: async () => 0,
+      close: async () => {},
+    },
+  })
+  try {
+    const response = await app.inject({
+      method: "POST",
+      url: "/navigator/paths",
+      headers: { cookie: `voxian_chat=${"a".repeat(43)}` },
+      payload: {
+        profile: {
+          ...context,
+          cvContext: {
+            reviewed: true,
+            confidence: 0.9,
+            jobTitles: ["Developer"],
+            skills: ["Used Cursor"],
+            keywords: ["Development"],
+            workHistory: [],
+          },
+        },
+      },
+    })
+    expect(response.statusCode).toBe(409)
+    expect(fetch).not.toHaveBeenCalled()
+  } finally {
+    await app.close()
+  }
+})

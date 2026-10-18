@@ -8,7 +8,11 @@ import { skillRequirements, cvMatchingPrompt } from "../src/skill-requirements.t
 import { createCvEmbeddings } from "../src/cv-embeddings.ts"
 import { createCvVectorStore, requirementEmbeddingText } from "../src/cv-vector-store.ts"
 import { chatConfig, completeJson } from "../src/llm.ts"
-import fixture from "../data/evaluations/cv-skill-matching.json" with { type: "json" }
+import diagnostic from "../data/evaluations/cv-skill-matching.json" with { type: "json" }
+import holdout from "../data/evaluations/cv-skill-holdout.json" with { type: "json" }
+const isHoldout = process.argv.includes("--holdout")
+const fixture = isHoldout ? holdout : diagnostic
+const repeatCount = isHoldout ? 2 : 1
 
 if (!process.argv.includes("--live"))
   throw new Error(
@@ -96,50 +100,66 @@ try {
         new Set(body.assessments.map((item) => item.requirementId)).size === examples.length &&
         body.assessments.every((item) => examples.some((e) => e.id === item.requirementId)),
     )
-  const runs = []
-  for (const variant of ["exhaustive", "vector-candidates"] as const) {
-    const input = prepared.map((item) => ({
-      requirementId: item.id,
-      requirement: { ...item.requirement, id: item.id },
-      cvEvidence: variant === "exhaustive" ? item.allEvidence : item.candidates,
-    }))
-    const started = Date.now()
-    const raw = await completeJson(
-      config,
-      `${cvMatchingPrompt}\nEach case is independent. Use its own cvEvidence and requirementId only. Return JSON {assessments:[...]}. Keep reasons under 100 characters.`,
-      input,
-      z.toJSONSchema(schema),
-      10000,
-      60000,
-    )
-    const verdicts = schema.parse(JSON.parse(raw)).assessments
-    const rows = prepared.map((item) => {
-      const verdict = verdicts.find((v) => v.requirementId === item.id)!
-      const allowed = variant === "exhaustive" ? item.allEvidence : item.candidates
-      const supported = verdict.status === "supported" && allowed.includes(verdict.evidence)
-      return {
-        id: item.id,
-        expected: item.expected,
-        actual: supported ? "supported" : "not_supported",
-        status: verdict.status,
-        evidence: verdict.evidence,
-        reason: verdict.reason,
-      }
-    })
-    const falsePositives = rows.filter(
-      (r) => r.actual === "supported" && r.expected !== "supported",
-    ).length
-    runs.push({
-      variant,
-      milliseconds: Date.now() - started,
-      inputCharacters: JSON.stringify(input).length,
-      correct: rows.filter((r) => r.actual === r.expected).length,
-      total: rows.length,
-      falsePositives,
-      falseNegatives: rows.filter((r) => r.actual !== "supported" && r.expected === "supported")
-        .length,
-      rows,
-    })
+  const runs: {
+    variant: "exhaustive" | "vector-candidates"
+    repeat: number
+    invalidCitations: number
+    milliseconds: number
+    inputCharacters: number
+    correct: number
+    total: number
+    falsePositives: number
+    falseNegatives: number
+    rows: unknown[]
+  }[] = []
+  for (let repeat = 1; repeat <= repeatCount; repeat++) {
+    for (const variant of ["exhaustive", "vector-candidates"] as const) {
+      const input = prepared.map((item) => ({
+        requirementId: item.id,
+        requirement: { ...item.requirement, id: item.id },
+        cvEvidence: variant === "exhaustive" ? item.allEvidence : item.candidates,
+      }))
+      const started = Date.now()
+      const raw = await completeJson(
+        config,
+        `${cvMatchingPrompt}\nEach case is independent. Use its own cvEvidence and requirementId only. Return JSON {assessments:[...]}. Keep reasons under 100 characters.`,
+        input,
+        z.toJSONSchema(schema),
+        10000,
+        60000,
+      )
+      const verdicts = schema.parse(JSON.parse(raw)).assessments
+      const rows = prepared.map((item) => {
+        const verdict = verdicts.find((v) => v.requirementId === item.id)!
+        const allowed = variant === "exhaustive" ? item.allEvidence : item.candidates
+        const supported = verdict.status === "supported" && allowed.includes(verdict.evidence)
+        return {
+          id: item.id,
+          expected: item.expected,
+          actual: supported ? "supported" : "not_supported",
+          status: verdict.status,
+          evidence: verdict.evidence,
+          reason: verdict.reason,
+          invalidCitation: verdict.status === "supported" && !allowed.includes(verdict.evidence),
+        }
+      })
+      const falsePositives = rows.filter(
+        (r) => r.actual === "supported" && r.expected !== "supported",
+      ).length
+      runs.push({
+        variant,
+        repeat,
+        invalidCitations: rows.filter((row) => row.invalidCitation).length,
+        milliseconds: Date.now() - started,
+        inputCharacters: JSON.stringify(input).length,
+        correct: rows.filter((r) => r.actual === r.expected).length,
+        total: rows.length,
+        falsePositives,
+        falseNegatives: rows.filter((r) => r.actual !== "supported" && r.expected === "supported")
+          .length,
+        rows,
+      })
+    }
   }
   const positives = prepared.filter((item) => item.expected === "supported")
   const recovered = positives.filter((item) =>
@@ -147,6 +167,9 @@ try {
   ).length
   const report = {
     date: new Date().toISOString(),
+    fixture: fixture.version,
+    provenance: fixture.provenance,
+    repeatCount,
     model: client.model,
     verifier: { provider: config.label, model: config.model },
     embeddingRequests: texts.length,
@@ -159,11 +182,21 @@ try {
     inputCharacterReduction: 1 - runs[1]!.inputCharacters / runs[0]!.inputCharacters,
     diagnosticGatePassed:
       recovered / positives.length >= 0.98 &&
-      runs[1]!.falsePositives <= runs[0]!.falsePositives &&
-      runs[1]!.falseNegatives <= runs[0]!.falseNegatives &&
-      runs[1]!.inputCharacters < runs[0]!.inputCharacters * 0.8,
+      runs.every((run) => run.invalidCitations === 0) &&
+      runs
+        .filter((run) => run.variant === "vector-candidates")
+        .every((run) => {
+          const direct = runs.find(
+            (item) => item.variant === "exhaustive" && item.repeat === run.repeat,
+          )!
+          return (
+            run.falsePositives <= direct.falsePositives &&
+            run.falseNegatives <= direct.falseNegatives &&
+            run.inputCharacters < direct.inputCharacters * 0.8
+          )
+        }),
     limitation:
-      "Engineering-authored synthetic diagnostic plus fixed distractors, not held-out CVs or a production accuracy/cost estimate. Cached vectors exclude cold embedding latency from database timings. No automatic rollout.",
+      "Synthetic examples and fixed distractors, not real CVs or a production accuracy/cost estimate. Cached vectors exclude cold embedding latency from database timings. No automatic rollout.",
     retrieval: prepared.map((item) => ({
       id: item.id,
       label: item.label,
@@ -176,7 +209,7 @@ try {
   const target = new URL("../../../docs/evaluations/", import.meta.url)
   await mkdir(target, { recursive: true })
   await writeFile(
-    new URL("cv-vector-retrieval.json", target),
+    new URL(isHoldout ? "cv-vector-holdout.json" : "cv-vector-retrieval.json", target),
     JSON.stringify(report, null, 2) + "\n",
   )
   console.log(
