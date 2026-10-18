@@ -1,5 +1,8 @@
 "use client"
 
+import { useState } from "react"
+import { CvUpload } from "@/components/cv-upload"
+import type { OccupationMatch } from "@voxian/shared"
 import { HelpCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { OccupationPicker } from "@/components/occupation-picker"
@@ -36,6 +39,7 @@ export function ProfileEditor({
   /** Divider under each field (off in the one-question-at-a-time questionnaire) */
   bordered?: boolean
 }) {
+  const [cvMatches, setCvMatches] = useState<OccupationMatch[]>([])
   return (
     <div>
       {(fields
@@ -80,7 +84,60 @@ export function ProfileEditor({
               </Tooltip>
             </div>
             {field === "currentWork" ? (
-              <OccupationPicker profile={profile} onChange={update} />
+              <div className="space-y-4">
+                <OccupationPicker profile={profile} onChange={update} />
+                <CvUpload
+                  onAccept={(context, matches) => {
+                    update({ cvContext: context })
+                    setCvMatches(matches)
+                  }}
+                />
+                {cvMatches.length > 0 && (
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium">
+                      CV role suggestions · choose only if it fits
+                    </p>
+                    {cvMatches.map((role) => (
+                      <Button
+                        key={role.code}
+                        type="button"
+                        variant="outline"
+                        className="h-auto w-full justify-start whitespace-normal text-left"
+                        onClick={() => {
+                          update({
+                            occupations: [role.code],
+                            primaryOccupation: role.code,
+                            occupationNames: { [role.code]: role.title },
+                          })
+                          setCvMatches([])
+                        }}
+                      >
+                        {role.title}
+                      </Button>
+                    ))}
+                  </div>
+                )}
+                {profile.cvContext && (
+                  <section aria-label="Saved CV details" className="rounded-lg border p-3 text-sm">
+                    <h3 className="font-medium">Reviewed CV context</h3>
+                    <p className="mt-1">{profile.cvContext.jobTitles.join(" · ")}</p>
+                    <p className="mt-2 text-muted-foreground">
+                      {profile.cvContext.keywords.join(" · ")}
+                    </p>
+                    <Button
+                      type="button"
+                      variant="link"
+                      className="mt-1 h-auto p-0"
+                      onClick={() => {
+                        update({ cvContext: null })
+                        setCvMatches([])
+                      }}
+                    >
+                      Remove CV details
+                    </Button>
+                  </section>
+                )}
+              </div>
             ) : field === "taskFocus" ? (
               <Select
                 value={profile.taskFocus || "unanswered"}

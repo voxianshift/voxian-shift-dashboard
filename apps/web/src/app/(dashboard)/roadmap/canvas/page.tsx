@@ -22,13 +22,6 @@ import "@xyflow/react/dist/style.css"
 import "@/components/navigator-effects.css"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Button } from "@/components/ui/button"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { useSidebar } from "@/components/ui/sidebar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
@@ -41,20 +34,13 @@ import {
 } from "@voxian/shared"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { CommitDirectionDialog } from "@/components/commit-direction-dialog"
-import { Roadmap } from "@/components/navigator-plan-view"
+import { PlanSheet } from "@/components/plan-sheet"
 import {
   loadCommitment,
   timelineSprint,
   type Commitment,
   type GeneratedPlan,
 } from "@/lib/commitment"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-} from "@/components/ui/sheet"
 import { useNavigator } from "@/components/navigator-provider"
 import { NavigatorStatus } from "@/components/navigator-status"
 import {
@@ -141,7 +127,7 @@ function RoleCard({ data, selected }: NodeProps<RoleNode>) {
     )
   if (data.kind === "path")
     return (
-      <div className="relative h-[180px] w-[260px]" style={{ color }}>
+      <div className="relative h-[260px] w-[260px]" style={{ color }}>
         <h2
           className="absolute inset-x-0 top-0 line-clamp-2 text-center text-[14px] font-semibold leading-tight text-muted-foreground"
           title={data.title}
@@ -150,7 +136,7 @@ function RoleCard({ data, selected }: NodeProps<RoleNode>) {
         </h2>
         <svg
           viewBox="0 0 260 180"
-          className="absolute inset-0 size-full overflow-visible"
+          className="absolute inset-x-0 top-0 h-[180px] w-full overflow-visible"
           aria-hidden="true"
         >
           {selected && (
@@ -196,11 +182,37 @@ function RoleCard({ data, selected }: NodeProps<RoleNode>) {
             <TooltipContent>{strategyHelp[data.pathId ?? ""]}</TooltipContent>
           </Tooltip>
         </div>
-        {data.subtitle && (
-          <p className="absolute inset-x-0 top-[160px] text-center text-[11px] text-muted-foreground">
-            {data.subtitle}
-          </p>
-        )}
+        <div className="absolute inset-x-0 top-[158px] space-y-1 text-center text-[11px] text-muted-foreground">
+          {data.skills?.map((skill) => (
+            <p key={skill} className="truncate" title={skill}>
+              {skill}
+            </p>
+          ))}
+          {data.alignment && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  className="nodrag font-medium text-foreground underline decoration-dotted underline-offset-4"
+                  aria-label={`${data.alignment.percentage}% CV alignment`}
+                >
+                  {data.alignment.percentage}% CV alignment
+                </button>
+              </TooltipTrigger>
+              <TooltipContent className="max-w-72">
+                {data.alignment.matched} of {data.alignment.total} required skills evidenced in your
+                reviewed CV. Documented overlap, not measured proficiency. AI-assisted phrase
+                matching may be imperfect.
+                {data.cvMatches?.map((match) => (
+                  <p key={match.skill} className="mt-2">
+                    <strong>{match.skill}</strong>: {match.evidence} — {match.reason}
+                  </p>
+                ))}
+              </TooltipContent>
+            </Tooltip>
+          )}
+          {data.subtitle && <p>{data.subtitle}</p>}
+        </div>
         <Handle
           type="target"
           position={Position.Left}
@@ -345,7 +357,6 @@ function NavigatorCanvas({
   const params = useSearchParams()
   const [commitOpen, setCommitOpen] = useState(false)
   const [planOpen, setPlanOpen] = useState(false)
-  const [planPhase, setPlanPhase] = useState(0)
   const [commitment, setCommitment] = useState<Commitment | null>(null)
   useEffect(() => {
     let active = true
@@ -370,7 +381,7 @@ function NavigatorCanvas({
   const sprint = timelineSprint(profile.timeline) ?? profile.hours === "5+ hours"
   const { resolvedTheme } = useTheme()
   const careerPaths = data.paths
-  const careerNodes = buildCareerNodes(careerPaths, data.roleTitle)
+  const careerNodes = buildCareerNodes(careerPaths, data.roleTitle, profile.cvContext)
   const [selectedId, setSelectedId] = useState<string | null>(initialSelectedId)
   const [focusRequest, setFocusRequest] = useState(0)
   const [flow, setFlow] = useState<ReactFlowInstance<RoleNode> | null>(null)
@@ -751,66 +762,12 @@ function NavigatorCanvas({
           }}
         />
       )}
-      <Sheet open={planOpen} onOpenChange={setPlanOpen}>
-        <SheetContent
-          side="bottom"
-          className="data-[side=bottom]:h-[92dvh] gap-0 rounded-t-xl [--border:color-mix(in_srgb,var(--foreground)_20%,var(--background))]"
-        >
-          <SheetHeader className="shrink-0 border-b pr-14">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <SheetTitle>Your full plan</SheetTitle>
-              {commitment?.plan && (
-                <Select
-                  value={String(Math.min(planPhase, commitment.plan.plan.phases.length - 1))}
-                  onValueChange={(value) => {
-                    setPlanPhase(Number(value))
-                    document.getElementById("flight-plan")?.scrollIntoView({ block: "start" })
-                  }}
-                >
-                  <SelectTrigger
-                    aria-label="Navigate plan phase"
-                    className="w-full sm:w-auto sm:max-w-[280px]"
-                  >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {commitment.plan.plan.phases.map((phase, index) => (
-                      <SelectItem key={index} value={String(index)}>
-                        Phase 0{index + 1} · {phase.title}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
-            </div>
-            <SheetDescription>
-              Review your phases, daily tasks, milestones and learning resources.
-            </SheetDescription>
-          </SheetHeader>
-          <div className="min-h-0 flex-1 overflow-y-auto">
-            {commitment?.plan && (
-              <Roadmap
-                data={data}
-                requestedPath={commitment.pathId}
-                requestedRole={
-                  commitment.role === null
-                    ? null
-                    : String(
-                        data.paths
-                          .find((path) => path.id === commitment.pathId)
-                          ?.roles.indexOf(commitment.role),
-                      )
-                }
-                profileKey={profileKey}
-                savedCommitment={commitment}
-                phaseIndex={planPhase}
-                onPhaseChange={setPlanPhase}
-                onAttendanceChange={setCommitment}
-              />
-            )}
-          </div>
-        </SheetContent>
-      </Sheet>
+      <PlanSheet
+        open={planOpen}
+        onOpenChange={setPlanOpen}
+        commitment={commitment}
+        onCommitmentChange={setCommitment}
+      />
     </div>
   )
 }

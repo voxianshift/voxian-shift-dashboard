@@ -1,3 +1,4 @@
+import { skillRequirements } from "./skill-requirements.ts"
 import { afterEach, beforeEach, expect, test, vi } from "vite-plus/test"
 import { emptyProfile, navigatorContext, navigatorResultSchema, pathIdSchema } from "@voxian/shared"
 import { buildApp } from "./app.ts"
@@ -91,6 +92,8 @@ test("destinations and titles are backend lookups while narrative uses confirmed
     const body = navigatorResultSchema.parse(response.json())
     expect(body.contractVersion).toBe(3)
     expect(body.generationStatus).toBe("personalized")
+    expect(body.paths[0]!.requiredSkills).toEqual(lookupPathways(developer.code).automate!.skills)
+    expect(body.paths[0]!.skills).toEqual(["Testing", "Communication", "Coding"])
     expect(body.recommendedPathId).toBeNull()
     expect(body.paths.map((path) => path.id)).toEqual(pathIdSchema.options)
     expect(body.paths[0]!.destinations).toEqual(
@@ -414,6 +417,182 @@ test("family-only occupation gets transparent fixed exploration options without 
       expect(path.destinations).toEqual(lookupPathways(familyOnly.code)[path.id]!.destinations)
     }
     expect(body.paths[2]!.description).toContain("not yet validated")
+  } finally {
+    await app.close()
+  }
+})
+
+test("semantic matches retain only fixed requirements backed by reviewed CV evidence", async () => {
+  const skill = lookupPathways(developer.code).automate!.skills[0]!
+  const result = draft()
+  const requirements = skillRequirements(developer.code, "automate")
+  const matches = [
+    {
+      requirementId: requirements[0]!.id,
+      status: "supported",
+      evidence: "Reviewed tool experience",
+      reason: "Equivalent tool experience",
+    },
+    {
+      requirementId: "invented",
+      status: "supported",
+      evidence: "Reviewed tool experience",
+      reason: "Not a requirement",
+    },
+    {
+      requirementId: requirements[1]!.id,
+      status: "supported",
+      evidence: "Invented evidence",
+      reason: "Missing evidence",
+    },
+    {
+      requirementId: requirements[2]!.id,
+      status: "related",
+      evidence: "Reviewed tool experience",
+      reason: "Adjacent, not sufficient",
+    },
+  ]
+  Object.assign(result.paths[0]!, { cvAssessments: matches })
+  const fetch = vi.fn().mockImplementation(() => completion(result))
+  vi.stubGlobal("fetch", fetch)
+  const app = buildApp({ catalogue: catalogue() })
+  const cvContext = {
+    reviewed: true,
+    confidence: 0.9,
+    jobTitles: ["Developer"],
+    skills: ["Reviewed tool experience"],
+    keywords: ["Development"],
+    workHistory: [],
+  }
+  try {
+    const response = await app.inject({
+      method: "POST",
+      url: "/navigator/paths",
+      payload: { profile: { ...context, cvContext } },
+    })
+    expect(response.statusCode).toBe(200)
+    expect(response.json().paths[0].cvMatches).toEqual([
+      { skill, evidence: "Reviewed tool experience", reason: "Equivalent tool experience" },
+    ])
+    const input = JSON.parse(
+      JSON.parse(fetch.mock.calls[0]![1]!.body as string).messages[1].content,
+    )
+    expect(input.cvEvidence).toEqual(["Reviewed tool experience", "Development"])
+    const noCv = await app.inject({
+      method: "POST",
+      url: "/navigator/paths",
+      payload: { profile: context },
+    })
+    expect(noCv.json().paths[0].cvMatches).toEqual([])
+  } finally {
+    await app.close()
+  }
+})
+
+test("vector candidates constrain active evidence; failures retain exhaustive CV context", async () => {
+  vi.stubEnv("CV_VECTOR_MODE", "active")
+  const requirement = skillRequirements(developer.code, "automate")[0]!
+  const result = draft()
+  Object.assign(result.paths[0]!, {
+    cvAssessments: [
+      {
+        requirementId: requirement.id,
+        status: "supported",
+        evidence: "Used Cursor",
+        reason: "AI coding tool",
+      },
+    ],
+  })
+  const fetch = vi.fn().mockImplementation(() => completion(result))
+  vi.stubGlobal("fetch", fetch)
+  const candidates = vi.fn(async () => ({
+    model: "test",
+    evidenceCount: 2,
+    byRequirement: { [requirement.id]: ["Used Cursor"] },
+  }))
+  const app = buildApp({
+    catalogue: catalogue(),
+    cvVectorStore: { candidates, seed: async () => 0, close: async () => {} },
+  })
+  const profile = {
+    ...context,
+    cvContext: {
+      reviewed: true,
+      confidence: 0.9,
+      jobTitles: ["Developer"],
+      skills: ["Used Cursor"],
+      keywords: ["Unrelated evidence"],
+      workHistory: [],
+    },
+  }
+  try {
+    const response = await app.inject({
+      method: "POST",
+      url: "/navigator/paths",
+      headers: { cookie: `voxian_chat=${"a".repeat(43)}` },
+      payload: { profile },
+    })
+    expect(response.statusCode).toBe(200)
+    const input = JSON.parse(
+      JSON.parse(fetch.mock.calls[0]![1]!.body as string).messages[1].content,
+    )
+    expect(candidates).toHaveBeenCalledOnce()
+    expect(input.profile).not.toHaveProperty("cvContext")
+    expect(input.cvEvidence).toEqual(["Used Cursor"])
+    expect(response.json().paths[0].cvMatches).toHaveLength(1)
+    candidates.mockRejectedValueOnce(new Error("Unavailable"))
+    await app.inject({
+      method: "POST",
+      url: "/navigator/paths",
+      headers: { cookie: `voxian_chat=${"a".repeat(43)}` },
+      payload: { profile },
+    })
+    const fallback = JSON.parse(
+      JSON.parse(fetch.mock.calls[1]![1]!.body as string).messages[1].content,
+    )
+    expect(fallback.profile.cvContext).toEqual(profile.cvContext)
+    expect(fallback.cvEvidence).toContain("Unrelated evidence")
+  } finally {
+    await app.close()
+  }
+})
+
+test("deleted or replaced CV does not fall back to sending stale evidence to provider", async () => {
+  const { StaleCvError } = await import("./cv-vector-store.ts")
+  vi.stubEnv("CV_VECTOR_MODE", "active")
+  const fetch = vi.fn()
+  vi.stubGlobal("fetch", fetch)
+  const app = buildApp({
+    catalogue: catalogue(),
+    cvVectorStore: {
+      candidates: async () => {
+        throw new StaleCvError("CV changed")
+      },
+      seed: async () => 0,
+      close: async () => {},
+    },
+  })
+  try {
+    const response = await app.inject({
+      method: "POST",
+      url: "/navigator/paths",
+      headers: { cookie: `voxian_chat=${"a".repeat(43)}` },
+      payload: {
+        profile: {
+          ...context,
+          cvContext: {
+            reviewed: true,
+            confidence: 0.9,
+            jobTitles: ["Developer"],
+            skills: ["Used Cursor"],
+            keywords: ["Development"],
+            workHistory: [],
+          },
+        },
+      },
+    })
+    expect(response.statusCode).toBe(409)
+    expect(fetch).not.toHaveBeenCalled()
   } finally {
     await app.close()
   }

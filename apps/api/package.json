@@ -7,6 +7,9 @@
     "dev": "node --env-file-if-exists=.env --watch src/server.ts",
     "start": "node src/server.ts",
     "test": "vp test",
+    "cv:seed-vectors": "node --env-file-if-exists=.env scripts/seed-cv-vectors.ts",
+    "cv:evaluate-retrieval": "node --env-file-if-exists=.env scripts/evaluate-cv-retrieval.ts",
+    "cv:evaluate": "node --env-file-if-exists=.env scripts/evaluate-cv-matching.ts",
     "db:migrate": "node --env-file-if-exists=.env scripts/migrate.ts",
     "db:import-occupations": "node --env-file-if-exists=.env scripts/import-occupations.ts"
   },
@@ -17,11 +20,13 @@
     "mammoth": "catalog:",
     "pdf-parse": "catalog:",
     "pg": "catalog:",
+    "word-extractor": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {
     "@types/node": "catalog:",
     "@types/pg": "catalog:",
+    "@types/word-extractor": "catalog:",
     "typescript": "catalog:",
     "vite-plus": "catalog:"
   }

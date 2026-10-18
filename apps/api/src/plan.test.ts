@@ -497,3 +497,48 @@ test("custom daily allocation survives generation with four named phase sections
     await app.close()
   }
 })
+
+test("reviewed CV evidence reaches planning while low-confidence input is rejected before generation", async () => {
+  const fetch = mockProvider()
+  const app = buildApp({ catalogue })
+  const cv = {
+    confidence: 0.9,
+    reviewed: true,
+    jobTitles: ["Software Developer"],
+    skills: ["TypeScript"],
+    keywords: ["TypeScript", "code review"],
+    workHistory: [
+      {
+        title: "Software Developer",
+        employerContext: "software team",
+        duties: ["Build applications"],
+      },
+    ],
+  }
+  try {
+    const response = await app.inject({
+      method: "POST",
+      url: "/plan",
+      payload: { ...request(), profile: { ...request().profile, cvContext: cv } },
+    })
+    expect(response.statusCode).toBe(200)
+    const sent = JSON.parse(JSON.parse(fetch.mock.calls[0]![1]!.body).messages[1].content)
+    expect(sent.skillContext.cvKeywords).toEqual(cv.keywords)
+    expect(sent.skillContext.reviewedCvExperience).toEqual(cv.workHistory)
+    expect(sent.skillContext.userStatedStrengths).toEqual(request().profile.strengths)
+    expect(sent.profile).not.toHaveProperty("rawCvText")
+    fetch.mockClear()
+    const invalid = await app.inject({
+      method: "POST",
+      url: "/plan",
+      payload: {
+        ...request(),
+        profile: { ...request().profile, cvContext: { ...cv, confidence: 0.4 } },
+      },
+    })
+    expect(invalid.statusCode).toBe(400)
+    expect(fetch).not.toHaveBeenCalled()
+  } finally {
+    await app.close()
+  }
+})

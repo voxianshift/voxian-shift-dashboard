@@ -9,6 +9,7 @@ import {
   CalendarPlus,
   BookOpen,
   CalendarClock,
+  Lock,
   Check,
   Flame,
   Pencil,
@@ -17,6 +18,7 @@ import { AttendanceBadge } from "@/components/attendance-badge"
 import { Button } from "@/components/ui/button"
 import { PanelHeading } from "@/components/radar-panel"
 import { CommitDirectionDialog } from "@/components/commit-direction-dialog"
+import { PlanSheet } from "@/components/plan-sheet"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { MILESTONES } from "@/lib/mock"
 import {
@@ -101,6 +103,12 @@ function Progress({
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState("")
+  const [planOpen, setPlanOpen] = useState(false)
+  const [now, setNow] = useState(() => new Date())
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000)
+    return () => clearInterval(id)
+  }, [])
   const { profile } = useCareerProfile()
   // Legacy slots follow live preferences; validated plans retain their confirmed schedule until replanned.
   const commitment = withProfile(saved, profile)
@@ -113,6 +121,15 @@ function Progress({
   const due = days.filter((day) => day.slot && day.date <= today)
   const doneCount = days.filter((day) => day.slot && day.done).length
   const slots = commitmentSlots(commitment)
+  // ponytail: slot times read as browser-local wall time; convert via plan timeZone if users travel.
+  const at = (date: string, start: string) => new Date(`${date}T${start}:00`)
+  const nextSession = days
+    .filter((day) => !day.done)
+    .flatMap((day) => (day.slots ?? []).map((slot) => at(day.date, slot.start)))
+    .find((start) => start > now)
+  const todayStart = todayDay?.slot && at(today, (todayDay.slots ?? [todayDay.slot])[0]!.start)
+  const logLocked =
+    !!todayStart && !todayDay?.done && now.getTime() < todayStart.getTime() - 30 * 60_000
   const todayFocus = commitment.flightPlan?.find((segment) => {
     const [start, end] = segment.days.replace(/D/g, "").split("–").map(Number)
     return dayNumber >= start! && dayNumber <= end!
@@ -165,10 +182,8 @@ function Progress({
           <Button variant="outline" disabled={saving} onClick={() => setEditing(true)}>
             <Pencil /> Change schedule
           </Button>
-          <Button variant="outline" asChild>
-            <Link href={`/roadmap?path=${commitment.pathId}&plan=1`}>
-              Open plan <ArrowRight />
-            </Link>
+          <Button variant="outline" disabled={!commitment.plan} onClick={() => setPlanOpen(true)}>
+            Open plan <ArrowRight />
           </Button>
         </div>
       </section>
@@ -196,6 +211,11 @@ function Progress({
                   ? "You reached the end of your plan. Review what you built and choose what is next."
                   : "Your plan starts soon."}
           </p>
+          {nextSession && (
+            <p className="mt-1.5 font-mono text-[14px]" aria-live="off">
+              Next session in {countdown(nextSession.getTime() - now.getTime())}
+            </p>
+          )}
           {todayDay && todayFocus && (
             <p className="mt-1.5 text-[14px] text-muted-foreground">
               Focus ({todayFocus.days}): {todayFocus.focus}
@@ -212,11 +232,18 @@ function Progress({
           <Button
             variant={todayDay.done ? "outline" : "default"}
             aria-pressed={todayDay.done}
-            disabled={saving}
+            disabled={saving || logLocked}
+            title={logLocked ? "Unlocks 30 minutes before your session" : undefined}
             onClick={() => toggle(today)}
           >
-            <Check />{" "}
-            {saving ? "Saving…" : todayDay.done ? "Logged today · undo" : "Log today's session"}
+            {logLocked ? <Lock /> : <Check />}{" "}
+            {saving
+              ? "Saving…"
+              : todayDay.done
+                ? "Logged today · undo"
+                : logLocked
+                  ? "Unlocks 30 min before session"
+                  : "Log today's session"}
           </Button>
         )}
       </section>
@@ -328,6 +355,12 @@ function Progress({
           ))}
         </ul>
       </section>
+      <PlanSheet
+        open={planOpen}
+        onOpenChange={setPlanOpen}
+        commitment={commitment}
+        onCommitmentChange={onChange}
+      />
       {editing && (
         <CommitDirectionDialog
           open={editing}
@@ -367,6 +400,15 @@ function Progress({
       )}
     </div>
   )
+}
+
+function countdown(ms: number) {
+  const total = Math.max(0, Math.floor(ms / 1000))
+  const d = Math.floor(total / 86400)
+  const hms = [Math.floor(total / 3600) % 24, Math.floor(total / 60) % 60, total % 60]
+    .map((n) => String(n).padStart(2, "0"))
+    .join(":")
+  return d ? `${d}d ${hms}` : hms
 }
 
 function Stat({ label, value }: { label: string; value: React.ReactNode }) {

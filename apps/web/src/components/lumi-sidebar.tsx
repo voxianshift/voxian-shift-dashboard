@@ -143,7 +143,8 @@ export function LumiSidebar() {
                         )}
                         {m.text ? (
                           <LumiFormattedText text={m.text} />
-                        ) : m.toolCalls && m.toolCalls.some((t) => t.status === "running") ? null : (
+                        ) : m.toolCalls &&
+                          m.toolCalls.some((t) => t.status === "running") ? null : (
                           <div className="flex items-center gap-2 py-0.5 text-muted-foreground">
                             <Orb variant="pulse" size={14} />
                             <span className="text-[12px]">Lumi is thinking…</span>

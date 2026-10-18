@@ -16,6 +16,18 @@ Full profile answers, confirmation, skipped questions and onboarding completion 
 
 Guest endpoints: `GET/PUT /api/guest/profile`, `GET/PUT /api/guest/commitment`, and `DELETE /api/guest/state?scope=profile|all`. Profile saves update `career_occupation_selections` in the same transaction and use catalogue titles. Restart profile clears answers and role choices but keeps plan/progress and chats. Reset everything also clears plan/progress and existing chat data without depending on pgvector availability. Apply `apps/api/migrations/005_guest_state.sql` before running this version (included in `pnpm --filter @voxian/api db:migrate`).
 
+## CV upload and review
+
+Your work in onboarding and the profile editor accept PDF, DOC, DOCX and UTF-8 TXT files up to 2 MB. PDF uploads are limited to 20 pages and extracted text to 64,000 characters. The server validates format signatures; DOCX actual and declared expanded archive content is bounded to 16 MB before parsing. Parsing uses PDFParse, Mammoth and word-extractor without executing document macros.
+
+`POST /api/onboarding/cv?format=pdf|doc|docx|txt` returns structured job titles, skills, duties, non-identifying employer context, keywords, AI extraction confidence and up to three catalogue matches. It uses the configured provider. Gemini/Vertex accepts PDF inline document input, including scanned pages; local text-only Rootsys requires a text-based CV. AI instructions embedded in documents are untrusted. Extraction confidence is a model estimate, not a calibrated probability or the SQL role-match percentage.
+
+Confidence below 0.6, missing job titles or missing keywords returns `needs_review` with no occupations or career signals. No low-confidence data enters profile or planning. Unrelated chat payloads strip CV context. This is an in-request quarantine/fallback state, not a persistent raw-document queue.
+
+Users review details and choose **Use reviewed CV details** or **Discard**. Acceptance never confirms an occupation or sets exposure; users choose a reviewed match separately. Profile editor acceptance edits its draft only; Cancel discards it, Save persists it. Onboarding acceptance enters the existing autosaved draft. **Remove CV details** clears accepted context; both profile reset scopes clear it too.
+
+Accepted `profile.cvContext` is schema-validated (confidence at least 0.6, `reviewed: true`) and saved in guest profile JSONB. Old profiles omit it. It is included in Navigator/Flightplan context and profile revision; user-stated strengths remain separate. Raw file, original text and filename are not persisted. Provider failures preserve previous accepted context. See [source audit and CV contract](contracts/cv-processing.md).
+
 ## API and providers
 
 LLM integration lives in `apps/api/src/onboarding.ts`, registered by Fastify's `buildApp`. The web app has no provider handler or LLM credentials. Next.js proxies `/api/*` to `API_BASE_URL` (default `http://127.0.0.1:8080`). Configure this destination before building the web deployment because Next.js rewrites are built into the route manifest.
@@ -67,3 +79,5 @@ Tests: `pnpm exec vp run -r test`. Tests cover optional progress, primary-role c
 ## Occupation matching
 
 Profiles accept O*NET codes and authoritative titles, preserving legacy demo IDs. Role choices are stored in Postgres; other preferences remain in tab storage. Input readiness is separate from exposure-model coverage. General catalogue roles load an ISCO-08 crosswalk and ILO task exposure data when available; missing coverage shows an empty state without a numeric score. See [occupation catalogue](occupation-catalogue.md) for sources, routes and coverage.
+
+When optional CV vector retrieval is enabled, reviewed skill/keyword/duty phrases and their derived embeddings are cached per guest and CV revision in PostgreSQL. Raw documents remain unstored. Removing/replacing CV context or resetting the guest clears derived private vectors; phrases are not added to the shared requirement catalogue. See [CV skill alignment](contracts/cv-skill-alignment.md) for shadow/active mode and provider details.

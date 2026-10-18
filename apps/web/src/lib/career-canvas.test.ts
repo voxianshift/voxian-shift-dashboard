@@ -66,7 +66,7 @@ test("all branches and roles occupy separate rows without overlapping cards", ()
     const roles = nodes.filter((node) => node.data.kind === "role" && node.data.pathId === path.id)
     expect(roles.map((node) => node.data.title)).toEqual([...path.roles])
     const parent = nodes.find((node) => node.id === path.id)!
-    expect(parent.position.y + parent.height! / 2).toBe(
+    expect(parent.position.y + 90).toBe(
       (roles[0]!.position.y + roles.at(-1)!.position.y) / 2 + roles[0]!.height! / 2,
     )
   }
@@ -75,7 +75,7 @@ test("all branches and roles occupy separate rows without overlapping cards", ()
       node.data.kind === "role" ? 320 : node.data.kind === "start" ? 220 : 260,
     )
     expect(node.height).toBe(
-      node.data.kind === "role" ? 64 : node.data.kind === "start" ? 240 : 180,
+      node.data.kind === "role" ? 64 : node.data.kind === "start" ? 240 : 260,
     )
     for (const other of nodes.slice(index + 1)) {
       const separated =

@@ -1,5 +1,6 @@
 import { occupationIdSchema, occupationMatchSchema } from "./occupations.ts"
 import { z } from "zod"
+import { cvContextSchema } from "./cv.ts"
 
 const answer = z.string().max(800)
 export const profileSchema = z.strictObject({
@@ -27,9 +28,10 @@ export const profileSchema = z.strictObject({
       "Explicit desired outcomes: stability, better pay, meaningful work, flexibility, or progression.",
     ),
   anxieties: answer,
+  cvContext: cvContextSchema.nullable().optional(),
 })
 export type CareerProfile = z.infer<typeof profileSchema>
-export type ProfileField = keyof CareerProfile
+export type ProfileField = Exclude<keyof CareerProfile, "cvContext">
 export const emptyProfile: CareerProfile = {
   preferredName: "",
   currentWork: "",
@@ -46,7 +48,7 @@ export const emptyProfile: CareerProfile = {
   goals: [],
   anxieties: "",
 }
-export const profilePatchSchema = profileSchema.partial()
+export const profilePatchSchema = profileSchema.omit({ cvContext: true }).partial()
 export const chatResultSchema = z.strictObject({
   reply: z.string().trim().min(1).max(1200),
   updates: profilePatchSchema,
@@ -54,7 +56,7 @@ export const chatResultSchema = z.strictObject({
 })
 export const chatRequestSchema = z.strictObject({
   message: z.string().trim().min(1).max(2000),
-  profile: profileSchema,
+  profile: profileSchema.omit({ cvContext: true }).strip(),
   question: z.string().max(100),
   history: z
     .array(z.strictObject({ role: z.enum(["user", "assistant"]), text: z.string().max(2000) }))

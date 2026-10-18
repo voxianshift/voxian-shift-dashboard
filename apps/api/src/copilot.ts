@@ -35,7 +35,10 @@ export const copilotTurnSchema = z.strictObject({
 export function safeJsonParse<T>(text: string, schema: z.ZodType<T>): T {
   let cleaned = text.trim()
   if (cleaned.startsWith("```")) {
-    cleaned = cleaned.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "").trim()
+    cleaned = cleaned
+      .replace(/^```(?:json)?\s*/i, "")
+      .replace(/\s*```$/, "")
+      .trim()
   }
   const firstBrace = cleaned.indexOf("{")
   const lastBrace = cleaned.lastIndexOf("}")
@@ -100,9 +103,13 @@ async function executeTool(
 
     case "get_occupation_details": {
       const code = (params.code || "").trim()
-      const mapping = (onetIsco as Record<string, { isco: string; iscoTitle: string; via: string }>)[code]
+      const mapping = (
+        onetIsco as Record<string, { isco: string; iscoTitle: string; via: string }>
+      )[code]
       if (!mapping) return { error: `Occupation code ${code} not found in database.` }
-      const iscoData = (iscoTasks as Record<string, { title: string; gradient: string; tasks: unknown[] }>)[mapping.isco]
+      const iscoData = (
+        iscoTasks as Record<string, { title: string; gradient: string; tasks: unknown[] }>
+      )[mapping.isco]
       return {
         code,
         title: mapping.via,
@@ -115,7 +122,9 @@ async function executeTool(
 
     case "get_occupation_tasks": {
       const code = (params.code || "").trim()
-      const mapping = (onetIsco as Record<string, { isco: string; iscoTitle: string; via: string }>)[code]
+      const mapping = (
+        onetIsco as Record<string, { isco: string; iscoTitle: string; via: string }>
+      )[code]
       if (!mapping) return { error: `Occupation code ${code} not found in database.` }
       const iscoData = (
         iscoTasks as Record<
@@ -149,7 +158,9 @@ async function executeTool(
     case "calculate_exposure_radar": {
       const code = (params.code || "").trim()
       const focus = params.taskFocus || "routine"
-      const mapping = (onetIsco as Record<string, { isco: string; iscoTitle: string; via: string }>)[code]
+      const mapping = (
+        onetIsco as Record<string, { isco: string; iscoTitle: string; via: string }>
+      )[code]
       if (!mapping) return { error: `Occupation code ${code} not found.` }
       const iscoData = (
         iscoTasks as Record<
@@ -421,7 +432,11 @@ Return pure JSON matching the specified schema.`
             parameters: turn.toolCall.parameters,
           })
 
-          const observation = await executeTool(turn.toolCall.name, turn.toolCall.parameters, catalogue)
+          const observation = await executeTool(
+            turn.toolCall.name,
+            turn.toolCall.parameters,
+            catalogue,
+          )
           const summary = summarizeToolObservation(turn.toolCall.name, observation)
 
           sendEvent("tool_result", {

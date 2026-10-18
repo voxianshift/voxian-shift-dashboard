@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, ArrowRight, Compass, Upload } from "lucide-react"
+import { ArrowLeft, ArrowRight, Compass } from "lucide-react"
 import { occupationSearchSchema, type OccupationMatch } from "@voxian/shared"
 import { toast } from "sonner"
 import { useCareerProfile } from "@/components/career-profile-provider"
+import { CvUpload } from "@/components/cv-upload"
 import { ProfileEditor } from "@/components/profile-editor"
 import { OnboardingBaseline } from "@/components/onboarding-baseline"
 import { Button } from "@/components/ui/button"
@@ -55,32 +56,14 @@ export default function OnboardingPage() {
     heading.current?.focus()
   }, [index])
 
-  async function matchWork(file?: File) {
+  async function matchWork() {
     if (matching) return
     setMatching(true)
     setError("")
     try {
-      const format = file?.name.split(".").pop()?.toLowerCase()
-      if (
-        file &&
-        (!format ||
-          !["pdf", "docx", "txt"].includes(format) ||
-          !file.size ||
-          file.size > 2 * 1024 * 1024)
-      )
-        throw new Error("Choose a PDF, DOCX, or TXT CV up to 2 MB.")
       const response = await fetch(
-        file
-          ? `/api/onboarding/cv?format=${format}`
-          : `/api/occupations?q=${encodeURIComponent(profile.currentWork.trim())}`,
-        file
-          ? {
-              method: "POST",
-              headers: { "Content-Type": "application/octet-stream" },
-              body: file,
-              signal: AbortSignal.timeout(30_000),
-            }
-          : { signal: AbortSignal.timeout(10_000) },
+        `/api/occupations?q=${encodeURIComponent(profile.currentWork.trim())}`,
+        { signal: AbortSignal.timeout(10_000) },
       )
       if (!response.ok) {
         const result = await response.json().catch(() => null)
@@ -95,7 +78,7 @@ export default function OnboardingPage() {
         throw new Error("No close roles found. Try another title or a few words about your duties.")
       setRoles(result.occupations)
       update({ occupations: [], primaryOccupation: "", occupationNames: {} })
-      setFileName(file?.name ?? "")
+      setFileName("")
       setIndex(2)
     } catch (failure) {
       setError(failure instanceof Error ? failure.message : "Role matching failed. Try again.")
@@ -191,30 +174,27 @@ export default function OnboardingPage() {
                   <span className="text-xs text-muted-foreground">OR</span>
                   <span className="h-px flex-1 bg-border" />
                 </div>
-                <div className="rounded-xl border border-dashed p-5">
-                  <label
-                    htmlFor="onboarding-cv"
-                    className="mb-3 flex items-center gap-2 font-medium"
-                  >
-                    <Upload className="size-4" />
-                    Upload your CV / résumé instead
-                  </label>
-                  <Input
-                    id="onboarding-cv"
-                    type="file"
-                    accept=".pdf,.docx,.txt"
-                    onChange={(event) => {
-                      const file = event.target.files?.[0]
-                      if (file) void matchWork(file)
-                      event.target.value = ""
-                    }}
-                  />
-                  <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-                    PDF, DOCX, or TXT · Up to 2 MB. Sent to Voxian for text extraction and role
-                    matching; file and extracted text are not stored. Scanned PDFs need a text
-                    version.
-                  </p>
-                </div>
+                <CvUpload
+                  onAccept={(context, matches, filename) => {
+                    update({ cvContext: context })
+                    if (!matches.length) {
+                      setError(
+                        "CV details saved. No reviewed role matched closely; search your job title to choose your baseline.",
+                      )
+                      return
+                    }
+                    setRoles(matches)
+                    update({
+                      cvContext: context,
+                      occupations: [],
+                      primaryOccupation: "",
+                      occupationNames: {},
+                    })
+                    setFileName(filename)
+                    setError("")
+                    setIndex(2)
+                  }}
+                />
               </div>
             ) : index === 2 ? (
               <div className="space-y-4">

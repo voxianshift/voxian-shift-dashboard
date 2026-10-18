@@ -1,0 +1,6 @@
+Software Developer
+Work Experience
+Software Developer - software product team
+Build TypeScript web applications and PostgreSQL services.
+Write automated tests and review code.
+Skills: TypeScript, PostgreSQL, automated testing, code review.

@@ -177,7 +177,26 @@ test.skipIf(!process.env.TEST_DATABASE_URL)(
     const other = randomBytes(32).toString("hex")
     const first = createGuestStore(url)
     try {
-      await first.saveProfile(owner, state)
+      await first.saveProfile(owner, {
+        ...state,
+        profile: {
+          ...state.profile,
+          cvContext: {
+            confidence: 0.9,
+            reviewed: true,
+            jobTitles: ["Software Developer"],
+            skills: ["TypeScript"],
+            keywords: ["TypeScript"],
+            workHistory: [
+              {
+                title: "Software Developer",
+                employerContext: "software team",
+                duties: ["Build applications"],
+              },
+            ],
+          },
+        },
+      })
       await first.saveCommitment(owner, commitment)
       await first.saveProfile(other, {
         ...state,
@@ -191,6 +210,12 @@ test.skipIf(!process.env.TEST_DATABASE_URL)(
     const catalogue = createOccupationCatalogue(url)
     try {
       expect(await reopened.profile(owner)).toMatchObject(state)
+      expect((await reopened.profile(owner))?.profile.cvContext?.keywords).toEqual(["TypeScript"])
+      await reopened.saveProfile(owner, {
+        ...state,
+        profile: { ...state.profile, cvContext: null },
+      })
+      expect((await reopened.profile(owner))?.profile.cvContext).toBeNull()
       expect(await reopened.commitment(owner)).toEqual(commitment)
       expect((await catalogue.selections(owner)).primaryOccupation).toBe("15-1252.00")
       await expect(
