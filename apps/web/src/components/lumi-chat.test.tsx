@@ -6,6 +6,7 @@ import { LumiActionCard } from "./lumi-action-card"
 import { LumiSidebar } from "./lumi-sidebar"
 import { LumiChatProvider } from "./lumi-chat-provider"
 import { LumiFormattedText } from "./lumi-formatted-text"
+import { LumiToolCallBadge } from "./lumi-tool-call-badge"
 
 const state = vi.hoisted(() => ({
   profile: {
@@ -143,4 +144,32 @@ const score = 75
   expect(html).toContain('href="/roadmap"')
   expect(html).toContain("const score = 75")
   expect(html).toContain("Copy")
+})
+
+test("renders LumiToolCallBadge in running and completed states", () => {
+  const runningHtml = renderToStaticMarkup(
+    createElement(LumiToolCallBadge, {
+      toolCall: {
+        name: "get_occupation_tasks",
+        parameters: { code: "15-1252.00" },
+        status: "running",
+      },
+    }),
+  )
+  expect(runningHtml).toContain("get_occupation_tasks")
+  expect(runningHtml).toContain("animate-ping")
+
+  const completedHtml = renderToStaticMarkup(
+    createElement(LumiToolCallBadge, {
+      toolCall: {
+        name: "get_occupation_tasks",
+        summary: "Loaded 5 tasks",
+        status: "completed",
+        data: { count: 5 },
+      },
+    }),
+  )
+  expect(completedHtml).toContain("get_occupation_tasks")
+  expect(completedHtml).toContain("Loaded 5 tasks")
+  expect(completedHtml).toContain("✓")
 })

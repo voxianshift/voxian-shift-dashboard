@@ -12,11 +12,21 @@ import {
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { occupationModels, taskWeights } from "@/lib/occupations"
 
+export type ChatToolCall = {
+  name: string
+  parameters?: Record<string, string>
+  status: "running" | "completed"
+  summary?: string
+  data?: unknown
+}
+
 export type ChatMessage = {
   id: string
   role: "user" | "assistant"
   text: string
   actions?: CopilotAction[]
+  suggestedQuestions?: string[]
+  toolCalls?: ChatToolCall[]
   timestamp: number
 }
 
@@ -209,12 +219,26 @@ export function LumiChatProvider({ children }: { children: ReactNode }) {
             : undefined,
       }
 
+      const assistantId = `a-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
+      const assistantMsg: ChatMessage = {
+        id: assistantId,
+        role: "assistant",
+        text: "",
+        toolCalls: [],
+        timestamp: Date.now(),
+      }
+
+      setMessages((prev) => [...prev, assistantMsg])
+
       try {
         const response = await fetch("/api/copilot/chat", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "text/event-stream, application/json",
+          },
           credentials: "same-origin",
-          signal: AbortSignal.timeout(30_000),
+          signal: AbortSignal.timeout(45_000),
           body: JSON.stringify({
             message: trimmed,
             route: pathname || "/home",
@@ -230,31 +254,146 @@ export function LumiChatProvider({ children }: { children: ReactNode }) {
           throw new Error((errData.error || `Server responded with ${response.status}`) + detailStr)
         }
 
-        const data: CopilotChatResult = await response.json()
+        const contentType = response.headers.get("content-type") || ""
+        if (contentType.includes("text/event-stream") && response.body) {
+          const reader = response.body.getReader()
+          const decoder = new TextDecoder()
+          let buffer = ""
 
-        const assistantMsg: ChatMessage = {
-          id: `a-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-          role: "assistant",
-          text: data.reply,
-          actions: data.actions,
-          timestamp: Date.now(),
-        }
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+            buffer += decoder.decode(value, { stream: true })
+            const blocks = buffer.split("\n\n")
+            buffer = blocks.pop() || ""
 
-        setMessages((prev) => [...prev, assistantMsg])
-        if (data.suggestedQuestions && data.suggestedQuestions.length > 0) {
-          setDynamicSuggestions(data.suggestedQuestions)
+            for (const block of blocks) {
+              let eventType = "message"
+              let eventData = ""
+              for (const line of block.split("\n")) {
+                if (line.startsWith("event: ")) eventType = line.slice(7).trim()
+                if (line.startsWith("data: ")) eventData = line.slice(6).trim()
+              }
+              if (!eventData) continue
+
+              try {
+                const parsed = JSON.parse(eventData)
+                if (eventType === "tool_call") {
+                  setMessages((prev) =>
+                    prev.map((m) =>
+                      m.id === assistantId
+                        ? {
+                            ...m,
+                            toolCalls: [
+                              ...(m.toolCalls || []),
+                              {
+                                name: parsed.name,
+                                parameters: parsed.parameters,
+                                status: "running" as const,
+                              },
+                            ],
+                          }
+                        : m,
+                    ),
+                  )
+                } else if (eventType === "tool_result") {
+                  setMessages((prev) =>
+                    prev.map((m) =>
+                      m.id === assistantId
+                        ? {
+                            ...m,
+                            toolCalls: (m.toolCalls || []).map((tc) =>
+                              tc.name === parsed.name
+                                ? {
+                                    ...tc,
+                                    status: "completed" as const,
+                                    summary: parsed.summary,
+                                    data: parsed.data,
+                                  }
+                                : tc,
+                            ),
+                          }
+                        : m,
+                    ),
+                  )
+                } else if (eventType === "delta") {
+                  setMessages((prev) =>
+                    prev.map((m) =>
+                      m.id === assistantId
+                        ? {
+                            ...m,
+                            text: m.text + (parsed.delta || ""),
+                          }
+                        : m,
+                    ),
+                  )
+                } else if (eventType === "final") {
+                  setMessages((prev) =>
+                    prev.map((m) =>
+                      m.id === assistantId
+                        ? {
+                            ...m,
+                            actions: parsed.actions,
+                            suggestedQuestions: parsed.suggestedQuestions,
+                          }
+                        : m,
+                    ),
+                  )
+                  if (parsed.suggestedQuestions && parsed.suggestedQuestions.length > 0) {
+                    setDynamicSuggestions(parsed.suggestedQuestions)
+                  }
+                } else if (eventType === "error") {
+                  throw new Error(parsed.error || "Streaming error occurred")
+                }
+              } catch {
+                /* ignore unparsed non-JSON chunk */
+              }
+            }
+          }
+        } else {
+          const data: CopilotChatResult = await response.json()
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === assistantId
+                ? {
+                    ...m,
+                    text: data.reply,
+                    actions: data.actions,
+                    suggestedQuestions: data.suggestedQuestions,
+                  }
+                : m,
+            ),
+          )
+          if (data.suggestedQuestions && data.suggestedQuestions.length > 0) {
+            setDynamicSuggestions(data.suggestedQuestions)
+          }
         }
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : "AI copilot unavailable"
         toast.error(message)
 
-        const fallbackMsg: ChatMessage = {
-          id: `err-${Date.now()}`,
-          role: "assistant",
-          text: `Notice: ${message}`,
-          timestamp: Date.now(),
-        }
-        setMessages((prev) => [...prev, fallbackMsg])
+        setMessages((prev) => {
+          const exists = prev.some((m) => m.id === assistantId)
+          if (exists) {
+            return prev.map((m) =>
+              m.id === assistantId
+                ? {
+                    ...m,
+                    text: m.text ? `${m.text}\n\n[Notice: ${message}]` : `Notice: ${message}`,
+                  }
+                : m,
+            )
+          }
+          return [
+            ...prev,
+            {
+              id: `err-${Date.now()}`,
+              role: "assistant",
+              text: `Notice: ${message}`,
+              timestamp: Date.now(),
+            },
+          ]
+        })
       } finally {
         setIsLoading(false)
       }

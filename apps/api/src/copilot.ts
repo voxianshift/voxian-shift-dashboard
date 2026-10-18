@@ -45,6 +45,25 @@ export function safeJsonParse<T>(text: string, schema: z.ZodType<T>): T {
   return schema.parse(JSON.parse(cleaned))
 }
 
+function summarizeToolObservation(name: string, obs: any): string {
+  if (!obs) return "Completed"
+  if (obs.error) return String(obs.error)
+  switch (name) {
+    case "search_occupations":
+      return `Found ${obs.results?.length || 0} matching occupations`
+    case "get_occupation_details":
+      return `Loaded O*NET ${obs.code} (${obs.title}) · ISCO ${obs.iscoCode}`
+    case "get_occupation_tasks":
+      return `Loaded ${obs.tasks?.length || 0} tasks for ${obs.title || obs.code}`
+    case "get_career_pathways":
+      return `Loaded pathways (Shift, Grow, Leap, Create) for ${obs.code}`
+    case "calculate_exposure_radar":
+      return `Computed exposure score: ${obs.overallExposure}% (${obs.gradient})`
+    default:
+      return "Data retrieved"
+  }
+}
+
 async function executeTool(
   toolName: string,
   parameters: Record<string, string> | undefined,
@@ -226,6 +245,20 @@ export function registerCopilot(
     }
     quota.count++
 
+    const isStream = Boolean(request.headers.accept?.includes("text/event-stream"))
+    if (isStream) {
+      reply.raw.setHeader("Content-Type", "text/event-stream")
+      reply.raw.setHeader("Cache-Control", "no-cache, no-transform")
+      reply.raw.setHeader("Connection", "keep-alive")
+      reply.raw.setHeader("X-Accel-Buffering", "no")
+      reply.raw.flushHeaders?.()
+    }
+
+    const sendEvent = (event: string, data: unknown) => {
+      if (!isStream || reply.raw.writableEnded || reply.raw.destroyed) return
+      reply.raw.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`)
+    }
+
     // Retrieve historical memories via pgvector search if store is available
     let pastMemories: { userMessage: string; assistantMessage: string }[] = []
     let queryEmbedding: number[] = []
@@ -362,6 +395,13 @@ Return pure JSON matching the specified schema.`
           )
         } catch (error) {
           if (error instanceof ProviderAuthError) {
+            if (isStream) {
+              sendEvent("error", {
+                error: `${config.label} credentials were not accepted. Please check API configuration.`,
+              })
+              reply.raw.end()
+              return
+            }
             return reply.code(503).send({
               error: `${config.label} credentials were not accepted. Please check API configuration.`,
             })
@@ -376,7 +416,21 @@ Return pure JSON matching the specified schema.`
 
         const turn = safeJsonParse(text, copilotTurnSchema)
         if (turn.toolCall && turn.toolCall.name) {
+          sendEvent("tool_call", {
+            name: turn.toolCall.name,
+            parameters: turn.toolCall.parameters,
+          })
+
           const observation = await executeTool(turn.toolCall.name, turn.toolCall.parameters, catalogue)
+          const summary = summarizeToolObservation(turn.toolCall.name, observation)
+
+          sendEvent("tool_result", {
+            name: turn.toolCall.name,
+            parameters: turn.toolCall.parameters,
+            summary,
+            data: observation,
+          })
+
           toolObservations += `\n[Tool Output for ${turn.toolCall.name} with ${JSON.stringify(turn.toolCall.parameters)}]:\n${JSON.stringify(observation, null, 2)}\n`
           currentInput = {
             ...input,
@@ -409,9 +463,34 @@ Return pure JSON matching the specified schema.`
         }
       }
 
+      if (isStream) {
+        // Stream text tokens progressively via typewriter effect
+        const words = result.reply.split(/(\s+)/)
+        for (let i = 0; i < words.length; i += 2) {
+          const chunk = (words[i] || "") + (words[i + 1] || "")
+          sendEvent("delta", { delta: chunk })
+          await new Promise((resolve) => setTimeout(resolve, 15))
+        }
+
+        sendEvent("final", {
+          actions: result.actions,
+          suggestedQuestions: result.suggestedQuestions,
+        })
+        sendEvent("done", {})
+        reply.raw.end()
+        return
+      }
+
       return reply.send(result)
     } catch (err) {
       request.log.error(err)
+      if (isStream) {
+        sendEvent("error", {
+          error: "AI copilot could not complete your request. Please try again.",
+        })
+        reply.raw.end()
+        return
+      }
       return reply.code(502).send({
         error: "AI copilot could not complete your request. Please try again.",
       })

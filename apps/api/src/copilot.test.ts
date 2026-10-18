@@ -229,3 +229,80 @@ test("handles multi-step tool execution loop for occupation tasks", async () => 
   expect(body.actions[0].type).toBe("PICK_TARGET_ROLE")
   expect(callCount).toBe(2)
 })
+
+test("streams SSE events when Accept is text/event-stream", async () => {
+  vi.stubEnv("CHAT_PROVIDER", "gemini")
+  vi.stubEnv("GEMINI_API_KEY", "test-gemini-key")
+
+  let callCount = 0
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url: string) => {
+      if (url.includes(":embedContent")) {
+        return Response.json({ embedding: { values: [0.1, 0.2] } })
+      }
+      callCount++
+      if (callCount === 1) {
+        return Response.json({
+          candidates: [
+            {
+              content: {
+                parts: [
+                  {
+                    text: JSON.stringify({
+                      toolCall: {
+                        name: "search_occupations",
+                        parameters: { query: "developer" },
+                      },
+                    }),
+                  },
+                ],
+              },
+            },
+          ],
+        })
+      }
+      return Response.json({
+        candidates: [
+          {
+            content: {
+              parts: [
+                {
+                  text: JSON.stringify({
+                    reply: "Here are developer pathways tailored for you.",
+                    actions: [{ type: "NAVIGATE", href: "/roadmap", label: "Roadmap" }],
+                    suggestedQuestions: ["Next steps?"],
+                  }),
+                },
+              ],
+            },
+          },
+        ],
+      })
+    }),
+  )
+
+  const res = await app.inject({
+    method: "POST",
+    url: "/copilot/chat",
+    headers: {
+      origin: "http://localhost:3000",
+      accept: "text/event-stream",
+    },
+    payload: {
+      message: "Find developer jobs",
+      route: "/home",
+      profile: emptyProfile,
+      history: [],
+    },
+  })
+
+  expect(res.statusCode).toBe(200)
+  expect(res.headers["content-type"]).toContain("text/event-stream")
+  expect(res.body).toContain("event: tool_call")
+  expect(res.body).toContain('"name":"search_occupations"')
+  expect(res.body).toContain("event: tool_result")
+  expect(res.body).toContain("event: delta")
+  expect(res.body).toContain("event: final")
+  expect(res.body).toContain("event: done")
+})
