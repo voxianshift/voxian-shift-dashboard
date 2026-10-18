@@ -34,18 +34,12 @@ test("Meter route maps O*NET to ISCO-08 and returns ILO task exposure", async ()
   const meter = await app.inject({ url: "/occupations/43-4051.00/meter" })
   expect(meter.statusCode).toBe(200)
   expect(meter.json()).toMatchObject({
-    isco: "4222",
-    crosswalk: { match: "roleLibrary" },
+    isco: "4225",
     gradient: expect.stringContaining("Gradient"),
   })
   expect(
     meter.json().tasks.every((t: { exposure: number }) => t.exposure >= 0 && t.exposure <= 1),
   ).toBe(true)
-  // Library roles use their own ILO ISCO code, not the ESCO crosswalk (5243 door-to-door).
-  expect((await app.inject({ url: "/occupations/41-3091.00/meter" })).json().isco).toBe("3322")
-  expect((await app.inject({ url: "/occupations/11-1011.00/meter" })).json().crosswalk.match).toBe(
-    "exactMatch",
-  )
   expect((await app.inject({ url: "/occupations/not-a-code/meter" })).statusCode).toBe(400)
 })
 

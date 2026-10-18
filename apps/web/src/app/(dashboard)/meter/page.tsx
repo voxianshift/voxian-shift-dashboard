@@ -621,9 +621,7 @@ function Meter() {
             <p className="mt-1">
               {iscoRole.crosswalkMatch === "ai"
                 ? `AI-assisted ISCO mapping: ${iscoRole.mappingNote}`
-                : iscoRole.crosswalkMatch === "roleLibrary"
-                  ? `Voxian Shift role library (ILO WP140): ${iscoRole.mappingNote}`
-                  : `ESCO–O*NET crosswalk (${iscoRole.crosswalkMatch}): ${iscoRole.mappingNote}`}
+                : `ESCO–O*NET crosswalk (${iscoRole.crosswalkMatch}): ${iscoRole.mappingNote}`}
             </p>
           </details>
         )}

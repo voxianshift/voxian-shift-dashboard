@@ -344,7 +344,7 @@ test("missing task evidence stays unknown while reviewed Create remains availabl
       method: "POST",
       url: "/navigator/paths",
       payload: {
-        profile: { ...context, occupations: ["13-1199.07"], primaryOccupation: "13-1199.07" },
+        profile: { ...context, occupations: ["13-1199.06"], primaryOccupation: "13-1199.06" },
       },
     })
     expect(response.statusCode).toBe(200)

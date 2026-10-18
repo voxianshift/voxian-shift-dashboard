@@ -22,6 +22,7 @@ export const MAIN_NAV: NavItem[] = [
 export function navTitle(pathname: string): { section?: string; title: string } {
   const main = MAIN_NAV.find((item) => pathname.startsWith(item.href))
   if (main) return { title: main.title }
+  if (pathname.startsWith("/explore")) return { title: "Occupation catalogue" }
   if (pathname.startsWith("/settings")) return { section: "Settings", title: "Profile" }
   if (pathname.startsWith("/roadmap")) return { title: "The Navigator" }
   if (pathname.startsWith("/progress")) return { title: "The Tracker" }

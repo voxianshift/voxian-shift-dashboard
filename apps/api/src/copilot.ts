@@ -10,7 +10,7 @@ import {
   type CopilotChatResult,
 } from "@voxian/shared"
 import iscoTasks from "../data/isco-tasks.json" with { type: "json" }
-import { iscoLinks as onetIsco } from "./isco-links.ts"
+import onetIsco from "../data/onet-isco.json" with { type: "json" }
 import { lookupPathways } from "./navigator-pathways.ts"
 
 export const copilotTurnSchema = z.strictObject({

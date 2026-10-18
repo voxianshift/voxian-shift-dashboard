@@ -34,7 +34,7 @@ export function RadarEvidence({
       "Occupation mapping",
       !isco
         ? "Low"
-        : ["exactMatch", "closeMatch", "roleLibrary"].includes(crosswalkMatch ?? "")
+        : ["exactMatch", "closeMatch"].includes(crosswalkMatch ?? "")
           ? "High"
           : "Medium",
     ],
