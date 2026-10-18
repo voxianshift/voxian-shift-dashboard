@@ -2,7 +2,7 @@
 
 See [architecture](../ARCHITECTURE.md) for the full local-to-production flow and current persistence audit.
 
-Occupation matching uses the O*NET® 31.0 Database: 1,016 occupations, 54,269 job-title rows and 18,838 task statements, grouped into 23 SOC 2018 major categories. These describe US occupations; regional titles and duties may differ. This is imported reference coverage, not every occupation worldwide. Current search and selection queries filter to the 25 occupation codes in `navigator-pathways.json`; imported counts do not mean all roles are enabled in the product.
+Occupation matching uses the O*NET® 31.0 Database: 1,016 occupations, 54,269 job-title rows and 18,838 task statements, grouped into 23 SOC 2018 major categories. These describe US occupations; regional titles and duties may differ. This is imported reference coverage, not every occupation worldwide. Current search and selection queries filter to the 25 reviewed occupation codes in `navigator-pathways.json`; imported counts do not mean all roles are enabled in the product. The [v6 role library](role-library-v6.md) stores all 27 source roles; Content Moderator and Call Centre Lead retain complete content but await reviewed O*NET mappings.
 
 Sources: [O*NET data files](https://www.onetcenter.org/database.html), [SOC 2018 categories](https://www.bls.gov/soc/2018/major_groups.htm), [O*NET database licence](https://www.onetcenter.org/license_db.html).
 

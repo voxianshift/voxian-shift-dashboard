@@ -238,7 +238,7 @@ function Progress({
         {missed.length > 0 && (
           <section
             aria-label="Missed learning"
-            className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-red-500/30 bg-red-500/5 p-4"
+            className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-destructive/40 bg-destructive/10 p-4"
           >
             <div>
               <AttendanceBadge status="Missed" />
@@ -422,9 +422,9 @@ function cellClass(day: PlanDay, today: string) {
       ? "bg-success"
       : day.slot
         ? day.date < today
-          ? "bg-red-500/60"
-          : "bg-sky-500/20 ring-1 ring-sky-500/50 ring-inset"
-        : "bg-muted",
+          ? "bg-destructive/75 ring-1 ring-destructive/80 ring-inset"
+          : "bg-brand/20 ring-1 ring-brand/60 ring-inset"
+        : "border border-border bg-muted",
     day.date === today && "outline-2 outline-offset-1 outline-foreground",
   )
 }
@@ -490,9 +490,9 @@ function Heatmap({
 
 function Legend() {
   const items = [
-    ["bg-muted", "No session"],
-    ["bg-sky-500/20 ring-1 ring-sky-500/50 ring-inset", "On track"],
-    ["bg-red-500/60", "Missed"],
+    ["border border-border bg-muted", "No session"],
+    ["bg-brand/20 ring-1 ring-brand/60 ring-inset", "On track"],
+    ["bg-destructive/75 ring-1 ring-destructive/80 ring-inset", "Missed"],
     ["bg-success", "Attended"],
   ]
   return (

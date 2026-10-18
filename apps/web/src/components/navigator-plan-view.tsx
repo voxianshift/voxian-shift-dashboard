@@ -324,7 +324,7 @@ export function Roadmap({
                 </p>
                 <Link href="/home">Update your profile</Link>
               </div>
-              <div className="relative grid grid-cols-[1fr_2fr] gap-[65px] border-y bg-[radial-gradient(circle,#b69aa929_1px,transparent_1px)] bg-size-[16px_16px] px-10 py-8 max-[700px]:grid-cols-1 max-[700px]:gap-[25px] max-[700px]:px-2.5 max-[700px]:py-[25px]">
+              <div className="relative grid grid-cols-[1fr_2fr] gap-[65px] border-y bg-[radial-gradient(circle,var(--brand-dots)_1px,transparent_1px)] bg-size-[16px_16px] px-10 py-8 max-[700px]:grid-cols-1 max-[700px]:gap-[25px] max-[700px]:px-2.5 max-[700px]:py-[25px]">
                 <svg
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-0 size-full max-[700px]:hidden"
@@ -368,7 +368,7 @@ export function Roadmap({
                     ))}
                 </svg>
                 <div className="flex flex-col items-center justify-center text-center text-[16px] leading-[1.7]">
-                  <Compass strokeWidth={1} className="size-8 text-[#a28a9a]" />
+                  <Compass strokeWidth={1} className="size-8 text-brand" />
                   <span className={cn(eyebrow, "mt-3")}>YOU ARE HERE</span>
                   <p>{data.roleTitle}</p>
                   <span className={cn(smallTag, "mt-3")}>DAY 0</span>
@@ -384,7 +384,7 @@ export function Roadmap({
                       }}
                       className={cn(
                         "relative z-10 flex items-center gap-4 rounded-xl border bg-background p-[17px] text-left",
-                        branch === i && "border-mauve bg-mauve-tint",
+                        branch === i && "border-brand bg-brand-tint",
                       )}
                     >
                       <GitBranch className="size-5" strokeWidth={1.3} />
@@ -446,7 +446,7 @@ export function Roadmap({
                     aria-pressed={targetRole === index}
                     className={cn(
                       "h-auto min-h-10 whitespace-normal text-left text-[14px]",
-                      targetRole === index && "border-mauve bg-mauve-tint",
+                      targetRole === index && "border-brand bg-brand-tint",
                     )}
                     onClick={() => {
                       setTargetRole(targetRole === index ? null : index)
@@ -781,7 +781,7 @@ export function Roadmap({
                     target="_blank"
                     rel="noreferrer"
                     className={cn(
-                      "group flex h-full flex-col rounded-xl border p-4 transition-colors hover:border-mauve focus-visible:outline-2 focus-visible:outline-ring",
+                      "group flex h-full flex-col rounded-xl border p-4 transition-colors hover:border-brand focus-visible:outline-2 focus-visible:outline-ring",
                       course.mustHave && "border-foreground/40",
                     )}
                   >
@@ -876,7 +876,7 @@ function phaseClass(index: number, active: number) {
     index % 2 === 1 && "border-l max-[700px]:border-l-0",
     index >= 2 && "border-t",
     index === 1 && "max-[700px]:border-t",
-    index === active && "bg-mauve-tint",
+    index === active && "bg-brand-tint",
   )
 }
 

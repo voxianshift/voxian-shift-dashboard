@@ -16,14 +16,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     <OnboardingGate>
       {/* One Navigator fetch for every page, started on arrival so the warm-up can wait on it. */}
       <NavigatorProvider>
-        <LumiChatProvider>
-          {/* Cookie read is request-time data, so it must sit inside Suspense under Cache Components. */}
-          <Suspense fallback={null}>
-            <DashboardShell>{children}</DashboardShell>
-          </Suspense>
-          <LumiMobileTrigger />
-          <MobileBottomNav />
-        </LumiChatProvider>
+        {/* Hydrate chat provider with its shell so saved state cannot race the suspended subtree. */}
+        <Suspense fallback={null}>
+          <DashboardShell>{children}</DashboardShell>
+        </Suspense>
         <WarmupOverlay />
       </NavigatorProvider>
     </OnboardingGate>
@@ -34,19 +30,23 @@ async function DashboardShell({ children }: { children: ReactNode }) {
   // SidebarProvider writes this cookie on every toggle; read it so reloads keep the last state.
   const defaultOpen = (await cookies()).get("sidebar_state")?.value !== "false"
   return (
-    <SidebarProvider defaultOpen={defaultOpen}>
-      <div className="flex h-dvh w-full overflow-hidden bg-background">
-        <AppSidebar />
-        <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-          <DashboardHeader />
-          <div className="flex min-h-0 flex-1 overflow-hidden">
-            <main id="main-content" className="min-h-0 flex-1 overflow-y-auto pb-[72px] md:pb-0">
-              {children}
-            </main>
-            <LumiSidebar />
+    <LumiChatProvider>
+      <SidebarProvider defaultOpen={defaultOpen}>
+        <div className="flex h-dvh w-full overflow-hidden bg-background">
+          <AppSidebar />
+          <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+            <DashboardHeader />
+            <div className="flex min-h-0 flex-1 overflow-hidden">
+              <main id="main-content" className="min-h-0 flex-1 overflow-y-auto pb-[72px] md:pb-0">
+                {children}
+              </main>
+              <LumiSidebar />
+            </div>
           </div>
         </div>
-      </div>
-    </SidebarProvider>
+      </SidebarProvider>
+      <LumiMobileTrigger />
+      <MobileBottomNav />
+    </LumiChatProvider>
   )
 }

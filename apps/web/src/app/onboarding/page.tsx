@@ -137,7 +137,7 @@ export default function OnboardingPage() {
             {onboardingSteps.map((item, position) => (
               <span
                 key={item.title}
-                className={`h-1.5 w-5 rounded-full ${position <= index ? "bg-mauve-deep dark:bg-white" : "bg-muted"}`}
+                className={`h-1.5 w-5 rounded-full ${position <= index ? "bg-brand-deep dark:bg-white" : "bg-muted"}`}
               />
             ))}
           </div>
@@ -275,7 +275,7 @@ export default function OnboardingPage() {
                 ].map((option) => (
                   <label
                     key={option.value}
-                    className="flex cursor-pointer items-start gap-3 rounded-xl border p-4 has-checked:border-mauve-deep has-checked:bg-mauve-tint-soft dark:has-checked:border-white dark:has-checked:bg-white/5"
+                    className="flex cursor-pointer items-start gap-3 rounded-xl border p-4 has-checked:border-brand-deep has-checked:bg-brand-tint-soft dark:has-checked:border-white dark:has-checked:bg-white/5"
                   >
                     <input
                       className="mt-1"

@@ -82,56 +82,63 @@
      AlertDialog overlays all use that one class. */
   --blur-overlay: var(--overlay-blur);
 
-  /* Radar mauve accents (bg-mauve, text-mauve-ink, …) */
-  --color-mauve: #b69aa9;
-  --color-mauve-deep: #9f7f94;
-  --color-mauve-ink: #685660;
-  --color-mauve-soft: #f0e3e9;
-  --color-mauve-wash: #f1e7ec;
-  --color-mauve-tint: color-mix(in srgb, var(--background) 85%, #b69aa9);
-  --color-mauve-tint-soft: color-mix(in srgb, var(--background) 94%, #b69aa9);
-  --color-mauve-tint-faint: color-mix(in srgb, var(--background) 97%, #b69aa9);
-  --color-sage: #84958a;
+  /* Cyan brand accents share the Meter's palette in both themes. */
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-soft: color-mix(in srgb, var(--background) 90%, var(--brand));
+  --color-brand-wash: color-mix(in srgb, var(--background) 94%, var(--brand));
+  --color-brand-tint: color-mix(in srgb, var(--background) 85%, var(--brand));
+  --color-brand-tint-soft: color-mix(in srgb, var(--background) 94%, var(--brand));
+  --color-brand-tint-faint: color-mix(in srgb, var(--background) 97%, var(--brand));
 
-  /* Lumi mascot idle float */
-  --animate-lumi-float: lumi-float 3.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-  --animate-lumi-arm-idle: lumi-arm-idle 4.2s ease-in-out infinite;
-  --animate-lumi-antenna: lumi-antenna 2.8s ease-in-out infinite;
-
-  @keyframes lumi-float {
+  --animate-lumi-hover: lumi-hover 3.4s ease-in-out infinite;
+  --animate-lumi-blink: lumi-blink 4.8s ease-in-out infinite;
+  --animate-lumi-beacon: lumi-beacon 2.2s ease-in-out infinite;
+  --animate-lumi-arrive: lumi-arrive 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  @keyframes lumi-hover {
     0%,
     100% {
-      transform: translateY(0px);
+      transform: translateY(0);
     }
     50% {
-      transform: translateY(-9px);
+      transform: translateY(-4px);
     }
   }
-  @keyframes lumi-arm-idle {
+  @keyframes lumi-blink {
     0%,
+    90%,
+    96%,
     100% {
-      transform: rotate(0deg);
+      transform: scaleY(1);
     }
-    30% {
-      transform: rotate(-6deg);
-    }
-    70% {
-      transform: rotate(4deg);
+    92%,
+    94% {
+      transform: scaleY(0.08);
     }
   }
-  @keyframes lumi-antenna {
+  @keyframes lumi-beacon {
     0%,
+    65%,
     100% {
-      transform: rotate(0deg) scale(1);
-      opacity: 0.9;
-    }
-    40% {
-      transform: rotate(-4deg) scale(1.15);
       opacity: 1;
     }
-    70% {
-      transform: rotate(3deg) scale(0.95);
-      opacity: 0.8;
+    75%,
+    90% {
+      opacity: 0.25;
+    }
+    82% {
+      opacity: 0.85;
+    }
+  }
+  @keyframes lumi-arrive {
+    from {
+      transform: translate(-80px, 40px) rotate(14deg);
+      opacity: 0;
+    }
+    to {
+      transform: translate(0, 0) rotate(0);
+      opacity: 1;
     }
   }
 
@@ -227,41 +234,45 @@
   --popover: #ffffff;
   --popover-foreground: #242424;
 
+  --brand: #0891b2;
+  --brand-ink: #0e7490;
+  --brand-dots: #0891b229;
+
   /* Brand */
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary: #0e7490;
+  --primary-foreground: #ffffff;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
-  --tertiary: #6554c0;
+  --tertiary: #9333ea;
   --tertiary-foreground: #ebebeb;
 
   /* Neutrals */
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
+  --muted-foreground: #64748b;
+  --accent: #ecfeff;
   --accent-foreground: oklch(0.205 0 0);
 
   /* Status */
-  --destructive: #de350b;
+  --destructive: #e11d48;
   --destructive-foreground: #ffffff;
-  --success: #00875a;
+  --success: #047857;
   --success-foreground: #ffffff;
-  --warning: #ff991f;
+  --warning: #f59e0b;
   --warning-foreground: #172b4d;
-  --info: #0065ff;
+  --info: #0e7490;
   --info-foreground: #ffffff;
 
   /* Lines */
   --border: #e7e7e7;
   --input: #dfe1e6;
-  --ring: #a28a9a;
+  --ring: #0891b2;
 
   /* Charts */
-  --chart-1: #0052cc;
-  --chart-2: #2684ff;
-  --chart-3: #00b8d9;
-  --chart-4: #36b37e;
-  --chart-5: #6554c0;
+  --chart-1: #0891b2;
+  --chart-2: #9333ea;
+  --chart-3: #f59e0b;
+  --chart-4: #10b981;
+  --chart-5: #f43f5e;
 
   --radius: 0.4rem;
 
@@ -278,14 +289,14 @@
   --overlay-blur: 3px;
 
   /* Sidebar */
-  --sidebar: #fafafa;
+  --sidebar: var(--background);
   --sidebar-foreground: #555;
-  --sidebar-primary: #0052cc;
+  --sidebar-primary: #0e7490;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #efefef;
   --sidebar-accent-foreground: #0f0f0f;
   --sidebar-border: #e7e7e7;
-  --sidebar-ring: #4c9aff;
+  --sidebar-ring: #0891b2;
 }
 
 .dark {
@@ -297,6 +308,10 @@
   --popover: #0d1a30;
   --popover-foreground: #e2e8f0;
 
+  --brand: #00f2fe;
+  --brand-ink: #67e8f9;
+  --brand-dots: #00f2fe29;
+
   /* Brand */
   --primary: #00f2fe;
   --primary-foreground: #050810;
@@ -307,7 +322,7 @@
 
   /* Neutrals */
   --muted: #0f1e36;
-  --muted-foreground: #64748b;
+  --muted-foreground: #94a3b8;
   --accent: #0f1e36;
   --accent-foreground: #e2e8f0;
 
@@ -322,7 +337,7 @@
   --info-foreground: #ffffff;
 
   /* Lines */
-  --border: rgba(148, 163, 184, 0.12);
+  --border: rgba(148, 163, 184, 0.24);
   --input: rgba(148, 163, 184, 0.16);
   --ring: #00f2fe;
 
@@ -334,13 +349,13 @@
   --chart-5: #f43f5e;
 
   /* Sidebar */
-  --sidebar: #050d1a;
+  --sidebar: var(--background);
   --sidebar-foreground: #94a3b8;
   --sidebar-primary: #00f2fe;
   --sidebar-primary-foreground: #050810;
   --sidebar-accent: #0b1628;
   --sidebar-accent-foreground: #e2e8f0;
-  --sidebar-border: rgba(148, 163, 184, 0.1);
+  --sidebar-border: var(--border);
   --sidebar-ring: #00f2fe;
 }
 
@@ -349,7 +364,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-[#f6f6f6] text-base text-foreground dark:bg-[#050810];
+    @apply bg-background text-base text-foreground;
   }
   html {
     @apply font-sans;

@@ -300,6 +300,33 @@ const resourceSchema = z
   .refine((resource) =>
     Object.values(navigatorResources).some((known) => known.href === resource.href),
   )
+// Source-provided role guidance stays distinct from reviewed, provider-selectable resources.
+export const navigatorDestinationSchema = z.object({
+  id: text(100),
+  title: text(120),
+  kind: z.literal("curated_pathway"),
+  occupationCode: z.null(),
+  description: text(2000).optional(),
+  dayToDay: z.array(text(1500)).max(10).optional(),
+  humanEdge: z.array(text(1500)).max(10).optional(),
+  skills: z.array(text(500)).max(10).optional(),
+  learningResources: z
+    .array(
+      z.object({
+        title: text(500),
+        cost: z.enum(["Free", "Paid"]),
+        href: z
+          .string()
+          .url()
+          .refine((href) => /^https?:\/\//.test(href), "Resource links must use HTTP or HTTPS")
+          .nullable(),
+        note: z.string().max(1000),
+      }),
+    )
+    .max(10)
+    .optional(),
+  notes: text(500).optional(),
+})
 export const careerPathSchema = z
   .object({
     ...pathFields,
@@ -314,14 +341,7 @@ export const careerPathSchema = z
     mappingVersion: text(80),
     mappingSource: text(200),
     mappingRationale: text(500),
-    destinations: z.array(
-      z.object({
-        id: text(100),
-        title: text(120),
-        kind: z.literal("curated_pathway"),
-        occupationCode: z.null(),
-      }),
-    ),
+    destinations: z.array(navigatorDestinationSchema),
     roles: z.array(text(120)),
     label: z.string().min(1).max(20),
     colorToken: z.enum(["chart-3", "tertiary", "warning", "success"]),

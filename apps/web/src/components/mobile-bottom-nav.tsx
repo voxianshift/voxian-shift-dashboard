@@ -15,7 +15,7 @@ export function MobileBottomNav() {
   return (
     <nav
       aria-label="Mobile navigation"
-      className="fixed bottom-0 left-0 right-0 z-40 md:hidden border-t border-slate-800/80 bg-[#070b14]/96 backdrop-blur-xl"
+      className="fixed bottom-0 left-0 right-0 z-40 md:hidden border-t border-border bg-background/95 backdrop-blur-xl"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <div className="flex items-center justify-around px-2 py-1.5">
@@ -27,7 +27,7 @@ export function MobileBottomNav() {
               href={href}
               className={cn(
                 "flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all",
-                isActive ? "text-cyan-400" : "text-slate-500",
+                isActive ? "text-cyan-700 dark:text-cyan-400" : "text-slate-500",
               )}
             >
               {/* Active indicator bar */}

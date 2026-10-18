@@ -102,7 +102,7 @@ test("destinations and titles are backend lookups while narrative uses confirmed
     expect(body.paths[0]!.title).toBe(lookupPathways(developer.code).automate!.title)
     expect(body.paths[3]).toMatchObject({
       coverage: "available",
-      title: "AI Safety & Red Team Lead",
+      title: "Technical Co-founder / CTO",
     })
     expect(body.paths[3]!.roleResources[0]![0]!.href).toBe(
       "https://learn.microsoft.com/en-us/training/",
@@ -389,7 +389,7 @@ test("prototype occupation returns fixed coverage for all four strategies withou
       expect(path.destinations).toEqual(lookupPathways(support.code)[path.id]!.destinations)
       expect(path.destinations.length).toBeGreaterThan(0)
     }
-    expect(result.paths[3]!.title).toBe("Head of Customer Experience")
+    expect(result.paths[3]!.title).toBe("CX Analyst")
   } finally {
     await app.close()
   }

@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { useLumiChat } from "@/components/lumi-chat-provider"
-import { LumiMascot } from "@/components/lumi-mascot"
 import { navTitle } from "@/lib/nav"
 
 export function DashboardHeader() {
@@ -38,8 +37,7 @@ export function DashboardHeader() {
           className="hidden lg:flex items-center gap-1.5 h-8 px-2.5 text-[13px]"
           title="Toggle Lumi Copilot"
         >
-          <LumiMascot size="xs" />
-          <span>Lumi</span>
+          <span>Ask Lumi</span>
         </Button>
         <ThemeToggle />
       </div>

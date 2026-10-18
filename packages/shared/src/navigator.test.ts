@@ -1,6 +1,7 @@
 import { expect, test } from "vite-plus/test"
 import {
   recommendStrategy,
+  navigatorDestinationSchema,
   navigatorStrategies,
   navigatorDraftSchema,
   pathIdSchema,
@@ -152,4 +153,39 @@ test("model can echo full destination lists and resources beyond three options",
     })),
   }
   expect(navigatorDraftSchema.safeParse(draft).success).toBe(true)
+})
+
+test("source destination resources retain guidance but reject executable link schemes", () => {
+  const destination = {
+    id: "sample-pivot-1",
+    title: "Sample role",
+    kind: "curated_pathway",
+    occupationCode: null,
+    description: "Source-provided role guidance.",
+    dayToDay: ["Review a sample."],
+    humanEdge: ["Apply contextual judgment."],
+    skills: ["Sample analysis"],
+    learningResources: [
+      {
+        title: "Source course",
+        cost: "Free",
+        href: "https://example.com/course",
+        note: "Unverified source link",
+      },
+    ],
+  }
+  expect(navigatorDestinationSchema.parse(destination)).toEqual(destination)
+  expect(
+    navigatorDestinationSchema.parse({
+      ...destination,
+      learningResources: [{ ...destination.learningResources[0], href: null }],
+    }).learningResources![0]!.href,
+  ).toBeNull()
+  for (const href of ["javascript:alert(1)", "data:text/html,unsafe", "file:///tmp/course"])
+    expect(
+      navigatorDestinationSchema.safeParse({
+        ...destination,
+        learningResources: [{ ...destination.learningResources[0], href }],
+      }).success,
+    ).toBe(false)
 })

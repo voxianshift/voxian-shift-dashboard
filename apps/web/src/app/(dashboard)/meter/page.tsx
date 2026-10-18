@@ -68,19 +68,19 @@ function ArcGauge({ score, gradient }: { score: number; gradient: string }) {
 
   const gradeColor =
     gradient === "G1"
-      ? "#10b981"
+      ? "text-emerald-700 dark:text-emerald-400"
       : gradient === "G2"
-        ? "#06b6d4"
+        ? "text-cyan-700 dark:text-cyan-400"
         : gradient === "G3"
-          ? "#f59e0b"
+          ? "text-amber-700 dark:text-amber-400"
           : gradient === "G4"
-            ? "#f43f5e"
-            : "#9f1239"
+            ? "text-rose-700 dark:text-rose-400"
+            : "text-rose-800 dark:text-rose-300"
 
   return (
-    <div className="relative w-52 h-52 mx-auto">
+    <div className="relative mx-auto aspect-square w-80 max-w-full">
       {/* Track arc, rotated -90deg so arc starts from lower-left */}
-      <svg viewBox="0 0 208 208" className="w-full h-full -rotate-90">
+      <svg viewBox="-36 -36 280 280" className="w-full h-full -rotate-90">
         <defs>
           <linearGradient id={`${gradId}-grad`} x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#10b981" />
@@ -96,7 +96,7 @@ function ArcGauge({ score, gradient }: { score: number; gradient: string }) {
           cy={cy}
           r={r}
           fill="none"
-          stroke="#1e293b"
+          stroke="var(--border)"
           strokeWidth="14"
           strokeDasharray={`${arcLen} ${circumference}`}
           strokeDashoffset={dashOffset}
@@ -129,61 +129,24 @@ function ArcGauge({ score, gradient }: { score: number; gradient: string }) {
           style={{ transition: "stroke-dasharray 1.4s cubic-bezier(.4,0,.2,1)" }}
         />
       </svg>
-      {/* Zone labels, no rotation */}
-      <svg viewBox="0 0 208 208" className="absolute inset-0 w-full h-full">
-        <text
-          x="22"
-          y="170"
-          fill="#10b981"
-          fontSize="8"
-          fontFamily="monospace"
-          textAnchor="middle"
-          opacity="0.7"
-        >
+      {/* Keep labels outside the arc, with room for readable type. */}
+      <svg
+        viewBox="-36 -36 280 280"
+        className="absolute inset-0 w-full h-full fill-current font-mono text-[12px] font-semibold"
+      >
+        <text x="22" y="198" textAnchor="middle" className="text-emerald-700 dark:text-emerald-400">
           Safe
         </text>
-        <text
-          x="30"
-          y="60"
-          fill="#06b6d4"
-          fontSize="8"
-          fontFamily="monospace"
-          textAnchor="middle"
-          opacity="0.7"
-        >
+        <text x="10" y="60" textAnchor="end" className="text-cyan-700 dark:text-cyan-300">
           G1–2
         </text>
-        <text
-          x="104"
-          y="18"
-          fill="#f59e0b"
-          fontSize="8"
-          fontFamily="monospace"
-          textAnchor="middle"
-          fontWeight="bold"
-        >
+        <text x="104" y="4" textAnchor="middle" className="text-amber-700 dark:text-amber-400">
           G3
         </text>
-        <text
-          x="178"
-          y="60"
-          fill="#f43f5e"
-          fontSize="8"
-          fontFamily="monospace"
-          textAnchor="middle"
-          opacity="0.7"
-        >
+        <text x="195" y="60" textAnchor="start" className="text-rose-700 dark:text-rose-400">
           G4
         </text>
-        <text
-          x="186"
-          y="170"
-          fill="#9f1239"
-          fontSize="8"
-          fontFamily="monospace"
-          textAnchor="middle"
-          opacity="0.7"
-        >
+        <text x="186" y="198" textAnchor="middle" className="text-rose-800 dark:text-rose-300">
           Max
         </text>
       </svg>
@@ -192,13 +155,13 @@ function ArcGauge({ score, gradient }: { score: number; gradient: string }) {
         data-meter-score={score}
         className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none"
       >
-        <span className="text-3xl font-black font-mono leading-none" style={{ color: gradeColor }}>
+        <span className={cn("text-[36px] font-black font-mono leading-none", gradeColor)}>
           {gradient}
         </span>
-        <span className="text-[10px] text-muted-foreground font-mono mt-1">
+        <span className="max-w-[48%] text-[14px] leading-snug text-foreground/80 mt-2">
           {ILO_GRADIENTS[gradient as keyof typeof ILO_GRADIENTS]?.label ?? "Gradient"}
         </span>
-        <span className="text-[9px] font-semibold mt-0.5" style={{ color: gradeColor + "cc" }}>
+        <span className={cn("text-[14px] font-semibold mt-2", gradeColor)}>
           {score >= 70
             ? "High"
             : score >= 50
@@ -263,7 +226,7 @@ function Meter() {
         <section className="rounded-xl border bg-muted/30 p-6 mb-6" aria-label="Your Meter inputs">
           <p className="text-[20px] font-medium">{draftRole.title}</p>
           <p className="text-[16px] text-muted-foreground mt-2">{mix}</p>
-          <p className="text-[14px] text-muted-foreground mt-4 leading-relaxed">
+          <p className="text-[16px] text-muted-foreground mt-4 leading-relaxed">
             Demo estimates · not a job-loss prediction.
           </p>
         </section>
@@ -341,24 +304,28 @@ function Meter() {
   const gradientInfo = ILO_GRADIENTS[gradient as keyof typeof ILO_GRADIENTS]
 
   const scoreColor =
-    score >= 60 ? "text-rose-400" : score >= 40 ? "text-amber-400" : "text-emerald-400"
+    score >= 60
+      ? "text-rose-700 dark:text-rose-400"
+      : score >= 40
+        ? "text-amber-700 dark:text-amber-400"
+        : "text-emerald-700 dark:text-emerald-400"
 
   const scoreLabel =
     score >= 60 ? "High exposure" : score >= 40 ? "Moderate exposure" : "Low exposure"
 
   return (
-    <div className="min-h-[calc(100dvh-48px)] bg-background text-foreground">
+    <div className="@container/meter min-h-[calc(100dvh-48px)] bg-background text-foreground">
       {/* ILO source banner */}
       {iscoRole && (
-        <div className="mx-4 mt-4 lg:mx-8 flex items-center gap-3 rounded-2xl border border-cyan-800/40 bg-cyan-950/20 px-5 py-3">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-cyan-950/60">
-            <FileText className="h-4 w-4 text-cyan-400" />
+        <div className="mx-4 mt-4 lg:mx-8 flex items-center gap-3 rounded-2xl border border-cyan-800/40 bg-cyan-500/10 px-5 py-3">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-cyan-500/10">
+            <FileText className="h-4 w-4 text-cyan-700 dark:text-cyan-400" />
           </div>
           <div>
-            <span className="font-mono text-xs font-bold text-cyan-300">
+            <span className="font-mono text-[15px] font-bold text-cyan-700 dark:text-cyan-300">
               ILO Working Paper 140 · May 2025 · {iscoRole.iscoTitle ?? iscoRole.isco}
             </span>
-            <p className="mt-0.5 text-[11px] text-muted-foreground">
+            <p className="mt-0.5 text-[14px] text-muted-foreground">
               Deterministic Adoption Engine · {iscoRole.gradient} classification ·{" "}
               {exposures.length} task records triangulated
             </p>
@@ -367,54 +334,57 @@ function Meter() {
       )}
 
       {/* ── HERO: gauge + score ── */}
-      <div className="mx-4 mt-4 lg:mx-8 grid grid-cols-1 gap-4 lg:grid-cols-12">
+      <div className="mx-4 mt-4 lg:mx-8 grid grid-cols-1 gap-4 @4xl/meter:grid-cols-12">
         {/* Arc gauge panel */}
-        <div className="lg:col-span-4 flex flex-col items-center justify-center rounded-3xl border border-border bg-card/60 p-6 backdrop-blur-sm">
-          <div className="mb-4 flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground">
-            <Activity className="h-3.5 w-3.5 text-cyan-400" />
+        <div className="@4xl/meter:col-span-4 flex flex-col items-center justify-center rounded-3xl border border-border bg-card/60 p-6 backdrop-blur-sm">
+          <div className="mb-4 flex items-center gap-2 font-mono text-[15px] font-bold uppercase tracking-widest text-muted-foreground">
+            <Activity className="h-3.5 w-3.5 text-cyan-700 dark:text-cyan-400" />
             ILO Gradient Classifier
           </div>
           <ArcGauge score={score} gradient={gradient} />
           {iscoRole && (
-            <div className="mt-3 flex items-center gap-1.5 rounded-xl border border-amber-900/40 bg-amber-950/20 px-3 py-1.5 font-mono text-[10px] text-amber-500/70">
+            <div className="mt-3 flex items-center gap-1.5 rounded-xl border border-amber-900/40 bg-amber-500/10 px-3 py-1.5 font-mono text-[13px] text-amber-500/70">
               <TriangleAlert className="h-3 w-3" />
               ILO values approximate for {iscoRole.isco}
             </div>
           )}
           <div className="mt-3 w-full rounded-xl border border-border bg-muted p-3">
-            <div className="mb-1 font-mono text-[10px] text-cyan-400 font-bold">
+            <div className="mb-1 font-mono text-[13px] text-cyan-700 dark:text-cyan-400 font-bold">
               E = 100 × Σ(w<sub>i</sub> × e<sub>i</sub>)
             </div>
-            <p className="text-[10px] text-muted-foreground">
+            <p className="text-[13px] text-muted-foreground">
               Weights adjusted by reported daily gravity. Reflects actual task composition.
             </p>
           </div>
         </div>
 
         {/* Score + info panel */}
-        <div className="lg:col-span-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="@4xl/meter:col-span-8 grid grid-cols-1 gap-4 @xl/meter:grid-cols-2">
           {/* Potential exposure card */}
           <div className="flex flex-col justify-between rounded-2xl border border-border bg-card/60 p-5 backdrop-blur-sm">
             <div>
               <div className="mb-3 flex items-center justify-between">
-                <span className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase text-foreground/70">
-                  <Zap className="h-3.5 w-3.5 text-amber-400" /> Potential Exposure
+                <span className="flex items-center gap-1.5 font-mono text-[15px] font-bold uppercase text-foreground/70">
+                  <Zap className="h-3.5 w-3.5 text-amber-700 dark:text-amber-400" /> Potential
+                  Exposure
                 </span>
-                <span className="rounded-full border border-amber-800/60 bg-amber-950/60 px-2 py-0.5 font-mono text-[10px] text-amber-300">
+                <span className="rounded-full border border-amber-800/60 bg-amber-500/10 px-2 py-0.5 font-mono text-[13px] text-amber-700 dark:text-amber-300">
                   {gradientTag}
                 </span>
               </div>
-              <div className="mb-1 text-base font-bold text-white">{scoreLabel}</div>
-              <p className="text-xs leading-relaxed text-muted-foreground">
+              <div className="mb-1 text-[18px] font-bold text-foreground">{scoreLabel}</div>
+              <p className="text-[15px] leading-relaxed text-muted-foreground">
                 {iscoRole
                   ? `ILO WP140 (May 2025) places ${iscoRole.iscoTitle ?? iscoRole.isco} in the ${gradientTag.toLowerCase()} — ${gradientInfo?.meaning ?? "based on task-level AI capability scores"}.`
                   : "Illustrative demo inputs based on task-level AI capability scores."}
               </p>
             </div>
             <div className="mt-4 border-t border-border pt-3" aria-live="polite">
-              <div className="mb-1.5 flex items-center justify-between font-mono text-[9px] text-muted-foreground">
+              <div className="mb-1.5 flex items-center justify-between gap-2 font-mono text-[13px] text-muted-foreground">
                 <span>Not Exposed</span>
-                <span className="font-bold text-amber-400">{score.toFixed(1)} / 100</span>
+                <span className="whitespace-nowrap text-[22px] font-bold text-amber-700 dark:text-amber-400 tabular-nums">
+                  {score.toFixed(1)} / 100
+                </span>
                 <span>Max</span>
               </div>
               <div className="relative h-2 overflow-hidden rounded-full bg-border">
@@ -424,7 +394,7 @@ function Meter() {
                   style={{ width: `${score}%` }}
                 />
               </div>
-              <p className="mt-1.5 font-mono text-[10px] text-muted-foreground">
+              <p className="mt-1.5 font-mono text-[13px] text-muted-foreground">
                 μ={mean.toFixed(2)} · σ={sd.toFixed(2)} ·{" "}
                 {iscoRole ? `ILO ISCO-08 ${iscoRole.isco}` : "illustrative inputs"}
               </p>
@@ -435,15 +405,16 @@ function Meter() {
           <div className="flex flex-col justify-between rounded-2xl border border-border bg-card/60 p-5 backdrop-blur-sm">
             <div>
               <div className="mb-3 flex items-center justify-between">
-                <span className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase text-foreground/70">
-                  <TrendingUp className="h-3.5 w-3.5 text-cyan-400" /> Observed Adoption
+                <span className="flex items-center gap-1.5 font-mono text-[15px] font-bold uppercase text-foreground/70">
+                  <TrendingUp className="h-3.5 w-3.5 text-cyan-700 dark:text-cyan-400" /> Observed
+                  Adoption
                 </span>
-                <span className="rounded-full border border-cyan-800/60 bg-cyan-950/60 px-2 py-0.5 font-mono text-[10px] text-cyan-300">
+                <span className="rounded-full border border-cyan-800/60 bg-cyan-500/10 px-2 py-0.5 font-mono text-[13px] text-cyan-700 dark:text-cyan-300">
                   Emerging
                 </span>
               </div>
-              <div className="mb-1 text-base font-bold text-white">Emerging Phase</div>
-              <p className="text-xs leading-relaxed text-muted-foreground">
+              <div className="mb-1 text-[18px] font-bold text-foreground">Emerging Phase</div>
+              <p className="text-[15px] leading-relaxed text-muted-foreground">
                 Global deployment signals indicate early-stage consistent adoption. Regional data
                 pending for Indonesia-specific rollout waves.
               </p>
@@ -453,7 +424,7 @@ function Meter() {
                 <path
                   d="M 10 35 Q 50 35 80 28 Q 110 20 130 10 Q 155 2 190 2"
                   fill="none"
-                  stroke="#1e293b"
+                  stroke="var(--border)"
                   strokeWidth="2"
                 />
                 <path
@@ -469,20 +440,20 @@ function Meter() {
                   x="68"
                   y="26"
                   fill="#00f2fe"
-                  fontSize="7"
+                  fontSize="9"
                   fontFamily="monospace"
                   fontWeight="bold"
                 >
                   S_adj emerging
                 </text>
-                <text x="10" y="40" fill="#475569" fontSize="6" fontFamily="monospace">
+                <text x="10" y="40" fill="#475569" fontSize="8" fontFamily="monospace">
                   Minimal
                 </text>
-                <text x="150" y="40" fill="#475569" fontSize="6" fontFamily="monospace">
+                <text x="150" y="40" fill="#475569" fontSize="8" fontFamily="monospace">
                   Mature
                 </text>
               </svg>
-              <p className="mt-1 font-mono text-[10px] text-muted-foreground">
+              <p className="mt-1 font-mono text-[13px] text-muted-foreground">
                 Adoption model · engine v0.2 · signals triangulated
               </p>
             </div>
@@ -492,24 +463,27 @@ function Meter() {
           <div className="flex flex-col justify-between rounded-2xl border border-border bg-card/60 p-5 backdrop-blur-sm">
             <div>
               <div className="mb-3 flex items-center justify-between">
-                <span className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase text-foreground/70">
-                  <MapPin className="h-3.5 w-3.5 text-purple-400" /> Employment Outcomes
+                <span className="flex items-center gap-1.5 font-mono text-[15px] font-bold uppercase text-foreground/70">
+                  <MapPin className="h-3.5 w-3.5 text-purple-700 dark:text-purple-400" /> Employment
+                  Outcomes
                 </span>
-                <span className="rounded-full border border-purple-800/60 bg-purple-950/60 px-2 py-0.5 font-mono text-[10px] text-purple-300">
+                <span className="rounded-full border border-purple-800/60 bg-purple-500/10 px-2 py-0.5 font-mono text-[13px] text-purple-700 dark:text-purple-300">
                   Regional Gap
                 </span>
               </div>
-              <div className="mb-1 text-base font-bold text-white">Indonesia: Data Pending</div>
-              <p className="text-xs leading-relaxed text-muted-foreground">
+              <div className="mb-1 text-[18px] font-bold text-foreground">
+                Indonesia: Data Pending
+              </div>
+              <p className="text-[15px] leading-relaxed text-muted-foreground">
                 No verified local employment outcome data available. Global signals show net
                 headcount contraction in transactional roles, partially offset by role redefinition.
               </p>
             </div>
             <div className="mt-4 flex items-start gap-2 border-t border-border pt-3">
               <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-purple-900/60">
-                <MapPin className="h-3 w-3 text-purple-400" />
+                <MapPin className="h-3 w-3 text-purple-700 dark:text-purple-400" />
               </div>
-              <p className="font-mono text-[10px] text-muted-foreground">
+              <p className="font-mono text-[13px] text-muted-foreground">
                 Regional evidence share: 78%. Indonesia-specific deployment data needed.
               </p>
             </div>
@@ -519,31 +493,34 @@ function Meter() {
           <div className="flex flex-col justify-between rounded-2xl border border-border bg-card/60 p-5 backdrop-blur-sm">
             <div>
               <div className="mb-3 flex items-center justify-between">
-                <span className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase text-foreground/70">
-                  <Shield className="h-3.5 w-3.5 text-emerald-400" /> Evidence Confidence
+                <span className="flex items-center gap-1.5 font-mono text-[15px] font-bold uppercase text-foreground/70">
+                  <Shield className="h-3.5 w-3.5 text-emerald-700 dark:text-emerald-400" /> Evidence
+                  Confidence
                 </span>
-                <span className="rounded-full border border-rose-800/60 bg-rose-950/60 px-2 py-0.5 font-mono text-[10px] text-rose-300">
+                <span className="rounded-full border border-rose-800/60 bg-rose-500/10 px-2 py-0.5 font-mono text-[13px] text-rose-700 dark:text-rose-300">
                   Overall: Low
                 </span>
               </div>
-              <div className="mb-1 text-base font-bold text-white">Source Quality</div>
-              <p className="text-xs leading-relaxed text-muted-foreground">
+              <div className="mb-1 text-[18px] font-bold text-foreground">Source Quality</div>
+              <p className="text-[15px] leading-relaxed text-muted-foreground">
                 Independence and regional coverage are strong. Recency flag: most evidence predates
                 mid-2024 Indonesia deployment rollout.
               </p>
             </div>
             <div className="mt-4 space-y-2 border-t border-border pt-3">
               {[
-                ["Independence", "High", "text-emerald-400"],
-                ["Regional", "High", "text-emerald-400"],
-                ["Recency", "Low", "text-rose-400"],
+                ["Independence", "High", "text-emerald-700 dark:text-emerald-400"],
+                ["Regional", "High", "text-emerald-700 dark:text-emerald-400"],
+                ["Recency", "Low", "text-rose-700 dark:text-rose-400"],
               ].map(([label, value, color]) => (
-                <div key={label} className="flex items-center justify-between text-xs">
+                <div key={label} className="flex items-center justify-between text-[15px]">
                   <span className="flex items-center gap-2 text-muted-foreground">
                     <span
                       className={cn(
                         "inline-block h-2.5 w-2.5 rounded-full",
-                        color === "text-emerald-400" ? "bg-emerald-400" : "bg-rose-400",
+                        color === "text-emerald-700 dark:text-emerald-400"
+                          ? "bg-emerald-400"
+                          : "bg-rose-400",
                       )}
                     />
                     {label}
@@ -560,11 +537,11 @@ function Meter() {
       <div className="mx-4 mt-4 lg:mx-8 rounded-2xl border border-border bg-card/40 px-5 py-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+            <p className="font-mono text-[13px] font-bold uppercase tracking-widest text-muted-foreground">
               Your Role
             </p>
-            <p className="mt-1 text-base font-semibold text-white">{role.title}</p>
-            <span className="font-mono text-[12px] text-muted-foreground">{role.code}</span>
+            <p className="mt-1 text-[18px] font-semibold text-foreground">{role.title}</p>
+            <span className="font-mono text-[15px] text-muted-foreground">{role.code}</span>
           </div>
           <Button
             variant="ghost"
@@ -603,7 +580,7 @@ function Meter() {
 
         {!iscoRole && (
           <fieldset className="mt-4">
-            <legend className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">
+            <legend className="font-mono text-[13px] font-bold uppercase tracking-widest text-muted-foreground mb-2">
               What fills most of your day?
             </legend>
             <div className={cn(segmentControl, "flex-wrap")}>
@@ -636,7 +613,7 @@ function Meter() {
         )}
 
         {iscoRole && (
-          <details className="mt-3 text-[11px] text-muted-foreground">
+          <details className="mt-3 text-[14px] text-muted-foreground">
             <summary className="cursor-pointer font-mono">Source & mapping</summary>
             <p className="mt-2">
               ILO WP140 (2025) · Equal task weights. Task-mix controls do not apply.
@@ -652,7 +629,7 @@ function Meter() {
 
       {/* ── TASK BREAKDOWN ── */}
       <div className="mx-4 mt-4 lg:mx-8">
-        <div className="flex h-9 items-center justify-between rounded-t-2xl border border-b-0 border-border bg-card/60 px-5 font-mono text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
+        <div className="flex min-h-12 items-center justify-between rounded-t-2xl border border-b-0 border-border bg-card/60 px-5 font-mono text-[14px] font-bold uppercase tracking-widest text-muted-foreground">
           <span>Task Breakdown</span>
           <span>Weight / AI Capability</span>
         </div>
@@ -665,25 +642,25 @@ function Meter() {
               key={task.name}
               className="flex items-center gap-3 border-b border-border py-4 last:border-b-0"
             >
-              <span className="w-5 shrink-0 self-start pt-0.5 font-mono text-[11px] text-muted-foreground">
+              <span className="w-5 shrink-0 self-start pt-0.5 font-mono text-[14px] text-muted-foreground">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <div className="min-w-0 flex-1">
-                <p className="text-[14px] leading-snug text-foreground">{task.name}</p>
+                <p className="text-[16px] leading-snug text-foreground">{task.name}</p>
                 <span
                   className={cn(
-                    "text-[11px] font-mono",
+                    "text-[14px] font-mono",
                     task.exposure >= 0.6
-                      ? "text-rose-400"
+                      ? "text-rose-700 dark:text-rose-400"
                       : task.exposure >= 0.4
-                        ? "text-amber-400"
-                        : "text-emerald-400",
+                        ? "text-amber-700 dark:text-amber-400"
+                        : "text-emerald-700 dark:text-emerald-400",
                   )}
                 >
                   {task.moat ? "Human advantage" : "Automation exposed"}
                 </span>
               </div>
-              <div className="w-24 shrink-0 text-right font-mono text-[12px]">
+              <div className="w-28 shrink-0 text-right font-mono text-[15px]">
                 <span className="text-foreground/70">
                   {Math.round(weights[i]! * 100)}%{" "}
                   <span className="text-muted-foreground">
@@ -700,7 +677,7 @@ function Meter() {
             </div>
           ))}
         </div>
-        <div className="flex justify-between px-5 py-3 font-mono text-[11px] text-muted-foreground">
+        <div className="flex justify-between px-5 py-3 font-mono text-[14px] text-muted-foreground">
           <span>E = 100 × Σ(wᵢ × eᵢ)</span>
           <Link
             href="/resources"
@@ -714,18 +691,19 @@ function Meter() {
       {/* ── CONFIDENCE CALLOUT ── */}
       <div className="mx-4 mt-4 mb-6 lg:mx-8 flex items-start gap-3 rounded-2xl border border-amber-800/40 bg-amber-950/10 p-4">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-amber-900/40">
-          <TriangleAlert className="h-4 w-4 text-amber-400" />
+          <TriangleAlert className="h-4 w-4 text-amber-700 dark:text-amber-400" />
         </div>
         <div>
-          <p className="mb-1 text-xs font-bold text-amber-300">
+          <p className="mb-1 text-[15px] font-bold text-amber-700 dark:text-amber-300">
             Recency Flag: Evidence Transparency Notice
           </p>
-          <p className="text-[11px] leading-relaxed text-muted-foreground">
+          <p className="text-[14px] leading-relaxed text-muted-foreground">
             Most evidence records predate the 2024 Indonesia-specific deployment wave for AI tools.
-            The overall confidence is <span className="text-rose-400 font-semibold">Low</span> not
-            because the global signal is weak, but because the regional recency gap has not been
-            closed. This will upgrade automatically as new verified records are ingested.{" "}
-            <span className="text-amber-400">
+            The overall confidence is{" "}
+            <span className="text-rose-700 dark:text-rose-400 font-semibold">Low</span> not because
+            the global signal is weak, but because the regional recency gap has not been closed.
+            This will upgrade automatically as new verified records are ingested.{" "}
+            <span className="text-amber-700 dark:text-amber-400">
               Voxian does not inflate confidence to appear more decisive.
             </span>
           </p>
@@ -736,19 +714,19 @@ function Meter() {
       <div className="mx-4 mb-8 flex flex-wrap gap-3 lg:mx-8">
         <Link
           href="/insights"
-          className="flex items-center gap-1.5 rounded-xl border border-border bg-card/40 px-4 py-2.5 text-[13px] text-muted-foreground transition-colors hover:border-cyan-800/60 hover:text-cyan-300"
+          className="flex items-center gap-1.5 rounded-xl border border-border bg-card/40 px-4 py-2.5 text-[16px] text-muted-foreground transition-colors hover:border-cyan-800/60 hover:text-brand-ink"
         >
           AI trends <ArrowUpRight className="h-3 w-3" />
         </Link>
         <Link
           href="/roadmap"
-          className="flex items-center gap-1.5 rounded-xl border border-border bg-card/40 px-4 py-2.5 text-[13px] text-muted-foreground transition-colors hover:border-cyan-800/60 hover:text-cyan-300"
+          className="flex items-center gap-1.5 rounded-xl border border-border bg-card/40 px-4 py-2.5 text-[16px] text-muted-foreground transition-colors hover:border-cyan-800/60 hover:text-brand-ink"
         >
           Choose a direction <ArrowUpRight className="h-3 w-3" />
         </Link>
         <Link
           href="/resources"
-          className="flex items-center gap-1.5 rounded-xl border border-border bg-card/40 px-4 py-2.5 text-[13px] text-muted-foreground transition-colors hover:border-cyan-800/60 hover:text-cyan-300"
+          className="flex items-center gap-1.5 rounded-xl border border-border bg-card/40 px-4 py-2.5 text-[16px] text-muted-foreground transition-colors hover:border-cyan-800/60 hover:text-brand-ink"
         >
           Check the evidence <ArrowUpRight className="h-3 w-3" />
         </Link>

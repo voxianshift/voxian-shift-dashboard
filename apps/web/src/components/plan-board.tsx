@@ -23,10 +23,10 @@ const tabs: { id: BoardStatus; label: string; empty: string }[] = [
   { id: "past", label: "Past", empty: "Logged sessions will appear here." },
 ]
 const badge: Record<BoardStatus, string> = {
-  inProgress: "border-sky-500/30 bg-sky-500/10 text-sky-700 dark:text-sky-300",
-  missed: "border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-300",
+  inProgress: "border-brand/40 bg-brand/10 text-brand-ink",
+  missed: "border-destructive/40 bg-destructive/10 text-destructive",
   upcoming: "border-foreground/20 text-muted-foreground",
-  past: "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+  past: "border-success/40 bg-success/10 text-success",
 }
 
 const shortDate = (date: string) =>

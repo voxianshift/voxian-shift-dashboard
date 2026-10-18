@@ -26,7 +26,7 @@ export function OnboardingBaseline({
   return (
     <button
       type="button"
-      className={`flex w-full items-center justify-between gap-4 rounded-xl border p-5 text-left transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${selected ? "border-mauve-deep bg-mauve-tint-soft dark:border-white dark:bg-white/5" : ""}`}
+      className={`flex w-full items-center justify-between gap-4 rounded-xl border p-5 text-left transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${selected ? "border-brand-deep bg-brand-tint-soft dark:border-white dark:bg-white/5" : ""}`}
       aria-pressed={selected}
       onClick={onSelect}
     >
@@ -63,7 +63,7 @@ export function OnboardingBaseline({
         </span>
       </span>
       {selected && (
-        <Check aria-hidden="true" className="size-5 shrink-0 text-mauve-deep dark:text-white" />
+        <Check aria-hidden="true" className="size-5 shrink-0 text-brand-deep dark:text-white" />
       )}
     </button>
   )

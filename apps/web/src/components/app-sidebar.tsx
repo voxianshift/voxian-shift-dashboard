@@ -26,7 +26,7 @@ export function AppSidebar() {
   const collapsed = state === "collapsed" && !isMobile
 
   return (
-    <Sidebar collapsible="icon" className="[--sidebar:#fafafa] dark:[--sidebar:#1b1b1b]">
+    <Sidebar collapsible="icon">
       <SidebarHeader className="h-[68px] justify-center px-4">
         <div className="flex items-center justify-between gap-2">
           <Link
@@ -84,7 +84,7 @@ export function AppSidebar() {
         />
         {!collapsed && (
           <div className="flex items-center gap-2 text-[13px] text-muted-foreground">
-            <span className="size-1.5 rounded-full bg-[#809488]" /> Research prototype · v0.1
+            <span className="size-1.5 rounded-full bg-success" /> Research prototype · v0.1
           </div>
         )}
         <div className="flex items-center gap-2.5">

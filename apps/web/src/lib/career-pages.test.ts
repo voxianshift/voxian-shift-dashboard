@@ -117,8 +117,25 @@ test("canvas uses same profile path and preserves selected role in plan link", (
   expect(html).toContain("Software Quality &amp; AI Evaluation Analyst")
   expect(html).toContain("Build this direction into a plan")
   expect(html).not.toContain("/roadmap?path=pivot&amp;role=1")
-  expect(html).toContain("Why this fits your profile")
+  expect(html).toContain("Pathway guidance")
   expect(html).not.toContain("CUSTOMER SUPPORT")
+})
+
+test("strategy selection uses first destination library details before generated narrative", () => {
+  state.data = structuredClone(navigatorFixture)
+  for (const path of state.data.paths) {
+    Object.assign(path.destinations[0]!, {
+      description: "Updated library role description",
+      dayToDay: ["Updated library daily task"],
+      humanEdge: ["Updated library human edge"],
+    })
+    path.description = "Generated branch description"
+  }
+  const html = renderToStaticMarkup(createElement(SidebarProvider, null, createElement(CanvasPage)))
+  expect(html).toContain("Updated library role description")
+  expect(html).toContain("Updated library daily task")
+  expect(html).toContain("Updated library human edge")
+  expect(html).not.toContain("Generated branch description")
 })
 
 for (const status of ["missing", "loading", "error"]) {

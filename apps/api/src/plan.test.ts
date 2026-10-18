@@ -28,7 +28,7 @@ const catalogue: OccupationCatalogue = {
 const request = () => ({
   occupationCode: occupation.code,
   strategyId: "pivot",
-  destinationId: "software_dev-pivot-1",
+  destinationId: lookupPathways(occupation.code).pivot!.destinations[0]!.id,
   pace: "lean",
   profile: navigatorContext({
     ...emptyProfile,
@@ -113,7 +113,11 @@ test("all four strategies use grounded destinations and code-owned schedule/cont
       const response = await app.inject({
         method: "POST",
         url: "/plan",
-        payload: { ...request(), strategyId, destinationId: `software_dev-${strategyId}-1` },
+        payload: {
+          ...request(),
+          strategyId,
+          destinationId: lookupPathways(occupation.code)[strategyId]!.destinations[0]!.id,
+        },
         remoteAddress: `127.0.0.${fetch.mock.calls.length + 1}`,
       })
       expect(response.statusCode).toBe(200)
@@ -237,7 +241,11 @@ test("invalid destination, occupation, schedule and legacy free-text requests fa
     const cases = [
       {},
       { ...request(), destinationId: "invented" },
-      { ...request(), strategyId: "create", destinationId: "software_dev-pivot-1" },
+      {
+        ...request(),
+        strategyId: "create",
+        destinationId: lookupPathways(occupation.code).pivot!.destinations[0]!.id,
+      },
       { ...request(), occupationCode: "11-1011.00" },
       { ...request(), schedule: { ...request().schedule, startDate: "2026-02-30" } },
       { ...request(), schedule: { ...request().schedule, timeZone: "invalid" } },

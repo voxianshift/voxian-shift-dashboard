@@ -49,6 +49,8 @@ export function LumiSidebar() {
   return (
     <aside
       aria-label="Lumi Copilot Sidebar"
+      aria-hidden={!isOpen}
+      inert={!isOpen}
       className={cn(
         "hidden lg:flex flex-col border-l border-border bg-card/60 backdrop-blur-xs transition-[width] duration-300 ease-in-out overflow-hidden shrink-0 h-full",
         isOpen ? "w-[380px]" : "w-0 border-l-0",
@@ -58,7 +60,6 @@ export function LumiSidebar() {
         {/* Header */}
         <div className="flex h-12 shrink-0 items-center justify-between border-b border-border px-3.5 bg-background/80">
           <div className="flex items-center gap-2">
-            <LumiMascot size="xs" />
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="text-[13px] font-semibold tracking-tight text-foreground">
@@ -91,8 +92,7 @@ export function LumiSidebar() {
         <div className="flex-1 overflow-y-auto p-3.5 space-y-3.5 min-h-0 text-[13px]">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-6 text-center">
-              <LumiMascot size="md" />
-              <h3 className="mt-3 text-[14px] font-semibold text-foreground">Hi, I&apos;m Lumi</h3>
+              <LumiMascot size={116} />
               <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground px-4">
                 Your AI career copilot. Ask me about your risk radar, transition roadmap, or target
                 skills on this page.

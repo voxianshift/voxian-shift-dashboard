@@ -10,6 +10,7 @@ import {
 } from "./career-canvas"
 import actualMappings from "../../../api/data/navigator-pathways.json"
 import { navigatorFixture } from "./navigator.fixture"
+import { edgeAnchor } from "./career-routing"
 const careerPaths = navigatorFixture.paths
 const careerNodes = buildCareerNodes(careerPaths, navigatorFixture.roleTitle)
 
@@ -100,6 +101,26 @@ test("partial and missing role coverage still reserve non-overlapping branches",
   }
 })
 
+test("two-role branches fan evenly above and below their strategy with room between columns", () => {
+  const paths = careerPaths.map((path) => ({ ...path, roles: path.roles.slice(0, 2) }))
+  const nodes = buildCareerNodes(paths, "Present")
+  const present = nodes.find((node) => node.id === "start")!
+  for (const path of paths) {
+    const strategy = nodes.find((node) => node.id === path.id)!
+    const roles = nodes.filter((node) => node.data.kind === "role" && node.data.pathId === path.id)
+    const source = edgeAnchor(strategy, true)
+    const targets = roles.map((node) => edgeAnchor(node, false))
+    expect(source.y - targets[0]!.y).toBe(50)
+    expect(targets[1]!.y - source.y).toBe(50)
+    expect(strategy.position.x - (present.position.x + present.width!)).toBeGreaterThanOrEqual(300)
+    expect(roles[0]!.position.x - (strategy.position.x + strategy.width!)).toBeGreaterThanOrEqual(
+      300,
+    )
+    for (const edge of careerEdges(paths, nodes, null).filter((edge) => edge.source === path.id))
+      expect(edge.data?.path).toContain(" C ")
+  }
+})
+
 test("selecting a role animates only its route from starting point", () => {
   const active = careerEdges(careerPaths, careerNodes, "automate-role-1").filter(
     (edge) => edge.animated,
@@ -139,7 +160,7 @@ test("five or more roles use three columns with no overlaps and edges from the s
   const nodes = buildCareerNodes([path], "Starting occupation")
   const roles = nodes.filter((node) => node.data.kind === "role")
   expect(roles).toHaveLength(8)
-  expect(new Set(roles.map((node) => Math.round((node.position.x - 880) / 440))).size).toBe(3)
+  expect(new Set(roles.map((node) => node.position.x)).size).toBe(3)
   expect(new Set(roles.map((node) => Math.round(node.position.y / 100))).size).toBe(3)
   for (const [index, node] of nodes.entries())
     for (const other of nodes.slice(index + 1))
@@ -155,7 +176,7 @@ test("five or more roles use three columns with no overlaps and edges from the s
   ).toBe(true)
 })
 
-test("real prototype mappings show every curated role", () => {
+test("v6 role library mappings show every curated role", () => {
   const actual = actualMappings.occupations["43-4051.00"].strategies
   const paths = careerPaths.map((path) => ({
     ...path,
@@ -167,7 +188,7 @@ test("real prototype mappings show every curated role", () => {
       (path) =>
         nodes.filter((node) => node.data.kind === "role" && node.data.pathId === path.id).length,
     ),
-  ).toEqual([4, 4, 2, 3])
+  ).toEqual([4, 4, 4, 4])
 })
 
 test("fixed card grid stays aligned across renders", () => {

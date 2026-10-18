@@ -1,5 +1,9 @@
 # Navigator destination mappings
 
+## Current catalogue: Role Library Master v6 (18 October 2026)
+
+The supplied v6 Markdown supersedes the older prototype content, filtering rules and branch descriptions below. [Role library v6](../role-library-v6.md) documents the current snapshot: 27 source roles, 25 reviewed O*NET mappings, two unmapped source roles, 108 strategies and 367 destinations. All supplied destination options and their source ordering are retained, including senior roles; no claim of qualification or suitability follows. The sections below describe earlier contract evolution and must not be read as the current dataset inventory.
+
 Contract version 3, recommendation rule version 2. Supersedes the destination-generation and preference-ranking portions of the v2 contract. Implementation: issue #9. Mapping dataset revision: `prototype-2.3.8-review-2`.
 
 ## Requirements and decisions

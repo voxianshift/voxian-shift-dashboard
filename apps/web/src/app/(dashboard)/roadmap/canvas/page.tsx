@@ -1,5 +1,6 @@
 "use client"
 
+import { useTheme } from "next-themes"
 import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react"
 
 import { toast } from "sonner"
@@ -163,12 +164,6 @@ function RoleCard({ data, selected }: NodeProps<RoleNode>) {
   if (data.kind === "path")
     return (
       <div className="relative h-[260px] w-[260px]" style={{ color }}>
-        <h2
-          className="absolute inset-x-0 top-0 line-clamp-2 text-center text-[14px] font-semibold leading-tight text-muted-foreground"
-          title={data.title}
-        >
-          {data.title}
-        </h2>
         <svg
           viewBox="0 0 260 180"
           className="absolute inset-x-0 top-0 h-[180px] w-full overflow-visible"
@@ -421,6 +416,7 @@ function NavigatorCanvas({
   const { profile } = useCareerProfile()
   const { profileKey } = useNavigator()
   const params = useSearchParams()
+  const { resolvedTheme } = useTheme()
   const [commitOpen, setCommitOpen] = useState(false)
   const [planOpen, setPlanOpen] = useState(false)
   const [commitment, setCommitment] = useState<Commitment | null>(null)
@@ -495,6 +491,7 @@ function NavigatorCanvas({
   }, [flow, selectedId, focusRequest, data])
   const targetRole =
     selectedNode?.data.kind === "role" && selected ? selected.roles.indexOf(selectedRole) : null
+  const selectedDestination = selected?.destinations[targetRole ?? 0]
   async function generatePlan(schedule: PlanScheduleInput): Promise<GeneratedPlan> {
     if (!selected || selected.coverage !== "available")
       throw new Error("Choose an available direction.")
@@ -537,7 +534,7 @@ function NavigatorCanvas({
     if (returnFocus.current?.isConnected) returnFocus.current.focus({ preventScroll: true })
   }
   return (
-    <div className="navigator-canvas flex min-h-[660px] h-full flex-col bg-background text-foreground">
+    <div className="navigator-canvas flex min-h-[660px] h-full flex-col bg-[var(--navigator-bg)] text-foreground">
       <h1 className="sr-only">Explore your career multiverse</h1>
       <div
         ref={canvasRef}
@@ -568,8 +565,8 @@ function NavigatorCanvas({
           fitViewOptions={{ padding: 0.18, minZoom: 0.25, maxZoom: defaultZoom }}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
-          colorMode="dark"
-          style={{ background: "var(--background)" }}
+          colorMode={resolvedTheme === "dark" ? "dark" : "light"}
+          style={{ background: "var(--navigator-bg)" }}
           onInit={(instance) => {
             setFlow(instance)
             if (!initialSelectedId)
@@ -593,10 +590,16 @@ function NavigatorCanvas({
               selectNode(id)
             }
           }}
-          className="!bg-background motion-reduce:[&_path]:!animate-none"
+          className="!bg-[var(--navigator-bg)] motion-reduce:[&_path]:!animate-none"
           aria-label="Career paths: drag canvas to pan, scroll to zoom, select a role to see details"
         >
-          <Background variant={BackgroundVariant.Dots} gap={32} size={0.6} color="#1e293b" />
+          <Background
+            variant={BackgroundVariant.Dots}
+            gap={32}
+            size={3}
+            color="var(--navigator-dots)"
+            bgColor="var(--navigator-bg)"
+          />
           <Controls showInteractive={false} position="bottom-left" className="[&_button]:!size-9" />
         </ReactFlow>
         {selected && (
@@ -683,7 +686,7 @@ function NavigatorCanvas({
                 className="min-h-0 space-y-5 overflow-y-auto px-6 pb-5 max-[650px]:px-4"
               >
                 <p className="text-[15px] leading-relaxed text-muted-foreground">
-                  {selected.description}
+                  {selectedDestination?.description ?? selected.description}
                 </p>
                 <p className="mt-2 text-sm text-muted-foreground">
                   {selected.coverage === "unsupported"
@@ -692,6 +695,26 @@ function NavigatorCanvas({
                   {selected.mappingRationale}
                 </p>
 
+                {selectedDestination?.dayToDay && (
+                  <section>
+                    <h3 className="mb-2 text-[15px] font-medium">Day-to-day</h3>
+                    <ul className="list-disc space-y-2 pl-5 text-[14px] leading-relaxed text-muted-foreground">
+                      {selectedDestination.dayToDay.map((task) => (
+                        <li key={task}>{task}</li>
+                      ))}
+                    </ul>
+                  </section>
+                )}
+                {selectedDestination?.humanEdge && (
+                  <section>
+                    <h3 className="mb-2 text-[15px] font-medium">Your human edge</h3>
+                    <ul className="list-disc space-y-2 pl-5 text-[14px] leading-relaxed text-muted-foreground">
+                      {selectedDestination.humanEdge.map((edge) => (
+                        <li key={edge}>{edge}</li>
+                      ))}
+                    </ul>
+                  </section>
+                )}
                 <section aria-label="Other roles in this direction">
                   <h3 className="mb-3 text-[15px] font-medium">Curated pathway labels</h3>
                   <div className="flex flex-wrap gap-2">
@@ -709,9 +732,7 @@ function NavigatorCanvas({
                   </div>
                 </section>
                 <section className="rounded-xl border border-border bg-muted p-4">
-                  <h3 className="mb-2 text-[15px] font-medium text-foreground">
-                    Why this fits your profile
-                  </h3>
+                  <h3 className="mb-2 text-[15px] font-medium text-foreground">Pathway guidance</h3>
                   <p className="text-[15px] leading-relaxed text-muted-foreground">
                     {selected.why}
                   </p>
@@ -730,7 +751,7 @@ function NavigatorCanvas({
                 <section>
                   <h2 className="mb-3 text-[17px] font-medium">Skills to build</h2>
                   <div className="flex flex-wrap gap-2">
-                    {selected.skills.map((skill) => (
+                    {(selectedDestination?.skills ?? selected.skills).map((skill) => (
                       <span
                         key={skill}
                         className="rounded-md border border-border bg-muted px-3 py-2 text-[14px] text-foreground"
@@ -741,10 +762,16 @@ function NavigatorCanvas({
                   </div>
                 </section>
                 <section className="rounded-xl border border-border bg-muted p-5">
-                  <p className="text-[12px] tracking-[1px] text-cyan-400">
+                  <p className="text-[12px] tracking-[1px] text-cyan-700 dark:text-cyan-400">
                     BUILD PROOF, NOT JUST A CERTIFICATE
                   </p>
-                  <h2 className="mt-2 text-[18px]">Your bridge project</h2>
+                  <h2 className="mt-2 text-[18px]">Suggested bridge project</h2>
+                  <p className="mt-2 text-[12px] text-muted-foreground">
+                    {data.generationStatus === "personalized"
+                      ? "AI-generated suggestion"
+                      : "General practice suggestion"}{" "}
+                    · separate from role library
+                  </p>
                   <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
                     {selected.project}
                   </p>
@@ -765,30 +792,59 @@ function NavigatorCanvas({
                     <BookOpen className="size-4" /> Courses, credentials & resources
                   </h2>
                   <div className="space-y-3">
-                    {selected.resources.map((resource) => (
-                      <a
-                        key={resource.href}
-                        href={resource.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="group block rounded-xl border border-border bg-muted/60 p-4 transition-colors hover:border-cyan-700/60 focus-visible:outline-2 focus-visible:outline-ring"
-                      >
-                        <p className="text-[12px] text-muted-foreground">
-                          {resource.provider} · {resource.type}
-                        </p>
-                        <h3 className="mt-2 flex items-start justify-between gap-3 text-[16px] font-medium">
-                          {resource.title}
-                          <ArrowUpRight className="mt-1 size-4 shrink-0" />
-                        </h3>
-                        <p className="mt-2 text-[16px] leading-relaxed text-muted-foreground">
-                          {resource.note}
-                        </p>
-                      </a>
-                    ))}
+                    {selectedDestination?.learningResources?.length
+                      ? selectedDestination.learningResources.map((resource, index) => (
+                          <article
+                            key={`${resource.title}-${index}`}
+                            className="rounded-xl border border-border bg-muted/60 p-4"
+                          >
+                            <p className="text-[12px] text-muted-foreground">{resource.cost}</p>
+                            <h3 className="mt-2 text-[16px] font-medium">
+                              {resource.href ? (
+                                <a
+                                  href={resource.href}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="flex items-start justify-between gap-3 underline underline-offset-4"
+                                >
+                                  {resource.title}
+                                  <ArrowUpRight className="mt-1 size-4 shrink-0" />
+                                </a>
+                              ) : (
+                                resource.title
+                              )}
+                            </h3>
+                            <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
+                              {resource.note}
+                            </p>
+                          </article>
+                        ))
+                      : selected.resources.map((resource) => (
+                          <a
+                            key={resource.href}
+                            href={resource.href}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="group block rounded-xl border border-border bg-muted/60 p-4 transition-colors hover:border-cyan-700/60 focus-visible:outline-2 focus-visible:outline-ring"
+                          >
+                            <p className="text-[12px] text-muted-foreground">
+                              {resource.provider} · {resource.type}
+                            </p>
+                            <h3 className="mt-2 flex items-start justify-between gap-3 text-[16px] font-medium">
+                              {resource.title}
+                              <ArrowUpRight className="mt-1 size-4 shrink-0" />
+                            </h3>
+                            <p className="mt-2 text-[16px] leading-relaxed text-muted-foreground">
+                              {resource.note}
+                            </p>
+                          </a>
+                        ))}
                   </div>
                   <p className="mt-3 text-[12px] leading-relaxed text-muted-foreground">
-                    Official provider links checked October 2026. Availability, fees and eligibility
-                    can change. Credentials do not guarantee employment.
+                    {selectedDestination?.learningResources?.length
+                      ? "Resources from role library v6. Availability, fees and eligibility can change."
+                      : "Official provider links checked October 2026. Availability, fees and eligibility can change."}{" "}
+                    Credentials do not guarantee employment.
                   </p>
                 </section>
               </TabsContent>

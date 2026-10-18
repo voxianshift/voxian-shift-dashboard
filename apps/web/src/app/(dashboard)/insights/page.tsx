@@ -91,10 +91,13 @@ export default function InsightsPage() {
         </PanelHeading>
         <div className="mb-7 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card/60 px-5 py-4 text-[15px]">
           <span className="flex items-center gap-2">
-            <Fingerprint className="size-4 text-cyan-400" />
+            <Fingerprint className="size-4 text-cyan-700 dark:text-cyan-400" />
             {role ? role : "Future of work"}
           </span>
-          <Link href="/meter" className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300">
+          <Link
+            href="/meter"
+            className="flex items-center gap-2 text-cyan-700 dark:text-cyan-400 hover:text-brand-ink"
+          >
             Your Meter <ArrowUpRight className="size-4" />
           </Link>
         </div>
@@ -140,14 +143,29 @@ export default function InsightsPage() {
                   </pattern>
                 </defs>
                 <rect x="30" y="20" width="850" height="240" fill="url(#curve-dots)" />
-                <rect x="330" y="20" width="550" height="240" rx="5" fill="#b69aa9" opacity=".07" />
+                <rect
+                  x="330"
+                  y="20"
+                  width="550"
+                  height="240"
+                  rx="5"
+                  fill="var(--brand)"
+                  opacity=".07"
+                />
                 <text x="40" y="40" fill="currentColor" opacity=".55" fontSize="20">
                   MORE CHANGE TO WORK ↑
                 </text>
                 <text x="600" y="40" fill="currentColor" opacity=".55" fontSize="20">
                   ILLUSTRATIVE SCENARIOS
                 </text>
-                <line x1="330" y1="65" x2="330" y2="270" stroke="#b69aa9" strokeDasharray="4 5" />
+                <line
+                  x1="330"
+                  y1="65"
+                  x2="330"
+                  y2="270"
+                  stroke="var(--brand)"
+                  strokeDasharray="4 5"
+                />
                 <path
                   d="M50 242 C160 239 230 225 330 215"
                   fill="none"
@@ -231,7 +249,7 @@ export default function InsightsPage() {
                   onClick={() => setSelected(index)}
                   className={cn(
                     "min-h-10 text-[14px]",
-                    index === selected && "border-mauve bg-mauve-tint",
+                    index === selected && "border-brand bg-brand-tint",
                   )}
                 >
                   <span className="size-2 rounded-full" style={{ background: item.color }} />
@@ -247,7 +265,7 @@ export default function InsightsPage() {
           <aside className="flex flex-col justify-between rounded-2xl border border-border bg-card/60 p-6">
             <div>
               <p className={eyebrow}>WHAT RESEARCH SAYS</p>
-              <p className="mt-6 text-[58px] font-[450] leading-none tracking-[-3px] text-cyan-400">
+              <p className="mt-6 text-[58px] font-[450] leading-none tracking-[-3px] text-cyan-700 dark:text-cyan-400">
                 1 in 4
               </p>
               <p className="mt-4 text-[16px] leading-relaxed">
@@ -294,7 +312,7 @@ export default function InsightsPage() {
           </div>
           <div className="flex flex-col justify-between rounded-2xl border border-border bg-muted p-6">
             <div>
-              <Lightbulb className="size-5 text-mauve-deep" />
+              <Lightbulb className="size-5 text-brand-deep" />
               <p className="mt-3 text-[13px] tracking-[1px] text-muted-foreground">TRY THIS</p>
               <p className="mt-3 text-[18px] leading-relaxed">{scenario.action}</p>
             </div>
@@ -309,7 +327,7 @@ export default function InsightsPage() {
         </section>
         <section className="mt-10 pb-4">
           <div className="mb-5 flex items-center gap-3">
-            <ChartNoAxesCombined className="size-5 text-mauve-deep" />
+            <ChartNoAxesCombined className="size-5 text-brand-deep" />
             <h2 className="text-[23px] tracking-[-0.5px]">Sources</h2>
           </div>
           <div className="grid grid-cols-2 gap-5 max-[700px]:grid-cols-1">

@@ -58,12 +58,10 @@ export function buildCareerNodes(
   cv?: CvContext | null,
 ): RoleNode[] {
   const rowHeight = 100
-  const branchRows = careerPaths.map((path) =>
-    Math.max(
-      3,
-      path.roles.length <= 4 ? path.roles.length : Math.ceil(path.roles.length / roleGridColumns),
-    ),
+  const roleRows = careerPaths.map((path) =>
+    path.roles.length <= 4 ? path.roles.length : Math.ceil(path.roles.length / roleGridColumns),
   )
+  const branchRows = roleRows.map((rows) => Math.max(3, rows))
   const totalHeight = branchRows.reduce((sum, rows) => sum + rows * rowHeight + 64, 0)
   let offset = 0
   return [
@@ -77,20 +75,20 @@ export function buildCareerNodes(
       focusable: false,
       data: { title: roleTitle, subtitle: "Day 0 Baseline", color: "#00f2fe", kind: "start" },
     },
-    ...careerPaths.flatMap((path): RoleNode[] => {
-      const rows = branchRows[careerPaths.indexOf(path)]!
+    ...careerPaths.flatMap((path, pathIndex): RoleNode[] => {
+      const rows = branchRows[pathIndex]!
       const center = offset + ((rows - 1) * rowHeight) / 2 + 32
-      const firstRow = offset
+      const firstRow = offset + ((rows - roleRows[pathIndex]!) * rowHeight) / 2
       offset += rows * rowHeight + 64
       const color = strategyColors[path.id] ?? path.color
       return [
         {
           id: path.id,
           type: "role",
-          position: { x: 420, y: center - 90 },
+          position: { x: 560, y: center - 90 },
           width: 260,
           height: 260,
-          ariaLabel: `Explore ${path.title}`,
+          ariaLabel: `Explore ${path.label} strategy`,
           data: {
             title: path.title,
             strategyLabel: path.label,
@@ -115,7 +113,7 @@ export function buildCareerNodes(
           id: `${path.id}-role-${i}`,
           type: "role",
           position: {
-            x: 880 + (path.roles.length <= 4 ? 0 : i % roleGridColumns) * 440,
+            x: 1120 + (path.roles.length <= 4 ? 0 : i % roleGridColumns) * 440,
             y:
               firstRow + (path.roles.length <= 4 ? i : Math.floor(i / roleGridColumns)) * rowHeight,
           },

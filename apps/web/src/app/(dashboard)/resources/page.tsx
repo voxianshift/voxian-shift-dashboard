@@ -154,13 +154,16 @@ export default function ResourcesPage() {
             </>
           )}
         </section>
-        <div className="flex items-center gap-5 rounded-2xl border border-cyan-900/40 bg-background p-6 text-cyan-300">
-          <Calculator className="size-7 shrink-0 text-cyan-400" strokeWidth={1} />
+        <div className="flex items-center gap-5 rounded-2xl border border-cyan-900/40 bg-background p-6 text-cyan-700 dark:text-cyan-300">
+          <Calculator
+            className="size-7 shrink-0 text-cyan-700 dark:text-cyan-400"
+            strokeWidth={1}
+          />
           <div>
             <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-cyan-600 mb-2">
               EXPOSURE MODEL / VERSION {SCORING_VERSION}
             </p>
-            <p className="my-2.5 font-mono text-[25px] max-[700px]:text-[18px] text-cyan-300">
+            <p className="my-2.5 font-mono text-[25px] max-[700px]:text-[18px] text-cyan-700 dark:text-cyan-300">
               E = 100 × Σ(wᵢ × eᵢ) / Σwᵢ
             </p>
             <p className="text-[14px] text-muted-foreground">
