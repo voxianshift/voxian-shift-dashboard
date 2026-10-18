@@ -1,6 +1,12 @@
 import { skillRequirements } from "./skill-requirements.ts"
 import { afterEach, beforeEach, expect, test, vi } from "vite-plus/test"
-import { emptyProfile, navigatorContext, navigatorResultSchema, pathIdSchema } from "@voxian/shared"
+import {
+  emptyProfile,
+  libraryProject,
+  navigatorContext,
+  navigatorResultSchema,
+  pathIdSchema,
+} from "@voxian/shared"
 import { buildApp } from "./app.ts"
 import type { OccupationCatalogue } from "./occupation-catalogue.ts"
 import { lookupPathways } from "./navigator-pathways.ts"
@@ -345,6 +351,48 @@ test("missing task evidence stays unknown while reviewed Create remains availabl
     expect(response.json().generationStatus).toBe("personalized")
     expect(response.json().paths[3].coverage).toBe("available")
     expect(fetch).toHaveBeenCalledOnce()
+  } finally {
+    await app.close()
+  }
+})
+
+test("each role gets its own bridge project, falling back to its library entry", async () => {
+  const result = draft()
+  const [first, second] = lookupPathways(developer.code).automate!.destinations
+  ;(result.paths[0] as any).destinationProjects = [
+    { destinationId: first!.id, project: "Review a synthetic AI-generated pull request." },
+  ]
+  vi.stubGlobal("fetch", vi.fn().mockResolvedValue(completion(result)))
+  const app = buildApp({ catalogue: catalogue() })
+  try {
+    const response = await app.inject({
+      method: "POST",
+      url: "/navigator/paths",
+      payload: { profile: context },
+    })
+    const automate = navigatorResultSchema.parse(response.json()).paths[0]!
+    expect(automate.roleProjects![0]).toBe("Review a synthetic AI-generated pull request.")
+    expect(automate.roleProjects![1]).toBe(libraryProject(second!))
+    expect(libraryProject(second!)).toContain(second!.dayToDay![0]!.slice(1, 30))
+  } finally {
+    await app.close()
+  }
+})
+
+test("projects for invented destinations are rejected", async () => {
+  const result = draft()
+  ;(result.paths[0] as any).destinationProjects = [
+    { destinationId: "invented-destination", project: "Anything." },
+  ]
+  vi.stubGlobal("fetch", vi.fn().mockResolvedValue(completion(result)))
+  const app = buildApp({ catalogue: catalogue() })
+  try {
+    const response = await app.inject({
+      method: "POST",
+      url: "/navigator/paths",
+      payload: { profile: context },
+    })
+    expect(response.json().generationStatus).toBe("unavailable")
   } finally {
     await app.close()
   }

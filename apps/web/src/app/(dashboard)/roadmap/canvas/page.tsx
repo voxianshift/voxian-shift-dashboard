@@ -30,6 +30,7 @@ import {
   navigatorContext,
   navigatorResources,
   courseList,
+  libraryProject,
   type PlanScheduleInput,
   type NavigatorResult,
 } from "@voxian/shared"
@@ -492,6 +493,12 @@ function NavigatorCanvas({
   const targetRole =
     selectedNode?.data.kind === "role" && selected ? selected.roles.indexOf(selectedRole) : null
   const selectedDestination = selected?.destinations[targetRole ?? 0]
+  // Older cached results have no per-role projects; fall back to the path-level suggestion.
+  const roleProject =
+    targetRole === null
+      ? undefined
+      : (selected?.roleProjects?.[targetRole] ??
+        (selectedDestination ? libraryProject(selectedDestination) : undefined))
   async function generatePlan(schedule: PlanScheduleInput): Promise<GeneratedPlan> {
     if (!selected || selected.coverage !== "available")
       throw new Error("Choose an available direction.")
@@ -767,13 +774,14 @@ function NavigatorCanvas({
                   </p>
                   <h2 className="mt-2 text-[18px]">Suggested bridge project</h2>
                   <p className="mt-2 text-[12px] text-muted-foreground">
-                    {data.generationStatus === "personalized"
-                      ? "AI-generated suggestion"
-                      : "General practice suggestion"}{" "}
-                    · separate from role library
+                    {roleProject
+                      ? `${data.generationStatus === "personalized" ? "AI suggestion" : "Suggestion"} grounded in the ${selectedDestination!.title} role library entry`
+                      : data.generationStatus === "personalized"
+                        ? "AI-generated suggestion · separate from role library"
+                        : "General practice suggestion · separate from role library"}
                   </p>
                   <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
-                    {selected.project}
+                    {roleProject ?? selected.project}
                   </p>
                 </section>
                 <section className="border-t border-border pt-5">
