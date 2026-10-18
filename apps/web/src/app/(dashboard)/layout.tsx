@@ -9,6 +9,7 @@ import { LumiSidebar } from "@/components/lumi-sidebar"
 import { LumiMobileTrigger } from "@/components/lumi-mobile-trigger"
 import { NavigatorProvider } from "@/components/navigator-provider"
 import { WarmupOverlay } from "@/components/warmup-overlay"
+import { MobileBottomNav } from "@/components/mobile-bottom-nav"
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
@@ -21,6 +22,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             <DashboardShell>{children}</DashboardShell>
           </Suspense>
           <LumiMobileTrigger />
+          <MobileBottomNav />
         </LumiChatProvider>
         <WarmupOverlay />
       </NavigatorProvider>
@@ -38,7 +40,7 @@ async function DashboardShell({ children }: { children: ReactNode }) {
         <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
           <DashboardHeader />
           <div className="flex min-h-0 flex-1 overflow-hidden">
-            <main id="main-content" className="min-h-0 flex-1 overflow-y-auto">
+            <main id="main-content" className="min-h-0 flex-1 overflow-y-auto pb-[72px] md:pb-0">
               {children}
             </main>
             <LumiSidebar />

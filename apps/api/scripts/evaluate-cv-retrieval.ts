@@ -2,9 +2,9 @@ import { mkdir, writeFile } from "node:fs/promises"
 import { randomBytes } from "node:crypto"
 import { Pool } from "pg"
 import { z } from "zod"
-import { cvAssessmentSchema, emptyProfile, pathIdSchema, type CvContext } from "@voxian/shared"
-import { curatedOccupationCodes } from "../src/navigator-pathways.ts"
-import { skillRequirements, cvMatchingPrompt } from "../src/skill-requirements.ts"
+import { cvAssessmentSchema, emptyProfile, type CvContext } from "@voxian/shared"
+import frozen from "../data/evaluations/cv-frozen-requirements.json" with { type: "json" }
+import { cvMatchingPrompt } from "../src/skill-requirements.ts"
 import { createCvEmbeddings } from "../src/cv-embeddings.ts"
 import { createCvVectorStore, requirementEmbeddingText } from "../src/cv-vector-store.ts"
 import { chatConfig, completeJson } from "../src/llm.ts"
@@ -21,9 +21,7 @@ if (!process.argv.includes("--live"))
 if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is required")
 const config = chatConfig()
 if (!config?.apiKey) throw new Error("Configured LLM provider is required")
-const catalogue = curatedOccupationCodes.flatMap((code) =>
-  pathIdSchema.options.flatMap((id) => skillRequirements(code, id)),
-)
+const catalogue = frozen.requirements
 const distractions = [
   "Built responsive React interfaces from supplied designs.",
   "Scheduled weekly team meetings.",

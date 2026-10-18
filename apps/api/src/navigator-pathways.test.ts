@@ -21,26 +21,26 @@ test("reviewed mapping IDs and titles are stable, unique and explicitly curated"
       }
     }
   }
-  expect(pathwayVersion).toBe(`prototype-v2.3.8-branches-1+25-curated+soc-family-exploration-1`)
+  expect(pathwayVersion).toBe(`fork-preview-branches-2+25-curated+soc-family-exploration-1`)
   expect(lookupPathways("unmapped")).toEqual({})
   expect(lookupPathways("43-4051.00").automate!.title).not.toEqual(
     lookupPathways("15-1252.00").automate!.title,
   )
 })
 
-test("strategies use prototype v2.3.8 branches, with governance and ethics roles for Create", () => {
+test("strategies expose the reviewed fork catalogue, with safety roles for Create", () => {
   const support = lookupPathways("43-4051.00")
   expect(Object.values(support).map((path) => path.title)).toEqual([
-    "AI Support Ops & Engineering",
-    "AI Specialist & Evaluation",
-    "Strategic Client Advocate & PM",
-    "Enterprise AI Ethics Auditor",
+    "AI Customer Service Specialist",
+    "Senior Customer Service Specialist",
+    "Retail Service Coach",
+    "Head of Customer Experience",
   ])
   expect(support.automate!.destinations.map((destination) => destination.title)).toEqual([
-    "AI Support Ops & Engineering",
-    "Frontend Support Integrator",
-    "Agentic RAG Pipeline Architect",
-    "Head of CX Automation",
+    "AI Customer Service Specialist",
+    "Service Quality Analyst",
+    "CX Operations Coordinator",
+    "Automation Flow Designer (No-Code)",
   ])
   expect(lookupPathways("15-1252.00").create!.title).toBe("AI Safety & Red Team Lead")
   expect(curatedOccupationCodes).not.toContain("15-1232.00")
@@ -76,7 +76,7 @@ test("all codes in existing occupation crosswalk resolve four validated options"
 test("every mapped strategy mirrors its prototype branch with sequential IDs", () => {
   for (const code of curatedOccupationCodes) {
     for (const [id, path] of Object.entries(lookupPathways(code))) {
-      expect(path.destinations.length).toBeGreaterThanOrEqual(3)
+      expect(path.destinations.length).toBeGreaterThan(0)
       expect(path.destinations[0]!.title).toBe(path.title)
       const prefix = path.destinations[0]!.id.replace(/-1$/, "")
       expect(path.destinations.map((destination) => destination.id)).toEqual(

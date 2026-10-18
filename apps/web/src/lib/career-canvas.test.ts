@@ -167,7 +167,7 @@ test("real prototype mappings show every curated role", () => {
       (path) =>
         nodes.filter((node) => node.data.kind === "role" && node.data.pathId === path.id).length,
     ),
-  ).toEqual([4, 3, 3, 3])
+  ).toEqual([4, 4, 2, 3])
 })
 
 test("fixed card grid stays aligned across renders", () => {

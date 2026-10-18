@@ -7,9 +7,15 @@ export type LumiMascotProps = {
   className?: string
   size?: "xs" | "sm" | "md" | "lg" | number
   animated?: boolean
+  idleFloat?: boolean
 }
 
-export function LumiMascot({ className, size = "md", animated = true }: LumiMascotProps) {
+export function LumiMascot({
+  className,
+  size = "md",
+  animated = true,
+  idleFloat = false,
+}: LumiMascotProps) {
   const id = useId().replace(/:/g, "")
 
   const sizeClasses = {
@@ -24,7 +30,11 @@ export function LumiMascot({ className, size = "md", animated = true }: LumiMasc
 
   return (
     <div
-      className={cn("relative flex items-center justify-center shrink-0 select-none", className)}
+      className={cn(
+        "relative flex items-center justify-center shrink-0 select-none",
+        idleFloat && "animate-[lumi-float_3.6s_cubic-bezier(0.45,0.05,0.55,0.95)_infinite]",
+        className,
+      )}
       style={dimensions}
     >
       <svg
@@ -32,7 +42,7 @@ export function LumiMascot({ className, size = "md", animated = true }: LumiMasc
         className={cn(
           "overflow-visible drop-shadow-[0_12px_24px_rgba(0,0,0,0.35)]",
           typeof size === "string" ? sizeClasses[size] : "",
-          animated && "animate-pulse duration-[3000ms]",
+          animated && !idleFloat && "animate-pulse duration-[3000ms]",
         )}
         style={dimensions}
         aria-hidden="true"
@@ -88,7 +98,12 @@ export function LumiMascot({ className, size = "md", animated = true }: LumiMasc
         </g>
 
         {/* Left Arm Rig: pinned to shoulder (21, 52) */}
-        <g style={{ transformOrigin: "21px 52px" }}>
+        <g
+          style={{
+            transformOrigin: "21px 52px",
+            animation: idleFloat ? "lumi-arm-idle 4.2s ease-in-out infinite 0.6s" : undefined,
+          }}
+        >
           <path
             d="M 21 52 C 11 62, 11 78, 16 92 C 18 95.5, 23 95.5, 25 91 C 26.5 80, 24.5 66, 23.5 53 C 23 50.5, 21.5 50.5, 21 52 Z"
             fill={`url(#lumiArmPearlGrad-${id})`}
@@ -190,7 +205,14 @@ export function LumiMascot({ className, size = "md", animated = true }: LumiMasc
         </g>
 
         {/* Right Arm Rig: pinned to shoulder (99, 52) */}
-        <g style={{ transformOrigin: "99px 52px" }}>
+        <g
+          style={{
+            transformOrigin: "99px 52px",
+            animation: idleFloat
+              ? "lumi-arm-idle 4.2s ease-in-out reverse infinite 1.2s"
+              : undefined,
+          }}
+        >
           <path
             d="M 99 52 C 109 62, 109 78, 104 92 C 102 95.5, 97 95.5, 95 91 C 93.5 80, 95.5 66, 96.5 53 C 97 50.5, 98.5 50.5, 99 52 Z"
             fill={`url(#lumiArmPearlGrad-${id})`}

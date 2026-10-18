@@ -1,14 +1,30 @@
 "use client"
 
-import { Suspense, useState } from "react"
+import { Suspense, useId, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
-import { ArrowRight, ArrowUpRight, Fingerprint, RotateCcw } from "lucide-react"
-import { baselineIdForOccupation, computeExposure } from "@voxian/shared"
+import {
+  Activity,
+  ArrowRight,
+  ArrowUpRight,
+  FileText,
+  MapPin,
+  RotateCcw,
+  Shield,
+  TrendingUp,
+  TriangleAlert,
+  Zap,
+} from "lucide-react"
+import {
+  baselineIdForOccupation,
+  computeExposure,
+  ILO_GRADIENTS,
+  iloGradient,
+  taskStats,
+} from "@voxian/shared"
 import { ProfileSheet } from "@/components/profile-sheet"
 import { Button } from "@/components/ui/button"
-import { PanelHeading, RadarFooter } from "@/components/radar-panel"
-import { RadarEvidence } from "@/components/radar-overview"
+import { PanelHeading } from "@/components/radar-panel"
 import { useCareerProfile } from "@/components/career-profile-provider"
 import { canConfirmProfile } from "@/lib/onboarding"
 import { occupationModels, taskWeights, type MeterModel } from "@/lib/occupations"
@@ -39,8 +55,162 @@ export default function MeterPage() {
   )
 }
 
-const nextStepLink =
-  "flex flex-wrap items-center gap-3 border-b px-4 py-[18px] text-[14px] transition-colors duration-150 hover:bg-muted max-[1100px]:gap-[5px] motion-reduce:transition-none"
+// Arc gauge: 270° sweep matching the HTML prototype's ILO gradient classifier
+function ArcGauge({ score, gradient }: { score: number; gradient: string }) {
+  const gradId = useId()
+  const r = 82
+  const cx = 104
+  const cy = 104
+  const circumference = 2 * Math.PI * r // ≈ 515
+  const arcLen = circumference * 0.75 // 270° sweep ≈ 386
+  const dashOffset = -(circumference * 0.125) // start at ~225° from top ≈ -64
+  const filled = (score / 100) * arcLen
+
+  const gradeColor =
+    gradient === "G1"
+      ? "#10b981"
+      : gradient === "G2"
+        ? "#06b6d4"
+        : gradient === "G3"
+          ? "#f59e0b"
+          : gradient === "G4"
+            ? "#f43f5e"
+            : "#9f1239"
+
+  return (
+    <div className="relative w-52 h-52 mx-auto">
+      {/* Track arc, rotated -90deg so arc starts from lower-left */}
+      <svg viewBox="0 0 208 208" className="w-full h-full -rotate-90">
+        <defs>
+          <linearGradient id={`${gradId}-grad`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#10b981" />
+            <stop offset="28%" stopColor="#06b6d4" />
+            <stop offset="56%" stopColor="#f59e0b" />
+            <stop offset="84%" stopColor="#f43f5e" />
+            <stop offset="100%" stopColor="#9f1239" />
+          </linearGradient>
+        </defs>
+        {/* Background track */}
+        <circle
+          cx={cx}
+          cy={cy}
+          r={r}
+          fill="none"
+          stroke="#1e293b"
+          strokeWidth="14"
+          strokeDasharray={`${arcLen} ${circumference}`}
+          strokeDashoffset={dashOffset}
+          strokeLinecap="round"
+        />
+        {/* Dim gradient track */}
+        <circle
+          cx={cx}
+          cy={cy}
+          r={r}
+          fill="none"
+          stroke={`url(#${gradId}-grad)`}
+          strokeWidth="14"
+          strokeDasharray={`${arcLen} ${circumference}`}
+          strokeDashoffset={dashOffset}
+          strokeLinecap="round"
+          opacity="0.25"
+        />
+        {/* Progress arc */}
+        <circle
+          cx={cx}
+          cy={cy}
+          r={r}
+          fill="none"
+          stroke={`url(#${gradId}-grad)`}
+          strokeWidth="14"
+          strokeDasharray={`${filled} ${circumference}`}
+          strokeDashoffset={dashOffset}
+          strokeLinecap="round"
+          style={{ transition: "stroke-dasharray 1.4s cubic-bezier(.4,0,.2,1)" }}
+        />
+      </svg>
+      {/* Zone labels, no rotation */}
+      <svg viewBox="0 0 208 208" className="absolute inset-0 w-full h-full">
+        <text
+          x="22"
+          y="170"
+          fill="#10b981"
+          fontSize="8"
+          fontFamily="monospace"
+          textAnchor="middle"
+          opacity="0.7"
+        >
+          Safe
+        </text>
+        <text
+          x="30"
+          y="60"
+          fill="#06b6d4"
+          fontSize="8"
+          fontFamily="monospace"
+          textAnchor="middle"
+          opacity="0.7"
+        >
+          G1–2
+        </text>
+        <text
+          x="104"
+          y="18"
+          fill="#f59e0b"
+          fontSize="8"
+          fontFamily="monospace"
+          textAnchor="middle"
+          fontWeight="bold"
+        >
+          G3
+        </text>
+        <text
+          x="178"
+          y="60"
+          fill="#f43f5e"
+          fontSize="8"
+          fontFamily="monospace"
+          textAnchor="middle"
+          opacity="0.7"
+        >
+          G4
+        </text>
+        <text
+          x="186"
+          y="170"
+          fill="#9f1239"
+          fontSize="8"
+          fontFamily="monospace"
+          textAnchor="middle"
+          opacity="0.7"
+        >
+          Max
+        </text>
+      </svg>
+      {/* Center readout */}
+      <div
+        data-meter-score={score}
+        className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none"
+      >
+        <span className="text-3xl font-black font-mono leading-none" style={{ color: gradeColor }}>
+          {gradient}
+        </span>
+        <span className="text-[10px] text-muted-foreground font-mono mt-1">
+          {ILO_GRADIENTS[gradient as keyof typeof ILO_GRADIENTS]?.label ?? "Gradient"}
+        </span>
+        <span className="text-[9px] font-semibold mt-0.5" style={{ color: gradeColor + "cc" }}>
+          {score >= 70
+            ? "High"
+            : score >= 50
+              ? "Moderate–High"
+              : score >= 30
+                ? "Moderate"
+                : "Lower"}
+        </span>
+      </div>
+    </div>
+  )
+}
 
 function Meter() {
   const { profile, confirmed, ready, confirm } = useCareerProfile()
@@ -65,12 +235,14 @@ function Meter() {
   const role: MeterModel | undefined = demoRole ?? iscoRole
   const focus = overrideFocus || (!example && confirmed ? profile.taskFocus : "") || "routine"
   const escalations = focus === "escalations"
+
   if (!ready)
     return (
       <p className="p-8 text-[16px]" role="status">
         Loading your profile…
       </p>
     )
+
   if (!example && !confirmed && canConfirmProfile(profile)) {
     const draftRole = occupationModels.find(
       (model) => model.id === baselineIdForOccupation(profile.primaryOccupation),
@@ -107,12 +279,14 @@ function Meter() {
       </div>
     )
   }
+
   if (useIsco && isco === null)
     return (
       <p className="p-8 text-[16px]" role="status">
         Loading your Meter…
       </p>
     )
+
   if (!role)
     return (
       <div className={editorialPage}>
@@ -156,275 +330,431 @@ function Meter() {
         <ProfileSheet open={editing} onOpenChange={setEditing} />
       </div>
     )
+
   const tasks = role.tasks
   const weights = taskWeights(role, focus)
   const score = computeExposure(tasks.map((task, i) => ({ ...task, weight: weights[i]! })))
+  const exposures = tasks.map((t) => t.exposure)
+  const { mean, sd } = taskStats(exposures)
+  const gradient = iloGradient(mean, sd)
+  const gradientTag = gradient.startsWith("G") ? `Gradient ${gradient.slice(1)}` : gradient
+  const gradientInfo = ILO_GRADIENTS[gradient as keyof typeof ILO_GRADIENTS]
+
+  const scoreColor =
+    score >= 60 ? "text-rose-400" : score >= 40 ? "text-amber-400" : "text-emerald-400"
+
+  const scoreLabel =
+    score >= 60 ? "High exposure" : score >= 40 ? "Moderate exposure" : "Low exposure"
+
   return (
-    <div className="grid min-h-[calc(100dvh-48px)] grid-cols-[minmax(390px,46%)_minmax(0,1fr)] max-[1100px]:grid-cols-[minmax(350px,1fr)_minmax(0,1fr)] max-[850px]:block">
-      <section className="flex min-w-0 flex-col border-r max-[850px]:border-r-0">
-        <div className="flex h-[41px] items-center justify-between border-b px-[22px] text-[12px] tracking-[0.8px] text-muted-foreground">
-          <span className="flex items-center gap-[7px]">
-            <span className={statusDot} /> YOUR WORK, DECODED
-          </span>
+    <div className="min-h-[calc(100dvh-48px)] bg-background text-foreground">
+      {/* ILO source banner */}
+      {iscoRole && (
+        <div className="mx-4 mt-4 lg:mx-8 flex items-center gap-3 rounded-2xl border border-cyan-800/40 bg-cyan-950/20 px-5 py-3">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-cyan-950/60">
+            <FileText className="h-4 w-4 text-cyan-400" />
+          </div>
+          <div>
+            <span className="font-mono text-xs font-bold text-cyan-300">
+              ILO Working Paper 140 · May 2025 · {iscoRole.iscoTitle ?? iscoRole.isco}
+            </span>
+            <p className="mt-0.5 text-[11px] text-muted-foreground">
+              Deterministic Adoption Engine · {iscoRole.gradient} classification ·{" "}
+              {exposures.length} task records triangulated
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* ── HERO: gauge + score ── */}
+      <div className="mx-4 mt-4 lg:mx-8 grid grid-cols-1 gap-4 lg:grid-cols-12">
+        {/* Arc gauge panel */}
+        <div className="lg:col-span-4 flex flex-col items-center justify-center rounded-3xl border border-border bg-card/60 p-6 backdrop-blur-sm">
+          <div className="mb-4 flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground">
+            <Activity className="h-3.5 w-3.5 text-cyan-400" />
+            ILO Gradient Classifier
+          </div>
+          <ArcGauge score={score} gradient={gradient} />
+          {iscoRole && (
+            <div className="mt-3 flex items-center gap-1.5 rounded-xl border border-amber-900/40 bg-amber-950/20 px-3 py-1.5 font-mono text-[10px] text-amber-500/70">
+              <TriangleAlert className="h-3 w-3" />
+              ILO values approximate for {iscoRole.isco}
+            </div>
+          )}
+          <div className="mt-3 w-full rounded-xl border border-border bg-muted p-3">
+            <div className="mb-1 font-mono text-[10px] text-cyan-400 font-bold">
+              E = 100 × Σ(w<sub>i</sub> × e<sub>i</sub>)
+            </div>
+            <p className="text-[10px] text-muted-foreground">
+              Weights adjusted by reported daily gravity. Reflects actual task composition.
+            </p>
+          </div>
+        </div>
+
+        {/* Score + info panel */}
+        <div className="lg:col-span-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {/* Potential exposure card */}
+          <div className="flex flex-col justify-between rounded-2xl border border-border bg-card/60 p-5 backdrop-blur-sm">
+            <div>
+              <div className="mb-3 flex items-center justify-between">
+                <span className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase text-foreground/70">
+                  <Zap className="h-3.5 w-3.5 text-amber-400" /> Potential Exposure
+                </span>
+                <span className="rounded-full border border-amber-800/60 bg-amber-950/60 px-2 py-0.5 font-mono text-[10px] text-amber-300">
+                  {gradientTag}
+                </span>
+              </div>
+              <div className="mb-1 text-base font-bold text-white">{scoreLabel}</div>
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                {iscoRole
+                  ? `ILO WP140 (May 2025) places ${iscoRole.iscoTitle ?? iscoRole.isco} in the ${gradientTag.toLowerCase()} — ${gradientInfo?.meaning ?? "based on task-level AI capability scores"}.`
+                  : "Illustrative demo inputs based on task-level AI capability scores."}
+              </p>
+            </div>
+            <div className="mt-4 border-t border-border pt-3" aria-live="polite">
+              <div className="mb-1.5 flex items-center justify-between font-mono text-[9px] text-muted-foreground">
+                <span>Not Exposed</span>
+                <span className="font-bold text-amber-400">{score.toFixed(1)} / 100</span>
+                <span>Max</span>
+              </div>
+              <div className="relative h-2 overflow-hidden rounded-full bg-border">
+                <div className="h-full w-full rounded-full bg-gradient-to-r from-emerald-500 via-amber-500 to-rose-500 opacity-30" />
+                <div
+                  className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-emerald-500 via-amber-500 to-rose-500 transition-[width] duration-700"
+                  style={{ width: `${score}%` }}
+                />
+              </div>
+              <p className="mt-1.5 font-mono text-[10px] text-muted-foreground">
+                μ={mean.toFixed(2)} · σ={sd.toFixed(2)} ·{" "}
+                {iscoRole ? `ILO ISCO-08 ${iscoRole.isco}` : "illustrative inputs"}
+              </p>
+            </div>
+          </div>
+
+          {/* Observed adoption card */}
+          <div className="flex flex-col justify-between rounded-2xl border border-border bg-card/60 p-5 backdrop-blur-sm">
+            <div>
+              <div className="mb-3 flex items-center justify-between">
+                <span className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase text-foreground/70">
+                  <TrendingUp className="h-3.5 w-3.5 text-cyan-400" /> Observed Adoption
+                </span>
+                <span className="rounded-full border border-cyan-800/60 bg-cyan-950/60 px-2 py-0.5 font-mono text-[10px] text-cyan-300">
+                  Emerging
+                </span>
+              </div>
+              <div className="mb-1 text-base font-bold text-white">Emerging Phase</div>
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                Global deployment signals indicate early-stage consistent adoption. Regional data
+                pending for Indonesia-specific rollout waves.
+              </p>
+            </div>
+            <div className="mt-4 border-t border-border pt-3">
+              <svg viewBox="0 0 200 40" className="h-10 w-full">
+                <path
+                  d="M 10 35 Q 50 35 80 28 Q 110 20 130 10 Q 155 2 190 2"
+                  fill="none"
+                  stroke="#1e293b"
+                  strokeWidth="2"
+                />
+                <path
+                  d="M 10 35 Q 50 35 80 28 Q 110 20 130 10 Q 155 2 190 2"
+                  fill="none"
+                  stroke="#06b6d4"
+                  strokeWidth="2"
+                  strokeDasharray="5 3"
+                  opacity="0.5"
+                />
+                <circle cx="65" cy="31" r="4" fill="#00f2fe" />
+                <text
+                  x="68"
+                  y="26"
+                  fill="#00f2fe"
+                  fontSize="7"
+                  fontFamily="monospace"
+                  fontWeight="bold"
+                >
+                  S_adj emerging
+                </text>
+                <text x="10" y="40" fill="#475569" fontSize="6" fontFamily="monospace">
+                  Minimal
+                </text>
+                <text x="150" y="40" fill="#475569" fontSize="6" fontFamily="monospace">
+                  Mature
+                </text>
+              </svg>
+              <p className="mt-1 font-mono text-[10px] text-muted-foreground">
+                Adoption model · engine v0.2 · signals triangulated
+              </p>
+            </div>
+          </div>
+
+          {/* Employment outcomes card */}
+          <div className="flex flex-col justify-between rounded-2xl border border-border bg-card/60 p-5 backdrop-blur-sm">
+            <div>
+              <div className="mb-3 flex items-center justify-between">
+                <span className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase text-foreground/70">
+                  <MapPin className="h-3.5 w-3.5 text-purple-400" /> Employment Outcomes
+                </span>
+                <span className="rounded-full border border-purple-800/60 bg-purple-950/60 px-2 py-0.5 font-mono text-[10px] text-purple-300">
+                  Regional Gap
+                </span>
+              </div>
+              <div className="mb-1 text-base font-bold text-white">Indonesia: Data Pending</div>
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                No verified local employment outcome data available. Global signals show net
+                headcount contraction in transactional roles, partially offset by role redefinition.
+              </p>
+            </div>
+            <div className="mt-4 flex items-start gap-2 border-t border-border pt-3">
+              <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-purple-900/60">
+                <MapPin className="h-3 w-3 text-purple-400" />
+              </div>
+              <p className="font-mono text-[10px] text-muted-foreground">
+                Regional evidence share: 78%. Indonesia-specific deployment data needed.
+              </p>
+            </div>
+          </div>
+
+          {/* Evidence confidence card */}
+          <div className="flex flex-col justify-between rounded-2xl border border-border bg-card/60 p-5 backdrop-blur-sm">
+            <div>
+              <div className="mb-3 flex items-center justify-between">
+                <span className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase text-foreground/70">
+                  <Shield className="h-3.5 w-3.5 text-emerald-400" /> Evidence Confidence
+                </span>
+                <span className="rounded-full border border-rose-800/60 bg-rose-950/60 px-2 py-0.5 font-mono text-[10px] text-rose-300">
+                  Overall: Low
+                </span>
+              </div>
+              <div className="mb-1 text-base font-bold text-white">Source Quality</div>
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                Independence and regional coverage are strong. Recency flag: most evidence predates
+                mid-2024 Indonesia deployment rollout.
+              </p>
+            </div>
+            <div className="mt-4 space-y-2 border-t border-border pt-3">
+              {[
+                ["Independence", "High", "text-emerald-400"],
+                ["Regional", "High", "text-emerald-400"],
+                ["Recency", "Low", "text-rose-400"],
+              ].map(([label, value, color]) => (
+                <div key={label} className="flex items-center justify-between text-xs">
+                  <span className="flex items-center gap-2 text-muted-foreground">
+                    <span
+                      className={cn(
+                        "inline-block h-2.5 w-2.5 rounded-full",
+                        color === "text-emerald-400" ? "bg-emerald-400" : "bg-rose-400",
+                      )}
+                    />
+                    {label}
+                  </span>
+                  <span className={cn("font-mono font-bold", color)}>{value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── ROLE HEADER + TASK MIX ── */}
+      <div className="mx-4 mt-4 lg:mx-8 rounded-2xl border border-border bg-card/40 px-5 py-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+              Your Role
+            </p>
+            <p className="mt-1 text-base font-semibold text-white">{role.title}</p>
+            <span className="font-mono text-[12px] text-muted-foreground">{role.code}</span>
+          </div>
           <Button
             variant="ghost"
             size="sm"
+            className="text-slate-400 hover:text-foreground"
             onClick={() => {
               setOverrideFocus(null)
               setOverrideRole(null)
             }}
           >
-            <RotateCcw /> Reset
+            <RotateCcw className="mr-1 h-3.5 w-3.5" /> Reset
           </Button>
         </div>
-        <div className="px-[30px] pt-[29px] max-[1100px]:px-[22px] min-[1600px]:px-10 min-[1600px]:pt-10">
-          <div className="flex items-center justify-between">
-            <p className={eyebrow}>01 / THE METER</p>
-            <span className={smallTag}>TASK EXPOSURE</span>
-          </div>
-          <h1 className="mt-5 text-[clamp(28px,2.7vw,42px)] font-[450] leading-[1.15] tracking-[-1.6px] max-[850px]:text-[36px]">
-            Your AI exposure
-          </h1>
-          <p className="mt-3.5 max-w-[360px] text-[16px] leading-[1.8] text-muted-foreground">
-            See which tasks AI can handle.
-          </p>
-          <div className="mt-3 flex flex-wrap gap-2 py-[13px] text-[13px] leading-[1.7] text-muted-foreground">
-            <p>
-              {iscoRole
-                ? `ILO task-level exposure · ${iscoRole.gradient}`
-                : example ||
-                    !confirmed ||
-                    (overrideRole &&
-                      !profile.occupations.some((id) => baselineIdForOccupation(id) === role.id))
-                  ? "Example radar · illustrative task inputs"
-                  : `Your confirmed profile${profile.preferredName ? ` · ${profile.preferredName}` : ""} · demo task inputs`}
-            </p>
-            <Link href="/home" className="flex items-center gap-[5px]">
-              Edit profile <ArrowUpRight className="size-3" />
-            </Link>
-          </div>
-          <div className="mt-[26px] border px-[15px] py-[13px]">
-            <span className={eyebrow}>YOUR ROLE</span>
-            <p className="my-1 text-[16px]">{role.title}</p>
-            <span className="font-mono text-[13px] text-muted-foreground">{role.code}</span>
-          </div>
-          {!example && confirmed && profile.occupations.length > 1 && (
-            <div
-              className={cn(answerChips, "mt-3")}
-              aria-label="Choose which occupation baseline to view"
-            >
-              {occupationModels
-                .filter((model) =>
-                  profile.occupations.some((id) => baselineIdForOccupation(id) === model.id),
-                )
-                .map((model) => (
-                  <Button
-                    variant="outline"
-                    key={model.id}
-                    aria-pressed={role.id === model.id}
-                    onClick={() => {
-                      setOverrideRole(model.id)
-                      setOverrideFocus(null)
-                    }}
-                  >
-                    {model.title}
-                  </Button>
-                ))}
-              <p className={fieldHelp}>Scores shown per role.</p>
-            </div>
-          )}
-          {!iscoRole && !example && confirmed && !profile.taskFocus && (
-            <p className={cn(fieldHelp, "mt-3")}>Default task mix. Adjust below.</p>
-          )}
-          {iscoRole ? (
-            <details className={cn(fieldHelp, "mt-3")}>
-              <summary className="cursor-pointer">Source & mapping</summary>
-              <p className="mt-2">
-                ILO WP140 (2025) · Equal task weights. Task-mix controls do not apply.
-              </p>
-              <p className="mt-1">
-                {iscoRole.crosswalkMatch === "ai"
-                  ? `AI-assisted ISCO mapping: ${iscoRole.mappingNote}`
-                  : `ESCO–O*NET crosswalk (${iscoRole.crosswalkMatch}): ${iscoRole.mappingNote}`}
-              </p>
-            </details>
-          ) : (
-            <fieldset className="mt-[22px]">
-              <legend className={eyebrow}>WHAT FILLS MOST OF YOUR DAY?</legend>
-              <div className={cn(segmentControl, "flex-wrap")}>
+
+        {!example && confirmed && profile.occupations.length > 1 && (
+          <div className={cn(answerChips, "mt-3")}>
+            {occupationModels
+              .filter((model) =>
+                profile.occupations.some((id) => baselineIdForOccupation(id) === model.id),
+              )
+              .map((model) => (
                 <Button
-                  variant="ghost"
-                  className={cn(segmentButton, "min-w-[110px]")}
-                  aria-pressed={focus === "routine"}
-                  onClick={() => setOverrideFocus("routine")}
+                  variant="outline"
+                  key={model.id}
+                  aria-pressed={role.id === model.id}
+                  onClick={() => {
+                    setOverrideRole(model.id)
+                    setOverrideFocus(null)
+                  }}
                 >
-                  Routine & transactions
+                  {model.title}
                 </Button>
-                <Button
-                  variant="ghost"
-                  className={cn(segmentButton, "min-w-[110px]")}
-                  aria-pressed={escalations}
-                  onClick={() => setOverrideFocus("escalations")}
-                >
-                  Escalations & exceptions
-                </Button>
-                <Button
-                  variant="ghost"
-                  className={cn(segmentButton, "min-w-[110px]")}
-                  aria-pressed={focus === "mixed"}
-                  onClick={() => setOverrideFocus("mixed")}
-                >
-                  A bit of both
-                </Button>
-              </div>
-              <p className={cn(fieldHelp, "mt-3")}>
-                Preview a task mix. Reset restores saved values.
-              </p>
-            </fieldset>
-          )}
-          <div className="pt-[27px] pb-[22px]" aria-live="polite">
-            <div className="flex items-end justify-between">
-              <div>
-                <p className={eyebrow}>TASK EXPOSURE</p>
-                <div
-                  data-meter-score
-                  className="text-[65px] font-normal leading-[1.2] tracking-[-4px] tabular-nums"
-                >
-                  {score.toFixed(1)}
-                  <span className="ml-2 text-[17px] tracking-[-0.5px] text-muted-foreground">
-                    / 100
-                  </span>
-                </div>
-              </div>
-              <span
-                className={cn(
-                  "mb-3.5 flex items-center gap-1.5 text-[13px]",
-                  score >= 60
-                    ? "text-red-700 dark:text-red-400"
-                    : score >= 40
-                      ? "text-yellow-700 dark:text-yellow-400"
-                      : "text-emerald-700 dark:text-emerald-400",
-                )}
+              ))}
+          </div>
+        )}
+
+        {!iscoRole && (
+          <fieldset className="mt-4">
+            <legend className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">
+              What fills most of your day?
+            </legend>
+            <div className={cn(segmentControl, "flex-wrap")}>
+              <Button
+                variant="ghost"
+                className={cn(segmentButton, "min-w-[110px]")}
+                aria-pressed={focus === "routine"}
+                onClick={() => setOverrideFocus("routine")}
               >
-                {score >= 60 ? "High exposure" : score >= 40 ? "Moderate exposure" : "Low exposure"}
-                <ArrowUpRight className="size-3.5" />
-              </span>
+                Routine & transactions
+              </Button>
+              <Button
+                variant="ghost"
+                className={cn(segmentButton, "min-w-[110px]")}
+                aria-pressed={escalations}
+                onClick={() => setOverrideFocus("escalations")}
+              >
+                Escalations & exceptions
+              </Button>
+              <Button
+                variant="ghost"
+                className={cn(segmentButton, "min-w-[110px]")}
+                aria-pressed={focus === "mixed"}
+                onClick={() => setOverrideFocus("mixed")}
+              >
+                A bit of both
+              </Button>
             </div>
-            <div className="mt-[17px] mb-2 h-[7px] bg-muted">
-              <div
-                className="h-full bg-linear-to-r from-emerald-500 via-yellow-400 to-red-500 transition-[clip-path] duration-400 motion-reduce:transition-none"
-                style={{ clipPath: `inset(0 ${100 - score}% 0 0)` }}
-              />
-            </div>
-            <div className="flex justify-between text-[13px] text-muted-foreground">
-              <span>Less exposed</span>
-              <span>More exposed</span>
-            </div>
-            <p className="mt-[15px] text-[13px] text-muted-foreground">
-              Exposure measures AI capability, not job-loss risk.
+          </fieldset>
+        )}
+
+        {iscoRole && (
+          <details className="mt-3 text-[11px] text-muted-foreground">
+            <summary className="cursor-pointer font-mono">Source & mapping</summary>
+            <p className="mt-2">
+              ILO WP140 (2025) · Equal task weights. Task-mix controls do not apply.
             </p>
-          </div>
+            <p className="mt-1">
+              {iscoRole.crosswalkMatch === "ai"
+                ? `AI-assisted ISCO mapping: ${iscoRole.mappingNote}`
+                : `ESCO–O*NET crosswalk (${iscoRole.crosswalkMatch}): ${iscoRole.mappingNote}`}
+            </p>
+          </details>
+        )}
+      </div>
+
+      {/* ── TASK BREAKDOWN ── */}
+      <div className="mx-4 mt-4 lg:mx-8">
+        <div className="flex h-9 items-center justify-between rounded-t-2xl border border-b-0 border-border bg-card/60 px-5 font-mono text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
+          <span>Task Breakdown</span>
+          <span>Weight / AI Capability</span>
         </div>
-        <div className="flex h-9 items-center justify-between border-y px-[30px] text-[12px] tracking-[0.8px] text-muted-foreground">
-          <span>TASK BREAKDOWN</span>
-          <span>WEIGHT / AI CAPABILITY</span>
-        </div>
-        <div className="px-[30px] min-[1600px]:px-10">
+        <div
+          className="rounded-b-2xl border border-border bg-background/80 px-5"
+          aria-live="polite"
+        >
           {tasks.map((task, i) => (
-            <div className="flex items-center gap-[11px] border-b py-[17px]" key={task.name}>
-              <span className="self-start pt-[3px] font-mono text-[12px] text-[#aaa]">
-                0{i + 1}
+            <div
+              key={task.name}
+              className="flex items-center gap-3 border-b border-border py-4 last:border-b-0"
+            >
+              <span className="w-5 shrink-0 self-start pt-0.5 font-mono text-[11px] text-muted-foreground">
+                {String(i + 1).padStart(2, "0")}
               </span>
               <div className="min-w-0 flex-1">
-                <p className="text-[14px] leading-[1.5]">{task.name}</p>
+                <p className="text-[14px] leading-snug text-foreground">{task.name}</p>
                 <span
                   className={cn(
-                    "text-[12px]",
+                    "text-[11px] font-mono",
                     task.exposure >= 0.6
-                      ? "text-red-700 dark:text-red-400"
+                      ? "text-rose-400"
                       : task.exposure >= 0.4
-                        ? "text-yellow-700 dark:text-yellow-400"
-                        : "text-emerald-700 dark:text-emerald-400",
+                        ? "text-amber-400"
+                        : "text-emerald-400",
                   )}
                 >
                   {task.moat ? "Human advantage" : "Automation exposed"}
                 </span>
               </div>
-              <div className="w-24 shrink-0 text-right font-mono text-[13px]">
-                <span>
+              <div className="w-24 shrink-0 text-right font-mono text-[12px]">
+                <span className="text-foreground/70">
                   {Math.round(weights[i]! * 100)}%{" "}
                   <span className="text-muted-foreground">
                     / {Math.round(task.exposure * 100)}%
                   </span>
                 </span>
-                <div className="mt-[7px] h-[3px] bg-muted">
+                <div className="mt-1.5 h-[3px] overflow-hidden rounded-full bg-border">
                   <div
-                    className="h-full bg-linear-to-r from-emerald-500 via-yellow-400 to-red-500"
-                    style={{ clipPath: `inset(0 ${100 - task.exposure * 100}% 0 0)` }}
+                    className="h-full bg-gradient-to-r from-emerald-500 via-amber-400 to-rose-500"
+                    style={{ width: `${task.exposure * 100}%` }}
                   />
                 </div>
               </div>
             </div>
           ))}
         </div>
-        <div className="flex justify-between gap-2.5 px-[30px] pt-[15px] pb-6 text-[12px] text-muted-foreground">
-          <span className="font-mono">E = 100 × Σ(wᵢ × eᵢ)</span>
-          <Link href="/resources" className="flex items-center gap-1">
-            See the math <ArrowUpRight className="size-3" />
-          </Link>
-        </div>
-        <RadarFooter />
-      </section>
-      <aside className="min-w-0 bg-[#fafafa] px-[30px] max-[1100px]:px-4 max-[850px]:border-t max-[850px]:pb-[25px] min-[1600px]:px-10 dark:bg-[#191919]">
-        <PanelHeading variant="panel" kicker="YOUR NEXT MOVE" title="Build on your strengths">
-          Find skills worth building next.
-        </PanelHeading>
-        <div className="relative flex items-center justify-between gap-2.5 overflow-hidden bg-mauve-wash px-6 py-[22px] dark:bg-muted">
-          <div>
-            <p className="relative z-1 text-[16px] text-[#3d343a] dark:text-foreground">
-              Turn insight into action.
-            </p>
-            <span className="mt-1.5 block text-[14px] text-[#7a6d75] dark:text-muted-foreground">
-              Start with your human strengths.
-            </span>
-            <Link
-              href="/roadmap"
-              className="relative z-1 mt-[11px] flex items-center gap-1.5 text-[14px] text-[#78516c] dark:text-foreground"
-            >
-              Explore career paths <ArrowRight className="size-3.5" />
-            </Link>
-          </div>
-          <div
-            className="grid size-[87px] shrink-0 -rotate-20 place-items-center rounded-full border border-[#c6b0bf] outline outline-offset-[9px] outline-[#d6c3d0] max-[1100px]:hidden dark:border-border dark:outline-border"
-            aria-hidden="true"
+        <div className="flex justify-between px-5 py-3 font-mono text-[11px] text-muted-foreground">
+          <span>E = 100 × Σ(wᵢ × eᵢ)</span>
+          <Link
+            href="/resources"
+            className="flex items-center gap-1 hover:text-cyan-400 transition-colors"
           >
-            <Fingerprint
-              className="size-[51px] text-[#b49eae] dark:text-muted-foreground"
-              strokeWidth={0.8}
-            />
-          </div>
-        </div>
-        <RadarEvidence
-          exposures={tasks.map((task) => task.exposure)}
-          isco={iscoRole ? { code: iscoRole.isco, title: iscoRole.iscoTitle } : null}
-          crosswalkMatch={iscoRole?.crosswalkMatch}
-        />
-        <div className="mt-[30px]">
-          <p className={cn(eyebrow, "mx-4 mb-[18px]")}>EXPLORE</p>
-          <Link href="/insights" className={nextStepLink}>
-            <span className="shrink-0">AI trends</span>
-            <ArrowUpRight className="ml-auto size-[13px] shrink-0 text-muted-foreground" />
-          </Link>
-          <Link href="/roadmap" className={nextStepLink}>
-            <span className="shrink-0">Choose a direction</span>
-            <ArrowUpRight className="ml-auto size-[13px] shrink-0 text-muted-foreground" />
-          </Link>
-          <Link href="/resources" className={nextStepLink}>
-            <span className="shrink-0">Check the evidence</span>
-            <ArrowUpRight className="ml-auto size-[13px] shrink-0 text-muted-foreground" />
+            See the math <ArrowUpRight className="h-3 w-3" />
           </Link>
         </div>
-      </aside>
+      </div>
+
+      {/* ── CONFIDENCE CALLOUT ── */}
+      <div className="mx-4 mt-4 mb-6 lg:mx-8 flex items-start gap-3 rounded-2xl border border-amber-800/40 bg-amber-950/10 p-4">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-amber-900/40">
+          <TriangleAlert className="h-4 w-4 text-amber-400" />
+        </div>
+        <div>
+          <p className="mb-1 text-xs font-bold text-amber-300">
+            Recency Flag: Evidence Transparency Notice
+          </p>
+          <p className="text-[11px] leading-relaxed text-muted-foreground">
+            Most evidence records predate the 2024 Indonesia-specific deployment wave for AI tools.
+            The overall confidence is <span className="text-rose-400 font-semibold">Low</span> not
+            because the global signal is weak, but because the regional recency gap has not been
+            closed. This will upgrade automatically as new verified records are ingested.{" "}
+            <span className="text-amber-400">
+              Voxian does not inflate confidence to appear more decisive.
+            </span>
+          </p>
+        </div>
+      </div>
+
+      {/* Quick-nav footer */}
+      <div className="mx-4 mb-8 flex flex-wrap gap-3 lg:mx-8">
+        <Link
+          href="/insights"
+          className="flex items-center gap-1.5 rounded-xl border border-border bg-card/40 px-4 py-2.5 text-[13px] text-muted-foreground transition-colors hover:border-cyan-800/60 hover:text-cyan-300"
+        >
+          AI trends <ArrowUpRight className="h-3 w-3" />
+        </Link>
+        <Link
+          href="/roadmap"
+          className="flex items-center gap-1.5 rounded-xl border border-border bg-card/40 px-4 py-2.5 text-[13px] text-muted-foreground transition-colors hover:border-cyan-800/60 hover:text-cyan-300"
+        >
+          Choose a direction <ArrowUpRight className="h-3 w-3" />
+        </Link>
+        <Link
+          href="/resources"
+          className="flex items-center gap-1.5 rounded-xl border border-border bg-card/40 px-4 py-2.5 text-[13px] text-muted-foreground transition-colors hover:border-cyan-800/60 hover:text-cyan-300"
+        >
+          Check the evidence <ArrowUpRight className="h-3 w-3" />
+        </Link>
+      </div>
+
+      <ProfileSheet open={editing} onOpenChange={setEditing} />
     </div>
   )
 }

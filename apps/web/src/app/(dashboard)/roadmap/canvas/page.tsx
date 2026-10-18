@@ -1,7 +1,7 @@
 "use client"
 
 import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react"
-import { useTheme } from "next-themes"
+
 import { toast } from "sonner"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
@@ -54,6 +54,41 @@ import {
   largeScreenZoom,
   type RoleNode,
 } from "@/lib/career-canvas"
+
+// Map onboarding answers to the recommended worldline index (0=automate,1=hybrid,2=pivot,3=create)
+function scoreWorldline(strengths: string[], risk: string[]): number {
+  const scores = [0, 0, 0, 0]
+  const s = strengths.join(" ").toLowerCase()
+  const r = risk.join(" ").toLowerCase()
+  // Strength signals
+  if (s.includes("solving") || s.includes("organis") || s.includes("spotting")) {
+    scores[0] += 3
+    scores[1] += 1
+  }
+  if (s.includes("trust") || s.includes("build")) {
+    scores[1] += 3
+    scores[2] += 2
+  }
+  if (s.includes("creat") || s.includes("innovat")) {
+    scores[3] += 3
+    scores[2] += 2
+  }
+  // Risk signals
+  if (r.includes("small") || r.includes("current job") || r.includes("conservative")) {
+    scores[1] += 3
+    scores[0] += 1
+  }
+  if (r.includes("open to related") || r.includes("balanced") || r.includes("moderate")) {
+    scores[2] += 3
+    scores[1] += 1
+  }
+  if (r.includes("bigger change") || r.includes("bold") || r.includes("high")) {
+    scores[0] += 2
+    scores[3] += 2
+    scores[2] += 1
+  }
+  return scores.indexOf(Math.max(...scores))
+}
 
 const strategyHelp: Record<string, string> = {
   automate: "Use AI to automate routine work in your field.",
@@ -256,11 +291,12 @@ function ObstacleEdge({ id, data, style, markerEnd }: EdgeProps) {
   const active = data?.active === true
   return (
     <>
+      {/* Halo glow */}
       <path
         d={path}
         fill="none"
         stroke={style?.stroke}
-        strokeWidth={active ? 10 : 5}
+        strokeWidth={active ? 14 : 5}
         opacity={active ? "var(--navigator-line-glow)" : "var(--navigator-line-glow-idle)"}
         strokeLinecap="round"
         pointerEvents="none"
@@ -269,11 +305,17 @@ function ObstacleEdge({ id, data, style, markerEnd }: EdgeProps) {
       <BaseEdge
         id={id}
         path={path}
-        style={{ ...style, strokeDasharray: "none", strokeLinecap: "round" }}
+        style={{
+          ...style,
+          strokeDasharray: active ? "none" : "6 6",
+          strokeLinecap: "round",
+          opacity: active ? 1 : 0.5,
+        }}
         markerEnd={markerEnd}
       />
       {active && (
         <>
+          {/* Primary energy pulse */}
           <path
             d={path}
             fill="none"
@@ -285,6 +327,21 @@ function ObstacleEdge({ id, data, style, markerEnd }: EdgeProps) {
             pointerEvents="none"
             aria-hidden="true"
           />
+          {/* Second staggered energy wave */}
+          <path
+            d={path}
+            fill="none"
+            stroke={style?.stroke}
+            strokeWidth="2"
+            opacity=".45"
+            strokeLinecap="round"
+            strokeDasharray="8 40"
+            className="navigator-energy"
+            style={{ animationDelay: "0.8s", animationDuration: "1.9s" }}
+            pointerEvents="none"
+            aria-hidden="true"
+          />
+          {/* Spark overlay */}
           <path
             d={path}
             fill="none"
@@ -328,18 +385,27 @@ function CanvasRoute() {
   const requestedPath = params.get("path")
   const requestedRole = params.get("role")
   const { data, status, profileKey } = useNavigator()
+  const { profile } = useCareerProfile()
   if (status !== "ready" || !data) return <NavigatorStatus />
-  const initialPathId = data.paths.find((path) => path.id === requestedPath)?.id ?? null
+  // Derive default worldline from onboarding answers when no explicit path requested
+  const defaultPathId = (() => {
+    if (requestedPath) return data.paths.find((path) => path.id === requestedPath)?.id ?? null
+    const idx = scoreWorldline(
+      Array.isArray(profile.strengths) ? profile.strengths : [],
+      profile.risk ? [profile.risk] : [],
+    )
+    return data.paths[idx]?.id ?? data.paths[0]?.id ?? null
+  })()
   return (
     <NavigatorCanvas
       key={`${profileKey}-${requestedPath ?? "all"}-${requestedRole}`}
       data={data}
       initialSelectedId={
-        initialPathId &&
+        defaultPathId &&
         /^(0|[1-9]\d*)$/.test(requestedRole ?? "") &&
-        data.paths.find((path) => path.id === initialPathId)?.roles[Number(requestedRole)]
-          ? `${initialPathId}-role-${requestedRole}`
-          : initialPathId
+        data.paths.find((path) => path.id === defaultPathId)?.roles[Number(requestedRole)]
+          ? `${defaultPathId}-role-${requestedRole}`
+          : defaultPathId
       }
     />
   )
@@ -379,7 +445,7 @@ function NavigatorCanvas({
     }
   }, [data.occupationCode, params])
   const sprint = timelineSprint(profile.timeline) ?? profile.hours === "5+ hours"
-  const { resolvedTheme } = useTheme()
+
   const careerPaths = data.paths
   const careerNodes = buildCareerNodes(careerPaths, data.roleTitle, profile.cvContext)
   const [selectedId, setSelectedId] = useState<string | null>(initialSelectedId)
@@ -482,7 +548,7 @@ function NavigatorCanvas({
           variant="outline"
           disabled={!commitment?.plan}
           onClick={() => setPlanOpen(true)}
-          className="absolute top-3 left-3 z-10 border-border bg-background/90 text-foreground shadow-sm backdrop-blur hover:bg-accent hover:text-accent-foreground"
+          className="absolute top-3 left-3 z-10 border-border bg-card/90 text-foreground shadow-sm backdrop-blur hover:bg-accent hover:text-accent-foreground"
         >
           <BookOpen /> View full plan
         </Button>
@@ -502,7 +568,7 @@ function NavigatorCanvas({
           fitViewOptions={{ padding: 0.18, minZoom: 0.25, maxZoom: defaultZoom }}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
-          colorMode={resolvedTheme === "dark" ? "dark" : "light"}
+          colorMode="dark"
           style={{ background: "var(--background)" }}
           onInit={(instance) => {
             setFlow(instance)
@@ -530,7 +596,7 @@ function NavigatorCanvas({
           className="!bg-background motion-reduce:[&_path]:!animate-none"
           aria-label="Career paths: drag canvas to pan, scroll to zoom, select a role to see details"
         >
-          <Background variant={BackgroundVariant.Dots} gap={32} size={0.6} color="var(--border)" />
+          <Background variant={BackgroundVariant.Dots} gap={32} size={0.6} color="#1e293b" />
           <Controls showInteractive={false} position="bottom-left" className="[&_button]:!size-9" />
         </ReactFlow>
         {selected && (
@@ -543,9 +609,9 @@ function NavigatorCanvas({
                 closeDetails()
               }
             }}
-            className="absolute inset-y-3 right-3 z-10 flex w-[560px] max-w-[calc(100%-24px)] min-[651px]:max-w-[70%] flex-col overflow-hidden rounded-xl border bg-popover text-foreground shadow-lg max-[650px]:top-auto max-[650px]:h-[90%]"
+            className="absolute inset-y-3 right-3 z-10 flex w-[560px] max-w-[calc(100%-24px)] min-[651px]:max-w-[70%] flex-col overflow-hidden rounded-2xl border border-border bg-card/95 text-foreground shadow-2xl backdrop-blur-sm max-[650px]:top-auto max-[650px]:h-[90%]"
           >
-            <header className="relative shrink-0 border-b px-6 pt-6 pb-5 max-[650px]:px-4 max-[650px]:pt-4 max-[650px]:pb-3">
+            <header className="relative shrink-0 border-b border-border px-6 pt-6 pb-5 max-[650px]:px-4 max-[650px]:pt-4 max-[650px]:pb-3">
               <Button
                 variant="ghost"
                 size="icon-sm"
@@ -642,8 +708,10 @@ function NavigatorCanvas({
                     ))}
                   </div>
                 </section>
-                <section className="rounded-lg bg-muted/60 p-4">
-                  <h3 className="mb-2 text-[15px] font-medium">Why this fits your profile</h3>
+                <section className="rounded-xl border border-border bg-muted p-4">
+                  <h3 className="mb-2 text-[15px] font-medium text-foreground">
+                    Why this fits your profile
+                  </h3>
                   <p className="text-[15px] leading-relaxed text-muted-foreground">
                     {selected.why}
                   </p>
@@ -672,8 +740,8 @@ function NavigatorCanvas({
                     ))}
                   </div>
                 </section>
-                <section className="rounded-xl border border-border bg-muted/60 p-5">
-                  <p className="text-[12px] tracking-[1px] text-mauve-deep">
+                <section className="rounded-xl border border-border bg-muted p-5">
+                  <p className="text-[12px] tracking-[1px] text-cyan-400">
                     BUILD PROOF, NOT JUST A CERTIFICATE
                   </p>
                   <h2 className="mt-2 text-[18px]">Your bridge project</h2>
@@ -703,7 +771,7 @@ function NavigatorCanvas({
                         href={resource.href}
                         target="_blank"
                         rel="noreferrer"
-                        className="group block rounded-xl border border-border p-4 transition-colors hover:border-mauve focus-visible:outline-2 focus-visible:outline-ring"
+                        className="group block rounded-xl border border-border bg-muted/60 p-4 transition-colors hover:border-cyan-700/60 focus-visible:outline-2 focus-visible:outline-ring"
                       >
                         <p className="text-[12px] text-muted-foreground">
                           {resource.provider} · {resource.type}
@@ -725,7 +793,7 @@ function NavigatorCanvas({
                 </section>
               </TabsContent>
             </Tabs>
-            <footer className="shrink-0 border-t bg-popover px-6 py-4 max-[650px]:px-4">
+            <footer className="shrink-0 border-t border-border bg-background px-6 py-4 max-[650px]:px-4">
               {commitment?.plan ? (
                 <Button asChild className="h-auto min-h-11 w-full whitespace-normal">
                   <Link href="/progress">
