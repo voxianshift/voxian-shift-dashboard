@@ -86,6 +86,40 @@ export function LumiChatProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
+  // Hydrate persistent turns from server database (lumi_chat_turns)
+  useEffect(() => {
+    let active = true
+    async function loadServerHistory() {
+      try {
+        const res = await fetch("/api/copilot/history", {
+          credentials: "same-origin",
+          signal: AbortSignal.timeout(5000),
+        })
+        if (!res.ok) return
+        const data = await res.json()
+        if (active && Array.isArray(data.history) && data.history.length > 0) {
+          setMessages((prev) => {
+            if (prev.length > 0) return prev
+            return data.history.map(
+              (h: { role: "user" | "assistant"; text: string }, i: number) => ({
+                id: `db-${i}-${Date.now()}`,
+                role: h.role,
+                text: h.text,
+                timestamp: Date.now(),
+              }),
+            )
+          })
+        }
+      } catch {
+        /* ignore */
+      }
+    }
+    void loadServerHistory()
+    return () => {
+      active = false
+    }
+  }, [])
+
   const setIsOpen = useCallback((open: boolean) => {
     setIsOpenState(open)
     try {
@@ -179,6 +213,7 @@ export function LumiChatProvider({ children }: { children: ReactNode }) {
         const response = await fetch("/api/copilot/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
           signal: AbortSignal.timeout(30_000),
           body: JSON.stringify({
             message: trimmed,
@@ -235,6 +270,10 @@ export function LumiChatProvider({ children }: { children: ReactNode }) {
     } catch {
       /* ignore */
     }
+    void fetch("/api/copilot/history", {
+      method: "DELETE",
+      credentials: "same-origin",
+    }).catch(() => {})
   }, [])
 
   return (

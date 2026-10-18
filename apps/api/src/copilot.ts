@@ -3,14 +3,193 @@ import type { FastifyInstance } from "fastify"
 import { z } from "zod"
 import { chatOwner, newChatOwner, type ChatStore } from "./chat-store.ts"
 import { chatConfig, completeJson, generateEmbedding, ProviderAuthError } from "./llm.ts"
-import { copilotChatRequestSchema, copilotChatResultSchema } from "@voxian/shared"
+import {
+  copilotActionSchema,
+  copilotChatRequestSchema,
+  copilotChatResultSchema,
+  type CopilotChatResult,
+} from "@voxian/shared"
+import iscoTasks from "../data/isco-tasks.json" with { type: "json" }
+import onetIsco from "../data/onet-isco.json" with { type: "json" }
+import { lookupPathways } from "./navigator-pathways.ts"
+
+export const copilotTurnSchema = z.strictObject({
+  toolCall: z
+    .strictObject({
+      name: z.enum([
+        "search_occupations",
+        "get_occupation_details",
+        "get_occupation_tasks",
+        "get_career_pathways",
+        "calculate_exposure_radar",
+      ]),
+      parameters: z.record(z.string(), z.string()).optional(),
+    })
+    .nullable()
+    .optional(),
+  reply: z.string().trim().max(4000).optional(),
+  actions: z.array(copilotActionSchema).max(4).default([]),
+  suggestedQuestions: z.array(z.string().max(120)).max(4).default([]),
+})
+
+export function safeJsonParse<T>(text: string, schema: z.ZodType<T>): T {
+  let cleaned = text.trim()
+  if (cleaned.startsWith("```")) {
+    cleaned = cleaned.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "").trim()
+  }
+  const firstBrace = cleaned.indexOf("{")
+  const lastBrace = cleaned.lastIndexOf("}")
+  if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+    cleaned = cleaned.slice(firstBrace, lastBrace + 1)
+  }
+  return schema.parse(JSON.parse(cleaned))
+}
+
+async function executeTool(
+  toolName: string,
+  parameters: Record<string, string> | undefined,
+  catalogue?: OccupationCatalogue,
+): Promise<unknown> {
+  const params = parameters || {}
+  switch (toolName) {
+    case "search_occupations": {
+      const q = (params.query || "").trim()
+      if (!q) return { results: [] }
+      if (catalogue) {
+        try {
+          const results = await catalogue.search(q, 5)
+          if (results && results.length > 0) return { results }
+        } catch {
+          /* fallback to local dataset */
+        }
+      }
+      const lower = q.toLowerCase()
+      const matches: { code: string; title: string; isco: string; iscoTitle: string }[] = []
+      const mapping = onetIsco as Record<string, { isco: string; iscoTitle: string; via: string }>
+      for (const [code, info] of Object.entries(mapping)) {
+        if (
+          info.via.toLowerCase().includes(lower) ||
+          info.iscoTitle.toLowerCase().includes(lower) ||
+          code.includes(lower)
+        ) {
+          matches.push({ code, title: info.via, isco: info.isco, iscoTitle: info.iscoTitle })
+          if (matches.length >= 5) break
+        }
+      }
+      return { results: matches }
+    }
+
+    case "get_occupation_details": {
+      const code = (params.code || "").trim()
+      const mapping = (onetIsco as Record<string, { isco: string; iscoTitle: string; via: string }>)[code]
+      if (!mapping) return { error: `Occupation code ${code} not found in database.` }
+      const iscoData = (iscoTasks as Record<string, { title: string; gradient: string; tasks: unknown[] }>)[mapping.isco]
+      return {
+        code,
+        title: mapping.via,
+        iscoCode: mapping.isco,
+        iscoTitle: mapping.iscoTitle,
+        gradient: iscoData?.gradient || "Unknown",
+        totalTasks: iscoData?.tasks?.length || 0,
+      }
+    }
+
+    case "get_occupation_tasks": {
+      const code = (params.code || "").trim()
+      const mapping = (onetIsco as Record<string, { isco: string; iscoTitle: string; via: string }>)[code]
+      if (!mapping) return { error: `Occupation code ${code} not found in database.` }
+      const iscoData = (
+        iscoTasks as Record<
+          string,
+          { title: string; gradient: string; tasks: { task: string; exposure: number }[] }
+        >
+      )[mapping.isco]
+      if (!iscoData) return { error: `Task breakdown for ISCO ${mapping.isco} not found.` }
+      return {
+        code,
+        title: mapping.via,
+        iscoCode: mapping.isco,
+        gradient: iscoData.gradient,
+        tasks: iscoData.tasks.map((t) => ({
+          name: t.task,
+          exposure: Math.round(t.exposure * 100),
+          isMoat: t.exposure < 0.4,
+        })),
+      }
+    }
+
+    case "get_career_pathways": {
+      const code = (params.code || "").trim()
+      const pathways = lookupPathways(code)
+      if (!pathways || Object.keys(pathways).length === 0) {
+        return { error: `No curated pathways found for occupation code ${code}.` }
+      }
+      return { code, pathways }
+    }
+
+    case "calculate_exposure_radar": {
+      const code = (params.code || "").trim()
+      const focus = params.taskFocus || "routine"
+      const mapping = (onetIsco as Record<string, { isco: string; iscoTitle: string; via: string }>)[code]
+      if (!mapping) return { error: `Occupation code ${code} not found.` }
+      const iscoData = (
+        iscoTasks as Record<
+          string,
+          { title: string; gradient: string; tasks: { task: string; exposure: number }[] }
+        >
+      )[mapping.isco]
+      if (!iscoData || !iscoData.tasks.length) return { error: `No tasks to score for ${code}.` }
+      const n = iscoData.tasks.length
+      const avg = Math.round((iscoData.tasks.reduce((sum, t) => sum + t.exposure, 0) / n) * 100)
+      const sorted = [...iscoData.tasks].sort((a, b) => b.exposure - a.exposure)
+      return {
+        code,
+        title: mapping.via,
+        overallExposure: avg,
+        gradient: iscoData.gradient,
+        focus,
+        topVulnerableTask: sorted[0]?.task,
+        topMoatTask: sorted.find((t) => t.exposure < 0.4)?.task || sorted.at(-1)?.task,
+      }
+    }
+
+    default:
+      return { error: `Unknown tool: ${toolName}` }
+  }
+}
 
 export function registerCopilot(
   app: FastifyInstance,
-  _catalogue?: OccupationCatalogue,
+  catalogue?: OccupationCatalogue,
   store?: ChatStore,
 ) {
   let quota = { started: 0, count: 0 }
+
+  app.get("/copilot/history", async (request, reply) => {
+    reply.header("Cache-Control", "no-store")
+    if (!store) return reply.send({ history: [] })
+    const owner = chatOwner(request)
+    if (!owner) return reply.send({ history: [] })
+    try {
+      const turns = await store.history(owner)
+      return reply.send({ history: turns.slice(-20) })
+    } catch {
+      return reply.send({ history: [] })
+    }
+  })
+
+  app.delete("/copilot/history", async (request, reply) => {
+    reply.header("Cache-Control", "no-store")
+    if (!store) return reply.send({ ok: true })
+    const owner = chatOwner(request)
+    if (!owner) return reply.send({ ok: true })
+    try {
+      await store.clear(owner)
+      return reply.send({ ok: true })
+    } catch {
+      return reply.send({ ok: true })
+    }
+  })
 
   app.post("/copilot/chat", { bodyLimit: 48_000 }, async (request, reply) => {
     reply.header("Cache-Control", "no-store")
@@ -30,7 +209,7 @@ export function registerCopilot(
     const input = parsed.data
 
     const config = chatConfig()
-    // Strict LLM check (Option B)
+    // Strict LLM check
     if (!config?.apiKey) {
       return reply
         .code(503)
@@ -93,6 +272,28 @@ The user's career profile is:
 - Weekly Study Hours: ${input.profile.hours || "Not set"}
 
 ${pageMetrics}${memoryContext}
+AVAILABLE AGENT TOOLS:
+You have access to 5 backend tools to inspect real-world occupation, task, exposure, and pathway data:
+1. "search_occupations": Search occupations by keyword/role name. Parameters: { "query": "<search keyword>" }
+2. "get_occupation_details": Get O*NET and ISCO mapping and exposure gradient. Parameters: { "code": "<O*NET code, e.g. 15-1252.00>" }
+3. "get_occupation_tasks": Inspect all tasks, task exposure percentages, and human moat resilience. Parameters: { "code": "<O*NET code>" }
+4. "get_career_pathways": Retrieve curated transition pathways (Shift, Grow, Leap, Create), destination roles, and required skill focus. Parameters: { "code": "<O*NET code>" }
+5. "calculate_exposure_radar": Calculate dynamic overall exposure score and top vulnerable vs moat tasks. Parameters: { "code": "<O*NET code>", "taskFocus": "routine" | "escalations" | "mixed" }
+
+If you need factual data about a specific occupation code, tasks, exposure score, or pathways to answer the user's question accurately, you may request a tool call in your JSON response by returning:
+{
+  "toolCall": {
+    "name": "<tool_name>",
+    "parameters": { ... }
+  }
+}
+When you have the data needed (or for general/conceptual questions), provide the final response:
+{
+  "reply": "<your rich markdown answer>",
+  "actions": [ ... ],
+  "suggestedQuestions": [ ... ]
+}
+
 Key Knowledge:
 - G1, G2, G3 Exposure Levels:
   * G1: Low AI exposure (<25% task automation potential). Physical, manual, high emotional labor, or situational-dependent tasks.
@@ -136,25 +337,72 @@ ANSWER STYLE & DEPTH GUIDELINES:
 5. Provide 2-3 engaging, contextual follow-up questions in suggestedQuestions.
 Return pure JSON matching the specified schema.`
 
-      const schema = z.toJSONSchema(copilotChatResultSchema)
-      let text: string
-      try {
-        text = await completeJson(config, systemPrompt, input, schema, 3000)
-      } catch (error) {
-        if (error instanceof ProviderAuthError) {
-          return reply.code(503).send({
-            error: `${config.label} credentials were not accepted. Please check API configuration.`,
-          })
+      let currentInput: unknown = input
+      let toolObservations = ""
+      let result: CopilotChatResult | null = null
+
+      const stepSchema = z.toJSONSchema(copilotTurnSchema)
+      const finalSchema = z.toJSONSchema(copilotChatResultSchema)
+
+      for (let step = 0; step < 2; step++) {
+        const promptWithObservations = toolObservations
+          ? `${systemPrompt}\n\n## Tools Data Retrieved from Database:\n${toolObservations}\nNow deliver your complete, high-quality final response with actionable recommendations.`
+          : systemPrompt
+
+        const isLastStep = step === 1
+        const activeSchema = isLastStep ? finalSchema : stepSchema
+        let text: string
+        try {
+          text = await completeJson(
+            config,
+            promptWithObservations,
+            currentInput,
+            activeSchema,
+            3000,
+          )
+        } catch (error) {
+          if (error instanceof ProviderAuthError) {
+            return reply.code(503).send({
+              error: `${config.label} credentials were not accepted. Please check API configuration.`,
+            })
+          }
+          throw error
         }
-        throw error
+
+        if (isLastStep) {
+          result = safeJsonParse(text, copilotChatResultSchema)
+          break
+        }
+
+        const turn = safeJsonParse(text, copilotTurnSchema)
+        if (turn.toolCall && turn.toolCall.name) {
+          const observation = await executeTool(turn.toolCall.name, turn.toolCall.parameters, catalogue)
+          toolObservations += `\n[Tool Output for ${turn.toolCall.name} with ${JSON.stringify(turn.toolCall.parameters)}]:\n${JSON.stringify(observation, null, 2)}\n`
+          currentInput = {
+            ...input,
+            toolObservation: observation,
+          }
+          continue
+        }
+
+        result = copilotChatResultSchema.parse({
+          reply:
+            turn.reply ||
+            "I am here to help you navigate your career transition and AI exposure radar.",
+          actions: turn.actions || [],
+          suggestedQuestions: turn.suggestedQuestions || [],
+        })
+        break
       }
 
-      const result = copilotChatResultSchema.parse(JSON.parse(text || "{}"))
+      if (!result) {
+        throw new Error("Failed to produce copilot response.")
+      }
 
-      // Asynchronously persist turn into vector memory & chat turns
+      // Synchronously or asynchronously persist turn into database (lumi_chat_turns & memories)
       if (store && owner) {
         if (store.append) {
-          void store.append(owner, input.message, result.reply).catch(() => {})
+          await store.append(owner, input.message, result.reply).catch(() => {})
         }
         if (store.saveMemory) {
           void store.saveMemory(owner, input.message, result.reply, queryEmbedding).catch(() => {})
