@@ -54,7 +54,9 @@ flowchart LR
   Web -->|Build-time /api/* rewrite| API[Cloud Run: voxian-api]
   API -->|pg via attached Cloud SQL Unix socket| SQL[(Cloud SQL: voxian-db / voxian)]
   Secrets[Secret Manager] -->|DATABASE_URL and configured API secrets| API
-  API -->|ADC service-account token: current provider| Vertex[Gemini on Vertex AI]
+  Secrets -->|GEMINI_API_KEY| API
+  API -->|API key: current provider| Gemini[Gemini on Google AI Studio]
+  API -.->|ADC token: demo switch only| Vertex[Gemini on Vertex AI]
   Data[JSON datasets in API image] --> API
 ```
 
@@ -67,8 +69,8 @@ Browsers receive no PostgreSQL credentials or server AI keys.
 | Google Cloud project / region          | `voxian-shift-app` / `asia-southeast1`                                                                       |
 | Frontend URL                           | [voxian-web](https://voxian-web-184581024855.asia-southeast1.run.app)                                        |
 | API URL                                | [voxian-api](https://voxian-api-184581024855.asia-southeast1.run.app)                                        |
-| Deployed application revision          | Both images tagged `df08dec2c9640102b6964945622cca8e351e4447`                                                |
-| Web / API Cloud Run revisions          | `voxian-web-00026-n2v` / `voxian-api-00032-7w2`                                                              |
+| Deployed application revision          | Both images tagged `9f4c6edc6dc89374437e728178b2b6fa3681bcdb`                                                |
+| Web / API Cloud Run revisions          | `voxian-web-00034-f4f` / `voxian-api-00041-gh2`                                                              |
 | Readiness / traffic                    | Both Ready; 100% traffic to the revisions above                                                              |
 | Runtime identities                     | `voxian-web@voxian-shift-app.iam.gserviceaccount.com`; `voxian-api@voxian-shift-app.iam.gserviceaccount.com` |
 | Maximum instances / concurrency        | Each service: maximum 2 instances; concurrency 80                                                            |
@@ -77,11 +79,11 @@ Browsers receive no PostgreSQL credentials or server AI keys.
 | Database version / tier / availability | PostgreSQL 18; `db-f1-micro`; Enterprise edition; zonal                                                      |
 | Database state / activation policy     | `RUNNABLE` / `ALWAYS`                                                                                        |
 | Automated backups                      | `backupConfiguration.enabled=false`; no restore drill verified                                               |
-| Current production AI provider         | `CHAT_PROVIDER=vertex`, `VERTEX_MODEL=gemini-2.5-flash`                                                      |
+| Current production AI provider         | `CHAT_PROVIDER=gemini`, `GEMINI_MODEL=gemini-3.8-flash` (AI Studio, Tier 1 prepaid; switched 18 Oct 2026)    |
 | Database secret binding                | `DATABASE_URL` → `voxian-database-url:latest`                                                                |
-| Additional AI secret binding           | `GEMINI_API_KEY` → `voxian-gemini-api-key:latest`; not the active Vertex authentication method               |
+| AI secret binding                      | `GEMINI_API_KEY` → `voxian-gemini-api-key:latest`; active provider credential. Vertex role removed from SA   |
 
-These settings can change independently of a Git commit. Provider defaults in example files are not proof of the live provider. The observed release completed in [deployment run 39050504435](https://github.com/voxianshift/voxian-shift-dashboard/actions/runs/39050504435).
+These settings can change independently of a Git commit. Provider defaults in example files are not proof of the live provider. The observed release completed in [deployment run 39106468363](https://github.com/voxianshift/voxian-shift-dashboard/actions/runs/39106468363).
 
 ## 4. Anonymous identity and request boundaries
 
@@ -113,7 +115,7 @@ The Meter uses the selected occupation and task mix. Two demonstration models re
 
 The shared scoring function computes `100 × sum(weight × exposure) / sum(weight)`. ISCO task models use equal task weights. ILO gradient classification uses task mean and standard deviation, not a job-loss probability. The numerical aggregation is deterministic; AI-assisted mapping can still affect which occupation's tasks enter the calculation. See [scoring](packages/shared/src/scoring.ts), [ISCO loader](apps/web/src/lib/isco-meter.ts), and [Meter route](apps/api/src/occupation-catalogue.ts).
 
-The Curve is an illustrative scenario UI with local scenario/horizon selection, not a trained personal forecasting service. Temporary Meter overrides and Curve selection do not change the stored profile or write exposure snapshots to PostgreSQL.
+The Curve is an illustrative scenario UI with local scenario/horizon selection, not a trained personal forecasting service. It shows three scenarios: People + AI (augmentation), More automation (autonomy) and Regional JAPAC Context (relationship-based commerce slowing full replacement). Scenario text is qualitative and the same for every role; the prototype's unsourced percentages are deliberately omitted. Temporary Meter overrides and Curve selection do not change the stored profile or write exposure snapshots to PostgreSQL.
 
 ### Navigator, plan and progress
 
@@ -123,6 +125,9 @@ The Curve is an illustrative scenario UI with local scenario/horizon selection, 
 4. Backend code creates the 90- or 120-day schedule and validates generated narrative against the plan contract. `/plan` returns a plan; generation alone does **not** persist a commitment.
 5. [CommitDirectionDialog](apps/web/src/components/commit-direction-dialog.tsx) writes the selected target/strategy, generated plan and schedule to `/api/guest/commitment`. It waits for success before navigation or closing as saved.
 6. Progress loads that commitment from PostgreSQL. Logging or undoing a session writes its completed calendar dates back to the commitment. Schedule changes also wait for successful persistence.
+7. Each generated task and milestone carries a checkable `doneWhen` and, where one fits, a reviewed `resourceId`. Plans with resources supplied but under 60% coverage get one repair attempt, then are accepted. Plans saved before `doneWhen` existed still load; the field is optional in the saved contract.
+8. Progress shows a **Plan tasks** board ([plan-board.tsx](apps/web/src/components/plan-board.tsx)) built by `planBoard` in [commitment.ts](apps/web/src/lib/commitment.ts): phases, first-month tasks and weekly milestones sorted into In Progress, Missed, Upcoming and Past from scheduled dates and completed dates. Cards without an AI resource show the phase's most-used resource, labelled "Suggested". `?tab=missed` opens the Missed tab.
+9. Once a plan exists, the sidebar shows a tracker ([sidebar-tracker.tsx](apps/web/src/components/sidebar-tracker.tsx)) in place of the promo card: current phase, phase sessions logged, a progress bar (a ring when collapsed), a countdown to the next session and a quick log button. Progress and the tracker share `sessionState` (log lock 30 minutes before a session, labels, next/current session) and reload on the `voxian:commitment-changed` window event that `saveCommitment` dispatches, so logging in either place updates both.
 
 ```mermaid
 sequenceDiagram
@@ -358,7 +363,9 @@ The [API Dockerfile](apps/api/Dockerfile) installs production dependencies and r
 | `gemini`        | Server-side `GEMINI_API_KEY`                                          | `GEMINI_MODEL`; code default `gemini-3.8-flash` |
 | `vertex`        | Application Default Credentials; runtime service account on Cloud Run | `VERTEX_MODEL`; code default `gemini-2.5-flash` |
 
-These are implementation defaults, not a guarantee of provider/model availability. The audit observed production using Vertex. [ai-provider.sh](scripts/ai-provider.sh) can switch production between Gemini and Vertex and changes service configuration/IAM; it is an operational mutation, not required for normal local development.
+These are implementation defaults, not a guarantee of provider/model availability. Production uses AI Studio (`gemini`) since 18 October 2026. [ai-provider.sh](scripts/ai-provider.sh) can switch production between Gemini and Vertex and changes service configuration/IAM; it is an operational mutation, not required for normal local development.
+
+Gemini (AI Studio and Vertex) rejects complex response schemas with a bare `400 INVALID_ARGUMENT`: enums with more than about four values and large `maxItems` on nested object arrays. `geminiSchema` in [llm.ts](apps/api/src/llm.ts) strips enums over four values and `maxItems` over five from the wire schema; each caller's zod parse still enforces them. Before this fix the Navigator schema always failed on Gemini, so production silently fell back to one generic course per path. `402` (AI Studio prepaid credits depleted) and `429` map to `ProviderQuotaError`; plan generation reports it as a 503 quota message.
 
 Chat, Navigator personalization, plan narrative and weak-crosswalk assistance may send supplied profile/message context to the selected provider. CV understanding sends extracted text to the selected provider; Gemini/Vertex PDF processing may send the PDF bytes as inline document input. SQL matches extracted job titles/keywords to reviewed occupations. Only high-confidence, explicitly reviewed career context is saved and included in planning; raw file/text are not persisted. Schemas and code constrain returned content, but output validation is not a factual guarantee. Reviewed destination/resource IDs and deterministic schedule calculations remain code-owned.
 
@@ -453,4 +460,4 @@ When changing routes, persistence, schemas, provider defaults, deployment steps 
 
 ### CV vector retrieval: local implementation update (18 October 2026)
 
-Local pgvector 0.8.7 supports guest-isolated CV evidence retrieval. Reference vectors are seeded for 300 requirements; reviewed CV phrases embed lazily through Vertex `gemini-embedding-001` (768 dimensions, semantic similarity), independently of the Rootsys narrative provider. Migration 006 creates separate reference/evidence tables and CV-change cleanup trigger. Guest deletion cascades evidence deletion; concurrent writes validate current saved CV revision under owner lock. `CV_VECTOR_MODE` defaults off; local active mode prunes candidates after the held-out synthetic retrieval gate passed. Shadow mode remains available for comparison. Active mode restricts citations to retrieved candidates and retains exhaustive fallback on retrieval failure. Production migration/configuration is not yet applied. See [CV alignment implementation and retrieval gate](docs/contracts/cv-skill-alignment.md).
+Local pgvector 0.8.7 supports guest-isolated CV evidence retrieval. Reference vectors are seeded for 300 requirements; reviewed CV phrases embed lazily through Vertex `gemini-embedding-001` (768 dimensions, semantic similarity), independently of the Rootsys narrative provider. Migration 006 creates separate reference/evidence tables and CV-change cleanup trigger. Guest deletion cascades evidence deletion; concurrent writes validate current saved CV revision under owner lock. `CV_VECTOR_MODE` defaults off; local active mode prunes candidates after the held-out synthetic retrieval gate passed. Shadow mode remains available for comparison. Active mode restricts citations to retrieved candidates and retains exhaustive fallback on retrieval failure. Production migration/configuration is not yet applied; enabling it there also needs `roles/aiplatform.user` back on the API service account, which `ai-provider.sh gemini` removes. See [CV alignment implementation and retrieval gate](docs/contracts/cv-skill-alignment.md).

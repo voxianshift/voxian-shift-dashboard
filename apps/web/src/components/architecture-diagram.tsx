@@ -12,13 +12,17 @@ const tiers: Tier[] = [
     nodes: [
       {
         title: "Next.js 16 app",
-        lines: ["React 19 · Tailwind 4", "Meter · Curve · Navigator · Progress"],
+        lines: [
+          "React 19 · Tailwind 4",
+          "Meter · Curve · Navigator · Progress",
+          "Plan task tabs · sidebar tracker",
+        ],
         step: 1,
       },
       { title: "Career map canvas", lines: ["React Flow", "Pan, zoom, role details"] },
       {
         title: "Browser storage",
-        lines: ["Profile and paths: this tab", "Learning commitment: this browser"],
+        lines: ["Navigator paths: tab cache", "Tracker and Progress sync on save"],
       },
       { title: "Guest identity", lines: ["HttpOnly, SameSite cookie", "No sign-in required"] },
     ],
@@ -48,6 +52,7 @@ const tiers: Tier[] = [
           "Fastify 5 · Node 24",
           "/onboarding/chat · /occupations",
           "/navigator/paths · /plan",
+          "/guest/profile · /guest/commitment",
         ],
         step: 3,
       },
@@ -62,14 +67,21 @@ const tiers: Tier[] = [
     color: "var(--warning)",
     nodes: [
       {
-        title: "Gemini Flash",
-        lines: ["AI Studio key in Secret Manager", "Vertex AI for demo and judging"],
+        title: "Gemini 3.8 Flash · AI Studio",
+        lines: ["Key in Secret Manager", "Vertex AI switch kept for demos"],
         step: 4,
       },
-      { title: "Structured output", lines: ["JSON schema responses", "Validated before use"] },
+      {
+        title: "Structured output",
+        lines: ["Wire schema simplified for Gemini", "Full zod check before use"],
+      },
       {
         title: "Grounding rules",
-        lines: ["Courses from a reviewed catalogue", "Invented modules are dropped"],
+        lines: [
+          "Courses from a reviewed catalogue",
+          "Every task has a done-when check",
+          "Invented modules are dropped",
+        ],
       },
     ],
   },
@@ -79,7 +91,11 @@ const tiers: Tier[] = [
     nodes: [
       {
         title: "Cloud SQL · Postgres",
-        lines: ["O*NET 31.0 occupations + search", "Guest roles · Lumi chat turns"],
+        lines: [
+          "O*NET 31.0 occupations + search",
+          "Guest profile · plan · logged sessions",
+          "Lumi chat turns",
+        ],
         step: 5,
       },
       { title: "ILO task data", lines: ["ISCO-08 task exposure", "O*NET → ISCO crosswalk"] },
@@ -95,7 +111,7 @@ const flow = [
   "The browser calls same-origin /api routes; no API keys ever reach the client.",
   "voxian-web proxies each call to voxian-api on Cloud Run.",
   "The API rate-limits, screens bots and validates input, then reads occupations, tasks and saved roles.",
-  "Gemini drafts chat replies, directions and plans as schema-checked JSON grounded in that data.",
+  "Gemini drafts chat replies, directions and plans as schema-checked JSON grounded in that data; each plan task gets a reviewed course and a done-when check.",
   "Exposure scores come only from the deterministic engine; the AI never sets a score.",
 ]
 
